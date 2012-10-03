@@ -6,7 +6,7 @@ The library provides a simple abstraction of inter-process communication channel
 
 A channel allows to send and receive data on it. Receives are blocking while sends are buffered and block only when the buffer is filled up. Each end of a channel is attached to a socket, i.e. for the **Client - Server** pattern there is one or more **ClientSocket** and one or more **ServerSocket**.
 
- A channel has a certain topology, i.e. in the case of the **Producer - Consumer** pattern:
+ A channel has a certain topology, i.e. in the case of the **Producer - Consumer** pattern the options are:
 * **One to One:** One producer and one consumer;
 * **One to Many:** One producer and many consumer; messages are handed over with a roundrobin policy;
 * **Many to One:** Many producers and one consumer:
