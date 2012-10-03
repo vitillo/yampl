@@ -1,0 +1,4 @@
+ipc
+===
+
+ATLAS IPC library
