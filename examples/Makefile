@@ -7,12 +7,6 @@ SOCKETS = pipe service
 
 all: $(EXE)
 
-.depend: $(SOURCES)
-	rm -rf ./.depend
-	$(CXX) $(CXXFLAGS) -MM $^>>./.depend
-
-include .depend
-
 .PHONY: clean
 clean:
 	rm -rf $(EXE) $(OBJECTS) $(SOCKETS)
