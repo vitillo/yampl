@@ -13,7 +13,7 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 * **Many to Many:** Many producers and many consumers;
 
 ## Build
-Run make to build the library and the examples. The library requires ZeroMQ (www.zeromq.org).
+Run make to build the library and the examples. The library requires ZeroMQ (www.zeromq.org); different implementations will be added in future.
 
 ##Examples
 The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:
