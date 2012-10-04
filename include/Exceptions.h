@@ -2,6 +2,9 @@
 #define IPC_EXCEPTIONS_H
 
 #include <exception>
+#include <cstdio>
+
+#include <errno.h>
 
 namespace IPC{
 
@@ -31,6 +34,20 @@ class InvalidOperationException: public IPCException{
 class InvalidSizeException: public IPCException{
   public:
   InvalidSizeException(): IPCException("Buffer size is not sufficient"){}
+};
+
+class ErrnoException : public IPCException{
+  public:
+    ErrnoException(const char * msg = "System call error", int err = 0): IPCException(msg), m_errno(err) {
+      perror(msg);
+    }
+
+    int getErrno(){
+      return m_errno;
+    }
+
+  private:
+    int m_errno;
 };
 
 }

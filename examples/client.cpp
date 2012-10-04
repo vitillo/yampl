@@ -6,10 +6,9 @@ using namespace std;
 
 int main(int argc, char *argv[]){
   char *pong = 0;
-  Environment env;
   string ping = "Ping from " + pid();
   
-  ISocket *socket = ZMQSocketFactory().createClientSocket(Channel(env, "service", MANY_TO_ONE), true, deallocator);
+  ISocket *socket = ZMQSocketFactory().createClientSocket(Channel("service", MANY_TO_ONE), true, deallocator);
 
   while(true){
     socket->send(ping.c_str(), ping.size());

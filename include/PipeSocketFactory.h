@@ -1,22 +1,13 @@
-#ifndef IPC_ZMQSOCKETFACTORY_H
-#define IPC_ZMQSOCKETFACTORY_H
-
-#include <zmq.hpp>
+#ifndef IPC_PIPESOCKETFACTORY_H
+#define IPC_PIPESOCKETFACTORY_H
 
 #include "SocketFactory.h"
 
 namespace IPC{
 
-class ZMQSocketFactory : public ISocketFactory{
+class PipeSocketFactory : public ISocketFactory{
   public:
-    ZMQSocketFactory(){
-      static bool initialized = false;
-
-      if(!initialized){
-	m_context = new zmq::context_t(1);
-	initialized = true;
-      }
-    }
+    PipeSocketFactory(bool zerocopy = true) : m_zerocopy(zerocopy){}
 
     virtual ISocket *createProducerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
     virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true);
@@ -24,7 +15,7 @@ class ZMQSocketFactory : public ISocketFactory{
     virtual ISocket *createServerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
 
   private:
-    static zmq::context_t *m_context;
+    bool m_zerocopy;
 };
 
 }

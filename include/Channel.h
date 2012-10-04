@@ -17,25 +17,12 @@ enum Topology{
   MANY_TO_MANY
 };
 
-class Environment{
-public:
-  Environment(): m_context(1){}
-
-  zmq::context_t& getContext(){
-    return m_context;
-  }
-
-private:
-  zmq::context_t m_context;
-};
-
 struct Channel{
-    Channel(Environment &env, const std::string &name, Topology topology = ONE_TO_ONE, uint64_t asynchronicity = 1) : environment(env), name(std::string("ipc://") + name), topology(topology), asynchronicity(asynchronicity){
+    Channel(const std::string &name, Topology topology = ONE_TO_ONE, uint64_t asynchronicity = 1) : name(name), topology(topology), asynchronicity(asynchronicity){
       if(!asynchronicity)
 	throw UnsupportedException();
     }
 
-    Environment &environment;
     std::string name;
     Topology topology;
     uint64_t asynchronicity;

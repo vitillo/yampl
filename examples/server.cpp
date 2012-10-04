@@ -8,10 +8,9 @@ using namespace IPC;
 
 int main(int argc, char *argv[]){
   char *ping = 0;
-  Environment env;
   string pong = "Pong from " + pid();
   
-  ISocket *socket = ZMQSocketFactory().createServerSocket(Channel(env, "service", MANY_TO_ONE), true, deallocator);
+  ISocket *socket = ZMQSocketFactory().createServerSocket(Channel("service", MANY_TO_ONE), true, deallocator);
 
   while(true){
     socket->receive((void **)&ping);

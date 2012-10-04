@@ -2,22 +2,22 @@
 
 using namespace IPC;
 
-ZMQBaseSocket::ZMQBaseSocket(Channel channel, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_deallocator(deallocator){
+ZMQBaseSocket::ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_deallocator(deallocator){
   if(m_channel.topology == MANY_TO_MANY)
     throw UnsupportedException();
 
   Topology topo = m_channel.topology;
-  m_socket = new zmq::socket_t(m_channel.environment.getContext(), type);
+  m_socket = new zmq::socket_t(*context, type);
  
   if(type == ZMQ_PUSH) 
     m_socket->setsockopt(ZMQ_HWM, &m_channel.asynchronicity, sizeof(m_channel.asynchronicity));
 
   if((topo == ONE_TO_ONE || topo == ONE_TO_MANY) && (type == ZMQ_PUSH || type == ZMQ_REQ))
-    m_socket->bind(m_channel.name.c_str());
+    m_socket->bind(("ipc://" + m_channel.name).c_str());
   else if(topo == MANY_TO_ONE && type == ZMQ_REP)
-    m_socket->bind(m_channel.name.c_str());
+    m_socket->bind(("ipc://" + m_channel.name).c_str());
   else
-    m_socket->connect(m_channel.name.c_str());
+    m_socket->connect(("ipc://" + m_channel.name).c_str());
 }
 
 void ZMQBaseSocket::send(const void *buffer, size_t size, void *hint){
