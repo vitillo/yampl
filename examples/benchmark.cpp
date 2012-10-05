@@ -95,8 +95,9 @@ int main(int argc, char *argv[]){
       size_t received = socket->receive((void **)&data);
       (void)received;
       assert(received == size);
+      assert(memcmp(buffer, data, size) == 0);
+      assert(memset(data, 0, size));
     }
-    assert(memcmp(buffer, data, size) == 0);
 
     cout << iterations << " messages of " << size << " bytes received in " << stop_clock() << " milliseconds" << endl;
   }
