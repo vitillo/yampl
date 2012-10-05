@@ -12,11 +12,15 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 * **Many to One:** Many producers and one consumer:
 * **Many to Many:** Many producers and many consumers;
 
-## Build
-Run make to build the library and the examples. The library requires ZeroMQ (www.zeromq.org).
+## Install, Build & Test
+* git clone https://github.com/vitillo/ipc
+* cd ipc && make
+* ./examples/benchmark
 
 ##Examples
 The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:
 * *client* and *server* instantiates the **Client - Server** pattern with a **Many to One** channel, that means you can launch multiple clients with one server
 * *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
 
+##Notes
+The only reliable implementation at this moment is ZMQ, i.e. use only ZMQSocketFactory to instantiate Sockets.
