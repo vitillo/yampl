@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "Socket.h"
 
 namespace IPC{

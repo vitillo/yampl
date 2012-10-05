@@ -1,16 +1,20 @@
 CXX = g++
-CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC $(shell pkg-config libzmq --cflags --silence-errors)
-LDFLAGS = -shared $(shell pkg-config libzmq --libs --silence-errors)
+CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
+LDFLAGS = -shared -lpthread -lrt -luuid
 
 SOURCES = $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
-LIB = libipc.so
+LIBIPC = libipc.so
+LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
 
-all: $(LIB) $(EXAMPLES)
+all: $(LIBZMQ) $(LIBIPC) $(EXAMPLES)
 
-$(LIB): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $(LIB)
+$(LIBZMQ):
+	cd zeromq && ./configure --with-pic && make
+
+$(LIBIPC): $(OBJECTS)
+	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBZMQ) -o $(LIBIPC)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES): 
@@ -25,4 +29,5 @@ include .depend
 .PHONY: clean
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
-	rm -rf $(LIB) $(OBJECTS)
+	$(MAKE) -C zeromq clean
+	rm -rf $(LIBIPC) $(OBJECTS)

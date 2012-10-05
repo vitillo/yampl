@@ -1,7 +1,6 @@
 CXX = g++
 CXXFLAGS = -O2 -g -Wall -I../include -DNDEBUG
-LDFLAGS = -L../ -lipc -Wl,-rpath,$(PWD) $(shell pkg-config libzmq --libs --silence-errors)
-
+LDFLAGS = -L../ -lipc -Wl,-rpath,$(PWD)
 
 EXE = producer consumer client server benchmark
 SOCKETS = pipe service

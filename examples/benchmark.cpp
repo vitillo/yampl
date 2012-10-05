@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <cassert>
+#include <cstdlib>
 
 #include "ZMQSocketFactory.h"
 #include "PipeSocketFactory.h"
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]){
   const char *impl = "zmq";
   unsigned iterations = 1024;
   unsigned size = 1048576;
-  const char *buffer = new char[size];
+  const char *buffer = 0;
   Channel channel("pipe", ONE_TO_ONE);
 
   while((opt = getopt(argc, argv, "i:n:s:")) != -1){
@@ -64,6 +65,8 @@ int main(int argc, char *argv[]){
 	exit(EXIT_FAILURE);
     }
   }
+
+  buffer = new char[size];
 
   if(fork() > 0){
     cout << "Creating Sender ";

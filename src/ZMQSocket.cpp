@@ -1,6 +1,12 @@
+#include <zmq.hpp>
+
 #include "ZMQSocket.h"
 
 using namespace IPC;
+
+ZMQBaseSocket::~ZMQBaseSocket(){
+  delete m_socket;
+}
 
 ZMQBaseSocket::ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_deallocator(deallocator){
   if(m_channel.topology == MANY_TO_MANY)
@@ -56,4 +62,13 @@ size_t ZMQBaseSocket::receive(void **buffer, size_t size){
   received = false;
   return message.size();
 }
+
+ZMQProducerSocket::ZMQProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : ZMQBaseSocket(channel, context, ZMQ_PUSH, ownership, deallocator){}
+
+ZMQConsumerSocket::ZMQConsumerSocket(Channel channel, zmq::context_t *context, bool ownership) : ZMQBaseSocket(channel, context, ZMQ_PULL, ownership){}
+
+ZMQClientSocket::ZMQClientSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : ZMQBaseSocket(channel, context, ZMQ_REQ, ownership, deallocator){}
+
+ZMQServerSocket::ZMQServerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : ZMQBaseSocket(channel, context, ZMQ_REP, ownership, deallocator){}
+
 

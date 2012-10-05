@@ -2,7 +2,6 @@
 #define IPC_SOCKET_H
 
 #include <unistd.h>
-#include <zmq.hpp>
 #include <iostream>
 
 #include "Channel.h"
