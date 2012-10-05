@@ -12,8 +12,7 @@ all: $(LIB) $(EXAMPLES)
 $(LIB): $(OBJECTS)
 	$(CXX) $(LDFLAGS) $(OBJECTS) -o $(LIB)
 
-.PHONY: $(EXAMPLES)
-$(EXAMPLES):
+$(EXAMPLES): $(LIB)
 	$(MAKE) -C $@
 
 .depend: $(SOURCES)
