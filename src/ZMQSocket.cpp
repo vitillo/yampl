@@ -31,7 +31,7 @@ void ZMQBaseSocket::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-int ZMQBaseSocket::receive(void **buffer, size_t size){
+size_t ZMQBaseSocket::receive(void **buffer, size_t size){
   static zmq::message_t message;
   static bool received = false;
 

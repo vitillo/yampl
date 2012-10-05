@@ -3,6 +3,8 @@
 #include <sys/time.h>
 
 #include <iostream>
+#include <cstring>
+#include <cassert>
 
 #include "ZMQSocketFactory.h"
 #include "PipeSocketFactory.h"
@@ -43,6 +45,7 @@ int main(int argc, char *argv[]){
   const char *impl = "zmq";
   unsigned iterations = 1024;
   unsigned size = 1048576;
+  const char *buffer = new char[size];
   Channel channel("pipe", ONE_TO_ONE);
 
   while((opt = getopt(argc, argv, "i:n:s:")) != -1){
@@ -63,8 +66,7 @@ int main(int argc, char *argv[]){
   }
 
   if(fork() > 0){
-    cout << "Creating Sender" << endl;
-    const char *buffer = new char[size];
+    cout << "Creating Sender ";
     ISocketFactory *factory = createFactory(impl);
     ISocket *socket = factory->createProducerSocket(channel, true, deallocator);
     
@@ -83,15 +85,18 @@ int main(int argc, char *argv[]){
     
     cout << iterations << " memory copies of " << size << " bytes performed in " << stop_clock() << " milliseconds" << endl;
   }else{
-    cout << "Creating Receiver" << endl;
-    char *buffer = 0;
+    char *data = 0;
+    cout << "Creating Receiver ";
     ISocketFactory *factory = createFactory(impl);
     ISocket *socket = factory->createConsumerSocket(channel);
 
     start_clock();
     for(size_t i = 0; i < iterations; i++){
-      socket->receive((void **)&buffer);
+      size_t received = socket->receive((void **)&data);
+      (void)received;
+      assert(received == size);
     }
+    assert(memcmp(buffer, data, size) == 0);
 
     cout << iterations << " messages of " << size << " bytes received in " << stop_clock() << " milliseconds" << endl;
   }

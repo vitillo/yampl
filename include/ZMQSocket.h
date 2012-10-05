@@ -14,7 +14,7 @@ class ZMQBaseSocket : public ISocket{
     }
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
-    virtual int receive(void **buffer, size_t size = 0);
+    virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
     ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *) = defaultDeallocator);
@@ -34,7 +34,7 @@ class ZMQProducerSocket : public ZMQBaseSocket{
       ZMQBaseSocket::send(buffer, size, hint);
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       throw InvalidOperationException();
     }
 };
@@ -48,7 +48,7 @@ class ZMQConsumerSocket: public ZMQBaseSocket{
       throw InvalidOperationException();
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       return ZMQBaseSocket::receive(buffer, size);
     }
 };
@@ -61,7 +61,7 @@ class ZMQClientSocket : public ZMQBaseSocket{
       ZMQBaseSocket::send(buffer, size, hint);
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       return ZMQBaseSocket::receive(buffer, size);
     }
 };
@@ -74,7 +74,7 @@ class ZMQServerSocket : public ZMQBaseSocket{
       ZMQBaseSocket::send(buffer, size, hint);
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       return ZMQBaseSocket::receive(buffer, size);
     }
 };

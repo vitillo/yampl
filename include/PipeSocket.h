@@ -17,7 +17,7 @@ class PipeBaseSocket : public ISocket{
     virtual ~PipeBaseSocket();
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
-    virtual int receive(void **buffer, size_t size = 0);
+    virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
     PipeBaseSocket(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
@@ -39,7 +39,7 @@ class PipeProducerSocket : public PipeBaseSocket{
       PipeBaseSocket::send(buffer, size, hint);
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       throw InvalidOperationException();
     }
 };
@@ -53,7 +53,7 @@ class PipeConsumerSocket : public PipeBaseSocket{
       throw InvalidOperationException();
     }
 
-    virtual int receive(void **buffer, size_t size = 0){
+    virtual size_t receive(void **buffer, size_t size = 0){
       return PipeBaseSocket::receive(buffer, size);
     }
 };

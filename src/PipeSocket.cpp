@@ -40,7 +40,7 @@ void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-int PipeBaseSocket::receive(void **buffer, size_t size){
+size_t PipeBaseSocket::receive(void **buffer, size_t size){
   static size_t msg_size = 0;
   static void *receive_buffer = 0;
   size_t bytesRead = 0;
@@ -70,7 +70,7 @@ int PipeBaseSocket::receive(void **buffer, size_t size){
   }
 
   msg_size = 0;
-  return msg_size;
+  return bytesRead;
 }
 
 }
