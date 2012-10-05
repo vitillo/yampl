@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
+CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include -Wall
 LDFLAGS = -shared -lpthread -lrt -luuid
 
 SOURCES = $(wildcard src/*.cpp)
