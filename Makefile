@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC
-LDFLAGS = -lzmq -shared
+CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC $(shell pkg-config libzmq --cflags)
+LDFLAGS = -shared $(shell pkg-config libzmq --libs)
 
 SOURCES = $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
