@@ -29,6 +29,7 @@ class PipeBaseSocket : public ISocket{
     bool m_fast;
     int m_pipe;
     int m_peer;
+    void *m_receiveBuffer;
 };
 
 class PipeProducerSocket : public PipeBaseSocket{

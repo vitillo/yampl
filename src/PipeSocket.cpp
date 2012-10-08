@@ -13,7 +13,7 @@ using namespace std;
 
 namespace IPC{
 
-PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer){
+PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
 
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
@@ -44,16 +44,23 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
 PipeBaseSocket::~PipeBaseSocket(){
   close(m_peer);
   close(m_pipe);
+  delete m_receiveBuffer;
 }
 
 void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
-  if(TEMP_FAILURE_RETRY(write(m_pipe, &size, sizeof(size))) == -1)
-    throw ErrnoException("Send failed");
+  while(bytesWritten != sizeof(size)){
+    ssize_t sent = TEMP_FAILURE_RETRY(write(m_pipe, &size, sizeof(size)));
 
-  while(bytesWritten != size){
+    if(sent == -1)
+      throw ErrnoException("Send failed");
+
+    bytesWritten += sent;
+  }
+
+  for(bytesWritten = 0; bytesWritten != size;){
     ssize_t sent = 0;
     vec.iov_base = ((char *) buffer) + bytesWritten;
     vec.iov_len = size - bytesWritten;
@@ -72,25 +79,23 @@ void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
 
 size_t PipeBaseSocket::receive(void **buffer, size_t size){
   static size_t msg_size = 0;
-  static void *receive_buffer = 0;
   size_t bytesRead = 0;
 
-  switch(TEMP_FAILURE_RETRY(read(m_pipe, &msg_size, sizeof(msg_size)))){
-    case 0:
-      throw IPCException("Receive failed, FIFO closed by writer");
-      break;
-    case -1:
-      throw ErrnoException("Receive failed");
-      break;
-    default:
-      break;
-  }
-    
-  if(m_hasOwnership){
-    if((receive_buffer = realloc(receive_buffer, msg_size)) == 0)
+
+  while(bytesRead != sizeof(msg_size)){
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_pipe, &msg_size, sizeof(msg_size)));
+
+    if(r == -1)
       throw ErrnoException("Receive failed");
 
-    *buffer = receive_buffer;
+    bytesRead += r;
+  }
+
+  if(m_hasOwnership){
+    if((m_receiveBuffer = realloc(m_receiveBuffer, msg_size)) == 0)
+      throw ErrnoException("Receive failed");
+
+    *buffer = m_receiveBuffer;
   }else{
     if(*buffer && size < msg_size)
       throw InvalidSizeException();
@@ -98,7 +103,7 @@ size_t PipeBaseSocket::receive(void **buffer, size_t size){
       *buffer = malloc(msg_size);
   }
 
-  while(bytesRead != msg_size){
+  for(bytesRead = 0; bytesRead != msg_size;){
     ssize_t r = TEMP_FAILURE_RETRY(read(m_pipe, (char *)*buffer + bytesRead, msg_size - bytesRead));
 
     if(r == -1)
