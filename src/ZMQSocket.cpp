@@ -5,10 +5,11 @@
 using namespace IPC;
 
 ZMQBaseSocket::~ZMQBaseSocket(){
+  delete m_message;
   delete m_socket;
 }
 
-ZMQBaseSocket::ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_deallocator(deallocator){
+ZMQBaseSocket::ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_message(new zmq::message_t()), m_deallocator(deallocator){
   if(m_channel.topology == MANY_TO_MANY)
     throw UnsupportedException();
 
@@ -38,29 +39,28 @@ void ZMQBaseSocket::send(const void *buffer, size_t size, void *hint){
 }
 
 size_t ZMQBaseSocket::receive(void **buffer, size_t size){
-  static zmq::message_t message;
   static bool received = false;
 
   if(!received){
-    m_socket->recv(&message);
+    m_socket->recv(m_message);
     received = true;
   }
 
   if(m_ownership){
-    *buffer = message.data();
+    *buffer = m_message->data();
   }else{
-    if(*buffer && size < message.size())
+    if(*buffer && size < m_message->size())
       throw InvalidSizeException();
     else if(*buffer)
-      memcpy(*buffer, message.data(), message.size());
+      memcpy(*buffer, m_message->data(), m_message->size());
     else{
-      *buffer = malloc(message.size());
-      memcpy(*buffer, message.data(), message.size());
+      *buffer = malloc(m_message->size());
+      memcpy(*buffer, m_message->data(), m_message->size());
     }
   }
 
   received = false;
-  return message.size();
+  return m_message->size();
 }
 
 ZMQProducerSocket::ZMQProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : ZMQBaseSocket(channel, context, ZMQ_PUSH, ownership, deallocator){}

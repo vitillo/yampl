@@ -7,7 +7,8 @@ using namespace std;
 int main(int argc, char *argv[]){
   string message = "Hello from " +  pid();
   
-  ISocket *socket = ZMQSocketFactory().createProducerSocket(Channel("pipe", ONE_TO_MANY), true, deallocator);
+  ISocketFactory *factory = new ZMQSocketFactory();
+  ISocket *socket = factory->createProducerSocket(Channel("pipe", ONE_TO_MANY), true, deallocator);
 
   while(true){
     socket->send(message.c_str(), message.size());

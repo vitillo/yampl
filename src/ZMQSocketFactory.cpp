@@ -5,15 +5,11 @@
 
 using namespace IPC;
 
-zmq::context_t *ZMQSocketFactory::m_context = 0;
+ZMQSocketFactory::ZMQSocketFactory() : m_context(new zmq::context_t(1)){
+}
 
-ZMQSocketFactory::ZMQSocketFactory(){
-  static bool initialized = false;
-
-  if(!initialized){
-    m_context = new zmq::context_t(1);
-    initialized = true;
-  }
+ZMQSocketFactory::~ZMQSocketFactory(){
+  delete m_context;
 }
 
 ISocket *ZMQSocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){

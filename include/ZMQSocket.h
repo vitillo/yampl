@@ -23,6 +23,7 @@ class ZMQBaseSocket : public ISocket{
     Channel m_channel;
     bool m_ownership;
     zmq::socket_t *m_socket;
+    zmq::message_t *m_message;
     void (*m_deallocator)(void *, void *);
 };
 
