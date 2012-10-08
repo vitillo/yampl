@@ -1,3 +1,5 @@
+#define _GNU_SOURCE 1
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -12,16 +14,25 @@ using namespace std;
 namespace IPC{
 
 PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer){
+
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
 
-  //TODO: deadlock prevention
+  // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
+  int r, w;
+  if((r = open(m_pipename.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
+    throw ErrnoException("Failed to open FIFO");
+  if((w = open(m_pipename.c_str(), O_WRONLY)) == -1)
+    throw ErrnoException("Failed to open FIFO");
+
+  fcntl(r, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
+
   if(m_mode == PIPE_READ){
-    if((m_pipe = open(m_pipename.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
-      throw ErrnoException("Failed to open FIFO");
+    m_pipe = r;
+    m_peer = w;
   }else{
-    if((m_pipe = open(m_pipename.c_str(), O_WRONLY)) == -1)
-      throw ErrnoException("Failed to open FIFO");
+    m_pipe = w;
+    m_peer = r;
   }
 
   fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
@@ -31,14 +42,15 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
 }
 
 PipeBaseSocket::~PipeBaseSocket(){
-
+  close(m_peer);
+  close(m_pipe);
 }
 
 void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
-  if(write(m_pipe, &size, sizeof(size)) == -1)
+  if(TEMP_FAILURE_RETRY(write(m_pipe, &size, sizeof(size))) == -1)
     throw ErrnoException("Send failed");
 
   while(bytesWritten != size){
@@ -50,7 +62,7 @@ void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
       if((sent = vmsplice(m_pipe, &vec, 1, 0)) == -1)
         throw ErrnoException("Send failed");
     }else{
-      if((sent = write(m_pipe, (char *) buffer + bytesWritten, size - bytesWritten)) == -1)
+      if((sent = TEMP_FAILURE_RETRY(write(m_pipe, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
 	throw ErrnoException("Send failed");
     }
 
@@ -63,7 +75,7 @@ size_t PipeBaseSocket::receive(void **buffer, size_t size){
   static void *receive_buffer = 0;
   size_t bytesRead = 0;
 
-  switch(read(m_pipe, &msg_size, sizeof(msg_size))){
+  switch(TEMP_FAILURE_RETRY(read(m_pipe, &msg_size, sizeof(msg_size)))){
     case 0:
       throw IPCException("Receive failed, FIFO closed by writer");
       break;
@@ -87,11 +99,10 @@ size_t PipeBaseSocket::receive(void **buffer, size_t size){
   }
 
   while(bytesRead != msg_size){
-    ssize_t r = 0;
-    if((r = read(m_pipe, (char *)*buffer + bytesRead, msg_size - bytesRead)) == -1)
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_pipe, (char *)*buffer + bytesRead, msg_size - bytesRead));
+
+    if(r == -1)
       throw ErrnoException("Receive failed");
-    else if(r == 0)
-      throw IPCException("Receive failed, FIFO closed by writer");
 
     bytesRead += r;
   }

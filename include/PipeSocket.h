@@ -28,6 +28,7 @@ class PipeBaseSocket : public ISocket{
     bool m_hasOwnership;
     bool m_fast;
     int m_pipe;
+    int m_peer;
 };
 
 class PipeProducerSocket : public PipeBaseSocket{
