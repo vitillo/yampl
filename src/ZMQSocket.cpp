@@ -21,7 +21,7 @@ ZMQBaseSocket::ZMQBaseSocket(Channel channel, zmq::context_t *context, int type,
   if((topo == ONE_TO_ONE || topo == ONE_TO_MANY) && (type == ZMQ_PUSH || type == ZMQ_REQ))
     m_socket->bind(("ipc:///tmp/zmq_" + m_channel.name).c_str());
   else if(topo == MANY_TO_ONE && type == ZMQ_REP)
-    m_socket->bind(("ipc:///tmp_zmq_" + m_channel.name).c_str());
+    m_socket->bind(("ipc:///tmp/zmq_" + m_channel.name).c_str());
   else
     m_socket->connect(("ipc:///tmp/zmq_" + m_channel.name).c_str());
 }

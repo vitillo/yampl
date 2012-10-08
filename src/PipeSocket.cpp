@@ -15,8 +15,16 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
 
-  if((m_pipe = open(m_pipename.c_str(), m_mode == PIPE_READ ? O_RDONLY : O_WRONLY)) == -1)
-    throw;
+  //TODO: deadlock prevention
+  if(m_mode == PIPE_READ){
+    if((m_pipe = open(m_pipename.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
+      throw ErrnoException("Failed to open FIFO");
+  }else{
+    if((m_pipe = open(m_pipename.c_str(), O_WRONLY)) == -1)
+      throw ErrnoException("Failed to open FIFO");
+  }
+
+  fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
   //TODO: feature added in 2.6.35
   //fcntl(m_pipe, F_SETPIPE_SZ, 1048576);
