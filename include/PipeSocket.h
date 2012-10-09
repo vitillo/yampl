@@ -8,19 +8,21 @@
 namespace IPC{
 
 enum Mode{
-  PIPE_READ,
-  PIPE_WRITE
+  PIPE_PULL,
+  PIPE_PUSH,
+  PIPE_CLIENT,
+  PIPE_SERVER
 };
 
-class PipeBaseSocket : public ISocket{
+class PipeSocketBase : public ISocket{
   public:
-    virtual ~PipeBaseSocket();
+    virtual ~PipeSocketBase();
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
     virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
-    PipeBaseSocket(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
+    PipeSocketBase(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
 
   private:
     std::string m_pipename;
@@ -32,13 +34,13 @@ class PipeBaseSocket : public ISocket{
     void *m_receiveBuffer;
 };
 
-class PipeProducerSocket : public PipeBaseSocket{
+class PipeProducerSocket : public PipeSocketBase{
   public:
-    PipeProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeBaseSocket(channel, PIPE_WRITE, ownership, fastTransfer){}
+    PipeProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, ownership, fastTransfer){}
 
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
-      PipeBaseSocket::send(buffer, size, hint);
+      PipeSocketBase::send(buffer, size, hint);
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
@@ -46,9 +48,9 @@ class PipeProducerSocket : public PipeBaseSocket{
     }
 };
 
-class PipeConsumerSocket : public PipeBaseSocket{
+class PipeConsumerSocket : public PipeSocketBase{
   public:
-    PipeConsumerSocket(const Channel &channel, bool ownership) : PipeBaseSocket(channel, PIPE_READ, ownership){}
+    PipeConsumerSocket(const Channel &channel, bool ownership) : PipeSocketBase(channel, PIPE_PULL, ownership){}
 
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
@@ -56,10 +58,36 @@ class PipeConsumerSocket : public PipeBaseSocket{
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
-      return PipeBaseSocket::receive(buffer, size);
+      return PipeSocketBase::receive(buffer, size);
     }
 };
 
+class PipeServiceSocketBase : public ISocket{
+  public:
+    virtual ~PipeServiceSocketBase();
+
+    virtual void send(const void *buffer, size_t size, void *hint = NULL);
+    virtual size_t receive(void **buffer, size_t size = 0);
+
+  protected:
+    PipeServiceSocketBase(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
+
+  private:
+    bool m_receiveCompleted;
+    Mode m_mode;
+    ISocket *m_reqSocket;
+    ISocket *m_repSocket;
+};
+
+class PipeClientSocket : public PipeServiceSocketBase{
+  public:
+    PipeClientSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeServiceSocketBase(channel, ownership, fastTransfer, deallocator, PIPE_CLIENT){}
+};
+
+class PipeServerSocket : public PipeServiceSocketBase{
+  public:
+    PipeServerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeServiceSocketBase(channel, ownership, fastTransfer, deallocator, PIPE_SERVER){}
+};
 
 }
 

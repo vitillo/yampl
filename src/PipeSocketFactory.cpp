@@ -13,11 +13,11 @@ ISocket *PipeSocketFactory::createConsumerSocket(Channel channel, bool ownership
 }
 
 ISocket *PipeSocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  throw UnsupportedException();
+  return new PipeClientSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
 ISocket *PipeSocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  throw UnsupportedException();
+  return new PipeServerSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
 }

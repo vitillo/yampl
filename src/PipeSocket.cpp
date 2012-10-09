@@ -13,7 +13,7 @@ using namespace std;
 
 namespace IPC{
 
-PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
 
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
@@ -27,13 +27,14 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
 
   fcntl(r, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
-  if(m_mode == PIPE_READ){
+  if(m_mode == PIPE_PULL){
     m_pipe = r;
     m_peer = w;
-  }else{
+  }else if(m_mode == PIPE_PUSH){
     m_pipe = w;
     m_peer = r;
-  }
+  }else
+    throw InvalidOperationException();
 
   fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
@@ -41,13 +42,13 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
   //fcntl(m_pipe, F_SETPIPE_SZ, 1048576);
 }
 
-PipeBaseSocket::~PipeBaseSocket(){
+PipeSocketBase::~PipeSocketBase(){
   close(m_peer);
   close(m_pipe);
   free(m_receiveBuffer);
 }
 
-void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
+void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
@@ -77,7 +78,7 @@ void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-size_t PipeBaseSocket::receive(void **buffer, size_t size){
+size_t PipeSocketBase::receive(void **buffer, size_t size){
   static size_t msg_size = 0;
   size_t bytesRead = 0;
 
@@ -114,6 +115,49 @@ size_t PipeBaseSocket::receive(void **buffer, size_t size){
 
   msg_size = 0;
   return bytesRead;
+}
+
+PipeServiceSocketBase::PipeServiceSocketBase(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
+  if(channel.topology != ONE_TO_ONE)
+    throw UnsupportedException();
+
+  Channel req = channel, rep = channel;
+  req.name = req.name + "_req";
+  rep.name = rep.name + "_rep";
+
+  if(mode == PIPE_CLIENT){
+    m_reqSocket = new PipeProducerSocket(req, ownership, fastTransfer, deallocator);
+    m_repSocket = new PipeConsumerSocket(rep, ownership); 
+    m_receiveCompleted = true;
+  }else if(mode == PIPE_SERVER){
+    m_reqSocket = new PipeConsumerSocket(req, ownership); 
+    m_repSocket = new PipeProducerSocket(rep, ownership, fastTransfer, deallocator);
+    m_receiveCompleted = false;
+  }else
+    throw InvalidOperationException();
+}
+
+PipeServiceSocketBase::~PipeServiceSocketBase(){
+  delete m_reqSocket;
+  delete m_repSocket;
+}
+
+void PipeServiceSocketBase::send(const void *buffer, size_t size, void *hint){
+  if(m_receiveCompleted){
+    (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, hint);
+    m_receiveCompleted = false;
+  }else
+    throw UnsupportedException();
+}
+
+size_t PipeServiceSocketBase::receive(void **buffer, size_t size){
+  if(m_receiveCompleted)
+    throw UnsupportedException();
+  else{
+    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->receive(buffer, size);
+    m_receiveCompleted = true;
+    return ret;
+  }
 }
 
 }

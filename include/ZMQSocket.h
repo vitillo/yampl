@@ -10,15 +10,15 @@ namespace zmq{
 
 namespace IPC{
 
-class ZMQBaseSocket : public ISocket{
+class ZMQSocketBase : public ISocket{
   public:
-    virtual ~ZMQBaseSocket();
+    virtual ~ZMQSocketBase();
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
     virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
-    ZMQBaseSocket(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *) = defaultDeallocator);
+    ZMQSocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *) = defaultDeallocator);
 
     Channel m_channel;
     bool m_ownership;
@@ -27,12 +27,12 @@ class ZMQBaseSocket : public ISocket{
     void (*m_deallocator)(void *, void *);
 };
 
-class ZMQProducerSocket : public ZMQBaseSocket{
+class ZMQProducerSocket : public ZMQSocketBase{
   public:
     ZMQProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
     
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
-      ZMQBaseSocket::send(buffer, size, hint);
+      ZMQSocketBase::send(buffer, size, hint);
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
@@ -40,7 +40,7 @@ class ZMQProducerSocket : public ZMQBaseSocket{
     }
 };
 
-class ZMQConsumerSocket: public ZMQBaseSocket{
+class ZMQConsumerSocket: public ZMQSocketBase{
   public:
     ZMQConsumerSocket(Channel channel, zmq::context_t *context, bool ownership);
 
@@ -49,33 +49,33 @@ class ZMQConsumerSocket: public ZMQBaseSocket{
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
-      return ZMQBaseSocket::receive(buffer, size);
+      return ZMQSocketBase::receive(buffer, size);
     }
 };
 
-class ZMQClientSocket : public ZMQBaseSocket{
+class ZMQClientSocket : public ZMQSocketBase{
   public:
     ZMQClientSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
-      ZMQBaseSocket::send(buffer, size, hint);
+      ZMQSocketBase::send(buffer, size, hint);
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
-      return ZMQBaseSocket::receive(buffer, size);
+      return ZMQSocketBase::receive(buffer, size);
     }
 };
 
-class ZMQServerSocket : public ZMQBaseSocket{
+class ZMQServerSocket : public ZMQSocketBase{
   public:
     ZMQServerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
-      ZMQBaseSocket::send(buffer, size, hint);
+      ZMQSocketBase::send(buffer, size, hint);
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
-      return ZMQBaseSocket::receive(buffer, size);
+      return ZMQSocketBase::receive(buffer, size);
     }
 };
 

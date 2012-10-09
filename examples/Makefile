@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -O2 -g -Wall -I../include -DNDEBUG -Wall
-LDFLAGS = -L../ -lipc -Wl,-rpath,$(PWD)
+LDFLAGS = -L../ -lipc -Wl,-rpath,'$$ORIGIN'/..
 
 EXE = producer consumer client server benchmark
 SOCKETS = pipe service
