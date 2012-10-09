@@ -44,7 +44,7 @@ PipeBaseSocket::PipeBaseSocket(const Channel &channel, Mode mode, bool hasOwners
 PipeBaseSocket::~PipeBaseSocket(){
   close(m_peer);
   close(m_pipe);
-  delete m_receiveBuffer;
+  free(m_receiveBuffer);
 }
 
 void PipeBaseSocket::send(const void *buffer, size_t size, void *hint){
