@@ -46,8 +46,8 @@ ISocketFactory *createFactory(const char *impl){
 int main(int argc, char *argv[]){
   int opt;
   const char *impl = "zmq";
-  unsigned iterations = 1024;
-  unsigned size = 1048576;
+  unsigned iterations = 1000;
+  unsigned size = 1000000;
   const char *s_buffer = 0;
   const char *r_buffer = 0;
   Channel channel("service", ONE_TO_ONE);
@@ -95,8 +95,8 @@ int main(int argc, char *argv[]){
     }
 
     long t = stop_clock();
-    cout << "Latency " << t / (2ll*iterations) << " microseconds"<< endl;
-    cout << "Bandwidth " << (size * iterations * 2ll )/t << "MB/s" << endl;
+    cout << "Latency ~" << t / (2ll*iterations) << " microseconds"<< endl;
+    cout << "Bandwidth ~" << (size * iterations * 2ll)/t<< " MB/s" << endl;
 
     int status;
     wait(&status);
