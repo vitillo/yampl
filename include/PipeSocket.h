@@ -38,7 +38,6 @@ class PipeProducerSocket : public PipeSocketBase{
   public:
     PipeProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, ownership, fastTransfer){}
 
-
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
       PipeSocketBase::send(buffer, size, hint);
     }
@@ -51,7 +50,6 @@ class PipeProducerSocket : public PipeSocketBase{
 class PipeConsumerSocket : public PipeSocketBase{
   public:
     PipeConsumerSocket(const Channel &channel, bool ownership) : PipeSocketBase(channel, PIPE_PULL, ownership){}
-
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
       throw InvalidOperationException();
