@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_INIT([ATLAS IPC Library], [1.0], [ravitillo@lbl.gov])
 AC_CONFIG_SRCDIR([include/PipeSocketFactory.h])
 AC_CONFIG_HEADERS([config/config.h])
 
