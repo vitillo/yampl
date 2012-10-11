@@ -7,18 +7,21 @@ OBJECTS = $(SOURCES:.cpp=.o)
 LIBIPC = libipc.so
 LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
+TAGS = tags
 
-all: $(LIBZMQ) $(LIBIPC) $(EXAMPLES)
+all: $(LIBZMQ) $(LIBIPC) $(EXAMPLES) $(TAGS)
+
+$(TAGS):
 	ctags -R ./
 
 $(LIBZMQ):
 	cd zeromq && ./configure --with-pic && make
 
-$(LIBIPC): $(OBJECTS)
+$(LIBIPC): $(OBJECTS) $(LIBZMQ)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBZMQ) -o $(LIBIPC)
 
 .PHONY: $(EXAMPLES)
-$(EXAMPLES): 
+$(EXAMPLES): $(LIBIPC)
 	$(MAKE) -C $@
 
 .depend: $(SOURCES)
