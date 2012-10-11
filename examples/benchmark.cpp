@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <sys/time.h>
+#include <sys/wait.h>
 
 #include <iostream>
 #include <cstring>
@@ -13,9 +14,10 @@
 using namespace IPC;
 using namespace std;
 
-inline void deallocator(void *, void*){}
 static struct timeval start, end;
 static long seconds, useconds;
+
+inline void deallocator(void *, void*){}
 
 void start_clock(){
   gettimeofday(&start, NULL);
@@ -25,7 +27,7 @@ long stop_clock(){
   gettimeofday(&end, NULL);
   seconds = end.tv_sec - start.tv_sec;
   useconds = end.tv_usec - start.tv_usec;
-  return ((seconds) * 1000 + useconds/1000.0) + 0.5;
+  return ((seconds) * 1000000 + useconds) + 0.5;
 }
 
 ISocketFactory *createFactory(const char *impl){
@@ -46,8 +48,9 @@ int main(int argc, char *argv[]){
   const char *impl = "zmq";
   unsigned iterations = 1024;
   unsigned size = 1048576;
-  const char *buffer = 0;
-  Channel channel("pipe", ONE_TO_ONE);
+  const char *s_buffer = 0;
+  const char *r_buffer = 0;
+  Channel channel("service", ONE_TO_ONE);
 
   while((opt = getopt(argc, argv, "i:n:s:")) != -1){
     switch(opt){
@@ -66,45 +69,41 @@ int main(int argc, char *argv[]){
     }
   }
 
-  buffer = new char[size];
+  s_buffer = new char[size];
 
-  if(fork() > 0){
-    cout << "Creating Sender ";
+  if(fork() == 0){
+    cout << "Creating Client ";
     ISocketFactory *factory = createFactory(impl);
-    ISocket *socket = factory->createProducerSocket(channel, true, deallocator);
-    
+    ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+
     for(size_t i = 0; i < iterations; i++){
-      socket->send(buffer, size);
+      socket->send(s_buffer, size);
+      socket->receive((void **)&r_buffer);
     }
 
-    cout << iterations << " messages of " << size << " bytes sent." << endl;
-
-    char *a = new char[size];
-    char *b = new char[size];
-
-    start_clock();
-    for(size_t i = 0; i < iterations; i++)
-      memcpy(a, b, size);
-    
-    cout << iterations << " memory copies of " << size << " bytes performed in " << stop_clock() << " milliseconds" << endl;
+    delete socket;
+    delete factory;
   }else{
-    char *data = 0;
-    cout << "Creating Receiver ";
+    cout << "Creating Server ";
     ISocketFactory *factory = createFactory(impl);
-    ISocket *socket = factory->createConsumerSocket(channel);
-
+    ISocket *socket = factory->createServerSocket(channel, true, deallocator);
+    
     start_clock();
     for(size_t i = 0; i < iterations; i++){
-      size_t received = socket->receive((void **)&data);
-      (void)received;
-      assert(received == size);
-      assert(memcmp(buffer, data, size) == 0);
-      assert(memset(data, 0, size));
+      socket->receive((void **)&r_buffer);
+      socket->send(s_buffer, size);
     }
 
-    cout << iterations << " messages of " << size << " bytes received in " << stop_clock() << " milliseconds" << endl;
+    long t = stop_clock();
+    cout << "Latency " << t / (2*iterations) << " microseconds"<< endl;
+    cout << "Bandwidth " << (size * iterations * 2 )/t << "MB/s" << endl;
+
+    int status;
+    wait(&status);
+
+    delete socket;
+    delete factory;
   }
 
-  wait();
   return 0;
 }

@@ -9,6 +9,7 @@ LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
 
 all: $(LIBZMQ) $(LIBIPC) $(EXAMPLES)
+	ctags -R ./
 
 $(LIBZMQ):
 	cd zeromq && ./configure --with-pic && make
