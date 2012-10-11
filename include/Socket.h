@@ -1,5 +1,5 @@
-#ifndef IPC_SOCKET_H
-#define IPC_SOCKET_H
+#ifndef SOCKET_H
+#define SOCKET_H
 
 #include <unistd.h>
 #include <iostream>

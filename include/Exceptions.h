@@ -1,5 +1,5 @@
-#ifndef IPC_EXCEPTIONS_H
-#define IPC_EXCEPTIONS_H
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
 
 #include <exception>
 #include <cstdio>

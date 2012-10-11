@@ -1,5 +1,5 @@
-#ifndef IPC_ZMQSOCKET_H
-#define IPC_ZMQSOCKET_H
+#ifndef ZMQSOCKET_H
+#define ZMQSOCKET_H
 
 #include "Socket.h"
 

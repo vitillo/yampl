@@ -95,8 +95,8 @@ int main(int argc, char *argv[]){
     }
 
     long t = stop_clock();
-    cout << "Latency " << t / (2*iterations) << " microseconds"<< endl;
-    cout << "Bandwidth " << (size * iterations * 2 )/t << "MB/s" << endl;
+    cout << "Latency " << t / (2ll*iterations) << " microseconds"<< endl;
+    cout << "Bandwidth " << (size * iterations * 2ll )/t << "MB/s" << endl;
 
     int status;
     wait(&status);

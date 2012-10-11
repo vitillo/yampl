@@ -1,5 +1,5 @@
-#ifndef IPC_PIPESOCKETFACTORY_H
-#define IPC_PIPESOCKETFACTORY_H
+#ifndef PIPESOCKETFACTORY_H
+#define PIPESOCKETFACTORY_H
 
 #include "SocketFactory.h"
 

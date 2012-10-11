@@ -1,5 +1,5 @@
-#ifndef IPC_ZMQSOCKETFACTORY_H
-#define IPC_ZMQSOCKETFACTORY_H
+#ifndef ZMQSOCKETFACTORY_H
+#define ZMQSOCKETFACTORY_H
 
 #include "SocketFactory.h"
 

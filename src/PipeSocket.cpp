@@ -6,6 +6,7 @@
 
 #include <string>
 #include <cstdlib>
+#include <iostream>
 
 #include "PipeSocket.h"
 
@@ -38,8 +39,10 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
 
   fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
-  //TODO: feature added in 2.6.35
-  //fcntl(m_pipe, F_SETPIPE_SZ, 1048576);
+  #ifdef F_SETPIPE_SZ
+  //feature added in Linux 2.6.35
+  fcntl(m_pipe, F_SETPIPE_SZ, 1048576);
+  #endif
 }
 
 PipeSocketBase::~PipeSocketBase(){

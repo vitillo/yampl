@@ -1,5 +1,5 @@
-#ifndef IPC_PIPESOCKET_H
-#define IPC_PIPESOCKET_H
+#ifndef PIPESOCKET_H
+#define PIPESOCKET_H
 
 #include <string>
 

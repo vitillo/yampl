@@ -1,5 +1,5 @@
-#ifndef IPC_CHANNEL_H
-#define IPC_CHANNEL_H
+#ifndef CHANNEL_H
+#define CHANNEL_H
 
 #include <string>
 #include <stdint.h>
