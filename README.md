@@ -15,7 +15,8 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 ## Install, Build & Test
 * git clone https://github.com/vitillo/ipc
 * cd ipc
-* ./configure && make
+* ./configure --prefix=INSTALL_PATH
+* make
 * ./examples/benchmark
 
 ##Examples
