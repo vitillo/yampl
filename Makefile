@@ -31,4 +31,4 @@ include .depend
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
 	$(MAKE) -C zeromq clean
-	rm -rf $(LIBIPC) $(OBJECTS)
+	rm -rf $(LIBIPC) $(OBJECTS) tags
