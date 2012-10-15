@@ -8,8 +8,6 @@
 
 namespace IPC{
 
-const int INFINITY = -1;
-
 enum Topology{
   ONE_TO_ONE,
   ONE_TO_MANY,
