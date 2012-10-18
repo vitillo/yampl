@@ -1,30 +1,33 @@
 #include <zmq.hpp>
 
-#include "ZMQSocketFactory.h"
-#include "ZMQSocket.h"
+#include "ZMQ/SocketFactory.h"
+#include "ZMQ/Socket.h"
 
-using namespace IPC;
+namespace IPC{
+namespace ZMQ{
 
-ZMQSocketFactory::ZMQSocketFactory() : m_context(new zmq::context_t(1)){
+SocketFactory::SocketFactory() : m_context(new zmq::context_t(1)){
 }
 
-ZMQSocketFactory::~ZMQSocketFactory(){
+SocketFactory::~SocketFactory(){
   delete m_context;
 }
 
-ISocket *ZMQSocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new ZMQProducerSocket(channel, m_context, ownership, deallocator);
+ISocket *SocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ProducerSocket(channel, m_context, ownership, deallocator);
 }
 
-ISocket *ZMQSocketFactory::createConsumerSocket(Channel channel, bool ownership){
-  return new ZMQConsumerSocket(channel, m_context, ownership);
+ISocket *SocketFactory::createConsumerSocket(Channel channel, bool ownership){
+  return new ConsumerSocket(channel, m_context, ownership);
 }
 
-ISocket *ZMQSocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new ZMQClientSocket(channel, m_context, ownership, deallocator);
+ISocket *SocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ClientSocket(channel, m_context, ownership, deallocator);
 }
 
-ISocket *ZMQSocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new ZMQServerSocket(channel, m_context, ownership, deallocator);
+ISocket *SocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ServerSocket(channel, m_context, ownership, deallocator);
 }
 
+}
+}

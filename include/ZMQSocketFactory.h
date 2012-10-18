@@ -1,18 +1,19 @@
 #ifndef ZMQSOCKETFACTORY_H
 #define ZMQSOCKETFACTORY_H
 
-#include "SocketFactory.h"
+#include "../SocketFactory.h"
 
 namespace zmq{
   class context_t;
 }
 
 namespace IPC{
+namespace ZMQ{
 
-class ZMQSocketFactory : public ISocketFactory{
+class SocketFactory : public ISocketFactory{
   public:
-    ZMQSocketFactory();
-    virtual ~ZMQSocketFactory();
+    SocketFactory();
+    virtual ~SocketFactory();
 
     virtual ISocket *createProducerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
     virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true);
@@ -23,6 +24,7 @@ class ZMQSocketFactory : public ISocketFactory{
     zmq::context_t *m_context;
 };
 
+}
 }
 
 #endif

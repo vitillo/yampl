@@ -1,13 +1,14 @@
 #ifndef PIPESOCKETFACTORY_H
 #define PIPESOCKETFACTORY_H
 
-#include "SocketFactory.h"
+#include "../SocketFactory.h"
 
 namespace IPC{
+namespace pipe{
 
-class PipeSocketFactory : public ISocketFactory{
+class SocketFactory : public ISocketFactory{
   public:
-    PipeSocketFactory(bool zerocopy = true) : m_zerocopy(zerocopy){}
+    SocketFactory(bool zerocopy = true) : m_zerocopy(zerocopy){}
 
     virtual ISocket *createProducerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
     virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true);
@@ -18,6 +19,7 @@ class PipeSocketFactory : public ISocketFactory{
     bool m_zerocopy;
 };
 
+}
 }
 
 #endif

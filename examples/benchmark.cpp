@@ -8,8 +8,8 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "ZMQSocketFactory.h"
-#include "PipeSocketFactory.h"
+#include "ZMQ/SocketFactory.h"
+#include "pipe/SocketFactory.h"
 
 using namespace IPC;
 using namespace std;
@@ -33,13 +33,13 @@ long stop_clock(){
 ISocketFactory *createFactory(const char *impl){
   if(strcasecmp(impl, "splice") == 0){
     cout << "using SpliceSocket" << endl;
-    return new PipeSocketFactory(true);
+    return new pipe::SocketFactory(true);
   }else if(strcasecmp(impl, "pipe") == 0){
     cout << "using PipeSocket" << endl;
-    return new PipeSocketFactory(false);
+    return new pipe::SocketFactory(false);
   }else{
     cout << "using ZMQSocket" << endl;
-    return new ZMQSocketFactory();
+    return new ZMQ::SocketFactory();
   }
 }
 
@@ -95,8 +95,8 @@ int main(int argc, char *argv[]){
     }
 
     long t = stop_clock();
-    cout << "Latency ~" << t / (2ll*iterations) << " microseconds"<< endl;
-    cout << "Bandwidth ~" << (size * iterations * 2ll)/t<< " MB/s" << endl;
+    cout << "Latency " << t / (2ll*iterations) << " microseconds"<< endl;
+    cout << "Bandwidth " << (size * iterations * 2ll)/t<< " MB/s" << endl;
 
     int status;
     wait(&status);

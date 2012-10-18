@@ -1,23 +1,26 @@
-#include "PipeSocketFactory.h"
-#include "PipeSocket.h"
 #include "Exceptions.h"
 
+#include "pipe/SocketFactory.h"
+#include "pipe/Socket.h"
+
 namespace IPC{
+namespace pipe{
 
-ISocket *PipeSocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new PipeProducerSocket(channel, ownership, m_zerocopy, deallocator);
+ISocket *SocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ProducerSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
-ISocket *PipeSocketFactory::createConsumerSocket(Channel channel, bool ownership){
-  return new PipeConsumerSocket(channel, ownership);
+ISocket *SocketFactory::createConsumerSocket(Channel channel, bool ownership){
+  return new ConsumerSocket(channel, ownership);
 }
 
-ISocket *PipeSocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new PipeClientSocket(channel, ownership, m_zerocopy, deallocator);
+ISocket *SocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ClientSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
-ISocket *PipeSocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new PipeServerSocket(channel, ownership, m_zerocopy, deallocator);
+ISocket *SocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  return new ServerSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
+}
 }

@@ -1,4 +1,5 @@
-#include "ZMQSocketFactory.h"
+#include "ZMQ/SocketFactory.h"
+
 #include "utils.h"
 
 using namespace IPC;
@@ -7,7 +8,7 @@ using namespace std;
 int main(int argc, char *argv[]){
   string message = "Hello from " +  pid();
   
-  ISocketFactory *factory = new ZMQSocketFactory();
+  ISocketFactory *factory = new ZMQ::SocketFactory();
   ISocket *socket = factory->createProducerSocket(Channel("pipe", ONE_TO_MANY), true, deallocator);
 
   while(true){
