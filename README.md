@@ -25,4 +25,4 @@ The *examples* subdirectory provides four binaries that demonstrate the two supp
 * *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
 
 ##Notes
-The only reliable implementation at this moment is ZMQ, i.e. use only ZMQSocketFactory to instantiate Sockets as shown in the examples.
+The only reliable implementation at this moment is ZMQ, i.e. use only ZMQ::SocketFactory to instantiate Sockets as shown in the examples.
