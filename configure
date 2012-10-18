@@ -585,7 +585,7 @@ PACKAGE_STRING='ATLAS IPC Library 1.0'
 PACKAGE_BUGREPORT='ravitillo@lbl.gov'
 PACKAGE_URL=''
 
-ac_unique_file="include/PipeSocketFactory.h"
+ac_unique_file="include/SocketFactory.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
