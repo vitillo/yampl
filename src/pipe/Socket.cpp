@@ -15,7 +15,7 @@ using namespace std;
 namespace IPC{
 namespace pipe{
 
-SocketBase::SocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
 
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
@@ -46,13 +46,13 @@ SocketBase::SocketBase(const Channel &channel, Mode mode, bool hasOwnership, boo
   #endif
 }
 
-SocketBase::~SocketBase(){
+PipeSocketBase::~PipeSocketBase(){
   close(m_peer);
   close(m_pipe);
   free(m_receiveBuffer);
 }
 
-void SocketBase::send(const void *buffer, size_t size, void *hint){
+void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
@@ -82,7 +82,7 @@ void SocketBase::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-size_t SocketBase::receive(void **buffer, size_t size){
+size_t PipeSocketBase::receive(void **buffer, size_t size){
   static size_t msg_size = 0;
   size_t bytesRead = 0;
 

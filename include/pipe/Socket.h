@@ -15,15 +15,15 @@ enum Mode{
   PIPE_SERVER
 };
 
-class SocketBase : public ISocket{
+class PipeSocketBase : public ISocket{
   public:
-    virtual ~SocketBase();
+    virtual ~PipeSocketBase();
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
     virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
-    SocketBase(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
+    PipeSocketBase(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
 
   private:
     std::string m_pipename;
@@ -35,12 +35,12 @@ class SocketBase : public ISocket{
     void *m_receiveBuffer;
 };
 
-class ProducerSocket : public SocketBase{
+class ProducerSocket : public PipeSocketBase{
   public:
-    ProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : SocketBase(channel, PIPE_PUSH, ownership, fastTransfer){}
+    ProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, ownership, fastTransfer){}
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
-      SocketBase::send(buffer, size, hint);
+      PipeSocketBase::send(buffer, size, hint);
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
@@ -48,16 +48,16 @@ class ProducerSocket : public SocketBase{
     }
 };
 
-class ConsumerSocket : public SocketBase{
+class ConsumerSocket : public PipeSocketBase{
   public:
-    ConsumerSocket(const Channel &channel, bool ownership) : SocketBase(channel, PIPE_PULL, ownership){}
+    ConsumerSocket(const Channel &channel, bool ownership) : PipeSocketBase(channel, PIPE_PULL, ownership){}
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
       throw InvalidOperationException();
     }
 
     virtual size_t receive(void **buffer, size_t size = 0){
-      return SocketBase::receive(buffer, size);
+      return PipeSocketBase::receive(buffer, size);
     }
 };
 
