@@ -20,45 +20,85 @@ using namespace std;
 
 namespace IPC{
 namespace pipe{
+    
+PipeSocketBase::Pipe PipeSocketBase::openPipe(const std::string& name){
+  Pipe pipe;
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_isOwner(isOwner), m_fast(fastTransfer), m_receiveBuffer(0){
-
-  if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
+  if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
 
   // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
-  int r, w;
-  if((r = open(m_pipename.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
+  if((pipe.read = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
     throw ErrnoException("Failed to open FIFO");
-  if((w = open(m_pipename.c_str(), O_WRONLY)) == -1)
+  if((pipe.write = open(name.c_str(), O_WRONLY)) == -1)
     throw ErrnoException("Failed to open FIFO");
 
-  fcntl(r, F_SETFL, fcntl(r, F_GETFL) & ~O_NONBLOCK);
+  fcntl(pipe.read, F_SETFL, fcntl(pipe.read, F_GETFL) & ~O_NONBLOCK);
+  return pipe;
+}
+
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_isOwner(isOwner), m_fast(fastTransfer), m_receiveBuffer(0){
+  const string& transferPipeName = "/tmp/fifo_" + channel.name;
+  const string& ctlPipeName = transferPipeName + "_ctl";
+  
+  m_transferPipe = openPipe(transferPipeName);
+  m_ctlPipe = openPipe(ctlPipeName);
 
   if(m_mode == PIPE_PULL){
-    m_pipe = r;
-    m_peer = w;
+    #ifdef F_SETPIPE_SZ
+    //feature added in Linux 2.6.35
+    fcntl(m_transferPipe.write, F_SETPIPE_SZ, 1048576);
+    #endif
   }else if(m_mode == PIPE_PUSH){
-    m_pipe = w;
-    m_peer = r;
+    m_ctlThread = new std::thread([this, deallocator] {
+      int signalPoll;
+      if((signalPoll = epoll_create(1)) == -1)
+	throw ErrnoException("Failed to create epoll handle");
 
-    thread t([this] {
-      return;
-    });
+      epoll_event signalEv;
+      signalEv.events = EPOLLIN;
+      
+      if(epoll_ctl(signalPoll, EPOLL_CTL_ADD, m_ctlPipe.read, &signalEv) == -1)
+	throw ErrnoException("Failed to add fd to epoll handle");
 
-    t.detach();
+      while(!m_destroy){
+	const void *buffer = 0;
+	int signal = 0;
+
+	switch(epoll_wait(signalPoll, &signalEv, 1, 500)){
+	  case 0:
+	    continue;
+	  case -1:
+	    throw ErrnoException("Failed to wait on epoll handle");
+	  default:
+	    break;
+	}
+
+	if(TEMP_FAILURE_RETRY(read(m_ctlPipe.read, &signal, 1)) == -1)
+	  throw ErrnoException("Failed to receive ctl signal");
+
+	m_lock.lock();
+	buffer = m_pendingBuffers.front();
+	m_pendingBuffers.pop_front();
+	m_lock.unlock();
+
+	deallocator((void *)buffer, NULL);
+      }
+
+    close(signalPoll);
+  });
   }else
     throw InvalidOperationException();
-
-  #ifdef F_SETPIPE_SZ
-  //feature added in Linux 2.6.35
-  fcntl(m_pipe, F_SETPIPE_SZ, 1048576);
-  #endif
 }
 
 PipeSocketBase::~PipeSocketBase(){
-  close(m_peer);
-  close(m_pipe);
+  if(m_mode == PIPE_PUSH){
+    m_destroy = true;
+    m_ctlThread->join();
+  }
+
+  close(m_transferPipe.read);
+  close(m_transferPipe.write);
   free(m_receiveBuffer);
 }
 
@@ -66,8 +106,12 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
+  m_lock.lock();
+  m_pendingBuffers.push_back(buffer);
+  m_lock.unlock();
+
   while(bytesWritten != sizeof(size)){
-    ssize_t sent = TEMP_FAILURE_RETRY(write(m_pipe, &size, sizeof(size)));
+    ssize_t sent = TEMP_FAILURE_RETRY(write(m_transferPipe.write, &size, sizeof(size)));
 
     if(sent == -1)
       throw ErrnoException("Send failed");
@@ -90,19 +134,15 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
     vec.iov_len = size - bytesWritten;
 
     if(m_fast){
-      if((sent = vmsplice(m_pipe, &vec, 1, 0)) == -1)
+      if((sent = vmsplice(m_transferPipe.write, &vec, 1, 0)) == -1)
         throw ErrnoException("Send failed");
     }else{
-      if((sent = TEMP_FAILURE_RETRY(write(m_pipe, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
+      if((sent = TEMP_FAILURE_RETRY(write(m_transferPipe.write, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
 	throw ErrnoException("Send failed");
     }
 
     bytesWritten += sent;
   }
-
-  m_lock.lock();
-  m_pendingBuffers.push_back(buffer);
-  m_lock.unlock();
 }
 
 size_t PipeSocketBase::receive(void **buffer, size_t size){
@@ -111,7 +151,7 @@ size_t PipeSocketBase::receive(void **buffer, size_t size){
 
 
   while(bytesRead != sizeof(msg_size)){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_pipe, &msg_size, sizeof(msg_size)));
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe.read, &msg_size, sizeof(msg_size)));
 
     if(r == -1)
       throw ErrnoException("Receive failed");
@@ -132,13 +172,16 @@ size_t PipeSocketBase::receive(void **buffer, size_t size){
   }
 
   for(bytesRead = 0; bytesRead != msg_size;){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_pipe, (char *)*buffer + bytesRead, msg_size - bytesRead));
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe.read, (char *)*buffer + bytesRead, msg_size - bytesRead));
 
     if(r == -1)
       throw ErrnoException("Receive failed");
 
     bytesRead += r;
   }
+
+  if(write(m_ctlPipe.write, " ", 1) == -1)
+    throw ErrnoException("Receive failed");
 
   msg_size = 0;
   return bytesRead;
@@ -215,7 +258,7 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fast
     epoll_event listenerEv;
     listenerEv.events = EPOLLIN;
     
-    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_pipe, &listenerEv) == -1)
+    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_transferPipe.read, &listenerEv) == -1)
       throw ErrnoException("Failed to add fd to epoll handle");
 
     while(!m_destroy){
@@ -238,7 +281,7 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fast
       ev.events = EPOLLIN;
       ev.data.ptr = peer;
       
-      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_pipe, &ev) == -1)
+      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe.read, &ev) == -1)
         throw ErrnoException("Failed to add fd to epoll handle");
     }
 

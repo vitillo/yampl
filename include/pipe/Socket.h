@@ -4,9 +4,10 @@
 #include <unistd.h>
 
 #include <string>
-#include <vector>
+#include <deque>
 #include <atomic>
 #include <thread>
+#include <vector>
 
 #include "../Socket.h"
 #include "../SpinLock.h"
@@ -32,23 +33,31 @@ class PipeSocketBase : public ISocket{
     virtual size_t receive(void **buffer, size_t size = 0);
 
   protected:
-    PipeSocketBase(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true);
+    PipeSocketBase(const Channel &channel, Mode type, bool ownership = true, bool fastTransfer = true, void (*deallocator)(void *, void *) = defaultDeallocator);
 
   private:
-    std::string m_pipename;
+    struct Pipe{
+      int read;
+      int write;
+    };
+
     Mode m_mode;
-    int m_pipe;
-    int m_peer;
     bool m_isOwner;
     bool m_fast;
+    Pipe m_transferPipe;
+    Pipe m_ctlPipe;
+    std::atomic<bool> m_destroy = {false};
+    std::thread *m_ctlThread = 0;
     SpinLock m_lock;
     void *m_receiveBuffer;
-    std::vector<const void *> m_pendingBuffers;
+    std::deque<const void *> m_pendingBuffers;
+
+    Pipe openPipe(const std::string& name);
 };
 
 class ProducerSocket : public PipeSocketBase{
   public:
-    ProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, ownership, fastTransfer){}
+    ProducerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, ownership, fastTransfer, deallocator){}
 
     virtual void send(const void *buffer, size_t size, void *hint = NULL){
       PipeSocketBase::send(buffer, size, hint);
