@@ -5,8 +5,11 @@
 
 #include <string>
 #include <vector>
+#include <atomic>
+#include <thread>
 
 #include "../Socket.h"
+#include "../SpinLock.h"
 
 namespace IPC{
 namespace pipe{
@@ -36,9 +39,11 @@ class PipeSocketBase : public ISocket{
     Mode m_mode;
     int m_pipe;
     int m_peer;
-    bool m_hasOwnership;
+    bool m_isOwner;
     bool m_fast;
+    SpinLock m_lock;
     void *m_receiveBuffer;
+    std::vector<const void *> m_pendingBuffers;
 };
 
 class ProducerSocket : public PipeSocketBase{
@@ -122,9 +127,10 @@ class MOServerSocket: public ISocket{
     virtual size_t receive(void **buffer, size_t size = 0);
 
   private:
-    int m_poll;
+    int m_peerPoll;
     ServerSocket *m_currentPeer = 0;
-    ConsumerSocket *m_listener = 0;
+    std::thread m_listener;
+    std::atomic<bool> m_destroy = {false};
     std::vector<ServerSocket *> m_peers;
 };
 

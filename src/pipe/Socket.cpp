@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <cstring>
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -20,7 +21,7 @@ using namespace std;
 namespace IPC{
 namespace pipe{
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer), m_receiveBuffer(0){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, bool fastTransfer) : m_pipename("/tmp/fifo_" + channel.name), m_mode(mode), m_isOwner(isOwner), m_fast(fastTransfer), m_receiveBuffer(0){
 
   if(mkfifo(m_pipename.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Can't create FIFO", errno);
@@ -40,10 +41,14 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
   }else if(m_mode == PIPE_PUSH){
     m_pipe = w;
     m_peer = r;
+
+    thread t([this] {
+      return;
+    });
+
+    t.detach();
   }else
     throw InvalidOperationException();
-
-  //fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
   #ifdef F_SETPIPE_SZ
   //feature added in Linux 2.6.35
@@ -52,8 +57,8 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
 }
 
 PipeSocketBase::~PipeSocketBase(){
-  ::close(m_peer);
-  ::close(m_pipe);
+  close(m_peer);
+  close(m_pipe);
   free(m_receiveBuffer);
 }
 
@@ -68,6 +73,15 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
       throw ErrnoException("Send failed");
 
     bytesWritten += sent;
+  }
+
+  if(!m_isOwner){
+    void *tmp = NULL;
+
+    if((tmp = malloc(size)) == NULL)
+      throw ErrnoException("Send failed");
+
+    buffer = memcpy(tmp, buffer, size);
   }
 
   for(bytesWritten = 0; bytesWritten != size;){
@@ -85,6 +99,10 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
 
     bytesWritten += sent;
   }
+
+  m_lock.lock();
+  m_pendingBuffers.push_back(buffer);
+  m_lock.unlock();
 }
 
 size_t PipeSocketBase::receive(void **buffer, size_t size){
@@ -101,7 +119,7 @@ size_t PipeSocketBase::receive(void **buffer, size_t size){
     bytesRead += r;
   }
 
-  if(m_hasOwnership){
+  if(m_isOwner){
     if((m_receiveBuffer = realloc(m_receiveBuffer, msg_size)) == 0)
       throw ErrnoException("Receive failed");
 
@@ -184,15 +202,34 @@ MOClientSocket::~MOClientSocket(){
 MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
 
-  if((m_poll = epoll_create(1)) == -1)
+  if((m_peerPoll = epoll_create(1)) == -1)
     throw ErrnoException("Failed to create epoll handle");
 
-  thread t([this, announce, channel, ownership, fastTransfer, deallocator] {
-    m_listener = new ConsumerSocket(announce, false);
+  m_listener = std::thread([this, announce, channel, ownership, fastTransfer, deallocator] {
+    ConsumerSocket *listener = new ConsumerSocket(announce, false);
+    
+    int listenerPoll;
+    if((listenerPoll = epoll_create(1)) == -1)
+      throw ErrnoException("Failed to create epoll handle");
 
-    while(true){
+    epoll_event listenerEv;
+    listenerEv.events = EPOLLIN;
+    
+    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_pipe, &listenerEv) == -1)
+      throw ErrnoException("Failed to add fd to epoll handle");
+
+    while(!m_destroy){
+      switch(epoll_wait(listenerPoll, &listenerEv, 1, 500)){
+        case 0:
+	  continue;
+        case -1:
+	  throw ErrnoException("Failed to wait on epoll handle");
+        default:
+	  break;
+      }
+
       pid_t pid, *pidptr = &pid;
-      m_listener->receive((void **)&pidptr, sizeof(pid));
+      listener->receive((void **)&pidptr, sizeof(pid));
 
       ServerSocket *peer = new ServerSocket({channel.name + "_" + to_string(pid)}, ownership, fastTransfer, deallocator);
       m_peers.push_back(peer);
@@ -201,15 +238,22 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fast
       ev.events = EPOLLIN;
       ev.data.ptr = peer;
       
-      if(epoll_ctl(m_poll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_pipe, &ev) == -1)
+      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_pipe, &ev) == -1)
         throw ErrnoException("Failed to add fd to epoll handle");
     }
-  });
 
-  t.detach();
+    close(listenerPoll);
+  });
 }
 
 MOServerSocket::~MOServerSocket(){
+  m_destroy = true;
+  m_listener.join();
+
+  for(auto peer : m_peers)
+    delete peer;
+
+  close(m_peerPoll);
 }
 
 void MOServerSocket::send(const void *buffer, size_t size, void *hint){
@@ -225,7 +269,7 @@ size_t MOServerSocket::receive(void **buffer, size_t size){
     throw InvalidOperationException();
 
   epoll_event event;
-  if(epoll_wait(m_poll, &event, 1, -1) == -1)
+  if(epoll_wait(m_peerPoll, &event, 1, -1) == -1)
     throw ErrnoException();
 
   m_currentPeer = (ServerSocket *)event.data.ptr;
