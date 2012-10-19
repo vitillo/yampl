@@ -16,6 +16,7 @@ enum Topology{
 };
 
 struct Channel{
+  public:
     Channel(const std::string &name, Topology topology = ONE_TO_ONE, uint64_t asynchronicity = 1) : name(name), topology(topology), asynchronicity(asynchronicity){
       if(!asynchronicity)
 	throw UnsupportedException();

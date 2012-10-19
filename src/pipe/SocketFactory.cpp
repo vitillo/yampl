@@ -15,11 +15,29 @@ ISocket *SocketFactory::createConsumerSocket(Channel channel, bool ownership){
 }
 
 ISocket *SocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new ClientSocket(channel, ownership, m_zerocopy, deallocator);
+  switch(channel.topology){
+    case ONE_TO_ONE:
+      return new ClientSocket(channel, ownership, m_zerocopy, deallocator);
+
+    case MANY_TO_ONE:
+      return new MOClientSocket(channel, ownership, m_zerocopy, deallocator);
+
+    default:
+      throw UnsupportedException();
+  }
 }
 
 ISocket *SocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
-  return new ServerSocket(channel, ownership, m_zerocopy, deallocator);
+  switch(channel.topology){
+    case ONE_TO_ONE:
+      return new ServerSocket(channel, ownership, m_zerocopy, deallocator);
+    
+    case MANY_TO_ONE:
+      return new MOServerSocket(channel, ownership, m_zerocopy, deallocator);
+
+    default:
+      throw UnsupportedException();
+  }
 }
 
 }

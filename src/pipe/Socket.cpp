@@ -1,12 +1,17 @@
 #define _GNU_SOURCE 1
 
+#include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/epoll.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <string>
 #include <cstdlib>
 #include <iostream>
+#include <thread>
+#include <algorithm>
 
 #include "pipe/Socket.h"
 
@@ -27,7 +32,7 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
   if((w = open(m_pipename.c_str(), O_WRONLY)) == -1)
     throw ErrnoException("Failed to open FIFO");
 
-  fcntl(r, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
+  fcntl(r, F_SETFL, fcntl(r, F_GETFL) & ~O_NONBLOCK);
 
   if(m_mode == PIPE_PULL){
     m_pipe = r;
@@ -38,7 +43,7 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
   }else
     throw InvalidOperationException();
 
-  fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
+  //fcntl(m_pipe, F_SETFL, fcntl(m_pipe, F_GETFL) & ~O_NONBLOCK);
 
   #ifdef F_SETPIPE_SZ
   //feature added in Linux 2.6.35
@@ -47,8 +52,8 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
 }
 
 PipeSocketBase::~PipeSocketBase(){
-  close(m_peer);
-  close(m_pipe);
+  ::close(m_peer);
+  ::close(m_pipe);
   free(m_receiveBuffer);
 }
 
@@ -162,6 +167,69 @@ size_t ServiceSocketBase::receive(void **buffer, size_t size){
     m_receiveCompleted = true;
     return ret;
   }
+}
+
+MOClientSocket::MOClientSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)){
+  Channel announce(channel.name + "_announce");
+  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, ownership, fastTransfer, deallocator);
+  m_server = new ProducerSocket(announce, true, fastTransfer, [] (void *, void *) { return; });
+  m_server->send(&m_pid, sizeof(m_pid));
+}
+
+MOClientSocket::~MOClientSocket(){
+  delete m_server;
+  delete m_private;
+}
+
+MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)){
+  Channel announce(channel.name + "_announce");
+
+  if((m_poll = epoll_create(1)) == -1)
+    throw ErrnoException("Failed to create epoll handle");
+
+  thread t([this, announce, channel, ownership, fastTransfer, deallocator] {
+    m_listener = new ConsumerSocket(announce, false);
+
+    while(true){
+      pid_t pid, *pidptr = &pid;
+      m_listener->receive((void **)&pidptr, sizeof(pid));
+
+      ServerSocket *peer = new ServerSocket({channel.name + "_" + to_string(pid)}, ownership, fastTransfer, deallocator);
+      m_peers.push_back(peer);
+
+      epoll_event ev;
+      ev.events = EPOLLIN;
+      ev.data.ptr = peer;
+      
+      if(epoll_ctl(m_poll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_pipe, &ev) == -1)
+        throw ErrnoException("Failed to add fd to epoll handle");
+    }
+  });
+
+  t.detach();
+}
+
+MOServerSocket::~MOServerSocket(){
+}
+
+void MOServerSocket::send(const void *buffer, size_t size, void *hint){
+  if(!m_currentPeer)
+    throw InvalidOperationException();
+
+  m_currentPeer->send(buffer, size, hint);
+  m_currentPeer = 0;
+}
+
+size_t MOServerSocket::receive(void **buffer, size_t size){
+  if(m_currentPeer)
+    throw InvalidOperationException();
+
+  epoll_event event;
+  if(epoll_wait(m_poll, &event, 1, -1) == -1)
+    throw ErrnoException();
+
+  m_currentPeer = (ServerSocket *)event.data.ptr;
+  return m_currentPeer->receive(buffer, size);
 }
 
 }

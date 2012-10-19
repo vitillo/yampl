@@ -1,7 +1,10 @@
 #ifndef PIPESOCKET_H
 #define PIPESOCKET_H
 
+#include <unistd.h>
+
 #include <string>
+#include <vector>
 
 #include "../Socket.h"
 
@@ -15,10 +18,13 @@ enum Mode{
   PIPE_SERVER
 };
 
+class MOServerSocket;
+
 class PipeSocketBase : public ISocket{
+  friend MOServerSocket;
+
   public:
     virtual ~PipeSocketBase();
-
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
     virtual size_t receive(void **buffer, size_t size = 0);
 
@@ -28,10 +34,10 @@ class PipeSocketBase : public ISocket{
   private:
     std::string m_pipename;
     Mode m_mode;
-    bool m_hasOwnership;
-    bool m_fast;
     int m_pipe;
     int m_peer;
+    bool m_hasOwnership;
+    bool m_fast;
     void *m_receiveBuffer;
 };
 
@@ -62,9 +68,10 @@ class ConsumerSocket : public PipeSocketBase{
 };
 
 class ServiceSocketBase : public ISocket{
+  friend MOServerSocket;
+
   public:
     virtual ~ServiceSocketBase();
-
     virtual void send(const void *buffer, size_t size, void *hint = NULL);
     virtual size_t receive(void **buffer, size_t size = 0);
 
@@ -72,10 +79,10 @@ class ServiceSocketBase : public ISocket{
     ServiceSocketBase(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
 
   private:
-    bool m_receiveCompleted;
-    Mode m_mode;
     ISocket *m_reqSocket;
     ISocket *m_repSocket;
+    bool m_receiveCompleted;
+    Mode m_mode;
 };
 
 class ClientSocket : public ServiceSocketBase{
@@ -88,6 +95,38 @@ class ServerSocket : public ServiceSocketBase{
     ServerSocket(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, ownership, fastTransfer, deallocator, PIPE_SERVER){}
 };
 
+class MOClientSocket: public ISocket{
+  public:
+    MOClientSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *));
+    virtual ~MOClientSocket();
+
+    virtual void send(const void *buffer, size_t size, void *hint = NULL){
+      m_private->send(buffer, size, hint);
+    }
+    virtual size_t receive(void **buffer, size_t size = 0){
+      return m_private->receive(buffer, size);
+    }
+
+  private:
+    pid_t m_pid = getpid();
+    ISocket *m_server = 0;
+    ISocket *m_private = 0;
+};
+
+class MOServerSocket: public ISocket{
+  public:
+    MOServerSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *));
+    virtual ~MOServerSocket();
+
+    virtual void send(const void *buffer, size_t size, void *hint = NULL);
+    virtual size_t receive(void **buffer, size_t size = 0);
+
+  private:
+    int m_poll;
+    ServerSocket *m_currentPeer = 0;
+    ConsumerSocket *m_listener = 0;
+    std::vector<ServerSocket *> m_peers;
+};
 
 }
 }

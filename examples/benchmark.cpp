@@ -43,6 +43,17 @@ ISocketFactory *createFactory(const char *impl){
   }
 }
 
+Topology parseTopology(const char *t){
+  if(strcasecmp(t, "MANY_TO_MANY") == 0)
+    return MANY_TO_MANY;
+  else if(strcasecmp(t, "MANY_TO_ONE") == 0)
+    return MANY_TO_ONE;
+  else if(strcasecmp(t, "ONE_TO_MANY") == 0)
+    return ONE_TO_MANY;
+  else
+    return ONE_TO_ONE;
+}
+
 int main(int argc, char *argv[]){
   int opt;
   const char *impl = "zmq";
@@ -50,9 +61,9 @@ int main(int argc, char *argv[]){
   unsigned size = 1000000;
   const char *s_buffer = 0;
   const char *r_buffer = 0;
-  Channel channel("service", ONE_TO_ONE);
+  Topology topology = ONE_TO_ONE;
 
-  while((opt = getopt(argc, argv, "i:n:s:")) != -1){
+  while((opt = getopt(argc, argv, "i:n:s:t:")) != -1){
     switch(opt){
       case 'i':
 	impl = strdup(optarg);
@@ -63,12 +74,16 @@ int main(int argc, char *argv[]){
       case 's':
 	size = atoi(optarg);
 	break;
+      case 't':
+	topology = parseTopology(optarg);
+	break;
       default:
-	fprintf(stderr, "Usage: %s [-i impl] [-n iterations] [-s size]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [-i impl] [-t topology] [-n iterations] [-s size]\n", argv[0]);
 	exit(EXIT_FAILURE);
     }
   }
 
+  Channel channel("service", topology);
   s_buffer = new char[size];
 
   if(fork() == 0){
