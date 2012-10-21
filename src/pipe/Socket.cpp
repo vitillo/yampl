@@ -14,6 +14,7 @@
 #include <thread>
 #include <algorithm>
 
+#include "Channel.h"
 #include "pipe/Socket.h"
 
 using namespace std;
@@ -25,7 +26,7 @@ PipeSocketBase::Pipe PipeSocketBase::openPipe(const std::string& name){
   Pipe pipe;
 
   if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
-    throw ErrnoException("Can't create FIFO", errno);
+    throw ErrnoException("Can't create FIFO");
 
   // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
   if((pipe.read = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
@@ -33,7 +34,9 @@ PipeSocketBase::Pipe PipeSocketBase::openPipe(const std::string& name){
   if((pipe.write = open(name.c_str(), O_WRONLY)) == -1)
     throw ErrnoException("Failed to open FIFO");
 
-  fcntl(pipe.read, F_SETFL, fcntl(pipe.read, F_GETFL) & ~O_NONBLOCK);
+  if((fcntl(pipe.read, F_SETFL, fcntl(pipe.read, F_GETFL) & ~O_NONBLOCK)) == -1)
+    throw ErrnoException("Failed to update FIFO");
+
   return pipe;
 }
 
@@ -46,8 +49,11 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, 
 
   if(m_mode == PIPE_PULL){
     #ifdef F_SETPIPE_SZ
+
     //feature added in Linux 2.6.35
-    fcntl(m_transferPipe.write, F_SETPIPE_SZ, 1048576);
+    if(fcntl(m_transferPipe.write, F_SETPIPE_SZ, 1048576) == -1)
+      throw ErrnoException("Failed to set the pipe buffer size");
+
     #endif
   }else if(m_mode == PIPE_PUSH){
     m_ctlThread = new std::thread([this, deallocator] {

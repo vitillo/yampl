@@ -3,10 +3,12 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 
+#include <cstring>
 #include <iostream>
 #include <cstring>
 #include <cassert>
 #include <cstdlib>
+#include <cstdio>
 
 #include "ZMQ/SocketFactory.h"
 #include "pipe/SocketFactory.h"
@@ -60,7 +62,7 @@ int main(int argc, char *argv[]){
   unsigned iterations = 1000;
   unsigned size = 1000000;
   const char *s_buffer = 0;
-  const char *r_buffer = 0;
+  char *r_buffer = 0;
   Topology topology = ONE_TO_ONE;
 
   while((opt = getopt(argc, argv, "i:n:s:t:")) != -1){
@@ -84,34 +86,41 @@ int main(int argc, char *argv[]){
   }
 
   Channel channel("service", topology);
-  s_buffer = new char[size];
 
   if(fork() == 0){
     cout << "Creating Client ";
+
+    s_buffer = new char[size];
     ISocketFactory *factory = createFactory(impl);
     ISocket *socket = factory->createClientSocket(channel, true, deallocator);
 
     for(size_t i = 0; i < iterations; i++){
       socket->send(s_buffer, size);
-      socket->receive((void **)&r_buffer);
+      socket->receive(&r_buffer);
     }
 
     delete socket;
     delete factory;
   }else{
     cout << "Creating Server ";
+
+    s_buffer = new char[size];
     ISocketFactory *factory = createFactory(impl);
     ISocket *socket = factory->createServerSocket(channel, true, deallocator);
     
     start_clock();
     for(size_t i = 0; i < iterations; i++){
-      socket->receive((void **)&r_buffer);
+      socket->receive(&r_buffer);
+#ifndef NDEBUG
+      assert(memcmp(s_buffer, r_buffer, size) == 0);
+      memset((void *)r_buffer, 0, size);
+#endif
       socket->send(s_buffer, size);
     }
 
     long t = stop_clock();
-    cout << "Latency " << t / (2ll*iterations) << " microseconds"<< endl;
-    cout << "Bandwidth " << (size * iterations * 2ll)/t<< " MB/s" << endl;
+    cout << "Latency " << t / (2*iterations) << " microseconds"<< endl;
+    cout << "Bandwidth " << (size * iterations * 2)/t<< " MB/s" << endl;
 
     int status;
     wait(&status);

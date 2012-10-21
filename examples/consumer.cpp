@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
   ISocket *socket = factory->createConsumerSocket(Channel("pipe", ONE_TO_MANY));
 
   while(true){
-    socket->receive((void **)&message);
+    socket->receive(&message);
     cout << message << endl;
   }
 }

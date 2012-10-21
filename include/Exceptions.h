@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <cstdio>
+#include <cstring>
 
 #include <errno.h>
 
@@ -17,7 +18,7 @@ class IPCException: public std::exception{
       return m_msg;
     }
 
-  private:
+  protected:
     const char * m_msg;
 };
 
@@ -38,15 +39,21 @@ class InvalidSizeException: public IPCException{
 
 class ErrnoException : public IPCException{
   public:
-    ErrnoException(const char * msg = "System call error", int err = 0): IPCException(msg), m_errno(err) {
-      perror(msg);
+    ErrnoException(const char * msg = "System call error"): IPCException(msg), m_errno(errno) {
     }
 
     int getErrno(){
       return m_errno;
     }
 
+    virtual const char * what() const throw(){
+      snprintf(m_errnoMsg, s_maxMsgSize, "%s: %s", m_msg, strerror(m_errno));
+      return m_errnoMsg;
+    }
+
   private:
+    static const size_t s_maxMsgSize = 100;
+    mutable char m_errnoMsg[s_maxMsgSize];
     int m_errno;
 };
 

@@ -22,6 +22,8 @@ class SocketFactory : public ISocketFactory{
 
   private:
     zmq::context_t *m_context;
+
+    SocketFactory & operator=(const SocketFactory &);
 };
 
 }

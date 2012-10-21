@@ -1,5 +1,7 @@
 #include "ZMQ/SocketFactory.h"
 
+#include <iostream>
+
 #include "utils.h"
 
 using namespace IPC;

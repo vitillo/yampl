@@ -17,8 +17,11 @@ SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool 
   Topology topo = m_channel.topology;
   m_socket = new zmq::socket_t(*context, type);
  
+  /*
+   * TODO: configure buffering
   if(type == ZMQ_PUSH) 
     m_socket->setsockopt(ZMQ_HWM, &m_channel.asynchronicity, sizeof(m_channel.asynchronicity));
+  */
 
   if((topo == ONE_TO_ONE || topo == ONE_TO_MANY) && (type == ZMQ_PUSH || type == ZMQ_REQ))
     m_socket->bind(("ipc:///tmp/zmq_" + m_channel.name).c_str());
@@ -66,7 +69,7 @@ size_t SocketBase::receive(void **buffer, size_t size){
 
 ProducerSocket::ProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_PUSH, ownership, deallocator){}
 
-ConsumerSocket::ConsumerSocket(Channel channel, zmq::context_t *context, bool ownership) : SocketBase(channel, context, ZMQ_PULL, ownership){}
+ConsumerSocket::ConsumerSocket(Channel channel, zmq::context_t *context, bool ownership) : SocketBase(channel, context, ZMQ_PULL, ownership, 0){}
 
 ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_REQ, ownership, deallocator){}
 

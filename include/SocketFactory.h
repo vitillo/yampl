@@ -1,9 +1,12 @@
 #ifndef SOCKETFACTORY_H
 #define SOCKETFACTORY_H
 
+#include "Channel.h"
 #include "Socket.h"
 
 namespace IPC{
+
+void defaultDeallocator(void *, void *);
 
 class ISocketFactory{
   public:
@@ -13,6 +16,10 @@ class ISocketFactory{
     virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true) = 0;
     virtual ISocket *createClientSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
     virtual ISocket *createServerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
+
+
+  private:
+    ISocketFactory & operator=(const ISocketFactory &);
 };
 
 }

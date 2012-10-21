@@ -17,6 +17,8 @@ class SocketFactory : public ISocketFactory{
 
   private:
     bool m_zerocopy;
+
+    SocketFactory & operator=(const SocketFactory &);
 };
 
 }
