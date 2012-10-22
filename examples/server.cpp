@@ -1,23 +1,21 @@
+#include <unistd.h>
 #include <iostream>
-
 #include "SocketFactory.h"
-
-#include "utils.h"
 
 using namespace std;
 using namespace IPC;
 
 int main(int argc, char *argv[]){
-  char *ping = 0;
-  string pong = "Pong from " + pid();
+  char ping[100], *ping_ptr = &ping[0];
+  string pong = "Pong from " + to_string(getpid());
   
   Channel channel("service", MANY_TO_ONE);
   ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createServerSocket(channel, true, deallocator);
+  ISocket *socket = factory->createServerSocket(channel);
 
   while(true){
-    socket->recv(&ping);
-    socket->send(pong.c_str(), pong.size());
+    socket->recv(&ping_ptr, sizeof(ping));
+    socket->send(pong.c_str(), pong.size() + 1);
     cout << ping << endl;
     sleep(1);
   }

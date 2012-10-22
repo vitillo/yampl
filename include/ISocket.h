@@ -1,6 +1,6 @@
 #ifndef ISOCKET_H
 #define ISOCKET_H
-#include <iostream>
+
 namespace IPC{
 
 class ISocket{
@@ -19,7 +19,7 @@ class ISocket{
     size_t recv(T **buffer, size_t size = 0){
       return recv((void **)buffer, size);
     }
-
+    
   private:
     ISocket & operator=(const ISocket &);
 };
