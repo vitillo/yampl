@@ -10,7 +10,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Socket.h"
+#include "../ISocket.h"
 #include "../SpinLock.h"
 #include "../Exceptions.h"
 
@@ -62,7 +62,7 @@ class PipeSocketBase : public ISocket{
     bool m_hasOwnership;
     bool m_fast;
     size_t m_receiveSize = 0;
-    void *m_receiveBuffer = 0;
+    void *m_receiveBuffer = NULL;
     SpinLock m_lock;
     std::thread m_ctlThread;
     std::atomic<bool> m_destroy = {false};

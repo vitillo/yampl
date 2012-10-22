@@ -2,7 +2,7 @@
 #define ZMQSOCKET_H
 
 #include "../Channel.h"
-#include "../Socket.h"
+#include "../ISocket.h"
 #include "../Exceptions.h"
 
 namespace zmq{

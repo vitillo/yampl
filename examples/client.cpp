@@ -1,4 +1,4 @@
-#include "ZMQ/SocketFactory.h"
+#include "SocketFactory.h"
 
 #include <iostream>
 
@@ -11,8 +11,9 @@ int main(int argc, char *argv[]){
   char *pong = 0;
   string ping = "Ping from " + pid();
   
-  ISocketFactory *factory = new ZMQ::SocketFactory();
-  ISocket *socket = factory->createClientSocket(Channel("service", ONE_TO_ONE), true, deallocator);
+  Channel channel("service", MANY_TO_ONE);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createClientSocket(channel, true, deallocator);
 
   while(true){
     socket->send(ping.c_str(), ping.size());

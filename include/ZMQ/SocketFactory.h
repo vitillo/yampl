@@ -1,7 +1,7 @@
 #ifndef ZMQSOCKETFACTORY_H
 #define ZMQSOCKETFACTORY_H
 
-#include "../SocketFactory.h"
+#include "../ISocketFactory.h"
 
 namespace zmq{
   class context_t;

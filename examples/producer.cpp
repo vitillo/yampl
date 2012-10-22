@@ -1,4 +1,4 @@
-#include "ZMQ/SocketFactory.h"
+#include "SocketFactory.h"
 
 #include <iostream>
 
@@ -10,8 +10,9 @@ using namespace std;
 int main(int argc, char *argv[]){
   string message = "Hello from " +  pid();
   
-  ISocketFactory *factory = new ZMQ::SocketFactory();
-  ISocket *socket = factory->createProducerSocket(Channel("pipe", ONE_TO_MANY), true, deallocator);
+  Channel channel("pipe", ONE_TO_MANY);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createProducerSocket(channel, true, deallocator);
 
   while(true){
     socket->send(message.c_str(), message.size());

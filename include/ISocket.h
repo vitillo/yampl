@@ -1,5 +1,5 @@
-#ifndef SOCKET_H
-#define SOCKET_H
+#ifndef ISOCKET_H
+#define ISOCKET_H
 #include <iostream>
 namespace IPC{
 

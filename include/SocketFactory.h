@@ -1,25 +1,33 @@
 #ifndef SOCKETFACTORY_H
 #define SOCKETFACTORY_H
 
-#include "Channel.h"
-#include "Socket.h"
+#include "ISocketFactory.h"
 
 namespace IPC{
 
-void defaultDeallocator(void *, void *);
+namespace ZMQ{
+  class SocketFactory;
+}
 
-class ISocketFactory{
+namespace pipe{
+  class SocketFactory;
+}
+
+class SocketFactory : public ISocketFactory{
   public:
-    virtual ~ISocketFactory(){}
+    SocketFactory();
+    virtual ~SocketFactory();
 
-    virtual ISocket *createProducerSocket(Channel channel, bool ownership = true , void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
-    virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true) = 0;
-    virtual ISocket *createClientSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
-    virtual ISocket *createServerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
-
+    virtual ISocket *createProducerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
+    virtual ISocket *createConsumerSocket(Channel channel, bool ownership = true);
+    virtual ISocket *createClientSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
+    virtual ISocket *createServerSocket(Channel channel, bool ownership = true, void (*deallocator)(void *, void *) = defaultDeallocator);
 
   private:
-    ISocketFactory & operator=(const ISocketFactory &);
+    ZMQ::SocketFactory *m_zmqFactory = 0;
+    pipe::SocketFactory *m_pipeFactory = 0;
+
+    SocketFactory & operator=(const SocketFactory &);
 };
 
 }
