@@ -29,7 +29,7 @@ $(EXAMPLES): $(LIBIPC)
 
 .depend: $(SOURCES)
 	rm -rf ./.depend
-	$(CXX) $(CXXFLAGS) -MM $^>>./.depend
+	$(CXX) $(CXXFLAGS) -MT $(^:.cpp=.o) -MM $^>>./.depend
 
 include .depend
 
@@ -45,6 +45,7 @@ check:
 	./examples/benchmark -i pipe
 	./examples/benchmark -i splice
 	./examples/benchmark -i splice -t MANY_TO_ONE
+	./examples/benchmark -c THREAD
 
 .PHONY: clean
 clean:

@@ -31,6 +31,12 @@ class SocketBase : public ISocket{
     zmq::socket_t *m_socket = 0;
     zmq::message_t *m_message = 0;
     void (*m_deallocator)(void *, void *);
+
+  private:
+    bool m_received = false;
+    bool m_connected = false;
+    int m_type;
+    void connect();
 };
 
 class ProducerSocket : public SocketBase{

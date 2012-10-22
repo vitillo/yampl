@@ -1,6 +1,11 @@
+#include <unistd.h>
+
 #include <zmq.hpp>
 
+#include "Channel.h"
 #include "ZMQ/Socket.h"
+
+using namespace std;
 
 namespace IPC{
 namespace ZMQ{
@@ -10,26 +15,55 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
-SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_message(new zmq::message_t()), m_deallocator(deallocator){
+SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_message(new zmq::message_t()), m_deallocator(deallocator), m_type(type){
+  if(m_channel.context == LOCAL_PROCESS)
+    m_channel.name = "ipc:///tmp/zmq_" + m_channel.name;
+  else if(m_channel.context == THREAD)
+    m_channel.name = "inproc://" + m_channel.name;
+  else
+    throw UnsupportedException();
 
-  Topology topo = m_channel.topology;
-  m_socket = new zmq::socket_t(*context, type);
- 
-  /*
-   * TODO: configure buffering
+  m_socket = new zmq::socket_t(*context, m_type);
+
+  /* TODO: configure buffering
   if(type == ZMQ_PUSH) 
     m_socket->setsockopt(ZMQ_HWM, &m_channel.asynchronicity, sizeof(m_channel.asynchronicity));
   */
+}
 
-  if((topo == ONE_TO_ONE || topo == ONE_TO_MANY) && (type == ZMQ_PUSH || type == ZMQ_REQ))
-    m_socket->bind(("ipc:///tmp/zmq_" + m_channel.name).c_str());
-  else if(topo == MANY_TO_ONE && type == ZMQ_REP)
-    m_socket->bind(("ipc:///tmp/zmq_" + m_channel.name).c_str());
-  else
-    m_socket->connect(("ipc:///tmp/zmq_" + m_channel.name).c_str());
+void SocketBase::connect(){
+  Topology topo = m_channel.topology;
+
+  if((topo == ONE_TO_ONE || topo == ONE_TO_MANY) && (m_type == ZMQ_PUSH || m_type == ZMQ_REQ))
+    m_socket->bind((m_channel.name).c_str());
+  else if(topo == MANY_TO_ONE && m_type == ZMQ_REP)
+    m_socket->bind((m_channel.name).c_str());
+  else{
+    if(m_channel.context == THREAD){
+      while(true){
+	try{
+	  m_socket->connect((m_channel.name).c_str());
+	}catch(zmq::error_t err){
+	  if(err.num() != ECONNREFUSED)
+	    throw err;
+
+	  usleep(1000);
+	  continue;
+	}
+
+	break;
+      }
+    }else
+      m_socket->connect((m_channel.name).c_str());
+  }
+
+  m_connected = true;
 }
 
 void SocketBase::send(void *buffer, size_t size, void *hint){
+  if(!m_connected)
+    connect();
+
   if(m_ownership){
     zmq::message_t message((void *)buffer, size, m_deallocator, hint);
     m_socket->send(message);
@@ -41,11 +75,12 @@ void SocketBase::send(void *buffer, size_t size, void *hint){
 }
 
 size_t SocketBase::recv(void **buffer, size_t size){
-  static bool received = false;
+  if(!m_connected)
+    connect();
 
-  if(!received){
+  if(!m_received){
     m_socket->recv(m_message);
-    received = true;
+    m_received = true;
   }
 
   if(m_ownership){
@@ -61,7 +96,7 @@ size_t SocketBase::recv(void **buffer, size_t size){
     }
   }
 
-  received = false;
+  m_received = false;
   return m_message->size();
 }
 
