@@ -40,6 +40,12 @@ install: all
 uninstall: 
 	rm -rf $(PREFIX)/lib/$(LIBIPC)
 
+check:
+	./examples/benchmark
+	./examples/benchmark -i pipe
+	./examples/benchmark -i splice
+	./examples/benchmark -i splice -t MANY_TO_ONE
+
 .PHONY: clean
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
