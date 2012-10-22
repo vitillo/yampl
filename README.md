@@ -28,7 +28,7 @@ The *examples* subdirectory provides four binaries that demonstrate the two supp
 * *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
 
 ###Clients
-The client processes ping a server process and receive a reply from it.
+The clients ping a server process and receive a reply from it.
 
 ``` c++
 #include <unistd.h>
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]){
 ```
 
 ###Server
-The server process replies to the pings of the client processes.
+The server process replies to the pings of the client.
 
 ```c++
 #include <unistd.h>
