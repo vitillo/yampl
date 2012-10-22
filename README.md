@@ -57,25 +57,27 @@ int main(int argc, char *argv[]){
 ###Server
 The server process replies to the pings of the client processes.
 
-    #include <unistd.h>
-    #include <iostream>
-    #include "SocketFactory.h"
+```
+#include <unistd.h>
+#include <iostream>
+#include "SocketFactory.h"
 
-    using namespace std;
-    using namespace IPC;
+using namespace std;
+using namespace IPC;
 
-    int main(int argc, char *argv[]){
-      char ping[100], *ping_ptr = &ping[0];
-      string pong = "Pong from " + to_string(getpid());
+int main(int argc, char *argv[]){
+  char ping[100], *ping_ptr = &ping[0];
+  string pong = "Pong from " + to_string(getpid());
   
-      Channel channel("service", MANY_TO_ONE);
-      ISocketFactory *factory = new SocketFactory();
-      ISocket *socket = factory->createServerSocket(channel);
+  Channel channel("service", MANY_TO_ONE);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createServerSocket(channel);
 
-      while(true){
-        socket->recv(&ping_ptr, sizeof(ping));
-        socket->send(pong.c_str(), pong.size() + 1);
-        cout << ping << endl;
-        sleep(1);
-      }
-    }
+  while(true){
+    socket->recv(&ping_ptr, sizeof(ping));
+    socket->send(pong.c_str(), pong.size() + 1);
+    cout << ping << endl;
+    sleep(1);
+  }
+}
+```
