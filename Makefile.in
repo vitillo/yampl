@@ -42,9 +42,13 @@ uninstall:
 
 check:
 	./examples/benchmark
+	@echo
 	./examples/benchmark -i pipe
+	@echo
 	./examples/benchmark -i splice
+	@echo
 	./examples/benchmark -i splice -t MANY_TO_ONE
+	@echo
 	./examples/benchmark -c THREAD
 
 .PHONY: clean
