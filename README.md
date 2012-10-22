@@ -30,27 +30,29 @@ The *examples* subdirectory provides four binaries that demonstrate the two supp
 ###Clients
 The client processes ping a server process and receive a reply from it.
 
-    #include <unistd.h>
-    #include <iostream>
-    #include "SocketFactory.h"
+``` c++
+#include <unistd.h>
+#include <iostream>
+#include "SocketFactory.h"
 
-    using namespace IPC;
-    using namespace std;
+using namespace IPC;
+using namespace std;
 
-    int main(int argc, char *argv[]){
-      const string ping = "Ping from " + to_string(getpid());
-      char pong[100], *pong_ptr = &pong[0];
+int main(int argc, char *argv[]){
+  const string ping = "Ping from " + to_string(getpid());
+  char pong[100], *pong_ptr = &pong[0];
   
-      Channel channel("service", MANY_TO_ONE);
-      ISocketFactory *factory = new SocketFactory();
-      ISocket *socket = factory->createClientSocket(channel);
+  Channel channel("service", MANY_TO_ONE);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createClientSocket(channel);
 
-      while(true){
-        socket->send(ping.c_str(), ping.size() + 1);
-        socket->recv(&pong_ptr, sizeof(pong));
-        cout << pong << endl;
-      }
-    }
+  while(true){
+    socket->send(ping.c_str(), ping.size() + 1);
+    socket->recv(&pong_ptr, sizeof(pong));
+    cout << pong << endl;
+  }
+}
+```
 
 ###Server
 The server process replies to the pings of the client processes.
