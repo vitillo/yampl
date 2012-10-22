@@ -1,11 +1,12 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -O2 -g -Wall -Iinclude -fPIC -Izeromq/include -Wall
+CXXFLAGS = -std=c++11 -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
 LDFLAGS = -shared -lpthread -lrt -luuid
 
 SOURCES = $(wildcard src/pipe/*.cpp) \
 	  $(wildcard src/ZMQ/*.cpp)  \
 	  $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
+DEPS = $(SOURCES:.cpp=.d)
 LIBIPC = libipc.so
 LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
@@ -20,18 +21,17 @@ $(TAGS):
 $(LIBZMQ):
 	cd zeromq && ./configure --with-pic && make
 
+-include $(DEPS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -MT $@ -MMD -c $< -o $@
+
 $(LIBIPC): $(OBJECTS) $(LIBZMQ)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBZMQ) -o $(LIBIPC)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES): $(LIBIPC)
 	$(MAKE) -C $@
-
-.depend: $(SOURCES)
-	rm -rf ./.depend
-	$(CXX) $(CXXFLAGS) -MT $(^:.cpp=.o) -MM $^>>./.depend
-
-include .depend
 
 install: all
 	mkdir -p $(PREFIX)/lib
@@ -51,4 +51,4 @@ check:
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
 	$(MAKE) -C zeromq clean
-	rm -rf $(LIBIPC) $(OBJECTS) tags
+	rm -rf $(LIBIPC) $(OBJECTS) $(DEPS) tags
