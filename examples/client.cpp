@@ -1,5 +1,4 @@
 #include "ZMQ/SocketFactory.h"
-#include "pipe/SocketFactory.h"
 
 #include <iostream>
 
@@ -17,7 +16,7 @@ int main(int argc, char *argv[]){
 
   while(true){
     socket->send(ping.c_str(), ping.size());
-    socket->receive(&pong);
+    socket->recv(&pong);
     cout << pong << endl;
   }
 }

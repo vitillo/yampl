@@ -21,57 +21,68 @@ using namespace std;
 
 namespace IPC{
 namespace pipe{
-    
-PipeSocketBase::Pipe PipeSocketBase::openPipe(const std::string& name){
-  Pipe pipe;
 
+RawPipe::RawPipe(const std::string &name) : m_name(name){
   if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
-    throw ErrnoException("Can't create FIFO");
+    throw ErrnoException("Failed to create FIFO");
+
+  if(errno != EEXIST)
+    m_doUnlink = true;
 
   // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
-  if((pipe.read = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
-    throw ErrnoException("Failed to open FIFO");
-  if((pipe.write = open(name.c_str(), O_WRONLY)) == -1)
-    throw ErrnoException("Failed to open FIFO");
+  if((read = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
+    throw ErrnoException("Failed to open FIFO for reading");
+  if((write = open(name.c_str(), O_WRONLY)) == -1){
+    close(read);
+    throw ErrnoException("Failed to open FIFO for writing");
+  }
 
-  if((fcntl(pipe.read, F_SETFL, fcntl(pipe.read, F_GETFL) & ~O_NONBLOCK)) == -1)
+  if((fcntl(read, F_SETFL, fcntl(read, F_GETFL) & ~O_NONBLOCK)) == -1){
+    close(read);
+    close(write);
     throw ErrnoException("Failed to update FIFO");
-
-  return pipe;
+  }
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_isOwner(isOwner), m_fast(fastTransfer), m_receiveBuffer(0){
+RawPipe::~RawPipe(){
+  close(read);
+  close(write);
+
+  if(m_doUnlink)
+    unlink(m_name.c_str());
+}
+
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
-  m_transferPipe = openPipe(transferPipeName);
-  m_ctlPipe = openPipe(ctlPipeName);
+  m_transferPipe = make_shared<RawPipe>(transferPipeName);
+  m_ctlPipe = make_shared<RawPipe>(ctlPipeName);
 
   if(m_mode == PIPE_PULL){
-    #ifdef F_SETPIPE_SZ
-
+#ifdef F_SETPIPE_SZ
     //feature added in Linux 2.6.35
-    if(fcntl(m_transferPipe.write, F_SETPIPE_SZ, 1048576) == -1)
-      throw ErrnoException("Failed to set the pipe buffer size");
-
-    #endif
+    if(fcntl(m_transferPipe->write, F_SETPIPE_SZ, 1048576) == -1)
+      throw ErrnoException("Failed to set the pipe's buffer size");
+#endif
   }else if(m_mode == PIPE_PUSH){
-    m_ctlThread = new std::thread([this, deallocator] {
-      int signalPoll;
-      if((signalPoll = epoll_create(1)) == -1)
+    m_ctlThread = std::thread([this, deallocator] {
+      int ctlPoll;
+
+      if((ctlPoll = epoll_create(1)) == -1)
 	throw ErrnoException("Failed to create epoll handle");
 
-      epoll_event signalEv;
-      signalEv.events = EPOLLIN;
+      epoll_event ctlEv;
+      ctlEv.events = EPOLLIN;
       
-      if(epoll_ctl(signalPoll, EPOLL_CTL_ADD, m_ctlPipe.read, &signalEv) == -1)
+      if(epoll_ctl(ctlPoll, EPOLL_CTL_ADD, m_ctlPipe->read, &ctlEv) == -1)
 	throw ErrnoException("Failed to add fd to epoll handle");
 
       while(!m_destroy){
-	const void *buffer = 0;
-	int signal = 0;
+	char signal = 0;
+	pair<const void *, const void *> entry;
 
-	switch(epoll_wait(signalPoll, &signalEv, 1, 500)){
+	switch(epoll_wait(ctlPoll, &ctlEv, 1, 500)){
 	  case 0:
 	    continue;
 	  case -1:
@@ -80,18 +91,19 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, 
 	    break;
 	}
 
-	if(TEMP_FAILURE_RETRY(read(m_ctlPipe.read, &signal, 1)) == -1)
+	if(TEMP_FAILURE_RETRY(read(m_ctlPipe->read, &signal, 1)) == -1)
 	  throw ErrnoException("Failed to receive ctl signal");
 
 	m_lock.lock();
-	buffer = m_pendingBuffers.front();
+	entry = m_pendingBuffers.front();
 	m_pendingBuffers.pop_front();
 	m_lock.unlock();
 
-	deallocator((void *)buffer, NULL);
+	deallocator((void *)entry.first, (void *)entry.second);
       }
 
-    close(signalPoll);
+    if(close(ctlPoll) == -1)
+      throw ErrnoException();
   });
   }else
     throw InvalidOperationException();
@@ -100,24 +112,22 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool isOwner, 
 PipeSocketBase::~PipeSocketBase(){
   if(m_mode == PIPE_PUSH){
     m_destroy = true;
-    m_ctlThread->join();
+    m_ctlThread.join();
   }
 
-  close(m_transferPipe.read);
-  close(m_transferPipe.write);
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
   m_lock.lock();
-  m_pendingBuffers.push_back(buffer);
+  m_pendingBuffers.push_back({buffer, hint});
   m_lock.unlock();
 
   while(bytesWritten != sizeof(size)){
-    ssize_t sent = TEMP_FAILURE_RETRY(write(m_transferPipe.write, &size, sizeof(size)));
+    ssize_t sent = TEMP_FAILURE_RETRY(write(m_transferPipe->write, &size, sizeof(size)));
 
     if(sent == -1)
       throw ErrnoException("Send failed");
@@ -125,7 +135,7 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
     bytesWritten += sent;
   }
 
-  if(!m_isOwner){
+  if(!m_hasOwnership){
     void *tmp = NULL;
 
     if((tmp = malloc(size)) == NULL)
@@ -140,10 +150,10 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
     vec.iov_len = size - bytesWritten;
 
     if(m_fast){
-      if((sent = vmsplice(m_transferPipe.write, &vec, 1, 0)) == -1)
+      if((sent = vmsplice(m_transferPipe->write, &vec, 1, 0)) == -1)
         throw ErrnoException("Send failed");
     }else{
-      if((sent = TEMP_FAILURE_RETRY(write(m_transferPipe.write, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
+      if((sent = TEMP_FAILURE_RETRY(write(m_transferPipe->write, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
 	throw ErrnoException("Send failed");
     }
 
@@ -151,13 +161,11 @@ void PipeSocketBase::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-size_t PipeSocketBase::receive(void **buffer, size_t size){
-  static size_t msg_size = 0;
+size_t PipeSocketBase::recv(void **buffer, size_t size){
   size_t bytesRead = 0;
 
-
-  while(bytesRead != sizeof(msg_size)){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe.read, &msg_size, sizeof(msg_size)));
+  while(bytesRead != sizeof(m_receiveSize)){
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe->read, &m_receiveSize, sizeof(m_receiveSize)));
 
     if(r == -1)
       throw ErrnoException("Receive failed");
@@ -165,20 +173,20 @@ size_t PipeSocketBase::receive(void **buffer, size_t size){
     bytesRead += r;
   }
 
-  if(m_isOwner){
-    if((m_receiveBuffer = realloc(m_receiveBuffer, msg_size)) == 0)
+  if(m_hasOwnership){
+    if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
       throw ErrnoException("Receive failed");
 
     *buffer = m_receiveBuffer;
   }else{
-    if(*buffer && size < msg_size)
+    if(*buffer && size < m_receiveSize)
       throw InvalidSizeException();
     else if(!*buffer)
-      *buffer = malloc(msg_size);
+      *buffer = malloc(m_receiveSize);
   }
 
-  for(bytesRead = 0; bytesRead != msg_size;){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe.read, (char *)*buffer + bytesRead, msg_size - bytesRead));
+  for(bytesRead = 0; bytesRead != m_receiveSize;){
+    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe->read, (char *)*buffer + bytesRead, m_receiveSize - bytesRead));
 
     if(r == -1)
       throw ErrnoException("Receive failed");
@@ -186,14 +194,14 @@ size_t PipeSocketBase::receive(void **buffer, size_t size){
     bytesRead += r;
   }
 
-  if(write(m_ctlPipe.write, " ", 1) == -1)
+  if(write(m_ctlPipe->write, " ", 1) == -1)
     throw ErrnoException("Receive failed");
 
-  msg_size = 0;
+  m_receiveSize = 0;
   return bytesRead;
 }
 
-ServiceSocketBase::ServiceSocketBase(const Channel &channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
+ServiceSocketBase::ServiceSocketBase(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
   if(channel.topology != ONE_TO_ONE)
     throw UnsupportedException();
 
@@ -202,12 +210,12 @@ ServiceSocketBase::ServiceSocketBase(const Channel &channel, bool ownership, boo
   rep.name = rep.name + "_rep";
 
   if(mode == PIPE_CLIENT){
-    m_reqSocket = new ProducerSocket(req, ownership, fastTransfer, deallocator);
-    m_repSocket = new ConsumerSocket(rep, ownership); 
+    m_reqSocket = new ProducerSocket(req, hasOwnership, fastTransfer, deallocator);
+    m_repSocket = new ConsumerSocket(rep, hasOwnership); 
     m_receiveCompleted = true;
   }else if(mode == PIPE_SERVER){
-    m_reqSocket = new ConsumerSocket(req, ownership); 
-    m_repSocket = new ProducerSocket(rep, ownership, fastTransfer, deallocator);
+    m_reqSocket = new ConsumerSocket(req, hasOwnership); 
+    m_repSocket = new ProducerSocket(rep, hasOwnership, fastTransfer, deallocator);
     m_receiveCompleted = false;
   }else
     throw InvalidOperationException();
@@ -218,7 +226,7 @@ ServiceSocketBase::~ServiceSocketBase(){
   delete m_repSocket;
 }
 
-void ServiceSocketBase::send(const void *buffer, size_t size, void *hint){
+void ServiceSocketBase::send(void *buffer, size_t size, void *hint){
   if(m_receiveCompleted){
     (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, hint);
     m_receiveCompleted = false;
@@ -226,19 +234,19 @@ void ServiceSocketBase::send(const void *buffer, size_t size, void *hint){
     throw UnsupportedException();
 }
 
-size_t ServiceSocketBase::receive(void **buffer, size_t size){
+size_t ServiceSocketBase::recv(void **buffer, size_t size){
   if(m_receiveCompleted)
     throw UnsupportedException();
   else{
-    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->receive(buffer, size);
+    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size);
     m_receiveCompleted = true;
     return ret;
   }
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)){
+MOClientSocket::MOClientSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
-  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, ownership, fastTransfer, deallocator);
+  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, hasOwnership, fastTransfer, deallocator);
   m_server = new ProducerSocket(announce, true, fastTransfer, [] (void *, void *) { return; });
   m_server->send(&m_pid, sizeof(m_pid));
 }
@@ -248,13 +256,13 @@ MOClientSocket::~MOClientSocket(){
   delete m_private;
 }
 
-MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fastTransfer, void (*deallocator)(void *, void *)){
+MOServerSocket::MOServerSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
 
   if((m_peerPoll = epoll_create(1)) == -1)
     throw ErrnoException("Failed to create epoll handle");
 
-  m_listener = std::thread([this, announce, channel, ownership, fastTransfer, deallocator] {
+  m_listener = std::thread([this, announce, channel, hasOwnership, fastTransfer, deallocator] {
     ConsumerSocket *listener = new ConsumerSocket(announce, false);
     
     int listenerPoll;
@@ -264,7 +272,7 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fast
     epoll_event listenerEv;
     listenerEv.events = EPOLLIN;
     
-    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_transferPipe.read, &listenerEv) == -1)
+    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_transferPipe->read, &listenerEv) == -1)
       throw ErrnoException("Failed to add fd to epoll handle");
 
     while(!m_destroy){
@@ -278,16 +286,16 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool ownership, bool fast
       }
 
       pid_t pid, *pidptr = &pid;
-      listener->receive((void **)&pidptr, sizeof(pid));
+      listener->recv((void **)&pidptr, sizeof(pid));
 
-      ServerSocket *peer = new ServerSocket({channel.name + "_" + to_string(pid)}, ownership, fastTransfer, deallocator);
+      ServerSocket *peer = new ServerSocket({channel.name + "_" + to_string(pid)}, hasOwnership, fastTransfer, deallocator);
       m_peers.push_back(peer);
 
       epoll_event ev;
       ev.events = EPOLLIN;
       ev.data.ptr = peer;
       
-      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe.read, &ev) == -1)
+      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, &ev) == -1)
         throw ErrnoException("Failed to add fd to epoll handle");
     }
 
@@ -305,7 +313,7 @@ MOServerSocket::~MOServerSocket(){
   close(m_peerPoll);
 }
 
-void MOServerSocket::send(const void *buffer, size_t size, void *hint){
+void MOServerSocket::send(void *buffer, size_t size, void *hint){
   if(!m_currentPeer)
     throw InvalidOperationException();
 
@@ -313,7 +321,7 @@ void MOServerSocket::send(const void *buffer, size_t size, void *hint){
   m_currentPeer = 0;
 }
 
-size_t MOServerSocket::receive(void **buffer, size_t size){
+size_t MOServerSocket::recv(void **buffer, size_t size){
   if(m_currentPeer)
     throw InvalidOperationException();
 
@@ -322,7 +330,7 @@ size_t MOServerSocket::receive(void **buffer, size_t size){
     throw ErrnoException();
 
   m_currentPeer = (ServerSocket *)event.data.ptr;
-  return m_currentPeer->receive(buffer, size);
+  return m_currentPeer->recv(buffer, size);
 }
 
 }

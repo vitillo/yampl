@@ -11,8 +11,6 @@ SocketBase::~SocketBase(){
 }
 
 SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_message(new zmq::message_t()), m_deallocator(deallocator){
-  if(m_channel.topology == MANY_TO_MANY)
-    throw UnsupportedException();
 
   Topology topo = m_channel.topology;
   m_socket = new zmq::socket_t(*context, type);
@@ -31,7 +29,7 @@ SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool 
     m_socket->connect(("ipc:///tmp/zmq_" + m_channel.name).c_str());
 }
 
-void SocketBase::send(const void *buffer, size_t size, void *hint){
+void SocketBase::send(void *buffer, size_t size, void *hint){
   if(m_ownership){
     zmq::message_t message((void *)buffer, size, m_deallocator, hint);
     m_socket->send(message);
@@ -42,7 +40,7 @@ void SocketBase::send(const void *buffer, size_t size, void *hint){
   }
 }
 
-size_t SocketBase::receive(void **buffer, size_t size){
+size_t SocketBase::recv(void **buffer, size_t size){
   static bool received = false;
 
   if(!received){

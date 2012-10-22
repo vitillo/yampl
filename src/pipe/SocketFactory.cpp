@@ -7,10 +7,16 @@ namespace IPC{
 namespace pipe{
 
 ISocket *SocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+  if(channel.topology != ONE_TO_ONE)
+    throw UnsupportedException();
+
   return new ProducerSocket(channel, ownership, m_zerocopy, deallocator);
 }
 
 ISocket *SocketFactory::createConsumerSocket(Channel channel, bool ownership){
+  if(channel.topology != ONE_TO_ONE)
+    throw UnsupportedException();
+
   return new ConsumerSocket(channel, ownership);
 }
 

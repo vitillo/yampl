@@ -12,12 +12,13 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 * **Many to One:** Many producers and one consumer:
 * **Many to Many:** Many producers and many consumers;
 
-## Install, Build & Test
+## Build, Test & Install
 * git clone https://github.com/vitillo/ipc
 * cd ipc
 * ./configure --prefix=INSTALL_PATH
-* make && make install
-* ./examples/benchmark
+* make
+* make check
+* make install
 
 ##Examples
 The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:

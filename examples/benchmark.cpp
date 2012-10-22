@@ -96,7 +96,7 @@ int main(int argc, char *argv[]){
 
     for(size_t i = 0; i < iterations; i++){
       socket->send(s_buffer, size);
-      socket->receive(&r_buffer);
+      socket->recv(&r_buffer);
     }
 
     delete socket;
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]){
     
     start_clock();
     for(size_t i = 0; i < iterations; i++){
-      socket->receive(&r_buffer);
+      socket->recv(&r_buffer);
 #ifndef NDEBUG
       assert(memcmp(s_buffer, r_buffer, size) == 0);
       memset((void *)r_buffer, 0, size);

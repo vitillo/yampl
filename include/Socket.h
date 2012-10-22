@@ -1,23 +1,23 @@
 #ifndef SOCKET_H
 #define SOCKET_H
-
+#include <iostream>
 namespace IPC{
 
 class ISocket{
   public:
     virtual ~ISocket(){}
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0) = 0;
-    virtual size_t receive(void **buffer, size_t size = 0) = 0;
+    virtual void send(void *buffer, size_t size, void *hint = 0) = 0;
+    virtual size_t recv(void **buffer, size_t size = 0) = 0;
 
     template <typename T>
-    void send(const T *buffer, size_t n, void *hint = 0){
-      send((void *)buffer, n * sizeof(T), hint);
+    void send(const T *buffer, size_t size, void *hint = 0){
+      send((void *)buffer, size, hint);
     }
 
     template <typename T>
-    size_t receive(T **buffer, size_t size = 0){
-      return receive((void **)buffer, size);
+    size_t recv(T **buffer, size_t size = 0){
+      return recv((void **)buffer, size);
     }
 
   private:

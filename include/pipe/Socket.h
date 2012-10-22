@@ -8,6 +8,7 @@
 #include <atomic>
 #include <thread>
 #include <vector>
+#include <memory>
 
 #include "../Socket.h"
 #include "../SpinLock.h"
@@ -25,6 +26,22 @@ enum Mode{
 
 class MOServerSocket;
 
+class RawPipe{
+  public:
+    int read;
+    int write;
+
+    RawPipe(const std::string &name);
+    RawPipe(const RawPipe &) = delete;
+    ~RawPipe();
+
+    RawPipe & operator=(const RawPipe &) = delete;
+
+  private:
+    const std::string m_name;
+    bool m_doUnlink = false;
+};
+
 class PipeSocketBase : public ISocket{
   friend MOServerSocket;
 
@@ -32,8 +49,8 @@ class PipeSocketBase : public ISocket{
     PipeSocketBase(const PipeSocketBase &) = delete;
     virtual ~PipeSocketBase();
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0);
-    virtual size_t receive(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size = 0);
 
     PipeSocketBase & operator=(PipeSocketBase &) = delete;
 
@@ -41,23 +58,17 @@ class PipeSocketBase : public ISocket{
     PipeSocketBase(const Channel &channel, Mode type, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *));
 
   private:
-    struct Pipe{
-      int read;
-      int write;
-    };
-
     Mode m_mode;
-    bool m_isOwner;
+    bool m_hasOwnership;
     bool m_fast;
-    Pipe m_transferPipe;
-    Pipe m_ctlPipe;
-    void *m_receiveBuffer;
+    size_t m_receiveSize = 0;
+    void *m_receiveBuffer = 0;
     SpinLock m_lock;
-    std::thread *m_ctlThread = 0;
+    std::thread m_ctlThread;
     std::atomic<bool> m_destroy = {false};
-    std::deque<const void *> m_pendingBuffers;
-
-    Pipe openPipe(const std::string& name);
+    std::shared_ptr<RawPipe> m_transferPipe;
+    std::shared_ptr<RawPipe> m_ctlPipe;
+    std::deque<std::pair<const void *, const void *>> m_pendingBuffers;
 };
 
 class ProducerSocket : public PipeSocketBase{
@@ -65,11 +76,11 @@ class ProducerSocket : public PipeSocketBase{
     ProducerSocket(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, hasOwnership, fastTransfer, deallocator){}
     ProducerSocket(const ProducerSocket &) = delete;
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0){
+    virtual void send(void *buffer, size_t size, void *hint = 0){
       PipeSocketBase::send(buffer, size, hint);
     }
 
-    virtual size_t receive(void **buffer, size_t size = 0){
+    virtual size_t recv(void **buffer, size_t size = 0){
       throw InvalidOperationException();
     }
 
@@ -81,12 +92,12 @@ class ConsumerSocket : public PipeSocketBase{
     ConsumerSocket(const Channel &channel, bool hasOwnership) : PipeSocketBase(channel, PIPE_PULL, hasOwnership, true, 0){}
     ConsumerSocket(const ConsumerSocket &) = delete;
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0){
+    virtual void send(void *buffer, size_t size, void *hint = 0){
       throw InvalidOperationException();
     }
 
-    virtual size_t receive(void **buffer, size_t size = 0){
-      return PipeSocketBase::receive(buffer, size);
+    virtual size_t recv(void **buffer, size_t size = 0){
+      return PipeSocketBase::recv(buffer, size);
     }
 
     ConsumerSocket & operator=(const ConsumerSocket &) = delete;
@@ -99,8 +110,8 @@ class ServiceSocketBase : public ISocket{
     ServiceSocketBase(const ServiceSocketBase &) = delete;
     virtual ~ServiceSocketBase();
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0);
-    virtual size_t receive(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size = 0);
 
     ServiceSocketBase & operator=(const ServiceSocketBase &) = delete;
 
@@ -136,11 +147,11 @@ class MOClientSocket: public ISocket{
     MOClientSocket(const MOClientSocket &) = delete;
     virtual ~MOClientSocket();
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0){
+    virtual void send(void *buffer, size_t size, void *hint = 0){
       m_private->send(buffer, size, hint);
     }
-    virtual size_t receive(void **buffer, size_t size = 0){
-      return m_private->receive(buffer, size);
+    virtual size_t recv(void **buffer, size_t size = 0){
+      return m_private->recv(buffer, size);
     }
 
     MOClientSocket & operator=(const MOClientSocket &) = delete;
@@ -157,8 +168,8 @@ class MOServerSocket: public ISocket{
     MOServerSocket(const MOServerSocket &) = delete;
     virtual ~MOServerSocket();
 
-    virtual void send(const void *buffer, size_t size, void *hint = 0);
-    virtual size_t receive(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size = 0);
 
     MOServerSocket & operator=(const MOServerSocket &) = delete;
 

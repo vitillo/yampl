@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "ZMQ/SocketFactory.h"
-#include "pipe/SocketFactory.h"
 
 #include "utils.h"
 
@@ -16,7 +15,7 @@ int main(int argc, char *argv[]){
   ISocket *socket = factory->createServerSocket(Channel("service", ONE_TO_ONE), true, deallocator);
 
   while(true){
-    socket->receive(&ping);
+    socket->recv(&ping);
     socket->send(pong.c_str(), pong.size());
     cout << ping << endl;
     sleep(1);
