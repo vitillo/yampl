@@ -24,7 +24,6 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:
 
 * *client* and *server* instantiates the **Client - Server** pattern with a **Many to One** channel, that means you can launch multiple clients with one server
-
 * *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
 
 ###Clients
