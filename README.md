@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 ###Server
 The server process replies to the pings of the client processes.
 
-```
+```c++
 #include <unistd.h>
 #include <iostream>
 #include "SocketFactory.h"
