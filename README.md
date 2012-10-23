@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
 ```
 
 ###Multithreaded
-The following is a similar example to the above one in a multithreaded environment.
+The following is a similar example to the above one but this time in a multithreaded environment.
 
 
 ```c++
