@@ -15,23 +15,27 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 ## Build, Test & Install
 Even though the library requires a C++11 compatible compiler to build it, it is still possible to link against it from a C++03 compiler by linking against a forward compatible version of the C++11 standard library. Furthermore, the public API is written in C++03 so it's possible to compile against the library's header with a C++03 compiler.
 
-* git clone https://github.com/vitillo/ipc
-* cd ipc
-* ./configure --prefix=INSTALL_PATH
-* make
-* make check
-* make install
+``` bash
+git clone https://github.com/vitillo/ipc
+cd ipc
+./configure --prefix=INSTALL_PATH
+make
+make check
+make install
+```
 
 ### lxplus specific build
-* source YOUR_ENVIRONMENT_SETUP.SH
-* source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
-* git clone https://github.com/vitillo/ipc
-* cd ipc
-* ./configure --prefix=INSTALL_PATH
-* make
-* make check
-* make install
-* ./YOUR_APPLICATION
+```bash
+source YOUR_ENVIRONMENT_SETUP.SH
+source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
+git clone https://github.com/vitillo/ipc
+cd ipc
+./configure --prefix=INSTALL_PATH
+make
+make check
+make install
+./YOUR_APPLICATION
+```
 
 
 ##Examples
