@@ -1,4 +1,4 @@
-# ATLAS IPC library
+# ATLAS Channel Library
 
 This Linux library provides a simple abstraction of inter-process communication channels for specific patterns. The supported patterns are:
 * **Producer - Consumer:** A producer sends data to a receiver;
