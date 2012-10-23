@@ -31,7 +31,6 @@ Even though the library requires a C++11 compatible compiler to build it, it is 
 * make
 * make check
 * make install
-* ./YOUR_APPLICATION
 
 
 ##Examples
