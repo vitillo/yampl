@@ -1,9 +1,9 @@
 #ifndef ZMQSOCKET_H
 #define ZMQSOCKET_H
 
-#include "../Channel.h"
-#include "../ISocket.h"
-#include "../Exceptions.h"
+#include "Channel.h"
+#include "ISocket.h"
+#include "Exceptions.h"
 
 namespace zmq{
   class context_t;

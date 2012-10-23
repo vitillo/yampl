@@ -10,9 +10,10 @@
 #include <vector>
 #include <memory>
 
-#include "../ISocket.h"
-#include "../SpinLock.h"
-#include "../Exceptions.h"
+#include "ISocket.h"
+#include "Exceptions.h"
+#include "utils/SpinLock.h"
+#include "utils/Poller.h"
 
 namespace IPC{
 namespace pipe{
@@ -174,11 +175,11 @@ class MOServerSocket: public ISocket{
     MOServerSocket & operator=(const MOServerSocket &) = delete;
 
   private:
-    int m_peerPoll;
+    Poller m_peerPoll;
     ServerSocket *m_currentPeer = 0;
     std::thread m_listener;
     std::atomic<bool> m_destroy = {false};
-    std::vector<ServerSocket *> m_peers;
+    std::vector<std::shared_ptr<ServerSocket>> m_peers;
 };
 
 }

@@ -3,7 +3,6 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/epoll.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -67,43 +66,26 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwners
 #endif
   }else if(m_mode == PIPE_PUSH){
     m_ctlThread = std::thread([this, deallocator] {
-      int ctlPoll;
+      Poller poller;
 
-      if((ctlPoll = epoll_create(1)) == -1)
-	throw ErrnoException("Failed to create epoll handle");
-
-      epoll_event ctlEv;
-      ctlEv.events = EPOLLIN;
-      
-      if(epoll_ctl(ctlPoll, EPOLL_CTL_ADD, m_ctlPipe->read, &ctlEv) == -1)
-	throw ErrnoException("Failed to add fd to epoll handle");
+      poller.add(m_ctlPipe->read);
 
       while(!m_destroy){
-	char signal = 0;
-	pair<const void *, const void *> entry;
+	if(poller.poll() == -1)
+	  continue;
 
-	switch(epoll_wait(ctlPoll, &ctlEv, 1, 500)){
-	  case 0:
-	    continue;
-	  case -1:
-	    throw ErrnoException("Failed to wait on epoll handle");
-	  default:
-	    break;
-	}
+	char signal = 0;
 
 	if(TEMP_FAILURE_RETRY(read(m_ctlPipe->read, &signal, 1)) == -1)
 	  throw ErrnoException("Failed to receive ctl signal");
 
 	m_lock.lock();
-	entry = m_pendingBuffers.front();
+	auto entry = m_pendingBuffers.front();
 	m_pendingBuffers.pop_front();
 	m_lock.unlock();
 
 	deallocator((void *)entry.first, (void *)entry.second);
       }
-
-    if(close(ctlPoll) == -1)
-      throw ErrnoException();
   });
   }else
     throw InvalidOperationException();
@@ -259,58 +241,31 @@ MOClientSocket::~MOClientSocket(){
 MOServerSocket::MOServerSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
 
-  if((m_peerPoll = epoll_create(1)) == -1)
-    throw ErrnoException("Failed to create epoll handle");
-
   m_listener = std::thread([this, announce, channel, hasOwnership, fastTransfer, deallocator] {
-    ConsumerSocket *listener = new ConsumerSocket(announce, false);
-    
-    int listenerPoll;
-    if((listenerPoll = epoll_create(1)) == -1)
-      throw ErrnoException("Failed to create epoll handle");
+    Poller poller;
+    auto listener = make_shared<ConsumerSocket>(announce, false);
 
-    epoll_event listenerEv;
-    listenerEv.events = EPOLLIN;
-    
-    if(epoll_ctl(listenerPoll, EPOLL_CTL_ADD, listener->m_transferPipe->read, &listenerEv) == -1)
-      throw ErrnoException("Failed to add fd to epoll handle");
+    poller.add(listener->m_transferPipe->read);
 
     while(!m_destroy){
-      switch(epoll_wait(listenerPoll, &listenerEv, 1, 500)){
-        case 0:
-	  continue;
-        case -1:
-	  throw ErrnoException("Failed to wait on epoll handle");
-        default:
-	  break;
-      }
+      if(poller.poll() == -1)
+        continue;
 
       pid_t pid, *pidptr = &pid;
       listener->recv((void **)&pidptr, sizeof(pid));
 
-      ServerSocket *peer = new ServerSocket({channel.name + "_" + to_string(pid)}, hasOwnership, fastTransfer, deallocator);
+      Channel peerChannel{channel.name + "_" + to_string(pid)};
+      auto peer = make_shared<ServerSocket>(peerChannel, hasOwnership, fastTransfer, deallocator);
       m_peers.push_back(peer);
 
-      epoll_event ev;
-      ev.events = EPOLLIN;
-      ev.data.ptr = peer;
-      
-      if(epoll_ctl(m_peerPoll, EPOLL_CTL_ADD, ((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, &ev) == -1)
-        throw ErrnoException("Failed to add fd to epoll handle");
+      m_peerPoll.add(((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, peer.get());
     }
-
-    close(listenerPoll);
   });
 }
 
 MOServerSocket::~MOServerSocket(){
   m_destroy = true;
   m_listener.join();
-
-  for(auto peer : m_peers)
-    delete peer;
-
-  close(m_peerPoll);
 }
 
 void MOServerSocket::send(void *buffer, size_t size, void *hint){
@@ -325,11 +280,7 @@ size_t MOServerSocket::recv(void **buffer, size_t size){
   if(m_currentPeer)
     throw InvalidOperationException();
 
-  epoll_event event;
-  if(epoll_wait(m_peerPoll, &event, 1, -1) == -1)
-    throw ErrnoException();
-
-  m_currentPeer = (ServerSocket *)event.data.ptr;
+  m_peerPoll.poll((void **)&m_currentPeer, -1);
   return m_currentPeer->recv(buffer, size);
 }
 

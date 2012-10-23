@@ -1,7 +1,7 @@
 #ifndef PIPESOCKETFACTORY_H
 #define PIPESOCKETFACTORY_H
 
-#include "../ISocketFactory.h"
+#include "ISocketFactory.h"
 
 namespace IPC{
 namespace pipe{
