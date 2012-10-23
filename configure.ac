@@ -7,6 +7,8 @@ AC_CONFIG_SRCDIR([include/SocketFactory.h])
 AC_CONFIG_HEADERS([config/config.h])
 
 # Checks for programs.
+CXXFLAGS="$CXXFLAGS -std=c++11"
+
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_MAKE_SET
