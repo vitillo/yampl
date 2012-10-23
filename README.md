@@ -1,6 +1,6 @@
-# ATLAS Channel Library
+# ATLAS Message Passing Library
 
-This Linux library provides a simple abstraction of inter-process communication channels for specific patterns. The supported patterns are:
+This Linux library provides a simple abstraction of inter-process & inter-thread communication channels for specific patterns. The supported patterns are:
 * **Producer - Consumer:** A producer sends data to a receiver;
 * **Client - Server:** A client sends a request to a server and receives a reply back;
 
