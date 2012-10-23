@@ -28,7 +28,7 @@ The *examples* subdirectory provides four binaries that demonstrate the two supp
 * *client* and *server* instantiates the **Client - Server** pattern with a **Many to One** channel, that means you can launch multiple clients with one server
 * *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
 
-###Clients
+###Client
 The clients ping a server process and receive a reply from it.
 
 ``` c++
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Multithreaded
+###Multithreaded Client-Server
 The following is a similar example to the above one but this time in a multithreaded environment.
 
 
