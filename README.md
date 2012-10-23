@@ -13,6 +13,8 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 * **Many to Many:** Many producers and many consumers;
 
 ## Build, Test & Install
+Even tough the library requires a C++11 compatible compiler it is possible to compile and link against it from a non C++03 compiler. 
+
 * git clone https://github.com/vitillo/ipc
 * cd ipc
 * ./configure --prefix=INSTALL_PATH
