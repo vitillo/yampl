@@ -81,4 +81,61 @@ int main(int argc, char *argv[]){
     sleep(1);
   }
 }
+
+###Multithreaded
+The following is a similar example to the above one in a multithreaded environment.
+
+
+```c++
+#include <unistd.h>
+#include <iostream>
+#include <thread>
+
+#include "SocketFactory.h"
+
+inline void deallocator(void *, void*){}
+
+using namespace std;
+using namespace IPC;
+
+void clientCode(ISocketFactory *factory, int id){
+  char *pong = 0;
+  string ping = "Ping from client " + to_string(id);
+
+  Channel channel("service", MANY_TO_ONE, THREAD);
+  ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+
+  while(true){
+    socket->send(ping.c_str(), ping.size() + 1);
+    socket->recv(&pong);
+  }
+}
+
+int main(int argc, char *argv[]){
+  const int nThreads = 10;
+  ISocketFactory *factory = new SocketFactory();
+
+  thread server([factory] {
+    char *ping = 0;
+    string pong = "Pong from server thread";
+
+    Channel channel("service", MANY_TO_ONE, THREAD);
+    ISocket *socket = factory->createServerSocket(channel, true, deallocator);
+
+    while(true){
+      socket->recv(&ping);
+      socket->send(pong.c_str(), pong.size() + 1);
+      cout << ping << endl;
+      sleep(1);
+    }
+  });
+
+  
+  for(int i = 0; i < nThreads; i++){
+    thread client(clientCode, factory, i);
+    client.detach();
+  }
+
+  server.join();
+}
 ```
