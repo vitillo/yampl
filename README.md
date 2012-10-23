@@ -40,7 +40,7 @@ make install
 To compile with a C++03 compiler code that is using the IPC library, you have to link against a forward compatible version of the C++11 standard library, e.g.
 
 ```bash
-g++ -L/afs/cern.ch/sw/lcg/contrib/gcc/4.7.2/x86_64-slc5-gcc47-opt/lib64/
+g++ -L/afs/cern.ch/sw/lcg/contrib/gcc/4.7.2/x86_64-slc5-gcc47-opt/lib64/ ...
 ```
 
 Finally, to run your application you need to make sure that C++11 standard library is loaded during dynamic linking, e.g.
