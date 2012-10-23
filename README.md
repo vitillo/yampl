@@ -23,7 +23,6 @@ Even though the library requires a C++11 compatible compiler to build it, it is 
 * make install
 
 ### CERN lxplus build
-* source YOUR_ENVIRONMENT_SETUP.SH
 * source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
 * git clone https://github.com/vitillo/ipc
 * cd ipc
