@@ -99,19 +99,6 @@ inline void deallocator(void *, void*){}
 using namespace std;
 using namespace IPC;
 
-void clientCode(ISocketFactory *factory, int id){
-  char *pong = 0;
-  string ping = "Ping from client " + to_string(id);
-
-  Channel channel("service", MANY_TO_ONE, THREAD);
-  ISocket *socket = factory->createClientSocket(channel, true, deallocator);
-
-  while(true){
-    socket->send(ping.c_str(), ping.size() + 1);
-    socket->recv(&pong);
-  }
-}
-
 int main(int argc, char *argv[]){
   const int nThreads = 10;
   ISocketFactory *factory = new SocketFactory();
@@ -133,10 +120,21 @@ int main(int argc, char *argv[]){
 
   
   for(int i = 0; i < nThreads; i++){
-    thread client(clientCode, factory, i);
-    client.detach();
+    thread t([factory, i] {
+      char *pong = 0;
+      string ping = "Ping from client " + to_string(i);
+
+      Channel channel("service", MANY_TO_ONE, THREAD);
+      ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+
+      while(true){
+	socket->send(ping.c_str(), ping.size() + 1);
+	socket->recv(&pong);
+      }
+    });
+
+    t.detach();
   }
 
   server.join();
-}
-```
+}```

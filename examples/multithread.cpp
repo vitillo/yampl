@@ -1,27 +1,17 @@
+#include <unistd.h>
 #include <iostream>
 #include <thread>
 
-#include "ZMQ/SocketFactory.h"
+#include "SocketFactory.h"
 
-#include "utils.h"
+inline void deallocator(void *, void*){}
 
 using namespace std;
 using namespace IPC;
 
-void clientCode(ISocketFactory *factory, int id){
-  char *pong = 0;
-  string ping = "Ping from client " + to_string(id);
-
-  Channel channel("service", MANY_TO_ONE, THREAD);
-  ISocket *socket = factory->createClientSocket(channel, true, deallocator);
-
-  socket->send(ping.c_str(), ping.size());
-  socket->recv(&pong);
-}
-
 int main(int argc, char *argv[]){
   const int nThreads = 10;
-  ISocketFactory *factory = new ZMQ::SocketFactory();
+  ISocketFactory *factory = new SocketFactory();
 
   thread server([factory] {
     char *ping = 0;
@@ -30,17 +20,30 @@ int main(int argc, char *argv[]){
     Channel channel("service", MANY_TO_ONE, THREAD);
     ISocket *socket = factory->createServerSocket(channel, true, deallocator);
 
-    for(int i = 0; i < nThreads; i++){
+    while(true){
       socket->recv(&ping);
-      socket->send(pong.c_str(), pong.size());
+      socket->send(pong.c_str(), pong.size() + 1);
       cout << ping << endl;
+      sleep(1);
     }
   });
 
   
   for(int i = 0; i < nThreads; i++){
-    thread client(clientCode, factory, i);
-    client.detach();
+    thread t([factory, i] {
+      char *pong = 0;
+      string ping = "Ping from client " + to_string(i);
+
+      Channel channel("service", MANY_TO_ONE, THREAD);
+      ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+
+      while(true){
+	socket->send(ping.c_str(), ping.size() + 1);
+	socket->recv(&pong);
+      }
+    });
+
+    t.detach();
   }
 
   server.join();
