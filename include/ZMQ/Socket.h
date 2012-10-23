@@ -3,6 +3,7 @@
 
 #include "Channel.h"
 #include "ISocket.h"
+#include "ISocketFactory.h"
 #include "Exceptions.h"
 
 namespace zmq{
@@ -24,10 +25,10 @@ class SocketBase : public ISocket{
     SocketBase & operator=(const SocketBase &) = delete;
 
   protected:
-    SocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *));
+    SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *));
 
     Channel m_channel;
-    bool m_ownership;
+    Semantics m_semantics;
     zmq::socket_t *m_socket = 0;
     zmq::message_t *m_message = 0;
     void (*m_deallocator)(void *, void *);
@@ -41,7 +42,7 @@ class SocketBase : public ISocket{
 
 class ProducerSocket : public SocketBase{
   public:
-    ProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
+    ProducerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     ProducerSocket(const ProducerSocket &) = delete;
     
     virtual void send(void *buffer, size_t size, void *hint = NULL){
@@ -57,7 +58,7 @@ class ProducerSocket : public SocketBase{
 
 class ConsumerSocket: public SocketBase{
   public:
-    ConsumerSocket(Channel channel, zmq::context_t *context, bool ownership);
+    ConsumerSocket(Channel channel, zmq::context_t *context, Semantics semantics);
     ConsumerSocket(const ConsumerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){
@@ -73,7 +74,7 @@ class ConsumerSocket: public SocketBase{
 
 class ClientSocket : public SocketBase{
   public:
-    ClientSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
+    ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     ClientSocket(const ClientSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){
@@ -89,7 +90,7 @@ class ClientSocket : public SocketBase{
 
 class ServerSocket : public SocketBase{
   public:
-    ServerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *));
+    ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     ServerSocket(const ServerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){

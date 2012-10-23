@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "SocketFactory.h"
 
 using namespace std;
@@ -10,7 +9,7 @@ int main(int argc, char *argv[]){
 
   Channel channel("pipe", ONE_TO_MANY);
   ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createConsumerSocket(channel);
+  ISocket *socket = factory->createConsumerSocket(channel, MOVE_DATA);
 
   while(true){
     socket->recv(&message);

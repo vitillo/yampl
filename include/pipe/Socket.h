@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "ISocket.h"
+#include "ISocketFactory.h"
 #include "Exceptions.h"
 #include "utils/SpinLock.h"
 #include "utils/Poller.h"
@@ -56,11 +57,11 @@ class PipeSocketBase : public ISocket{
     PipeSocketBase & operator=(PipeSocketBase &) = delete;
 
   protected:
-    PipeSocketBase(const Channel &channel, Mode type, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *));
+    PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
 
   private:
     Mode m_mode;
-    bool m_hasOwnership;
+    Semantics m_semantics;
     bool m_fast;
     size_t m_receiveSize = 0;
     void *m_receiveBuffer = NULL;
@@ -74,7 +75,7 @@ class PipeSocketBase : public ISocket{
 
 class ProducerSocket : public PipeSocketBase{
   public:
-    ProducerSocket(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, hasOwnership, fastTransfer, deallocator){}
+    ProducerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, fastTransfer, deallocator){}
     ProducerSocket(const ProducerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = 0){
@@ -90,7 +91,7 @@ class ProducerSocket : public PipeSocketBase{
 
 class ConsumerSocket : public PipeSocketBase{
   public:
-    ConsumerSocket(const Channel &channel, bool hasOwnership) : PipeSocketBase(channel, PIPE_PULL, hasOwnership, true, 0){}
+    ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, true, 0){}
     ConsumerSocket(const ConsumerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = 0){
@@ -117,7 +118,7 @@ class ServiceSocketBase : public ISocket{
     ServiceSocketBase & operator=(const ServiceSocketBase &) = delete;
 
   protected:
-    ServiceSocketBase(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
+    ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
 
   private:
     ISocket *m_reqSocket = 0;
@@ -128,7 +129,7 @@ class ServiceSocketBase : public ISocket{
 
 class ClientSocket : public ServiceSocketBase{
   public:
-    ClientSocket(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, hasOwnership, fastTransfer, deallocator, PIPE_CLIENT){}
+    ClientSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_CLIENT){}
     ClientSocket(const ClientSocket &) = delete;
 
     ClientSocket & operator=(const ClientSocket &) = delete;
@@ -136,7 +137,7 @@ class ClientSocket : public ServiceSocketBase{
 
 class ServerSocket : public ServiceSocketBase{
   public:
-    ServerSocket(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, hasOwnership, fastTransfer, deallocator, PIPE_SERVER){}
+    ServerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_SERVER){}
     ServerSocket(const ServerSocket &) = delete;
 
     ServerSocket & operator=(const ServerSocket &) = delete;
@@ -144,7 +145,7 @@ class ServerSocket : public ServiceSocketBase{
 
 class MOClientSocket: public ISocket{
   public:
-    MOClientSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *));
+    MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
     MOClientSocket(const MOClientSocket &) = delete;
     virtual ~MOClientSocket();
 
@@ -165,7 +166,7 @@ class MOClientSocket: public ISocket{
 
 class MOServerSocket: public ISocket{
   public:
-    MOServerSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *));
+    MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
     MOServerSocket(const MOServerSocket &) = delete;
     virtual ~MOServerSocket();
 

@@ -21,36 +21,36 @@ SocketFactory::~SocketFactory(){
   delete m_pipeFactory;
 }
 
-ISocket *SocketFactory::createProducerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+ISocket *SocketFactory::createProducerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
   if(channel.topology == ONE_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createProducerSocket(channel, ownership, deallocator);
+    return m_pipeFactory->createProducerSocket(channel, semantics, deallocator);
   else
-    return m_zmqFactory->createProducerSocket(channel, ownership, deallocator);
+    return m_zmqFactory->createProducerSocket(channel, semantics, deallocator);
 }
 
-ISocket *SocketFactory::createConsumerSocket(Channel channel, bool ownership){
+ISocket *SocketFactory::createConsumerSocket(Channel channel, Semantics semantics){
   if(channel.topology == ONE_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createConsumerSocket(channel, ownership);
+    return m_pipeFactory->createConsumerSocket(channel, semantics);
   else
-    return m_zmqFactory->createConsumerSocket(channel, ownership);
+    return m_zmqFactory->createConsumerSocket(channel, semantics);
 }
 
-ISocket *SocketFactory::createClientSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
   if(channel.topology == ONE_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createClientSocket(channel, ownership, deallocator);
+    return m_pipeFactory->createClientSocket(channel, semantics, deallocator);
   /*else if(channel.topology == MANY_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createClientSocket(channel, ownership, deallocator);*/
+    return m_pipeFactory->createClientSocket(channel, semantics, deallocator);*/
   else
-    return m_zmqFactory->createClientSocket(channel, ownership, deallocator);
+    return m_zmqFactory->createClientSocket(channel, semantics, deallocator);
 }
 
-ISocket *SocketFactory::createServerSocket(Channel channel, bool ownership, void (*deallocator)(void *, void *)){
+ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
   if(channel.topology == ONE_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createServerSocket(channel, ownership, deallocator);
+    return m_pipeFactory->createServerSocket(channel, semantics, deallocator);
   /*else if(channel.topology == MANY_TO_ONE && channel.context == LOCAL_PROCESS)
-    return m_pipeFactory->createServerSocket(channel, ownership, deallocator);*/
+    return m_pipeFactory->createServerSocket(channel, semantics, deallocator);*/
   else
-    return m_zmqFactory->createServerSocket(channel, ownership, deallocator);
+    return m_zmqFactory->createServerSocket(channel, semantics, deallocator);
 }
 
 

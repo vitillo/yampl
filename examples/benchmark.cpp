@@ -79,7 +79,7 @@ void client(ISocketFactory *factory, Channel channel, void *s_buffer, void *r_bu
   cout << "Creating Client " << endl;
 
   s_buffer = new char[size];
-  ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+  ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
   for(size_t i = 0; i < iterations; i++){
     socket->send(s_buffer, size);
@@ -93,7 +93,7 @@ void server(ISocketFactory *factory, Channel channel, void *s_buffer, void *r_bu
   cout << "Creating Server " << endl;
 
   s_buffer = new char[size];
-  ISocket *socket = factory->createServerSocket(channel, true, deallocator);
+  ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
   
   start_clock();
   for(size_t i = 0; i < iterations; i++){

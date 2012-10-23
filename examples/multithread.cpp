@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
     string pong = "Pong from server thread";
 
     Channel channel("service", MANY_TO_ONE, THREAD);
-    ISocket *socket = factory->createServerSocket(channel, true, deallocator);
+    ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
 
     while(true){
       socket->recv(&ping);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
       string ping = "Ping from client " + to_string(i);
 
       Channel channel("service", MANY_TO_ONE, THREAD);
-      ISocket *socket = factory->createClientSocket(channel, true, deallocator);
+      ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
       while(true){
 	socket->send(ping.c_str(), ping.size() + 1);

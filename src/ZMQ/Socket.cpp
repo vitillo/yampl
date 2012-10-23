@@ -15,7 +15,7 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
-SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, bool ownership, void (*deallocator)(void *, void *)) : m_channel(channel), m_ownership(ownership), m_message(new zmq::message_t()), m_deallocator(deallocator), m_type(type){
+SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *)) : m_channel(channel), m_semantics(semantics), m_message(new zmq::message_t()), m_deallocator(deallocator), m_type(type){
   if(m_channel.context == LOCAL_PROCESS)
     m_channel.name = "ipc:///tmp/zmq_" + m_channel.name;
   else if(m_channel.context == THREAD)
@@ -64,7 +64,7 @@ void SocketBase::send(void *buffer, size_t size, void *hint){
   if(!m_connected)
     connect();
 
-  if(m_ownership){
+  if(m_semantics == MOVE_DATA){
     zmq::message_t message((void *)buffer, size, m_deallocator, hint);
     m_socket->send(message);
   }else{
@@ -83,7 +83,7 @@ size_t SocketBase::recv(void **buffer, size_t size){
     m_received = true;
   }
 
-  if(m_ownership){
+  if(m_semantics == MOVE_DATA){
     *buffer = m_message->data();
   }else{
     if(*buffer && size < m_message->size())
@@ -100,13 +100,13 @@ size_t SocketBase::recv(void **buffer, size_t size){
   return m_message->size();
 }
 
-ProducerSocket::ProducerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_PUSH, ownership, deallocator){}
+ProducerSocket::ProducerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_PUSH, semantics, deallocator){}
 
-ConsumerSocket::ConsumerSocket(Channel channel, zmq::context_t *context, bool ownership) : SocketBase(channel, context, ZMQ_PULL, ownership, 0){}
+ConsumerSocket::ConsumerSocket(Channel channel, zmq::context_t *context, Semantics semantics) : SocketBase(channel, context, ZMQ_PULL, semantics, 0){}
 
-ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_REQ, ownership, deallocator){}
+ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_REQ, semantics, deallocator){}
 
-ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, bool ownership, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_REP, ownership, deallocator){}
+ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, ZMQ_REP, semantics, deallocator){}
 
 }
 }

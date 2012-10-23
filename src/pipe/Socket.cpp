@@ -51,7 +51,7 @@ RawPipe::~RawPipe(){
     unlink(m_name.c_str());
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_hasOwnership(hasOwnership), m_fast(fastTransfer){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_fast(fastTransfer){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
@@ -117,7 +117,7 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
     bytesWritten += sent;
   }
 
-  if(!m_hasOwnership){
+  if(m_semantics == COPY_DATA){
     void *tmp = NULL;
 
     if((tmp = malloc(size)) == NULL)
@@ -155,7 +155,7 @@ size_t PipeSocketBase::recv(void **buffer, size_t size){
     bytesRead += r;
   }
 
-  if(m_hasOwnership){
+  if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
       throw ErrnoException("Receive failed");
 
@@ -183,7 +183,7 @@ size_t PipeSocketBase::recv(void **buffer, size_t size){
   return bytesRead;
 }
 
-ServiceSocketBase::ServiceSocketBase(const Channel &channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
+ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
   if(channel.topology != ONE_TO_ONE)
     throw UnsupportedException();
 
@@ -192,12 +192,12 @@ ServiceSocketBase::ServiceSocketBase(const Channel &channel, bool hasOwnership, 
   rep.name = rep.name + "_rep";
 
   if(mode == PIPE_CLIENT){
-    m_reqSocket = new ProducerSocket(req, hasOwnership, fastTransfer, deallocator);
-    m_repSocket = new ConsumerSocket(rep, hasOwnership); 
+    m_reqSocket = new ProducerSocket(req, semantics, fastTransfer, deallocator);
+    m_repSocket = new ConsumerSocket(rep, semantics); 
     m_receiveCompleted = true;
   }else if(mode == PIPE_SERVER){
-    m_reqSocket = new ConsumerSocket(req, hasOwnership); 
-    m_repSocket = new ProducerSocket(rep, hasOwnership, fastTransfer, deallocator);
+    m_reqSocket = new ConsumerSocket(req, semantics); 
+    m_repSocket = new ProducerSocket(rep, semantics, fastTransfer, deallocator);
     m_receiveCompleted = false;
   }else
     throw InvalidOperationException();
@@ -226,10 +226,10 @@ size_t ServiceSocketBase::recv(void **buffer, size_t size){
   }
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)){
+MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
-  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, hasOwnership, fastTransfer, deallocator);
-  m_server = new ProducerSocket(announce, true, fastTransfer, [] (void *, void *) { return; });
+  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, semantics, fastTransfer, deallocator);
+  m_server = new ProducerSocket(announce, MOVE_DATA, fastTransfer, [] (void *, void *) { return; });
   m_server->send(&m_pid, sizeof(m_pid));
 }
 
@@ -238,12 +238,12 @@ MOClientSocket::~MOClientSocket(){
   delete m_private;
 }
 
-MOServerSocket::MOServerSocket(const Channel& channel, bool hasOwnership, bool fastTransfer, void (*deallocator)(void *, void *)){
+MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
   Channel announce(channel.name + "_announce");
 
-  m_listener = std::thread([this, announce, channel, hasOwnership, fastTransfer, deallocator] {
+  m_listener = std::thread([this, announce, channel, semantics, fastTransfer, deallocator] {
     Poller poller;
-    auto listener = make_shared<ConsumerSocket>(announce, false);
+    auto listener = make_shared<ConsumerSocket>(announce, COPY_DATA);
 
     poller.add(listener->m_transferPipe->read);
 
@@ -255,7 +255,7 @@ MOServerSocket::MOServerSocket(const Channel& channel, bool hasOwnership, bool f
       listener->recv((void **)&pidptr, sizeof(pid));
 
       Channel peerChannel{channel.name + "_" + to_string(pid)};
-      auto peer = make_shared<ServerSocket>(peerChannel, hasOwnership, fastTransfer, deallocator);
+      auto peer = make_shared<ServerSocket>(peerChannel, semantics, fastTransfer, deallocator);
       m_peers.push_back(peer);
 
       m_peerPoll.add(((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, peer.get());
