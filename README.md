@@ -24,18 +24,14 @@ make check
 make install
 ```
 
-### lxplus specific build
-```bash
-source YOUR_ENVIRONMENT_SETUP.SH
-source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
-git clone https://github.com/vitillo/ipc
-cd ipc
-./configure --prefix=INSTALL_PATH
-make
-make check
-make install
-./YOUR_APPLICATION
-```
+### CERN lxplus build
+* source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
+* git clone https://github.com/vitillo/ipc
+* cd ipc
+* ./configure --prefix=INSTALL_PATH
+* make
+* make check
+* make install
 
 
 ##Examples
