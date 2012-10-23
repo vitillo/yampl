@@ -81,6 +81,7 @@ int main(int argc, char *argv[]){
     sleep(1);
   }
 }
+```
 
 ###Multithreaded
 The following is a similar example to the above one in a multithreaded environment.
