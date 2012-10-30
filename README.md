@@ -133,32 +133,24 @@ int main(int argc, char *argv[]){
   ISocketFactory *factory = new SocketFactory();
 
   thread server([factory] {
-    char *ping = 0;
-    string pong = "Pong from server thread";
-
     Channel channel("service", MANY_TO_ONE, THREAD);
     ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
 
     while(true){
-      socket->recv(&ping);
-      socket->send(pong.c_str(), pong.size() + 1);
-      cout << ping << endl;
+      cout << "Ping from client " << socket->recv<int>() << endl;
+      socket->send(0);
       sleep(1);
     }
   });
-
   
   for(int i = 0; i < nThreads; i++){
     thread t([factory, i] {
-      char *pong = 0;
-      string ping = "Ping from client " + to_string(i);
-
       Channel channel("service", MANY_TO_ONE, THREAD);
       ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
       while(true){
-        socket->send(ping.c_str(), ping.size() + 1);
-        socket->recv(&pong);
+        socket->send(i);
+	socket->recv<int>();
       }
     });
 

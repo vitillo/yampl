@@ -1,6 +1,8 @@
 #ifndef ISOCKET_H
 #define ISOCKET_H
 
+#include <unistd.h>
+
 namespace IPC{
 
 class ISocket{
@@ -19,10 +21,24 @@ class ISocket{
     size_t recv(T **buffer, size_t size = 0){
       return recv((void **)buffer, size);
     }
-    
+
+    template <typename T>
+    void send(const T &value, void *hint = 0){
+      send(&value, sizeof(value), hint);
+    }
+
+    template <typename T>
+    T & recv(){
+      T *buffer = 0;
+      recv(&buffer);
+      return *buffer;
+    }
+
   private:
     ISocket & operator=(const ISocket &);
 };
+
+
 
 }
 
