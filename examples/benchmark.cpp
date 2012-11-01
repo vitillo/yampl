@@ -9,10 +9,10 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
-#include <thread>
 
-#include "ZMQ/SocketFactory.h"
-#include "pipe/SocketFactory.h"
+#include "ZMQ/ZMQSocketFactory.h"
+#include "pipe/PipeSocketFactory.h"
+#include "utils/Thread.h"
 
 using namespace IPC;
 using namespace std;
@@ -168,13 +168,8 @@ int main(int argc, char *argv[]){
   }else if(channel.context == THREAD){
     ISocketFactory *factory = createFactory(impl);
 
-    thread c([&]{
-      client(factory, channel, s_buffer, r_buffer, size, iterations);
-    });
-
-    thread s([&]{
-      server(factory, channel, s_buffer, r_buffer, size, iterations);
-    });
+    Thread c(tr1::bind(client, factory, channel, s_buffer, r_buffer, size, iterations));
+    Thread s(tr1::bind(server, factory, channel, s_buffer, r_buffer, size, iterations));
 
     c.join();
     s.join();

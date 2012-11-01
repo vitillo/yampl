@@ -1,5 +1,5 @@
-#ifndef ZMQSOCKET_H
-#define ZMQSOCKET_H
+#ifndef IPC_ZMQ_SOCKET_H
+#define IPC_ZMQ_SOCKET_H
 
 #include "Channel.h"
 #include "ISocket.h"
@@ -16,34 +16,33 @@ namespace ZMQ{
 
 class SocketBase : public ISocket{
   public:
-    SocketBase(const SocketBase &) = delete;
     virtual ~SocketBase();
 
     virtual void send(void *buffer, size_t size, void *hint = NULL);
     virtual size_t recv(void **buffer, size_t size = 0);
-
-    SocketBase & operator=(const SocketBase &) = delete;
 
   protected:
     SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *));
 
     Channel m_channel;
     Semantics m_semantics;
-    zmq::socket_t *m_socket = 0;
-    zmq::message_t *m_message = 0;
+    zmq::socket_t *m_socket;
+    zmq::message_t *m_message;
     void (*m_deallocator)(void *, void *);
 
   private:
-    bool m_received = false;
-    bool m_connected = false;
-    int m_type;
+    SocketBase(const SocketBase &);
+    SocketBase & operator=(const SocketBase &);
     void connect();
+
+    bool m_received;
+    bool m_connected;
+    int m_type;
 };
 
 class ProducerSocket : public SocketBase{
   public:
     ProducerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
-    ProducerSocket(const ProducerSocket &) = delete;
     
     virtual void send(void *buffer, size_t size, void *hint = NULL){
       SocketBase::send(buffer, size, hint);
@@ -53,13 +52,14 @@ class ProducerSocket : public SocketBase{
       throw InvalidOperationException();
     }
 
-    ProducerSocket & operator=(const ProducerSocket &) = delete;
+  private:
+    ProducerSocket(const ProducerSocket &);
+    ProducerSocket & operator=(const ProducerSocket &);
 };
 
 class ConsumerSocket: public SocketBase{
   public:
     ConsumerSocket(Channel channel, zmq::context_t *context, Semantics semantics);
-    ConsumerSocket(const ConsumerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){
       throw InvalidOperationException();
@@ -69,13 +69,14 @@ class ConsumerSocket: public SocketBase{
       return SocketBase::recv(buffer, size);
     }
 
-    ConsumerSocket & operator=(const ConsumerSocket &) = delete;
+  private:
+    ConsumerSocket(const ConsumerSocket &);
+    ConsumerSocket & operator=(const ConsumerSocket &);
 };
 
 class ClientSocket : public SocketBase{
   public:
     ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
-    ClientSocket(const ClientSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){
       SocketBase::send(buffer, size, hint);
@@ -85,13 +86,14 @@ class ClientSocket : public SocketBase{
       return SocketBase::recv(buffer, size);
     }
 
-    ClientSocket & operator=(const ClientSocket) = delete;
+  private:
+    ClientSocket(const ClientSocket &);
+    ClientSocket & operator=(const ClientSocket);
 };
 
 class ServerSocket : public SocketBase{
   public:
     ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
-    ServerSocket(const ServerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = NULL){
       SocketBase::send(buffer, size, hint);
@@ -101,7 +103,9 @@ class ServerSocket : public SocketBase{
       return SocketBase::recv(buffer, size);
     }
 
-    ServerSocket & operator=(const ServerSocket &) = delete;
+  private:
+    ServerSocket(const ServerSocket &);
+    ServerSocket & operator=(const ServerSocket &);
 };
 
 }

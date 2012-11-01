@@ -1,15 +1,11 @@
 #include <cstdlib>
 
-#include "ZMQ/SocketFactory.h"
-#include "pipe/SocketFactory.h"
+#include "ZMQ/ZMQSocketFactory.h"
+#include "pipe/PipeSocketFactory.h"
 
 #include "SocketFactory.h"
 
 namespace IPC{
-
-void defaultDeallocator(void *buffer, void *hint){
-  free(buffer);
-}
 
 SocketFactory::SocketFactory(){
   m_zmqFactory = new ZMQ::SocketFactory();

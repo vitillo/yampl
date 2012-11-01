@@ -1,7 +1,7 @@
 #include <zmq.hpp>
 
-#include "ZMQ/SocketFactory.h"
-#include "ZMQ/Socket.h"
+#include "ZMQ/ZMQSocketFactory.h"
+#include "ZMQ/ZMQSocket.h"
 
 namespace IPC{
 namespace ZMQ{

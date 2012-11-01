@@ -1,20 +1,20 @@
-#ifndef PIPESOCKET_H
-#define PIPESOCKET_H
+#ifndef IPC_PIPE_SOCKET_H
+#define IPC_PIPE_SOCKET_H
 
 #include <unistd.h>
 
 #include <string>
 #include <deque>
-#include <atomic>
-#include <thread>
 #include <vector>
-#include <memory>
+#include <tr1/memory>
+#include <tr1/functional>
 
 #include "ISocket.h"
 #include "ISocketFactory.h"
 #include "Exceptions.h"
 #include "utils/SpinLock.h"
 #include "utils/Poller.h"
+#include "utils/Thread.h"
 
 namespace IPC{
 namespace pipe{
@@ -34,49 +34,52 @@ class RawPipe{
     int write;
 
     RawPipe(const std::string &name);
-    RawPipe(const RawPipe &) = delete;
     ~RawPipe();
 
-    RawPipe & operator=(const RawPipe &) = delete;
 
   private:
+    RawPipe(const RawPipe &);
+    RawPipe & operator=(const RawPipe &);
+
     const std::string m_name;
-    bool m_doUnlink = false;
+    bool m_doUnlink;
 };
 
 class PipeSocketBase : public ISocket{
-  friend MOServerSocket;
+  friend class MOServerSocket;
 
   public:
-    PipeSocketBase(const PipeSocketBase &) = delete;
     virtual ~PipeSocketBase();
 
     virtual void send(void *buffer, size_t size, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size = 0);
 
-    PipeSocketBase & operator=(PipeSocketBase &) = delete;
 
   protected:
     PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
 
   private:
+    PipeSocketBase(const PipeSocketBase &);
+    PipeSocketBase & operator=(PipeSocketBase &);
+
+    void ctlThreadFun(void (*deallocator)(void *, void *));
+ 
     Mode m_mode;
     Semantics m_semantics;
     bool m_fast;
-    size_t m_receiveSize = 0;
-    void *m_receiveBuffer = NULL;
+    size_t m_receiveSize;
+    void *m_receiveBuffer;
+    bool m_destroy;
     SpinLock m_lock;
-    std::thread m_ctlThread;
-    std::atomic<bool> m_destroy = {false};
-    std::shared_ptr<RawPipe> m_transferPipe;
-    std::shared_ptr<RawPipe> m_ctlPipe;
-    std::deque<std::pair<const void *, const void *>> m_pendingBuffers;
+    std::tr1::shared_ptr<Thread> m_ctlThread;
+    std::tr1::shared_ptr<RawPipe> m_transferPipe;
+    std::tr1::shared_ptr<RawPipe> m_ctlPipe;
+    std::deque<std::pair<void *, void *> > m_pendingBuffers;
 };
 
 class ProducerSocket : public PipeSocketBase{
   public:
     ProducerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, fastTransfer, deallocator){}
-    ProducerSocket(const ProducerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = 0){
       PipeSocketBase::send(buffer, size, hint);
@@ -86,13 +89,14 @@ class ProducerSocket : public PipeSocketBase{
       throw InvalidOperationException();
     }
 
-    ProducerSocket & operator=(const ProducerSocket &) = delete;
+  private:
+    ProducerSocket(const ProducerSocket &);
+    ProducerSocket & operator=(const ProducerSocket &);
 };
 
 class ConsumerSocket : public PipeSocketBase{
   public:
     ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, true, 0){}
-    ConsumerSocket(const ConsumerSocket &) = delete;
 
     virtual void send(void *buffer, size_t size, void *hint = 0){
       throw InvalidOperationException();
@@ -102,27 +106,30 @@ class ConsumerSocket : public PipeSocketBase{
       return PipeSocketBase::recv(buffer, size);
     }
 
-    ConsumerSocket & operator=(const ConsumerSocket &) = delete;
+  private:
+    ConsumerSocket(const ConsumerSocket &);
+    ConsumerSocket & operator=(const ConsumerSocket &);
+
 };
 
 class ServiceSocketBase : public ISocket{
-  friend MOServerSocket;
+  friend class MOServerSocket;
 
   public:
-    ServiceSocketBase(const ServiceSocketBase &) = delete;
     virtual ~ServiceSocketBase();
 
     virtual void send(void *buffer, size_t size, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size = 0);
 
-    ServiceSocketBase & operator=(const ServiceSocketBase &) = delete;
-
   protected:
     ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
 
   private:
-    ISocket *m_reqSocket = 0;
-    ISocket *m_repSocket = 0;
+    ServiceSocketBase(const ServiceSocketBase &);
+    ServiceSocketBase & operator=(const ServiceSocketBase &);
+
+    ISocket *m_reqSocket;
+    ISocket *m_repSocket;
     bool m_receiveCompleted;
     Mode m_mode;
 };
@@ -130,23 +137,24 @@ class ServiceSocketBase : public ISocket{
 class ClientSocket : public ServiceSocketBase{
   public:
     ClientSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_CLIENT){}
-    ClientSocket(const ClientSocket &) = delete;
 
-    ClientSocket & operator=(const ClientSocket &) = delete;
+  private:
+    ClientSocket(const ClientSocket &);
+    ClientSocket & operator=(const ClientSocket &);
 };
 
 class ServerSocket : public ServiceSocketBase{
   public:
     ServerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_SERVER){}
-    ServerSocket(const ServerSocket &) = delete;
 
-    ServerSocket & operator=(const ServerSocket &) = delete;
+  private:
+    ServerSocket(const ServerSocket &);
+    ServerSocket & operator=(const ServerSocket &);
 };
 
 class MOClientSocket: public ISocket{
   public:
     MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
-    MOClientSocket(const MOClientSocket &) = delete;
     virtual ~MOClientSocket();
 
     virtual void send(void *buffer, size_t size, void *hint = 0){
@@ -156,31 +164,34 @@ class MOClientSocket: public ISocket{
       return m_private->recv(buffer, size);
     }
 
-    MOClientSocket & operator=(const MOClientSocket &) = delete;
-
   private:
-    pid_t m_pid = getpid();
-    ISocket *m_server = 0;
-    ISocket *m_private = 0;
+    MOClientSocket(const MOClientSocket &);
+    MOClientSocket & operator=(const MOClientSocket &);
+
+    pid_t m_pid;
+    ISocket *m_server;
+    ISocket *m_private;
 };
 
 class MOServerSocket: public ISocket{
   public:
     MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
-    MOServerSocket(const MOServerSocket &) = delete;
     virtual ~MOServerSocket();
 
     virtual void send(void *buffer, size_t size, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size = 0);
 
-    MOServerSocket & operator=(const MOServerSocket &) = delete;
-
   private:
+    MOServerSocket(const MOServerSocket &);
+    MOServerSocket & operator=(const MOServerSocket &);
+
+    void listenerThreadFun(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
+
     Poller m_peerPoll;
-    ServerSocket *m_currentPeer = 0;
-    std::thread m_listener;
-    std::atomic<bool> m_destroy = {false};
-    std::vector<std::shared_ptr<ServerSocket>> m_peers;
+    ServerSocket *m_currentPeer;
+    bool m_destroy;
+    std::tr1::shared_ptr<Thread> m_listener;
+    std::vector<std::tr1::shared_ptr<ServerSocket> > m_peers;
 };
 
 }

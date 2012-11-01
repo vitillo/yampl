@@ -1,12 +1,14 @@
 #include <unistd.h>
 #include <iostream>
+
 #include "SocketFactory.h"
+#include "utils/utils.h"
 
 using namespace IPC;
 using namespace std;
 
 int main(int argc, char *argv[]){
-  const string ping = "Ping from " + to_string(getpid());
+  const string ping = "Ping from " + getpid();
   char pong[100], *pong_ptr = &pong[0];
   
   Channel channel("service", MANY_TO_ONE);

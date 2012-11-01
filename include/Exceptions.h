@@ -1,5 +1,5 @@
-#ifndef EXCEPTIONS_H
-#define EXCEPTIONS_H
+#ifndef IPC_EXCEPTIONS_H
+#define IPC_EXCEPTIONS_H
 
 #include <exception>
 #include <cstdio>
@@ -29,7 +29,7 @@ class UnsupportedException: public IPCException{
 
 class InvalidOperationException: public IPCException{
   public:
-  InvalidOperationException(): IPCException("Operation not permitted"){}
+  InvalidOperationException(const char *msg = "Operation not permitted"): IPCException(msg){}
 };
 
 class InvalidSizeException: public IPCException{
@@ -39,8 +39,10 @@ class InvalidSizeException: public IPCException{
 
 class ErrnoException : public IPCException{
   public:
-    ErrnoException(const char * msg = "System call error"): IPCException(msg), m_errno(errno) {
+    ErrnoException(const char *msg = "System call error"): IPCException(msg), m_errno(errno) {
     }
+
+    ErrnoException(int err, const char *msg = "System call error"): IPCException(msg), m_errno(err){}
 
     int getErrno(){
       return m_errno;

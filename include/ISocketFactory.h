@@ -1,12 +1,18 @@
-#ifndef ISOCKETFACTORY_H
-#define ISOCKETFACTORY_H
+#ifndef IPC_ISOCKETFACTORY_H
+#define IPC_ISOCKETFACTORY_H
+
+#include <stdlib.h>
 
 #include "Channel.h"
 #include "ISocket.h"
 
 namespace IPC{
 
-void defaultDeallocator(void *, void *);
+inline void defaultDeallocator(void *buffer, void *){
+  free(buffer);
+}
+
+inline void voidDeallocator(void *, void *){}
 
 enum Semantics{
   COPY_DATA = 0,

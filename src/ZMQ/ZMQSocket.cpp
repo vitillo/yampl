@@ -3,7 +3,7 @@
 #include <zmq.hpp>
 
 #include "Channel.h"
-#include "ZMQ/Socket.h"
+#include "ZMQ/ZMQSocket.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
-SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *)) : m_channel(channel), m_semantics(semantics), m_message(new zmq::message_t()), m_deallocator(deallocator), m_type(type){
+SocketBase::SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *)) : m_channel(channel), m_semantics(semantics), m_socket(0), m_message(new zmq::message_t()), m_deallocator(deallocator), m_received(false), m_connected(false), m_type(type){
   if(m_channel.context == LOCAL_PROCESS)
     m_channel.name = "ipc:///tmp/zmq_" + m_channel.name;
   else if(m_channel.context == THREAD)

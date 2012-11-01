@@ -8,20 +8,22 @@
 
 #include <cstring>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 #include <iostream>
-#include <thread>
 #include <algorithm>
+#include <tr1/functional>
 
+#include "utils/utils.h"
 #include "Channel.h"
-#include "pipe/Socket.h"
+#include "pipe/PipeSocket.h"
 
 using namespace std;
 
 namespace IPC{
 namespace pipe{
 
-RawPipe::RawPipe(const std::string &name) : m_name(name){
+RawPipe::RawPipe(const std::string &name) : m_name(name), m_doUnlink(false){
   if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Failed to create FIFO");
 
@@ -51,12 +53,34 @@ RawPipe::~RawPipe(){
     unlink(m_name.c_str());
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_fast(fastTransfer){
+void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
+  Poller poller;
+  poller.add(m_ctlPipe->read);
+
+  while(!m_destroy){
+    if(poller.poll() == -1)
+      continue;
+
+    char signal = 0;
+
+    if(TEMP_FAILURE_RETRY(read(m_ctlPipe->read, &signal, 1)) == -1)
+      throw ErrnoException("Failed to receive ctl signal");
+
+    m_lock.lock();
+    std::pair<void *, void *> entry = m_pendingBuffers.front();
+    m_pendingBuffers.pop_front();
+    m_lock.unlock();
+
+    deallocator((void *)entry.first, (void *)entry.second);
+  }
+}
+
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_fast(fastTransfer), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
-  m_transferPipe = make_shared<RawPipe>(transferPipeName);
-  m_ctlPipe = make_shared<RawPipe>(ctlPipeName);
+  m_transferPipe.reset(new RawPipe(transferPipeName));
+  m_ctlPipe.reset(new RawPipe(ctlPipeName));
 
   if(m_mode == PIPE_PULL){
 #ifdef F_SETPIPE_SZ
@@ -64,37 +88,16 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics sema
     if(fcntl(m_transferPipe->write, F_SETPIPE_SZ, 1048576) == -1)
       throw ErrnoException("Failed to set the pipe's buffer size");
 #endif
-  }else if(m_mode == PIPE_PUSH){
-    m_ctlThread = std::thread([this, deallocator] {
-      Poller poller;
-
-      poller.add(m_ctlPipe->read);
-
-      while(!m_destroy){
-	if(poller.poll() == -1)
-	  continue;
-
-	char signal = 0;
-
-	if(TEMP_FAILURE_RETRY(read(m_ctlPipe->read, &signal, 1)) == -1)
-	  throw ErrnoException("Failed to receive ctl signal");
-
-	m_lock.lock();
-	auto entry = m_pendingBuffers.front();
-	m_pendingBuffers.pop_front();
-	m_lock.unlock();
-
-	deallocator((void *)entry.first, (void *)entry.second);
-      }
-  });
-  }else
+  }else if(m_mode == PIPE_PUSH)
+    m_ctlThread.reset(new Thread(tr1::bind(&PipeSocketBase::ctlThreadFun, this, deallocator)));
+  else
     throw InvalidOperationException();
 }
 
 PipeSocketBase::~PipeSocketBase(){
   if(m_mode == PIPE_PUSH){
     m_destroy = true;
-    m_ctlThread.join();
+    m_ctlThread->join();
   }
 
   free(m_receiveBuffer);
@@ -105,7 +108,7 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
   struct iovec vec;
 
   m_lock.lock();
-  m_pendingBuffers.push_back({buffer, hint});
+  m_pendingBuffers.push_back(make_pair(buffer, hint));
   m_lock.unlock();
 
   while(bytesWritten != sizeof(size)){
@@ -183,7 +186,7 @@ size_t PipeSocketBase::recv(void **buffer, size_t size){
   return bytesRead;
 }
 
-ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_mode(mode){
+ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_reqSocket(0), m_repSocket(0), m_mode(mode){
   if(channel.topology != ONE_TO_ONE)
     throw UnsupportedException();
 
@@ -226,10 +229,12 @@ size_t ServiceSocketBase::recv(void **buffer, size_t size){
   }
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
+MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_server(0), m_private(0){
   Channel announce(channel.name + "_announce");
-  m_private = new ClientSocket({channel.name + "_" + to_string(m_pid)}, semantics, fastTransfer, deallocator);
-  m_server = new ProducerSocket(announce, MOVE_DATA, fastTransfer, [] (void *, void *) { return; });
+  Channel priv(channel.name + "_" + to_string(getpid()));
+
+  m_private = new ClientSocket(priv, semantics, fastTransfer, deallocator);
+  m_server = new ProducerSocket(announce, MOVE_DATA, fastTransfer, voidDeallocator);
   m_server->send(&m_pid, sizeof(m_pid));
 }
 
@@ -238,34 +243,35 @@ MOClientSocket::~MOClientSocket(){
   delete m_private;
 }
 
-MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
+void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
+  Poller poller;
   Channel announce(channel.name + "_announce");
+  tr1::shared_ptr<ConsumerSocket> listener(new ConsumerSocket(announce, COPY_DATA));
 
-  m_listener = std::thread([this, announce, channel, semantics, fastTransfer, deallocator] {
-    Poller poller;
-    auto listener = make_shared<ConsumerSocket>(announce, COPY_DATA);
+  poller.add(listener->m_transferPipe->read);
 
-    poller.add(listener->m_transferPipe->read);
+  while(!m_destroy){
+    if(poller.poll() == -1)
+      continue;
 
-    while(!m_destroy){
-      if(poller.poll() == -1)
-        continue;
+    pid_t pid, *pidptr = &pid;
+    listener->recv((void **)&pidptr, sizeof(pid));
 
-      pid_t pid, *pidptr = &pid;
-      listener->recv((void **)&pidptr, sizeof(pid));
+    Channel peerChannel(channel.name + "_" + to_string(pid));
+    tr1::shared_ptr<ServerSocket> peer(new ServerSocket(peerChannel, semantics, fastTransfer, deallocator));
+    m_peers.push_back(peer);
 
-      Channel peerChannel{channel.name + "_" + to_string(pid)};
-      auto peer = make_shared<ServerSocket>(peerChannel, semantics, fastTransfer, deallocator);
-      m_peers.push_back(peer);
+    m_peerPoll.add(((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, peer.get());
+  }
+}
 
-      m_peerPoll.add(((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, peer.get());
-    }
-  });
+MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_currentPeer(0), m_destroy(false){
+  m_listener.reset(new Thread(tr1::bind(&MOServerSocket::listenerThreadFun, this, channel, semantics, fastTransfer, deallocator)));
 }
 
 MOServerSocket::~MOServerSocket(){
   m_destroy = true;
-  m_listener.join();
+  m_listener->join();
 }
 
 void MOServerSocket::send(void *buffer, size_t size, void *hint){

@@ -1,27 +1,27 @@
-#ifndef SPINLOCK_H
-#define SPINLOCK_H
-
-#include <atomic>
+#ifndef IPC_SPINLOCK_H
+#define IPC_SPINLOCK_H
 
 namespace IPC{
 
 class SpinLock{
   public:
-    SpinLock() = default;
-    SpinLock(const SpinLock &) = delete;
+    SpinLock() : m_flag(false){}
 
     void lock(){
-      while(m_flag.test_and_set(std::memory_order_acquire));
+      while(__sync_lock_test_and_set(&m_flag, 1))
+	while(m_flag);
     }
 
     void unlock(){
-      m_flag.clear(std::memory_order_release);
+      __sync_lock_release(&m_flag);
     }
 
-    SpinLock & operator=(const SpinLock &) = delete;
 
   private:
-    std::atomic_flag m_flag = ATOMIC_FLAG_INIT;
+    SpinLock(const SpinLock&);
+    SpinLock & operator=(const SpinLock &);
+
+    volatile bool m_flag;
 };
 
 }

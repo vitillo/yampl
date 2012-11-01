@@ -1,7 +1,7 @@
 #include "Exceptions.h"
 
-#include "pipe/SocketFactory.h"
-#include "pipe/Socket.h"
+#include "pipe/PipeSocketFactory.h"
+#include "pipe/PipeSocket.h"
 
 namespace IPC{
 namespace pipe{

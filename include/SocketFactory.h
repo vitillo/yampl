@@ -1,5 +1,5 @@
-#ifndef SOCKETFACTORY_H
-#define SOCKETFACTORY_H
+#ifndef IPC_SOCKETFACTORY_H
+#define IPC_SOCKETFACTORY_H
 
 #include "ISocketFactory.h"
 

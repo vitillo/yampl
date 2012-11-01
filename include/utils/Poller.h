@@ -1,5 +1,5 @@
-#ifndef POLLER_H
-#define POLLER_H
+#ifndef IPC_POLLER_H
+#define IPC_POLLER_H
 
 #include <sys/epoll.h>
 

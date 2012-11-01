@@ -1,8 +1,9 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
+CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
 LDFLAGS = -shared -lpthread -lrt -luuid
 
 SOURCES = $(wildcard src/pipe/*.cpp) \
+	  $(wildcard src/shm/*.cpp)  \
 	  $(wildcard src/ZMQ/*.cpp)  \
 	  $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)

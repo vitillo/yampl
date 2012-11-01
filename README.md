@@ -13,8 +13,6 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 * **Many to Many:** Many producers and many consumers;
 
 ## Build, Test & Install
-The library requires a C++11 compatible compiler to build it.
-
 ``` bash
 git clone https://github.com/vitillo/ipc
 cd ipc
@@ -23,33 +21,6 @@ make
 make check
 make install
 ```
-
-### CERN lxplus build
-Even though the library requires a C++11 compatible compiler to build it, it is still possible to link against it from a C++03 compiler by linking against a forward compatible version (as defined in http://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html) of the C++11 standard library. Furthermore, the public API is written in C++03 so it's possible to compile against the library's header with a C++03 compiler.
-
-```bash
-source /afs/cern.ch/sw/lcg/external/gcc/4.7.2/x86_64-slc5-gcc47-opt/setup.sh
-git clone https://github.com/vitillo/ipc
-cd ipc
-./configure --prefix=INSTALL_PATH
-make
-make check
-make install
-```
-
-To compile with a C++03 compiler code that is using the IPC library, you have to link against a forward compatible version of the C++11 standard library, e.g.
-
-```bash
-g++ -L/afs/cern.ch/sw/lcg/contrib/gcc/4.7.2/x86_64-slc5-gcc47-opt/lib64/ ...
-```
-
-Finally, to run your application you need to make sure that C++11 standard library is loaded during dynamic linking, e.g.
-
-```bash
-export LD_LIBRARY_PATH=/afs/cern.ch/sw/lcg/contrib/gcc/4.7.2/x86_64-slc5-gcc47-opt/lib64/:$LD_LIBRARY_PATH
-./your_app
-```
-
 
 ##Examples
 The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:
@@ -113,7 +84,7 @@ int main(int argc, char *argv[]){
 ```
 
 ###Multithreaded Client-Server
-The following is a similar example to the above one but this time in a multithreaded environment.
+The following is a similar example to the above one but this time in a multithreaded environment (C++11).
 
 
 ```c++
