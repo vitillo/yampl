@@ -8,7 +8,7 @@ using namespace IPC;
 using namespace std;
 
 int main(int argc, char *argv[]){
-  const string ping = "Ping from " + getpid();
+  const string ping = "Ping from " + to_string(getpid());
   char pong[100], *pong_ptr = &pong[0];
   
   Channel channel("service", MANY_TO_ONE);

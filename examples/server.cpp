@@ -9,7 +9,7 @@ using namespace IPC;
 
 int main(int argc, char *argv[]){
   char ping[100], *ping_ptr = &ping[0];
-  string pong = "Pong from " + getpid();
+  string pong = "Pong from " + to_string(getpid());
   
   Channel channel("service", MANY_TO_ONE);
   ISocketFactory *factory = new SocketFactory();
