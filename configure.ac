@@ -11,8 +11,13 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_MAKE_SET
 
+# Checks for libraries.
+AC_CHECK_LIB([pthread], [pthread_create])
+AC_CHECK_LIB([rt], [clock_gettime])
+AC_CHECK_LIB([uuid], [uuid_unparse])
+
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h fcntl.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h stdlib.h sys/time.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -25,7 +30,7 @@ AC_TYPE_UINT64_T
 AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([gettimeofday memset mkfifo strcasecmp strdup strerror])
+AC_CHECK_FUNCS([ftruncate gettimeofday memset mkfifo munmap strcasecmp strdup strerror])
 
 AC_CONFIG_FILES([Makefile])
 #AC_CONFIG_SUBDIRS([zeromq])
