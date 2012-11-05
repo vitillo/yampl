@@ -2,57 +2,64 @@
 #define YAMPL_RINGBUFFER_H
 
 #include <cstring>
+#include <iostream>
 
 namespace YAMPL{
 /*
- * Lock and wait-free implementation of a multithreaded single-producer, single-consumer ring buffer.
+ * Lock and wait-free implementation of a multithreaded single-producer, single-consumer ring buffer. The buffer needs to be zero-initialized.
  */
 class RingBuffer{
   public:
-    RingBuffer(size_t size = 1024, void *buffer = NULL): m_size(size), m_buffer(buffer ? (char*)buffer : new char[m_size]), m_head(0), m_tail(0){
+    RingBuffer(size_t size, void *buffer): m_size(size), m_buffer((char *)buffer), /**m_head(((size_t *)m_buffer)[0]), *m_tail((*(size_t *)&m_buffer[size - sizeof(size_t)])), */m_initialized(false){
+      /* Try to use different cachelines for m_head and m_tail to avoid cache ping-pong */
+      m_head = &((size_t *)m_buffer)[0];
+      m_tail = (size_t *)&m_buffer[size - sizeof(size_t)];
+      m_buffer += 2*sizeof(size_t);
+      m_size -= 2*sizeof(size_t);
     }
 
     size_t enqueue(void *buffer, size_t size){
-      if((m_head + 1) % m_size == m_tail)
+      if((*m_head + 1) % m_size == *m_tail)
 	return 0;
       
       size_t empty = emptySize();
       size = empty < size ? empty : size;
 
-      size_t tail = enqueueBuffer(buffer, size, m_tail);
+      size_t tail = enqueueBuffer(buffer, size, *m_tail);
 
       // A compiler barrier has to be issued even though stores are ordered on x86
       // to ensure that the stores are not reorderded at compilation time
       asm volatile("" ::: "memory"); 
-      m_tail = tail;
+      *m_tail = tail;
 
       return size;
     }
 
     size_t dequeue(void *buffer, size_t size){
-      if(m_head == m_tail)
+      if(*m_head == *m_tail)
 	return 0;
 
-      size_t head = dequeueBuffer(buffer, size, m_head);
+      size_t head = dequeueBuffer(buffer, size, *m_head);
       
       asm volatile("" ::: "memory"); 
-      m_head = head;
+      *m_head = head;
       
       return size;
     }
 
 
   private:
-    const size_t m_size;
+    size_t m_size;
     char *m_buffer;
-    size_t m_head;
-    size_t m_tail;
+    size_t *m_head;
+    size_t *m_tail;
+    bool m_initialized;
 
     size_t emptySize(){
-      if(m_tail >= m_head)
-	return m_size - m_tail + m_head - 1; 
+      if(*m_tail >= *m_head)
+	return m_size - *m_tail + *m_head - 1; 
       else
-	return m_head - m_tail - 1;
+	return *m_head - *m_tail - 1;
     }
 
     size_t enqueueBuffer(void *buffer, size_t size, size_t tail){

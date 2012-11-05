@@ -1,6 +1,4 @@
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#include <iostream>
 
 #include "Exceptions.h"
 #include "shm/SHMSocket.h"
@@ -10,26 +8,10 @@ using namespace std;
 namespace YAMPL{
 namespace shm{
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_semantics(semantics), m_deallocator(deallocator), m_size(1024), m_doUnlink(false), m_fd(-1), m_name("/" + channel.name), m_receiveSize(0), m_receiveBuffer(NULL){
-  if((m_fd = shm_open(m_name.c_str(), O_RDWR | O_CREAT | O_EXCL, S_IRWXU)) == -1){
-    m_doUnlink = true;
-  }else if((m_fd = shm_open(m_name.c_str(), O_RDWR | O_CREAT, S_IRWXU)) == -1){
-    throw ErrnoException("Failed to open shared memory object");
-  }
-
-  if(ftruncate(m_fd, m_size) == -1)
-    throw ErrnoException("Failed to set the size of the shared memory object");
-
-  if((m_buffer = mmap(NULL, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == NULL)
-    throw ErrnoException("Failed to mmap shared object");
-
-  m_queue.reset(new RingBuffer(m_size, m_buffer));
+PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_size(1024), m_fd(-1), m_name("/" + channel.name), m_semantics(semantics), m_deallocator(deallocator), m_receiveSize(0), m_receiveBuffer(NULL){
 }
 
 PipeSocketBase::~PipeSocketBase(){
-  if(m_doUnlink){
-    shm_unlink(m_name.c_str());
-  }
   munmap((char *)m_buffer - sizeof(bool), m_size + sizeof(bool));
   close(m_fd);
 

@@ -14,8 +14,8 @@ A channel allows to send and receive data on it. Receives are blocking while sen
 
 ## Build, Test & Install
 ``` bash
-git clone https://github.com/vitillo/ipc
-cd ipc
+git clone https://github.com/vitillo/yampl
+cd yampl
 ./configure --prefix=INSTALL_PATH
 make
 make check
@@ -36,7 +36,7 @@ The clients ping a server process and receive a reply from it.
 #include <iostream>
 #include "SocketFactory.h"
 
-using namespace IPC;
+using namespace YAMPL;
 using namespace std;
 
 int main(int argc, char *argv[]){
@@ -64,7 +64,7 @@ The server process replies to the pings of the client.
 #include "SocketFactory.h"
 
 using namespace std;
-using namespace IPC;
+using namespace YAMPL;
 
 int main(int argc, char *argv[]){
   char ping[100], *ping_ptr = &ping[0];
@@ -97,7 +97,7 @@ The following is a similar example to the above one but this time in a multithre
 inline void deallocator(void *, void*){}
 
 using namespace std;
-using namespace IPC;
+using namespace YAMPL;
 
 int main(int argc, char *argv[]){
   const int nThreads = 10;
