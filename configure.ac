@@ -22,13 +22,14 @@ AC_CHECK_HEADERS([arpa/inet.h fcntl.h stdlib.h sys/time.h unistd.h])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
+AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
-AC_TYPE_UINT64_T
 
 # Checks for library functions.
 AC_FUNC_FORK
 AC_FUNC_MALLOC
+AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([ftruncate gettimeofday memset mkfifo munmap strcasecmp strdup strerror])
 
