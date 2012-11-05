@@ -1,6 +1,6 @@
-# ATLAS Message Passing Library
+# YAMPL
 
-This Linux library provides a simple abstraction of inter-process & inter-thread communication channels for specific patterns. The supported patterns are:
+YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process & inter-thread communication channel patterns for Linux. The supported patterns are:
 * **Producer - Consumer:** A producer sends data to a receiver;
 * **Client - Server:** A client sends a request to a server and receives a reply back;
 
