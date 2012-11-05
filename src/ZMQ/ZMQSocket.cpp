@@ -7,7 +7,7 @@
 
 using namespace std;
 
-namespace IPC{
+namespace YAMPL{
 namespace ZMQ{
 
 SocketBase::~SocketBase(){

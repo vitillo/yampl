@@ -7,7 +7,7 @@
 inline void deallocator(void *, void*){}
 
 using namespace std;
-using namespace IPC;
+using namespace YAMPL;
 
 void server(ISocketFactory *factory){
   Channel channel("service", MANY_TO_ONE, THREAD);

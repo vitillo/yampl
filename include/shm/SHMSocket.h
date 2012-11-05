@@ -1,5 +1,5 @@
-#ifndef IPC_SHM_SOCKET_H
-#define IPC_SHM_SOCKET_H
+#ifndef YAMPL_SHM_SOCKET_H
+#define YAMPL_SHM_SOCKET_H
 
 #include <string>
 #include <tr1/memory>
@@ -9,7 +9,7 @@
 #include "Channel.h"
 #include "utils/RingBuffer.h"
 
-namespace IPC{
+namespace YAMPL{
 namespace shm{
 
 class PipeSocketBase : public ISocket{

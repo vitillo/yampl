@@ -1,9 +1,9 @@
-#ifndef IPC_RINGBUFFER_H
-#define IPC_RINGBUFFER_H
+#ifndef YAMPL_RINGBUFFER_H
+#define YAMPL_RINGBUFFER_H
 
 #include <cstring>
 
-namespace IPC{
+namespace YAMPL{
 /*
  * Lock and wait-free implementation of a multithreaded single-producer, single-consumer ring buffer.
  */

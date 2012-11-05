@@ -1,9 +1,9 @@
-#ifndef IPC_SOCKETFACTORY_H
-#define IPC_SOCKETFACTORY_H
+#ifndef YAMPL_SOCKETFACTORY_H
+#define YAMPL_SOCKETFACTORY_H
 
 #include "ISocketFactory.h"
 
-namespace IPC{
+namespace YAMPL{
 
 namespace ZMQ{
   class SocketFactory;

@@ -1,5 +1,5 @@
-#ifndef IPC_PIPE_SOCKET_H
-#define IPC_PIPE_SOCKET_H
+#ifndef YAMPL_PIPE_SOCKET_H
+#define YAMPL_PIPE_SOCKET_H
 
 #include <unistd.h>
 
@@ -16,7 +16,7 @@
 #include "utils/Poller.h"
 #include "utils/Thread.h"
 
-namespace IPC{
+namespace YAMPL{
 namespace pipe{
 
 enum Mode{

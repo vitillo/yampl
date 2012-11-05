@@ -3,7 +3,7 @@
 #include "ZMQ/ZMQSocketFactory.h"
 #include "ZMQ/ZMQSocket.h"
 
-namespace IPC{
+namespace YAMPL{
 namespace ZMQ{
 
 SocketFactory::SocketFactory() : m_context(new zmq::context_t(1)){

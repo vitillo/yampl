@@ -1,10 +1,10 @@
-#ifndef IPC_UTILS_H
-#define IPC_UTILS_H
+#ifndef YAMPL_UTILS_H
+#define YAMPL_UTILS_H
 
 #include <string>
 #include <sstream>
 
-namespace IPC{
+namespace YAMPL{
 
 template <typename T>
 std::string to_string(T value){

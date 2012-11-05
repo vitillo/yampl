@@ -14,7 +14,7 @@
 #include "pipe/PipeSocketFactory.h"
 #include "utils/Thread.h"
 
-using namespace IPC;
+using namespace YAMPL;
 using namespace std;
 
 static struct timeval start_time, end_time;

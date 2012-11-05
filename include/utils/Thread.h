@@ -1,12 +1,12 @@
-#ifndef IPC_THREAD_H
-#define IPC_THREAD_H
+#ifndef YAMPL_THREAD_H
+#define YAMPL_THREAD_H
 
 #include <pthread.h>
 #include <tr1/functional>
 
 #include "Exceptions.h"
 
-namespace IPC{
+namespace YAMPL{
 
 class Thread{
   public:

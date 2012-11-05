@@ -7,7 +7,7 @@
 
 using namespace std;
 
-namespace IPC{
+namespace YAMPL{
 namespace shm{
 
 PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_semantics(semantics), m_deallocator(deallocator), m_size(1024), m_doUnlink(false), m_fd(-1), m_name("/" + channel.name), m_receiveSize(0), m_receiveBuffer(NULL){

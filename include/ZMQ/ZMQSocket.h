@@ -1,5 +1,5 @@
-#ifndef IPC_ZMQ_SOCKET_H
-#define IPC_ZMQ_SOCKET_H
+#ifndef YAMPL_ZMQ_SOCKET_H
+#define YAMPL_ZMQ_SOCKET_H
 
 #include "Channel.h"
 #include "ISocket.h"
@@ -11,7 +11,7 @@ namespace zmq{
   class socket_t;
 }
 
-namespace IPC{
+namespace YAMPL{
 namespace ZMQ{
 
 class SocketBase : public ISocket{

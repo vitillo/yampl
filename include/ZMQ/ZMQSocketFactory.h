@@ -1,5 +1,5 @@
-#ifndef IPC_ZMQ_SOCKETFACTORY_H
-#define IPC_ZMQ_SOCKETFACTORY_H
+#ifndef YAMPL_ZMQ_SOCKETFACTORY_H
+#define YAMPL_ZMQ_SOCKETFACTORY_H
 
 #include "ISocketFactory.h"
 
@@ -7,7 +7,7 @@ namespace zmq{
   class context_t;
 }
 
-namespace IPC{
+namespace YAMPL{
 namespace ZMQ{
 
 class SocketFactory : public ISocketFactory{

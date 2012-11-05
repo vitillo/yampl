@@ -1,11 +1,11 @@
-#ifndef IPC_ISOCKET_H
-#define IPC_ISOCKET_H
+#ifndef YAMPL_ISOCKET_H
+#define YAMPL_ISOCKET_H
 
 #include <unistd.h>
 
 #include "Exceptions.h"
 
-namespace IPC{
+namespace YAMPL{
 
 class ISocket{
   public:

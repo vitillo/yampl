@@ -1,9 +1,9 @@
-#ifndef IPC_PIPE_SOCKETFACTORY_H
-#define IPC_PIPE_SOCKETFACTORY_H
+#ifndef YAMPL_PIPE_SOCKETFACTORY_H
+#define YAMPL_PIPE_SOCKETFACTORY_H
 
 #include "ISocketFactory.h"
 
-namespace IPC{
+namespace YAMPL{
 namespace pipe{
 
 class SocketFactory : public ISocketFactory{

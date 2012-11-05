@@ -1,5 +1,5 @@
-#ifndef IPC_EXCEPTIONS_H
-#define IPC_EXCEPTIONS_H
+#ifndef YAMPL_EXCEPTIONS_H
+#define YAMPL_EXCEPTIONS_H
 
 #include <exception>
 #include <cstdio>
@@ -7,12 +7,12 @@
 
 #include <errno.h>
 
-namespace IPC{
+namespace YAMPL{
 
-class IPCException: public std::exception{
+class YAMPLException: public std::exception{
   public:
-    IPCException(const char * msg) : m_msg(msg){}
-    virtual ~IPCException() throw() {}
+    YAMPLException(const char * msg) : m_msg(msg){}
+    virtual ~YAMPLException() throw() {}
 
     virtual const char * what() const throw(){
       return m_msg;
@@ -22,27 +22,27 @@ class IPCException: public std::exception{
     const char * m_msg;
 };
 
-class UnsupportedException: public IPCException{
+class UnsupportedException: public YAMPLException{
   public:
-  UnsupportedException() : IPCException("This feature is not supported yet"){}
+  UnsupportedException() : YAMPLException("This feature is not supported yet"){}
 };
 
-class InvalidOperationException: public IPCException{
+class InvalidOperationException: public YAMPLException{
   public:
-  InvalidOperationException(const char *msg = "Operation not permitted"): IPCException(msg){}
+  InvalidOperationException(const char *msg = "Operation not permitted"): YAMPLException(msg){}
 };
 
-class InvalidSizeException: public IPCException{
+class InvalidSizeException: public YAMPLException{
   public:
-  InvalidSizeException(): IPCException("Buffer size is not sufficient"){}
+  InvalidSizeException(): YAMPLException("Buffer size is not sufficient"){}
 };
 
-class ErrnoException : public IPCException{
+class ErrnoException : public YAMPLException{
   public:
-    ErrnoException(const char *msg = "System call error"): IPCException(msg), m_errno(errno) {
+    ErrnoException(const char *msg = "System call error"): YAMPLException(msg), m_errno(errno) {
     }
 
-    ErrnoException(int err, const char *msg = "System call error"): IPCException(msg), m_errno(err){}
+    ErrnoException(int err, const char *msg = "System call error"): YAMPLException(msg), m_errno(err){}
 
     int getErrno(){
       return m_errno;

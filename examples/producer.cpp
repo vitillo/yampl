@@ -4,7 +4,7 @@
 #include "SocketFactory.h"
 #include "utils/utils.h"
 
-using namespace IPC;
+using namespace YAMPL;
 using namespace std;
 
 void deallocator(void *, void*){}

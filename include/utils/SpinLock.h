@@ -1,7 +1,7 @@
-#ifndef IPC_SPINLOCK_H
-#define IPC_SPINLOCK_H
+#ifndef YAMPL_SPINLOCK_H
+#define YAMPL_SPINLOCK_H
 
-namespace IPC{
+namespace YAMPL{
 
 class SpinLock{
   public:

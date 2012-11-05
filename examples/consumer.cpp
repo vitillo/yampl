@@ -3,7 +3,7 @@
 #include "SocketFactory.h"
 
 using namespace std;
-using namespace IPC;
+using namespace YAMPL;
 
 int main(int argc, char *argv[]){
   char *message = 0;

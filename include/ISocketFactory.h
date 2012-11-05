@@ -1,12 +1,12 @@
-#ifndef IPC_ISOCKETFACTORY_H
-#define IPC_ISOCKETFACTORY_H
+#ifndef YAMPL_ISOCKETFACTORY_H
+#define YAMPL_ISOCKETFACTORY_H
 
 #include <stdlib.h>
 
 #include "Channel.h"
 #include "ISocket.h"
 
-namespace IPC{
+namespace YAMPL{
 
 inline void defaultDeallocator(void *buffer, void *){
   free(buffer);

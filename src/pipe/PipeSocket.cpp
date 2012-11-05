@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace IPC{
+namespace YAMPL{
 namespace pipe{
 
 RawPipe::RawPipe(const std::string &name) : m_name(name), m_doUnlink(false){

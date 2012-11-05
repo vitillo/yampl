@@ -5,7 +5,7 @@
 #include "utils/utils.h"
 
 using namespace std;
-using namespace IPC;
+using namespace YAMPL;
 
 int main(int argc, char *argv[]){
   char ping[100], *ping_ptr = &ping[0];

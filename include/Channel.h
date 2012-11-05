@@ -1,9 +1,9 @@
-#ifndef IPC_CHANNEL_H
-#define IPC_CHANNEL_H
+#ifndef YAMPL_CHANNEL_H
+#define YAMPL_CHANNEL_H
 
 #include <string>
 
-namespace IPC{
+namespace YAMPL{
 
 enum Topology{
   ONE_TO_ONE = 0,

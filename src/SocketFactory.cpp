@@ -5,7 +5,7 @@
 
 #include "SocketFactory.h"
 
-namespace IPC{
+namespace YAMPL{
 
 SocketFactory::SocketFactory(){
   m_zmqFactory = new ZMQ::SocketFactory();

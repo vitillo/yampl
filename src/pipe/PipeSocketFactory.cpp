@@ -3,7 +3,7 @@
 #include "pipe/PipeSocketFactory.h"
 #include "pipe/PipeSocket.h"
 
-namespace IPC{
+namespace YAMPL{
 namespace pipe{
 
 ISocket *SocketFactory::createProducerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){

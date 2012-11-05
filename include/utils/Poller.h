@@ -1,11 +1,11 @@
-#ifndef IPC_POLLER_H
-#define IPC_POLLER_H
+#ifndef YAMPL_POLLER_H
+#define YAMPL_POLLER_H
 
 #include <sys/epoll.h>
 
 #include "Exceptions.h"
 
-namespace IPC{
+namespace YAMPL{
 
 class Poller{
   public:
