@@ -6,6 +6,7 @@ SOURCES = $(wildcard src/pipe/*.cpp) \
 	  $(wildcard src/shm/*.cpp)  \
 	  $(wildcard src/ZMQ/*.cpp)  \
 	  $(wildcard src/*.cpp)
+
 OBJECTS = $(SOURCES:.cpp=.o)
 DEPS = $(SOURCES:.cpp=.d)
 LIBYAMPL = libyampl.so
@@ -35,8 +36,9 @@ $(EXAMPLES): $(LIBYAMPL)
 	$(MAKE) -C $@
 
 install: all
-	mkdir -p $(PREFIX)/lib
-	install -s -c -m 0444 $(LIBYAMPL) $(PREFIX)/lib
+	mkdir -p $(PREFIX)/{lib,include}
+	cp $(LIBYAMPL) $(PREFIX)/lib
+	cp -R ./include/* $(PREFIX)/include/
 
 uninstall: 
 	rm -rf $(PREFIX)/lib/$(LIBYAMPL)

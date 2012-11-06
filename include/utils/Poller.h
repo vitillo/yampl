@@ -31,11 +31,30 @@ class Poller{
     int poll(void **data, int timeout = 500){
       epoll_event ev;
 
+      while(true){
+	switch(epoll_wait(m_poll, &ev, 1, timeout)){
+	  case 0:
+	    return -1;
+
+	  case -1:
+	    if(errno == EINTR){
+	      continue;
+	    }
+	    throw ErrnoException("Failed to wait on epoll handle");
+
+	  default:
+	    break;
+	}
+
+	break;
+      }
+
       switch(epoll_wait(m_poll, &ev, 1, timeout)){
 	case 0:
 	  return -1;
 	case -1:
-	  throw ErrnoException("Failed to wait on epoll handle");
+	  if(errno != EINTR)
+	    throw ErrnoException("Failed to wait on epoll handle");
 	default:
 	  break;
       }
