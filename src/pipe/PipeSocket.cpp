@@ -71,7 +71,10 @@ void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
     m_pendingBuffers.pop_front();
     m_lock.unlock();
 
-    deallocator((void *)entry.first, (void *)entry.second);
+    if(m_semantics == MOVE_DATA)
+      deallocator((void *)entry.first, (void *)entry.second);
+    else
+      free(entry.first);
   }
 }
 
@@ -107,10 +110,6 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
-  m_lock.lock();
-  m_pendingBuffers.push_back(make_pair(buffer, hint));
-  m_lock.unlock();
-
   while(bytesWritten != sizeof(size)){
     ssize_t sent = TEMP_FAILURE_RETRY(write(m_transferPipe->write, &size, sizeof(size)));
 
@@ -128,6 +127,10 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
 
     buffer = memcpy(tmp, buffer, size);
   }
+
+  m_lock.lock();
+  m_pendingBuffers.push_back(make_pair(buffer, hint));
+  m_lock.unlock();
 
   for(bytesWritten = 0; bytesWritten != size;){
     ssize_t sent = 0;
