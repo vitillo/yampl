@@ -8,13 +8,13 @@ SOURCES = $(wildcard src/pipe/*.cpp) \
 	  $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 DEPS = $(SOURCES:.cpp=.d)
-LIBIPC = libipc.so
+LIBYAMPL = libyampl.so
 LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
 PREFIX = @prefix@
 TAGS = tags
 
-all: $(LIBZMQ) $(LIBIPC) $(EXAMPLES) $(TAGS)
+all: $(LIBZMQ) $(LIBYAMPL) $(EXAMPLES) $(TAGS)
 
 $(TAGS):
 	ctags -R ./
@@ -27,19 +27,19 @@ $(LIBZMQ):
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MT $@ -MMD -c $< -o $@
 
-$(LIBIPC): $(OBJECTS) $(LIBZMQ)
-	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBZMQ) -o $(LIBIPC)
+$(LIBYAMPL): $(OBJECTS) $(LIBZMQ)
+	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBZMQ) -o $(LIBYAMPL)
 
 .PHONY: $(EXAMPLES)
-$(EXAMPLES): $(LIBIPC)
+$(EXAMPLES): $(LIBYAMPL)
 	$(MAKE) -C $@
 
 install: all
 	mkdir -p $(PREFIX)/lib
-	install -s -c -m 0444 $(LIBIPC) $(PREFIX)/lib
+	install -s -c -m 0444 $(LIBYAMPL) $(PREFIX)/lib
 
 uninstall: 
-	rm -rf $(PREFIX)/lib/$(LIBIPC)
+	rm -rf $(PREFIX)/lib/$(LIBYAMPL)
 
 check:
 	./examples/benchmark
@@ -56,4 +56,4 @@ check:
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
 	$(MAKE) -C zeromq clean
-	rm -rf $(LIBIPC) $(OBJECTS) $(DEPS) tags
+	rm -rf $(LIBYAMPL) $(OBJECTS) $(DEPS) tags
