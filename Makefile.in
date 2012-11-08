@@ -44,15 +44,21 @@ uninstall:
 	rm -rf $(PREFIX)/lib/$(LIBYAMPL)
 
 check:
-	./examples/benchmark
+	./examples/benchmarks/benchmark
 	@echo
-	./examples/benchmark -i pipe
+	./examples/benchmarks/benchmark -y
 	@echo
-	./examples/benchmark -i splice
+	./examples/benchmarks/benchmark -i pipe
 	@echo
-	./examples/benchmark -i splice -t MANY_TO_ONE
+	./examples/benchmarks/benchmark -i pipe -y
 	@echo
-	./examples/benchmark -c THREAD
+	./examples/benchmarks/benchmark -i splice
+	@echo
+	./examples/benchmarks/benchmark -i splice -y
+	@echo
+	./examples/benchmarks/benchmark -c THREAD
+	@echo
+	./examples/benchmarks/benchmark -c DISTRIBUTED_PROCESS
 
 .PHONY: clean
 clean:
