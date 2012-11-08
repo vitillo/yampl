@@ -3,10 +3,13 @@
 YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels.
 
 A channel allows to send and receive data over it. Receives are blocking while sends are buffered and block only when the internal buffer is full. Each end of a channel is attached to a socket:
-* **ClientSocket:** a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
-* **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
+* **ClientSocket**  -- a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
+* **ServerSocket** -- a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
-The implementation determines at run-time the best communication strategy possible in order to reduce the latency and increase the bandwidth for the current communication pattern.
+The implementation determines at run-time the best communication strategy possible in order to reduce the latency and increase the bandwidth for the current communication pattern:
+* **Inter-thread communication** -- lock free queues
+* **Inter-process (local)** -- POSIX shared memory for "small" messages and UNIX pipes (vmsplice) for "big" messages
+* **Inter-process (distributed)** -- POSIX Sockets 
 
 ## Build, Test & Install
 ``` bash
@@ -19,12 +22,9 @@ make install
 ```
 
 ##Examples
-The *examples* subdirectory provides four binaries that demonstrate the two supported patterns:
+The *examples* subdirectory provides four binaries that demonstrate some use-cases.
 
-* *client* and *server* instantiates the **Client - Server** pattern with a **Many to One** channel, that means you can launch multiple clients with one server
-* *producer* and *consumer* instantiates the **Producer - Consumer** pattern with a **One to Many** channel, that means there can be only one producer but multiple consumers
-
-###Client
+###Local Client
 The clients ping a server process and receive a reply from it.
 
 ``` c++
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Server
+###Local Server
 The server process replies to the pings of the client.
 
 ```c++
