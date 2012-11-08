@@ -1,16 +1,12 @@
 # YAMPL
 
-YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process & inter-thread communication channel patterns for Linux. The supported patterns are:
-* **Producer - Consumer:** A producer sends data to a receiver;
-* **Client - Server:** A client sends a request to a server and receives a reply back;
+YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process & inter-thread communication channels.
 
-A channel allows to send and receive data on it. Receives are blocking while sends are buffered and block only when the buffer is filled up. Each end of a channel is attached to a socket, i.e. for the **Client - Server** pattern there are one or more **ClientSocket**s and one or more **ServerSocket**s.
+A channel allows to send and receive data over it. Receives are blocking while sends are buffered and block only when the internal buffer is filled up. Each end of a channel is attached to a socket:
+* **ClientSocket:** a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
+* **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
- A channel has a certain topology, i.e. in the case of the **Producer - Consumer** pattern the options are:
-* **One to One:** One producer and one consumer;
-* **One to Many:** One producer and many consumer; messages are handed over with a roundrobin policy;
-* **Many to One:** Many producers and one consumer:
-* **Many to Many:** Many producers and many consumers;
+The implementation determines at run-time the best communication strategy possible in order to reduce the latency and increase the bandwidth for the current communication pattern.
 
 ## Build, Test & Install
 ``` bash
@@ -34,7 +30,7 @@ The clients ping a server process and receive a reply from it.
 ``` c++
 #include <unistd.h>
 #include <iostream>
-#include "SocketFactory.h"
+#include "YAMPLSocketFactory.h"
 
 using namespace YAMPL;
 using namespace std;
@@ -43,7 +39,7 @@ int main(int argc, char *argv[]){
   const string ping = "Ping from " + to_string(getpid());
   char pong[100], *pong_ptr = &pong[0];
   
-  Channel channel("service", MANY_TO_ONE);
+  Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 
@@ -61,7 +57,7 @@ The server process replies to the pings of the client.
 ```c++
 #include <unistd.h>
 #include <iostream>
-#include "SocketFactory.h"
+#include "YAMPLSocketFactory.h"
 
 using namespace std;
 using namespace YAMPL;
@@ -70,7 +66,7 @@ int main(int argc, char *argv[]){
   char ping[100], *ping_ptr = &ping[0];
   string pong = "Pong from " + to_string(getpid());
   
-  Channel channel("service", MANY_TO_ONE);
+  Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel);
 
@@ -79,6 +75,57 @@ int main(int argc, char *argv[]){
     socket->send(pong.c_str(), pong.size() + 1);
     cout << ping << endl;
     sleep(1);
+  }
+}
+```
+
+###Distributed Producer
+```c++
+#include <unistd.h>
+#include <iostream>
+
+#include "utils/utils.h"
+#include "YAMPLSocketFactory.h"
+
+using namespace YAMPL;
+using namespace std;
+
+void deallocator(void *, void*){}
+
+int main(int argc, char *argv[]){
+  string message = "Hello from " +  to_string(getpid());
+  
+  Channel channel("127.0.0.1:3333", DISTRIBUTED_PROCESS);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
+
+  while(true){
+    socket->send(message.c_str(), message.size());
+    cout << "Message sent" <<  endl;
+    sleep(1);
+  }
+}
+```
+
+###Distributed Consumer
+```c++
+#include <iostream>
+
+#include "YAMPLSocketFactory.h"
+
+using namespace std;
+using namespace YAMPL;
+
+int main(int argc, char *argv[]){
+  char *message = 0;
+
+  Channel channel("127.0.0.1:3333", DISTRIBUTED_PROCESS);
+  ISocketFactory *factory = new SocketFactory();
+  ISocket *socket = factory->createServerSocket(channel, MOVE_DATA);
+
+  while(true){
+    socket->recv(&message);
+    cout << message << endl;
   }
 }
 ```
@@ -92,7 +139,7 @@ The following is a similar example to the above one but this time in a multithre
 #include <iostream>
 #include <thread>
 
-#include "SocketFactory.h"
+#include "YAMPLSocketFactory.h"
 
 inline void deallocator(void *, void*){}
 
@@ -104,7 +151,7 @@ int main(int argc, char *argv[]){
   ISocketFactory *factory = new SocketFactory();
 
   thread server([factory] {
-    Channel channel("service", MANY_TO_ONE, THREAD);
+    Channel channel("service", THREAD);
     ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
 
     while(true){
@@ -116,7 +163,7 @@ int main(int argc, char *argv[]){
   
   for(int i = 0; i < nThreads; i++){
     thread t([factory, i] {
-      Channel channel("service", MANY_TO_ONE, THREAD);
+      Channel channel("service", THREAD);
       ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
       while(true){

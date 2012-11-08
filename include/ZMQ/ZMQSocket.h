@@ -9,6 +9,7 @@
 namespace zmq{
   class context_t;
   class socket_t;
+  class message_t;
 }
 
 namespace YAMPL{
@@ -16,13 +17,15 @@ namespace ZMQ{
 
 class SocketBase : public ISocket{
   public:
-    virtual ~SocketBase();
+    typedef ISocket::discriminator_t discriminator_t;
 
-    virtual void send(void *buffer, size_t size, void *hint = NULL);
-    virtual size_t recv(void **buffer, size_t size = 0);
+    virtual ~SocketBase();
+    
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0) = 0;
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0) = 0;
 
   protected:
-    SocketBase(Channel channel, zmq::context_t *context, int type, Semantics semantics, void (*deallocator)(void *, void *));
+    SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type);
 
     Channel m_channel;
     Semantics m_semantics;
@@ -33,80 +36,43 @@ class SocketBase : public ISocket{
   private:
     SocketBase(const SocketBase &);
     SocketBase & operator=(const SocketBase &);
-    void connect();
-
-    bool m_received;
-    bool m_connected;
-    int m_type;
-};
-
-class ProducerSocket : public SocketBase{
-  public:
-    ProducerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
-    
-    virtual void send(void *buffer, size_t size, void *hint = NULL){
-      SocketBase::send(buffer, size, hint);
-    }
-
-    virtual size_t recv(void **buffer, size_t size = 0){
-      throw InvalidOperationException();
-    }
-
-  private:
-    ProducerSocket(const ProducerSocket &);
-    ProducerSocket & operator=(const ProducerSocket &);
-};
-
-class ConsumerSocket: public SocketBase{
-  public:
-    ConsumerSocket(Channel channel, zmq::context_t *context, Semantics semantics);
-
-    virtual void send(void *buffer, size_t size, void *hint = NULL){
-      throw InvalidOperationException();
-    }
-
-    virtual size_t recv(void **buffer, size_t size = 0){
-      return SocketBase::recv(buffer, size);
-    }
-
-  private:
-    ConsumerSocket(const ConsumerSocket &);
-    ConsumerSocket & operator=(const ConsumerSocket &);
 };
 
 class ClientSocket : public SocketBase{
   public:
+    typedef SocketBase::discriminator_t discriminator_t;
+
     ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
+    virtual ~ClientSocket();
 
-    virtual void send(void *buffer, size_t size, void *hint = NULL){
-      SocketBase::send(buffer, size, hint);
-    }
-
-    virtual size_t recv(void **buffer, size_t size = 0){
-      return SocketBase::recv(buffer, size);
-    }
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
+    bool m_isConnected;
+
     ClientSocket(const ClientSocket &);
-    ClientSocket & operator=(const ClientSocket);
-};
+    ClientSocket & operator=(const ClientSocket &);
+    void connect();
+ };
 
 class ServerSocket : public SocketBase{
   public:
+    typedef SocketBase::discriminator_t discriminator_t;
+
     ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
-
-    virtual void send(void *buffer, size_t size, void *hint = NULL){
-      SocketBase::send(buffer, size, hint);
-    }
-
-    virtual size_t recv(void **buffer, size_t size = 0){
-      return SocketBase::recv(buffer, size);
-    }
+    virtual ~ServerSocket();
+ 
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
-    ServerSocket(const ServerSocket &);
-    ServerSocket & operator=(const ServerSocket &);
-};
+    ServerSocket(const ClientSocket &);
+    ServerSocket & operator=(const ClientSocket &);
+    void sendMessage(zmq::message_t &message, const discriminator_t *discriminator);
+
+    zmq::message_t *m_lastAddress;
+ };
 
 }
 }

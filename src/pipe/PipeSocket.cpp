@@ -106,7 +106,7 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
@@ -149,7 +149,7 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
   }
 }
 
-size_t PipeSocketBase::recv(void **buffer, size_t size){
+size_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   size_t bytesRead = 0;
 
   while(bytesRead != sizeof(m_receiveSize)){
@@ -190,9 +190,6 @@ size_t PipeSocketBase::recv(void **buffer, size_t size){
 }
 
 ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_reqSocket(0), m_repSocket(0), m_mode(mode){
-  if(channel.topology != ONE_TO_ONE)
-    throw UnsupportedException();
-
   Channel req = channel, rep = channel;
   req.name = req.name + "_req";
   rep.name = rep.name + "_rep";
@@ -214,19 +211,19 @@ ServiceSocketBase::~ServiceSocketBase(){
   delete m_repSocket;
 }
 
-void ServiceSocketBase::send(void *buffer, size_t size, void *hint){
+void ServiceSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
   if(m_receiveCompleted){
-    (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, hint);
+    (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
     m_receiveCompleted = false;
   }else
     throw UnsupportedException();
 }
 
-size_t ServiceSocketBase::recv(void **buffer, size_t size){
+size_t ServiceSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   if(m_receiveCompleted)
     throw UnsupportedException();
   else{
-    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size);
+    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size, discriminator);
     m_receiveCompleted = true;
     return ret;
   }
@@ -277,20 +274,20 @@ MOServerSocket::~MOServerSocket(){
   m_listener->join();
 }
 
-void MOServerSocket::send(void *buffer, size_t size, void *hint){
+void MOServerSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
   if(!m_currentPeer)
     throw InvalidOperationException();
 
-  m_currentPeer->send(buffer, size, hint);
+  m_currentPeer->send(buffer, size, discriminator, hint);
   m_currentPeer = 0;
 }
 
-size_t MOServerSocket::recv(void **buffer, size_t size){
+size_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   if(m_currentPeer)
     throw InvalidOperationException();
 
   m_peerPoll.poll((void **)&m_currentPeer, -1);
-  return m_currentPeer->recv(buffer, size);
+  return m_currentPeer->recv(buffer, size, discriminator);
 }
 
 }

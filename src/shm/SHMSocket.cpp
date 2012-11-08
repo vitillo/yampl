@@ -18,7 +18,7 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
   size_t bytesWritten = 0;
 
   while(bytesWritten != sizeof(size)){
@@ -33,7 +33,7 @@ void PipeSocketBase::send(void *buffer, size_t size, void *hint){
     m_deallocator(buffer, hint);
 }
 
-size_t PipeSocketBase::recv(void **buffer, size_t size){
+size_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   size_t bytesRead = 0;
 
   while(bytesRead != sizeof(m_receiveSize)){

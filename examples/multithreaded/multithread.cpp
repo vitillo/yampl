@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "SocketFactory.h"
+#include "YAMPLSocketFactory.h"
 #include "utils/Thread.h"
 
 inline void deallocator(void *, void*){}
@@ -10,7 +10,7 @@ using namespace std;
 using namespace YAMPL;
 
 void server(ISocketFactory *factory){
-  Channel channel("service", MANY_TO_ONE, THREAD);
+  Channel channel("service", THREAD);
   ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
 
   while(true){
@@ -21,7 +21,7 @@ void server(ISocketFactory *factory){
 }
 
 void client(ISocketFactory *factory, int id){
-  Channel channel("service", MANY_TO_ONE, THREAD);
+  Channel channel("service", THREAD);
   ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
   while(true){

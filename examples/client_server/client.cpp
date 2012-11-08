@@ -1,17 +1,17 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "SocketFactory.h"
 #include "utils/utils.h"
+#include "YAMPLSocketFactory.h"
 
-using namespace YAMPL;
 using namespace std;
+using namespace YAMPL;
 
 int main(int argc, char *argv[]){
   const string ping = "Ping from " + to_string(getpid());
   char pong[100], *pong_ptr = &pong[0];
   
-  Channel channel("service", MANY_TO_ONE);
+  Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 

@@ -1,8 +1,11 @@
 CXX = g++
 CXXFLAGS = -O2 -g -Wall -I../include -DNDEBUG -Wall
-LDFLAGS = -L../ -lyampl -Wl,-rpath,'$$ORIGIN'/..
+LDFLAGS = -L../ -lyampl -Wl,-rpath,'$$ORIGIN'/../../
 
-EXE = producer consumer client server benchmark multithread
+EXE = producer_consumer/producer producer_consumer/consumer \
+      client_server/client client_server/server \
+      multithreaded/multithread \
+      benchmarks/benchmark
 
 all: $(EXE)
 

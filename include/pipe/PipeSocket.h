@@ -51,9 +51,8 @@ class PipeSocketBase : public ISocket{
   public:
     virtual ~PipeSocketBase();
 
-    virtual void send(void *buffer, size_t size, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size = 0);
-
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
@@ -81,11 +80,11 @@ class ProducerSocket : public PipeSocketBase{
   public:
     ProducerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, fastTransfer, deallocator){}
 
-    virtual void send(void *buffer, size_t size, void *hint = 0){
-      PipeSocketBase::send(buffer, size, hint);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0){
+      PipeSocketBase::send(buffer, size, discriminator, hint);
     }
 
-    virtual size_t recv(void **buffer, size_t size = 0){
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
       throw InvalidOperationException();
     }
 
@@ -98,12 +97,12 @@ class ConsumerSocket : public PipeSocketBase{
   public:
     ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, true, 0){}
 
-    virtual void send(void *buffer, size_t size, void *hint = 0){
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0){
       throw InvalidOperationException();
     }
 
-    virtual size_t recv(void **buffer, size_t size = 0){
-      return PipeSocketBase::recv(buffer, size);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
+      return PipeSocketBase::recv(buffer, size, discriminator);
     }
 
   private:
@@ -118,8 +117,8 @@ class ServiceSocketBase : public ISocket{
   public:
     virtual ~ServiceSocketBase();
 
-    virtual void send(void *buffer, size_t size, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
@@ -157,11 +156,12 @@ class MOClientSocket: public ISocket{
     MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
     virtual ~MOClientSocket();
 
-    virtual void send(void *buffer, size_t size, void *hint = 0){
-      m_private->send(buffer, size, hint);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0){
+      m_private->send(buffer, size, discriminator, hint);
     }
-    virtual size_t recv(void **buffer, size_t size = 0){
-      return m_private->recv(buffer, size);
+
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
+      return m_private->recv(buffer, size, discriminator);
     }
 
   private:
@@ -178,8 +178,8 @@ class MOServerSocket: public ISocket{
     MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
     virtual ~MOServerSocket();
 
-    virtual void send(void *buffer, size_t size, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
     MOServerSocket(const MOServerSocket &);

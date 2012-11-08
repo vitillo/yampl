@@ -20,8 +20,8 @@ class PipeSocketBase : public ISocket{
   public:
     virtual ~PipeSocketBase();
 
-    virtual void send(void *buffer, size_t size, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size = 0);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     size_t m_size;
@@ -61,11 +61,11 @@ class ProducerSocket : public PipeSocketBase{
       shm_unlink(m_name.c_str());
     }
 
-    virtual void send(void *buffer, size_t size, void *hint = 0){
-      PipeSocketBase::send(buffer, size, hint);
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+      PipeSocketBase::send(buffer, size, discriminator, hint);
     }
 
-    virtual size_t recv(void **buffer, size_t size = 0){
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator){
       throw InvalidOperationException();
     }
 
@@ -79,13 +79,13 @@ class ConsumerSocket : public PipeSocketBase{
     ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, semantics, 0){
     }
 
-    virtual void send(void *buffer, size_t size, void *hint = 0){
+    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
       throw InvalidOperationException();
     }
 
-    virtual size_t recv(void **buffer, size_t size = 0){
+    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator){
       openSocket();
-      return PipeSocketBase::recv(buffer, size);
+      return PipeSocketBase::recv(buffer, size, discriminator);
     }
 
   private:
