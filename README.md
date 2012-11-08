@@ -2,7 +2,7 @@
 
 YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels.
 
-A channel allows to send and receive data over it. Receives are blocking while sends are buffered and block only when the internal buffer is filled up. Each end of a channel is attached to a socket:
+A channel allows to send and receive data over it. Receives are blocking while sends are buffered and block only when the internal buffer is full. Each end of a channel is attached to a socket:
 * **ClientSocket:** a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
 * **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
