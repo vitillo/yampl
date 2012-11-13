@@ -21,8 +21,10 @@ class SocketBase : public ISocket{
 
     virtual ~SocketBase();
     
-    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0) = 0;
+    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0) = 0;
+    virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0) = 0;
+    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   protected:
     SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type);
@@ -45,8 +47,9 @@ class ClientSocket : public SocketBase{
     ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~ClientSocket();
 
-    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   private:
     bool m_isConnected;
@@ -63,13 +66,13 @@ class ServerSocket : public SocketBase{
     ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~ServerSocket();
  
-    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
     ServerSocket(const ClientSocket &);
     ServerSocket & operator=(const ClientSocket &);
-    void sendMessage(zmq::message_t &message, const discriminator_t *discriminator);
+    void sendMessage(zmq::message_t &message, discriminator_t *discriminator);
 
     zmq::message_t *m_lastAddress;
  };

@@ -18,7 +18,7 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   size_t bytesWritten = 0;
 
   while(bytesWritten != sizeof(size)){

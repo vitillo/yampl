@@ -26,13 +26,39 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
+size_t SocketBase::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
+
+  zmq::poll(&item, 1, timeout);
+
+  if(item.revents & ZMQ_POLLIN){
+    return recv(buffer, size, discriminator);
+  }else{
+    return -1;
+  }
+}
+
+
+bool SocketBase::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLOUT, 0};
+
+  zmq::poll(&item, 1, timeout);
+
+  if(item.revents & ZMQ_POLLOUT){
+    send(buffer, size, discriminator, hint);
+    return true;
+  }else{
+    return false;
+  }
+}
+
 ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
 }
 
 ClientSocket::~ClientSocket(){
 }
 
-void ClientSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void ClientSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   if(!m_isConnected){
     connect();
   }
@@ -95,6 +121,15 @@ size_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discrimin
   return m_message->size();
 }
 
+
+size_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+  if(!m_isConnected){
+    connect();
+  }
+
+  return SocketBase::try_recv(buffer, size, discriminator, timeout);
+}
+
 ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_ROUTER), m_lastAddress(new zmq::message_t){
   m_socket->bind((m_channel.name).c_str());
 }
@@ -103,7 +138,7 @@ ServerSocket::~ServerSocket(){
   delete m_lastAddress;
 }
 
-void ServerSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void ServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   if(m_semantics == MOVE_DATA){
     zmq::message_t message((void *)buffer, size, m_deallocator, hint);
 
@@ -116,13 +151,14 @@ void ServerSocket::send(void *buffer, size_t size, const discriminator_t *discri
   }
 }
 
-void ServerSocket::sendMessage(zmq::message_t &message, const discriminator_t *discriminator){
+void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discriminator){
   if(discriminator){
     zmq::message_t address(discriminator->size());
     memcpy((void*)address.data(), discriminator->c_str(), discriminator->size());
     m_socket->send(address, ZMQ_SNDMORE);
   }else{
     m_socket->send(*m_lastAddress, ZMQ_SNDMORE);
+    *discriminator = string((char *)m_lastAddress->data(), m_lastAddress->size());
   }
 
   m_socket->send(message);

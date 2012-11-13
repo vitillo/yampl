@@ -106,7 +106,7 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   size_t bytesWritten = 0;
   struct iovec vec;
 
@@ -211,7 +211,7 @@ ServiceSocketBase::~ServiceSocketBase(){
   delete m_repSocket;
 }
 
-void ServiceSocketBase::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void ServiceSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   if(m_receiveCompleted){
     (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
     m_receiveCompleted = false;
@@ -274,7 +274,7 @@ MOServerSocket::~MOServerSocket(){
   m_listener->join();
 }
 
-void MOServerSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   if(!m_currentPeer)
     throw InvalidOperationException();
 
