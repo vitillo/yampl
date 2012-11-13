@@ -78,7 +78,7 @@ class ISocket{
     }
 
     template <typename T>
-    void send(T &value, discriminator_t *discriminator = 0, void *hint = 0){
+    void send(const T &value, discriminator_t *discriminator = 0, void *hint = 0){
       //C++11 is_trivially_copyable
       if(__has_trivial_copy(T))
 	send(&value, sizeof(value), discriminator, hint);
@@ -87,7 +87,7 @@ class ISocket{
     }
 
     template <typename T>
-    void try_send(T &value, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0){
+    void try_send(const T &value, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0){
       if(__has_trivial_copy(T))
 	try_send(&value, sizeof(value), discriminator, hint, timeout);
       else
