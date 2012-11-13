@@ -36,9 +36,9 @@ $(EXAMPLES): $(LIBYAMPL)
 	$(MAKE) -C $@
 
 install: all
-	mkdir -p $(PREFIX)/{lib,include}
+	mkdir -p $(PREFIX)/{lib,include/yampl}
 	cp $(LIBYAMPL) $(PREFIX)/lib
-	cp -R ./include/* $(PREFIX)/include/
+	cp -R ./include/* $(PREFIX)/include/yampl/
 
 uninstall: 
 	rm -rf $(PREFIX)/lib/$(LIBYAMPL)
