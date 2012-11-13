@@ -13,7 +13,7 @@ class ClientSocket : public ISocket{
     ClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
     virtual ~ClientSocket();
 
-    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
@@ -28,7 +28,7 @@ class ServerSocket : public ISocket{
     ServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
     virtual ~ServerSocket();
 
-    virtual void send(void *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0);
+    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:

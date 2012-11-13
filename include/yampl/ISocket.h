@@ -5,6 +5,8 @@
 
 #include <string>
 
+using namespace std;
+
 #include "yampl/Exceptions.h"
 
 namespace yampl{
@@ -56,8 +58,13 @@ class ISocket{
     }
 
     template <typename T>
-    void send(const T *buffer, size_t size, const discriminator_t *discriminator = 0, void *hint = 0){
+    void send(T *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0){
       send((void *)buffer, size, discriminator, hint);
+    }
+
+    template <typename T>
+    void try_send(T *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0){
+      try_send((void *)buffer, size, discriminator, hint, timeout);
     }
 
     template <typename T>
@@ -71,7 +78,7 @@ class ISocket{
     }
 
     template <typename T>
-    void send(const T &value, const discriminator_t *discriminator = 0, void *hint = 0){
+    void send(T &value, discriminator_t *discriminator = 0, void *hint = 0){
       //C++11 is_trivially_copyable
       if(__has_trivial_copy(T))
 	send(&value, sizeof(value), discriminator, hint);
@@ -80,8 +87,15 @@ class ISocket{
     }
 
     template <typename T>
+    void try_send(T &value, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0){
+      if(__has_trivial_copy(T))
+	try_send(&value, sizeof(value), discriminator, hint, timeout);
+      else
+	throw InvalidOperationException();
+    }
+
+    template <typename T>
     T & recv(discriminator_t *discriminator = 0){
-      //C++11 is_trivially_copyable
       if(__has_trivial_copy(T)){
 	T *buffer = 0;
 	recv(&buffer);
@@ -92,7 +106,6 @@ class ISocket{
 
     template <typename T>
     T & try_recv(discriminator_t *discriminator = 0){
-      //C++11 is_trivially_copyable
       if(__has_trivial_copy(T)){
 	T *buffer = 0;
 	try_recv(&buffer);

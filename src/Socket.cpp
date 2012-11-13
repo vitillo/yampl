@@ -16,7 +16,7 @@ ClientSocket::ClientSocket(Channel channel, Semantics semantics, void (*dealloca
 ClientSocket::~ClientSocket(){
 }
 
-void ClientSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void ClientSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   return m_socket->send(buffer, size, discriminator, hint);
 }
 
@@ -37,7 +37,7 @@ ServerSocket::ServerSocket(Channel channel, Semantics semantics, void (*dealloca
 ServerSocket::~ServerSocket(){
 }
 
-void ServerSocket::send(void *buffer, size_t size, const discriminator_t *discriminator, void *hint){
+void ServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   return m_socket->send(buffer, size, discriminator, hint);
 }
 
