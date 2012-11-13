@@ -6,7 +6,7 @@ A channel allows to send and receive data over it. Receives are blocking while s
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
 * **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
-The implementation determines at run-time the best communication strategy possible in order to reduce the latency and increase the bandwidth for the current communication pattern:
+The implementation determines at run-time the best communication strategy possible in order to reduce the latency and to increase the bandwidth for the current communication pattern:
 * **Inter-thread:** Lock Free Queues
 * **Inter-process (local), "small" messages:** Lock Free Queues over POSIX Shared Memory 
 * **Inter-process (local), "big" messages:** UNIX Pipes (vmsplice)
