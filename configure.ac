@@ -1,6 +1,5 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-
 AC_PREREQ([2.69])
 AC_INIT([ATLAS IPC Library], [1.0], [ravitillo@lbl.gov])
 AC_CONFIG_SRCDIR([include/YAMPLSocketFactory.h])
@@ -33,6 +32,6 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([ftruncate gettimeofday memset mkfifo munmap strcasecmp strdup strerror])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile YAMPL.pc])
 #AC_CONFIG_SUBDIRS([zeromq])
 AC_OUTPUT
