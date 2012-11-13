@@ -20,7 +20,7 @@ class ISocket{
      *
      * @param buffer the message that contains the data to send
      * @param size the size of the message to send
-     * @param discriminator the identifier of the peer to which the message has to be sent, if equals to zero then the implementation will choose the last peer from which it has received a message and return the selected peer identifier in discriminator, in the case of a ServerSocket, and the only peer in the case of a ClientSocket
+     * @param discriminator the identifier of the peer to which the message has to be sent, if equals to zero then the implementation will choose the last peer from which it has received a message, in the case of a ServerSocket, and the only peer in the case of a ClientSocket
      * @param hint the pointer is passed to the deallocator and can be used to implement complex deallocation policies
      */
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0) = 0;

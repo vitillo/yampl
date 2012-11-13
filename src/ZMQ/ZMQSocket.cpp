@@ -158,7 +158,6 @@ void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discrim
     m_socket->send(address, ZMQ_SNDMORE);
   }else{
     m_socket->send(*m_lastAddress, ZMQ_SNDMORE);
-    *discriminator = string((char *)m_lastAddress->data(), m_lastAddress->size());
   }
 
   m_socket->send(message);
