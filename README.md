@@ -24,7 +24,7 @@ make install
 ```
 To compile and link against the YAMPL library:
 ```
-g++ `pkg-config yampl --libs --cflags` foo.c
+g++ `pkg-config yampl --libs --cflags` foo.cpp
 ```
 
 ##Examples
