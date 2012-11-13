@@ -20,8 +20,9 @@ cd yampl
 make
 make check
 make install
-
+```
 To compile and link against the YAMPL library:
+```
 g++ `pkg-config YAMPL --libs --cflags` foo.c
 ```
 
