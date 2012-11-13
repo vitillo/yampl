@@ -10,11 +10,11 @@
 #include <cstdlib>
 #include <cstdio>
 
-#include "ZMQ/ZMQSocketFactory.h"
-#include "pipe/PipeSocketFactory.h"
-#include "utils/Thread.h"
+#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/utils/Thread.h"
 
-using namespace YAMPL;
+using namespace yampl;
 using namespace std;
 
 static struct timeval start_time, end_time;

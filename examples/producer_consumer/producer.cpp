@@ -1,10 +1,9 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "utils/utils.h"
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
-using namespace YAMPL;
+using namespace yampl;
 using namespace std;
 
 void deallocator(void *, void*){}

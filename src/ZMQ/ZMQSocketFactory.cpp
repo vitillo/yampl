@@ -1,9 +1,9 @@
 #include <zmq.hpp>
 
-#include "ZMQ/ZMQSocketFactory.h"
-#include "ZMQ/ZMQSocket.h"
+#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/ZMQ/ZMQSocket.h"
 
-namespace YAMPL{
+namespace yampl{
 namespace ZMQ{
 
 SocketFactory::SocketFactory() : m_context(new zmq::context_t(1)){

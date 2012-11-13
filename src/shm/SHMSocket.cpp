@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "Exceptions.h"
-#include "shm/SHMSocket.h"
+#include "yampl/Exceptions.h"
+#include "yampl/shm/SHMSocket.h"
 
 using namespace std;
 
-namespace YAMPL{
+namespace yampl{
 namespace shm{
 
 PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_size(1024), m_fd(-1), m_name("/" + channel.name), m_semantics(semantics), m_deallocator(deallocator), m_receiveSize(0), m_receiveBuffer(NULL){

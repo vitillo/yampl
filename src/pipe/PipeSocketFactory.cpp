@@ -1,9 +1,9 @@
-#include "Exceptions.h"
+#include "yampl/Exceptions.h"
 
-#include "pipe/PipeSocketFactory.h"
-#include "pipe/PipeSocket.h"
+#include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/pipe/PipeSocket.h"
 
-namespace YAMPL{
+namespace yampl{
 namespace pipe{
 
   ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){

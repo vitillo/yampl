@@ -35,9 +35,10 @@ The clients ping a server process and receive a reply from it.
 ``` c++
 #include <unistd.h>
 #include <iostream>
-#include "YAMPLSocketFactory.h"
 
-using namespace YAMPL;
+#include "yampl.h"
+
+using namespace yampl;
 using namespace std;
 
 int main(int argc, char *argv[]){
@@ -62,10 +63,11 @@ The server process replies to the pings of the client.
 ```c++
 #include <unistd.h>
 #include <iostream>
-#include "YAMPLSocketFactory.h"
+
+#include "yampl.h"
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
   char ping[100], *ping_ptr = &ping[0];
@@ -89,10 +91,9 @@ int main(int argc, char *argv[]){
 #include <unistd.h>
 #include <iostream>
 
-#include "utils/utils.h"
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
-using namespace YAMPL;
+using namespace yampl;
 using namespace std;
 
 void deallocator(void *, void*){}
@@ -116,10 +117,10 @@ int main(int argc, char *argv[]){
 ```c++
 #include <iostream>
 
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
   char *message = 0;
@@ -144,12 +145,12 @@ The following is a similar example to the above one but this time in a multithre
 #include <iostream>
 #include <thread>
 
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
 inline void deallocator(void *, void*){}
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
   const int nThreads = 10;

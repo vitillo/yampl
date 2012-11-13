@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
   char *message = 0;

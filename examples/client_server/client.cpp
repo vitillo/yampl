@@ -1,11 +1,10 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "utils/utils.h"
-#include "YAMPLSocketFactory.h"
+#include "yampl.h"
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
   const string ping = "Ping from " + to_string(getpid());

@@ -14,13 +14,13 @@
 #include <algorithm>
 #include <tr1/functional>
 
-#include "utils/utils.h"
-#include "Channel.h"
-#include "pipe/PipeSocket.h"
+#include "yampl/utils/utils.h"
+#include "yampl/Channel.h"
+#include "yampl/pipe/PipeSocket.h"
 
 using namespace std;
 
-namespace YAMPL{
+namespace yampl{
 namespace pipe{
 
 RawPipe::RawPipe(const std::string &name) : m_name(name), m_doUnlink(false){

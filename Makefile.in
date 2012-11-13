@@ -36,10 +36,10 @@ $(EXAMPLES): $(LIBYAMPL)
 	$(MAKE) -C $@
 
 install: all
-	mkdir -p $(PREFIX)/{lib,include/yampl,pkgconfig}
+	mkdir -p $(PREFIX)/{lib,include,pkgconfig}
 	cp $(LIBYAMPL) $(PREFIX)/lib
 	cp YAMPL.pc /usr/share/pkgconfig/
-	cp -R ./include/* $(PREFIX)/include/yampl/
+	cp -R ./include/yampl $(PREFIX)/include/
 
 uninstall: 
 	rm -rf $(PREFIX)/lib/$(LIBYAMPL)

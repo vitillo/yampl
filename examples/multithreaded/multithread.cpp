@@ -1,13 +1,13 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "YAMPLSocketFactory.h"
-#include "utils/Thread.h"
+#include "yampl.h"
+#include "yampl/utils/Thread.h"
 
 inline void deallocator(void *, void*){}
 
 using namespace std;
-using namespace YAMPL;
+using namespace yampl;
 
 void server(ISocketFactory *factory){
   Channel channel("service", THREAD);

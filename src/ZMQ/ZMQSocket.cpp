@@ -2,12 +2,12 @@
 
 #include <zmq.hpp>
 
-#include "Channel.h"
-#include "ZMQ/ZMQSocket.h"
+#include "yampl/Channel.h"
+#include "yampl/ZMQ/ZMQSocket.h"
 
 using namespace std;
 
-namespace YAMPL{
+namespace yampl{
 namespace ZMQ{
 SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type) : m_channel(channel), m_semantics(semantics), m_socket(0), m_message(new zmq::message_t()), m_deallocator(deallocator){
   if(m_channel.context == LOCAL_PROCESS){
