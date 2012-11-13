@@ -8,8 +8,9 @@ A channel allows to send and receive data over it. Receives are blocking while s
 
 The implementation determines at run-time the best communication strategy possible in order to reduce the latency and to increase the bandwidth for the current communication pattern:
 * **Inter-thread:** Lock Free Queues
-* **Inter-process (local), "small" messages:** Lock Free Queues over POSIX Shared Memory 
-* **Inter-process (local), "big" messages:** UNIX Pipes (vmsplice)
+* **Inter-process (local)
+    * **"small" messages:** Lock Free Queues over POSIX Shared Memory 
+    * **"big" messages:** UNIX Pipes (vmsplice)
 * **Inter-process (distributed):** POSIX Sockets 
 
 ## Build, Test & Install
