@@ -4548,7 +4548,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile YAMPL.pc"
+ac_config_files="$ac_config_files Makefile yampl.pc"
 
 #AC_CONFIG_SUBDIRS([zeromq])
 cat >confcache <<\_ACEOF
@@ -5242,7 +5242,7 @@ do
   case $ac_config_target in
     "config/config.h") CONFIG_HEADERS="$CONFIG_HEADERS config/config.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "YAMPL.pc") CONFIG_FILES="$CONFIG_FILES YAMPL.pc" ;;
+    "yampl.pc") CONFIG_FILES="$CONFIG_FILES yampl.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

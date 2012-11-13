@@ -32,6 +32,6 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([ftruncate gettimeofday memset mkfifo munmap strcasecmp strdup strerror])
 
-AC_CONFIG_FILES([Makefile YAMPL.pc])
+AC_CONFIG_FILES([Makefile yampl.pc])
 #AC_CONFIG_SUBDIRS([zeromq])
 AC_OUTPUT
