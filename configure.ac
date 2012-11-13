@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 AC_INIT([ATLAS IPC Library], [1.0], [ravitillo@lbl.gov])
-AC_CONFIG_SRCDIR([include/SocketFactory.h])
+AC_CONFIG_SRCDIR([include/yampl.h])
 AC_CONFIG_HEADERS([config/config.h])
 
 # Checks for programs.
