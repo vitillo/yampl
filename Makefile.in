@@ -33,7 +33,7 @@ $(LIBYAMPL): $(OBJECTS) $(LIBZMQ)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES): $(LIBYAMPL)
-	$(MAKE) -C $@
+	+$(MAKE) -C $@
 
 install: all
 	mkdir -p $(PREFIX)/{lib,include,pkgconfig}
