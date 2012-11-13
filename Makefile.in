@@ -21,7 +21,7 @@ $(TAGS):
 	ctags -R ./
 
 $(LIBZMQ):
-	cd zeromq && ./configure --with-pic && make
+	+cd zeromq && ./configure --with-pic && make
 
 -include $(DEPS)
 
