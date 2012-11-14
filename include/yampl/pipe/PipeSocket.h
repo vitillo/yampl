@@ -129,7 +129,6 @@ class ServiceSocketBase : public ISocket{
 
     ISocket *m_reqSocket;
     ISocket *m_repSocket;
-    bool m_receiveCompleted;
     Mode m_mode;
 };
 

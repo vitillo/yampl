@@ -197,11 +197,9 @@ ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics
   if(mode == PIPE_CLIENT){
     m_reqSocket = new ProducerSocket(req, semantics, fastTransfer, deallocator);
     m_repSocket = new ConsumerSocket(rep, semantics); 
-    m_receiveCompleted = true;
   }else if(mode == PIPE_SERVER){
     m_reqSocket = new ConsumerSocket(req, semantics); 
     m_repSocket = new ProducerSocket(rep, semantics, fastTransfer, deallocator);
-    m_receiveCompleted = false;
   }else
     throw InvalidOperationException();
 }
@@ -212,21 +210,11 @@ ServiceSocketBase::~ServiceSocketBase(){
 }
 
 void ServiceSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  if(m_receiveCompleted){
-    (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
-    m_receiveCompleted = false;
-  }else
-    throw UnsupportedException();
+  (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
 }
 
 size_t ServiceSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  if(m_receiveCompleted)
-    throw UnsupportedException();
-  else{
-    size_t ret = (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size, discriminator);
-    m_receiveCompleted = true;
-    return ret;
-  }
+  return (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size, discriminator);
 }
 
 MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_server(0), m_private(0){
