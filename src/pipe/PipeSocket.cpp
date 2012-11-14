@@ -150,7 +150,7 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
 }
 
 ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  ssize_t bytesRead = 0;
+  size_t bytesRead = 0;
 
   while(bytesRead != sizeof(m_receiveSize)){
     ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe->read, &m_receiveSize, sizeof(m_receiveSize)));
