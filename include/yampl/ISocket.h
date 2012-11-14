@@ -5,8 +5,6 @@
 
 #include <string>
 
-using namespace std;
-
 #include "yampl/Exceptions.h"
 
 namespace yampl{
