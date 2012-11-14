@@ -13,6 +13,7 @@ SocketFactory::SocketFactory(){
 
 SocketFactory::~SocketFactory(){
   delete m_zmqFactory;
+  delete m_pipeFactory;
 }
 
 ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
