@@ -20,7 +20,7 @@ void ClientSocket::send(void *buffer, size_t size, discriminator_t *discriminato
   return m_socket->send(buffer, size, discriminator, hint);
 }
 
-size_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return m_socket->recv(buffer, size, discriminator);
 }
 
@@ -41,7 +41,7 @@ void ServerSocket::send(void *buffer, size_t size, discriminator_t *discriminato
   return m_socket->send(buffer, size, discriminator, hint);
 }
 
-size_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return m_socket->recv(buffer, size, discriminator);
 }
 

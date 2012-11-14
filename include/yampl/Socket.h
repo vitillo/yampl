@@ -14,7 +14,7 @@ class ClientSocket : public ISocket{
     virtual ~ClientSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
     static ISocketFactory *s_zmqFactory;
@@ -29,7 +29,7 @@ class ServerSocket : public ISocket{
     virtual ~ServerSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   private:
     static ISocketFactory *s_zmqFactory;

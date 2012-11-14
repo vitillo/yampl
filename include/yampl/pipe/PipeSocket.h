@@ -52,7 +52,7 @@ class PipeSocketBase : public ISocket{
     virtual ~PipeSocketBase();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
@@ -84,7 +84,7 @@ class ProducerSocket : public PipeSocketBase{
       PipeSocketBase::send(buffer, size, discriminator, hint);
     }
 
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
       throw InvalidOperationException();
     }
 
@@ -101,7 +101,7 @@ class ConsumerSocket : public PipeSocketBase{
       throw InvalidOperationException();
     }
 
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
       return PipeSocketBase::recv(buffer, size, discriminator);
     }
 
@@ -118,7 +118,7 @@ class ServiceSocketBase : public ISocket{
     virtual ~ServiceSocketBase();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
@@ -159,7 +159,7 @@ class MOClientSocket: public ISocket{
       m_private->send(buffer, size, discriminator, hint);
     }
 
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
       return m_private->recv(buffer, size, discriminator);
     }
 
@@ -178,8 +178,8 @@ class MOServerSocket: public ISocket{
     virtual ~MOServerSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
-    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   private:
     MOServerSocket(const MOServerSocket &);

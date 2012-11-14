@@ -44,8 +44,8 @@ class ClientSocket : public SocketBase{
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
-    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   private:
     bool m_isConnected;
@@ -64,8 +64,8 @@ class ServerSocket : public SocketBase{
  
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
     virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
-    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   private:
     ServerSocket(const ClientSocket &);

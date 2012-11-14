@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <iostream>
 
 #include <zmq.hpp>
 
@@ -85,12 +84,12 @@ void ClientSocket::connect(){
   m_isConnected = true;
 }
     
-size_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return try_recv(buffer, size, discriminator, -1);
 }
 
 
-size_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
   if(!m_isConnected){
     connect();
   }
@@ -167,11 +166,11 @@ void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discrim
   m_socket->send(message);
 }
 
-size_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return try_recv(buffer, size, discriminator, -1);
 }
 
-size_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
   zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
   zmq::poll(&item, 1, timeout);
 

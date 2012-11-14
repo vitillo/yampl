@@ -33,7 +33,7 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
     m_deallocator(buffer, hint);
 }
 
-size_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   size_t bytesRead = 0;
 
   while(bytesRead != sizeof(m_receiveSize)){

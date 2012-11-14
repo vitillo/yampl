@@ -21,7 +21,7 @@ class PipeSocketBase : public ISocket{
     virtual ~PipeSocketBase();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
     size_t m_size;
@@ -65,7 +65,7 @@ class ProducerSocket : public PipeSocketBase{
       PipeSocketBase::send(buffer, size, discriminator, hint);
     }
 
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator){
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator){
       throw InvalidOperationException();
     }
 
@@ -83,7 +83,7 @@ class ConsumerSocket : public PipeSocketBase{
       throw InvalidOperationException();
     }
 
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator){
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator){
       openSocket();
       return PipeSocketBase::recv(buffer, size, discriminator);
     }

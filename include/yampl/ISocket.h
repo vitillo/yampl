@@ -45,7 +45,7 @@ class ISocket{
      * @param discriminator the identifier of the peer from which the data has been received
      * @return the size of the received message
      */
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0) = 0;
+    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0) = 0;
 
     /**
      * Tries to receive a message from one of its peers.
@@ -53,7 +53,7 @@ class ISocket{
      * @param timeout number of milliseconds to wait for a message; if timeout is 0 then try_recv will return immediately while if timeout is -1 then it will wait indefinitely just like recv()
      * @return the size of the received message if successful or -1 if no message was received
      */
-    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0){
+    virtual ssize_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0){
       throw UnsupportedException();
     }
 
@@ -68,12 +68,12 @@ class ISocket{
     }
 
     template <typename T>
-    size_t recv(T **buffer, size_t size = 0, discriminator_t* discriminator = 0){
+    ssize_t recv(T **buffer, size_t size = 0, discriminator_t* discriminator = 0){
       return recv((void **)buffer, size, discriminator);
     }
 
     template <typename T>
-    size_t try_recv(T **buffer, size_t size = 0, discriminator_t* discriminator = 0){
+    ssize_t try_recv(T **buffer, size_t size = 0, discriminator_t* discriminator = 0){
       return try_recv((void **)buffer, size, discriminator);
     }
 

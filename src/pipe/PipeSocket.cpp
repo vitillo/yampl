@@ -149,7 +149,7 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
   }
 }
 
-size_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   size_t bytesRead = 0;
 
   while(bytesRead != sizeof(m_receiveSize)){
@@ -213,7 +213,7 @@ void ServiceSocketBase::send(void *buffer, size_t size, discriminator_t *discrim
   (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
 }
 
-size_t ServiceSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t ServiceSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size, discriminator);
 }
 
@@ -270,11 +270,11 @@ void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discrimina
   m_currentPeer = 0;
 }
 
-size_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
   return try_recv(buffer, size, discriminator, -1);
 }
 
-size_t MOServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t MOServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
   if(m_currentPeer)
     throw InvalidOperationException();
 
