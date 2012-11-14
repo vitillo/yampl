@@ -55,7 +55,7 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -c THREAD
 	@echo
-	./examples/benchmarks/benchmark -c DISTRIBUTED_PROCESS
+	./examples/benchmarks/benchmark -c DISTRIBUTED
 
 .PHONY: clean
 clean:
