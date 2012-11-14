@@ -26,9 +26,10 @@ class SocketBase : public ISocket{
 
     Channel m_channel;
     Semantics m_semantics;
+    void (*m_deallocator)(void *, void *);
     zmq::socket_t *m_socket;
     zmq::message_t *m_message;
-    void (*m_deallocator)(void *, void *);
+    bool m_isRecvPending;
 
   private:
     SocketBase(const SocketBase &);

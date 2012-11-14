@@ -9,10 +9,10 @@
 
 namespace yampl{
 
-class YAMPLException: public std::exception{
+class Exception: public std::exception{
   public:
-    YAMPLException(const char * msg) : m_msg(msg){}
-    virtual ~YAMPLException() throw() {}
+    Exception(const char * msg) : m_msg(msg){}
+    virtual ~Exception() throw() {}
 
     virtual const char * what() const throw(){
       return m_msg;
@@ -22,27 +22,32 @@ class YAMPLException: public std::exception{
     const char * m_msg;
 };
 
-class UnsupportedException: public YAMPLException{
+class UnsupportedException: public Exception{
   public:
-  UnsupportedException() : YAMPLException("This feature is not supported yet"){}
+  UnsupportedException() : Exception("This feature is not supported yet"){}
 };
 
-class InvalidOperationException: public YAMPLException{
+class InvalidOperationException: public Exception{
   public:
-  InvalidOperationException(const char *msg = "Operation not permitted"): YAMPLException(msg){}
+  InvalidOperationException(const char *msg = "Operation not permitted"): Exception(msg){}
 };
 
-class InvalidSizeException: public YAMPLException{
+class InvalidSizeException: public Exception{
   public:
-  InvalidSizeException(): YAMPLException("Buffer size is not sufficient"){}
+  InvalidSizeException(): Exception("Buffer size is not sufficient"){}
 };
 
-class ErrnoException : public YAMPLException{
+class UnroutableException : public Exception{
   public:
-    ErrnoException(const char *msg = "System call error"): YAMPLException(msg), m_errno(errno) {
+    UnroutableException(): Exception("Destination peer not found"){}
+};
+
+class ErrnoException : public Exception{
+  public:
+    ErrnoException(const char *msg = "System call error"): Exception(msg), m_errno(errno) {
     }
 
-    ErrnoException(int err, const char *msg = "System call error"): YAMPLException(msg), m_errno(err){}
+    ErrnoException(int err, const char *msg = "System call error"): Exception(msg), m_errno(err){}
 
     int getErrno(){
       return m_errno;

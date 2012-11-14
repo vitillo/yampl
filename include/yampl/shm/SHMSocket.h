@@ -12,6 +12,7 @@
 #include "yampl/ISocketFactory.h"
 #include "yampl/Channel.h"
 #include "yampl/utils/RingBuffer.h"
+#include "yampl/generic/ServiceSocket.h"
 
 namespace yampl{
 namespace shm{
@@ -108,8 +109,10 @@ class ConsumerSocket : public PipeSocketBase{
 
       m_queue.reset(new RingBuffer(m_size, m_buffer));
     }
-
 };
+
+typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
+typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
 
 }
 }

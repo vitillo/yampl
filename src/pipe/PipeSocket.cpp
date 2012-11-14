@@ -78,7 +78,7 @@ void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
   }
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_fast(fastTransfer), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
@@ -137,13 +137,8 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
     vec.iov_base = ((char *) buffer) + bytesWritten;
     vec.iov_len = size - bytesWritten;
 
-    if(m_fast){
-      if((sent = vmsplice(m_transferPipe->write, &vec, 1, 0)) == -1)
-        throw ErrnoException("Send failed");
-    }else{
-      if((sent = TEMP_FAILURE_RETRY(write(m_transferPipe->write, (char *) buffer + bytesWritten, size - bytesWritten))) == -1)
-	throw ErrnoException("Send failed");
-    }
+    if((sent = vmsplice(m_transferPipe->write, &vec, 1, 0)) == -1)
+      throw ErrnoException("Send failed");
 
     bytesWritten += sent;
   }
@@ -189,40 +184,12 @@ ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discri
   return bytesRead;
 }
 
-ServiceSocketBase::ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode) : m_reqSocket(0), m_repSocket(0), m_mode(mode){
-  Channel req = channel, rep = channel;
-  req.name = req.name + "_req";
-  rep.name = rep.name + "_rep";
-
-  if(mode == PIPE_CLIENT){
-    m_reqSocket = new ProducerSocket(req, semantics, fastTransfer, deallocator);
-    m_repSocket = new ConsumerSocket(rep, semantics); 
-  }else if(mode == PIPE_SERVER){
-    m_reqSocket = new ConsumerSocket(req, semantics); 
-    m_repSocket = new ProducerSocket(rep, semantics, fastTransfer, deallocator);
-  }else
-    throw InvalidOperationException();
-}
-
-ServiceSocketBase::~ServiceSocketBase(){
-  delete m_reqSocket;
-  delete m_repSocket;
-}
-
-void ServiceSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  (m_mode == PIPE_CLIENT ? m_reqSocket : m_repSocket)->send(buffer, size, discriminator, hint);
-}
-
-ssize_t ServiceSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  return (m_mode == PIPE_CLIENT ? m_repSocket : m_reqSocket)->recv(buffer, size, discriminator);
-}
-
-MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_server(0), m_private(0){
+MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_server(0), m_private(0){
   Channel announce(channel.name + "_announce");
   Channel priv(channel.name + "_" + to_string(getpid()));
 
-  m_private = new ClientSocket(priv, semantics, fastTransfer, deallocator);
-  m_server = new ProducerSocket(announce, MOVE_DATA, fastTransfer, voidDeallocator);
+  m_private = new ClientSocket(priv, semantics, deallocator);
+  m_server = new ProducerSocket(announce, MOVE_DATA, voidDeallocator);
   m_server->send(&m_pid, sizeof(m_pid));
 }
 
@@ -231,7 +198,7 @@ MOClientSocket::~MOClientSocket(){
   delete m_private;
 }
 
-void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)){
+void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
   Poller poller;
   Channel announce(channel.name + "_announce");
   tr1::shared_ptr<ConsumerSocket> listener(new ConsumerSocket(announce, COPY_DATA));
@@ -246,15 +213,15 @@ void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semanti
     listener->recv((void **)&pidptr, sizeof(pid));
 
     Channel peerChannel(channel.name + "_" + to_string(pid));
-    tr1::shared_ptr<ServerSocket> peer(new ServerSocket(peerChannel, semantics, fastTransfer, deallocator));
+    tr1::shared_ptr<ServerSocket> peer(new ServerSocket(peerChannel, semantics, deallocator));
     m_peers.push_back(peer);
 
-    m_peerPoll.add(((ConsumerSocket *)(peer->m_reqSocket))->m_transferPipe->read, peer.get());
+    m_peerPoll.add(((ConsumerSocket *)(peer->getConsumerSocket()))->m_transferPipe->read, peer.get());
   }
 }
 
-MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : m_currentPeer(0), m_destroy(false){
-  m_listener.reset(new Thread(tr1::bind(&MOServerSocket::listenerThreadFun, this, channel, semantics, fastTransfer, deallocator)));
+MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_currentPeer(0), m_destroy(false){
+  m_listener.reset(new Thread(tr1::bind(&MOServerSocket::listenerThreadFun, this, channel, semantics, deallocator)));
 }
 
 MOServerSocket::~MOServerSocket(){

@@ -23,7 +23,32 @@ class ISocketFactory{
   public:
     virtual ~ISocketFactory(){}
 
+    /**
+     * Creates a ClientSocket. A ClientSocket can be connected to at most a 
+     * single ServerSocket through a Channel.
+     *
+     * @param channel communication channel
+     * @param semantics if equals COPY_DATA the sent messages are copied and the 
+     *        sender retains ownership; if equals MOVE_DATA the implementantion 
+     *        acquires ownership
+     * @param deallocator the deallocation policy to invoke when the implementation 
+     *        has to free the memory of a message it owns
+     * @return a ClientSocket
+     */
     virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
+
+    /**
+     * Creates a ServerSocket. A ServerSocket can be connected to zero ore more 
+     * ClientSockets through a channel.
+     *
+     * @param channel communication channel
+     * @param semantics if equals COPY_DATA the sent messages are copied and the 
+     *        sender retains ownership; if equals MOVE_DATA the implementantion 
+     *        acquires ownership
+     * @param deallocator the deallocation policy to invoke when the implementation 
+     *        has to free the memory of a message it owns
+     * @return a ServerSocket
+     */
     virtual ISocket *createServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
 
   private:

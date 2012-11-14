@@ -15,6 +15,7 @@
 #include "yampl/utils/SpinLock.h"
 #include "yampl/utils/Poller.h"
 #include "yampl/utils/Thread.h"
+#include "yampl/generic/ServiceSocket.h"
 
 namespace yampl{
 namespace pipe{
@@ -55,7 +56,7 @@ class PipeSocketBase : public ISocket{
     virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
 
   protected:
-    PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
+    PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, void (*deallocator)(void *, void *));
 
   private:
     PipeSocketBase(const PipeSocketBase &);
@@ -65,7 +66,6 @@ class PipeSocketBase : public ISocket{
  
     Mode m_mode;
     Semantics m_semantics;
-    bool m_fast;
     size_t m_receiveSize;
     void *m_receiveBuffer;
     bool m_destroy;
@@ -78,7 +78,7 @@ class PipeSocketBase : public ISocket{
 
 class ProducerSocket : public PipeSocketBase{
   public:
-    ProducerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, fastTransfer, deallocator){}
+    ProducerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, deallocator){}
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0){
       PipeSocketBase::send(buffer, size, discriminator, hint);
@@ -95,7 +95,7 @@ class ProducerSocket : public PipeSocketBase{
 
 class ConsumerSocket : public PipeSocketBase{
   public:
-    ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, true, 0){}
+    ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, 0){}
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0){
       throw InvalidOperationException();
@@ -111,48 +111,12 @@ class ConsumerSocket : public PipeSocketBase{
 
 };
 
-class ServiceSocketBase : public ISocket{
-  friend class MOServerSocket;
-
-  public:
-    virtual ~ServiceSocketBase();
-
-    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
-    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
-
-  protected:
-    ServiceSocketBase(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *), Mode mode);
-
-  private:
-    ServiceSocketBase(const ServiceSocketBase &);
-    ServiceSocketBase & operator=(const ServiceSocketBase &);
-
-    ISocket *m_reqSocket;
-    ISocket *m_repSocket;
-    Mode m_mode;
-};
-
-class ClientSocket : public ServiceSocketBase{
-  public:
-    ClientSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_CLIENT){}
-
-  private:
-    ClientSocket(const ClientSocket &);
-    ClientSocket & operator=(const ClientSocket &);
-};
-
-class ServerSocket : public ServiceSocketBase{
-  public:
-    ServerSocket(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, fastTransfer, deallocator, PIPE_SERVER){}
-
-  private:
-    ServerSocket(const ServerSocket &);
-    ServerSocket & operator=(const ServerSocket &);
-};
+typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
+typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
 
 class MOClientSocket: public ISocket{
   public:
-    MOClientSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
+    MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~MOClientSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0){
@@ -174,7 +138,7 @@ class MOClientSocket: public ISocket{
 
 class MOServerSocket: public ISocket{
   public:
-    MOServerSocket(const Channel& channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
+    MOServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~MOServerSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
@@ -185,7 +149,7 @@ class MOServerSocket: public ISocket{
     MOServerSocket(const MOServerSocket &);
     MOServerSocket & operator=(const MOServerSocket &);
 
-    void listenerThreadFun(const Channel &channel, Semantics semantics, bool fastTransfer, void (*deallocator)(void *, void *));
+    void listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *));
 
     Poller m_peerPoll;
     ServerSocket *m_currentPeer;

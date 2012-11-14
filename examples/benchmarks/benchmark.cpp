@@ -34,12 +34,9 @@ long stop_clock(){
 }
 
 ISocketFactory *parseFactory(const char *impl){
-  if(strcasecmp(impl, "splice") == 0){
-    cout << "implementation: SpliceSocket" << endl;
-    return new pipe::SocketFactory(true);
-  }else if(strcasecmp(impl, "pipe") == 0){
+  if(strcasecmp(impl, "pipe") == 0){
     cout << "implementation: PipeSocket" << endl;
-    return new pipe::SocketFactory(false);
+    return new pipe::SocketFactory();
   }else{
     cout << "implementation: ZMQSocket" << endl;
     return new ZMQ::SocketFactory();
@@ -47,16 +44,16 @@ ISocketFactory *parseFactory(const char *impl){
 }
 
 Context parseContext(const char *c, string &channelName){
-  if(strcasecmp(c, "LOCAL_PROCESS") == 0){
-    cout << "context: LOCAL_PROCESS" << endl;
-    return LOCAL_PROCESS;
+  if(strcasecmp(c, "LOCAL") == 0){
+    cout << "context: LOCAL" << endl;
+    return LOCAL;
   }else if(strcasecmp(c, "THREAD") == 0){
     cout << "context: THREAD" << endl;
     return THREAD;
-  }else if(strcasecmp(c, "DISTRIBUTED_PROCESS") == 0){
-    cout << "context: DISTRIBUTED_PROCESS" << endl;
+  }else if(strcasecmp(c, "DISTRIBUTED") == 0){
+    cout << "context: DISTRIBUTED" << endl;
     channelName = "127.0.0.1:3333";
-    return DISTRIBUTED_PROCESS;
+    return DISTRIBUTED;
   }
 
   exit(-1);
@@ -113,13 +110,13 @@ void server(ISocketFactory *factory, Channel channel, Semantics semantics, void 
 int main(int argc, char *argv[]){
   int opt;
   const char *impl = "zmq";
-  const char *cont = "LOCAL_PROCESS";
+  const char *cont = "LOCAL";
   unsigned iterations = 1000;
   unsigned size = 1000000;
   char *s_buffer = 0;
   char *r_buffer = 0;
   string channelName = "service";
-  Context context = LOCAL_PROCESS;
+  Context context = LOCAL;
   Semantics semantics = MOVE_DATA;
 
   while((opt = getopt(argc, argv, "i:n:s:yc:")) != -1){
@@ -154,7 +151,7 @@ int main(int argc, char *argv[]){
   s_buffer = new char[size];
   r_buffer = new char[size];
 
-  if(channel.context == LOCAL_PROCESS || channel.context == DISTRIBUTED_PROCESS){
+  if(channel.context == LOCAL|| channel.context == DISTRIBUTED){
     if(fork() == 0){
       ISocketFactory *factory = parseFactory(impl);
       client(factory, channel, semantics, s_buffer, r_buffer, size, iterations);

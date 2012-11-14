@@ -9,8 +9,8 @@ using namespace std;
 
 namespace yampl{
 namespace ZMQ{
-SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type) : m_channel(channel), m_semantics(semantics), m_socket(0), m_message(new zmq::message_t()), m_deallocator(deallocator){
-  if(m_channel.context == LOCAL_PROCESS){
+SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type) : m_channel(channel), m_semantics(semantics), m_deallocator(deallocator), m_socket(0), m_message(new zmq::message_t()), m_isRecvPending(false){
+  if(m_channel.context == LOCAL){
     m_channel.name = "ipc:///tmp/zmq_" + m_channel.name;
   }else if(m_channel.context == THREAD){
     m_channel.name = "inproc://" + m_channel.name;
@@ -68,7 +68,7 @@ void ClientSocket::connect(){
 	m_socket->connect((m_channel.name).c_str());
       }catch(zmq::error_t err){
 	if(err.num() != ECONNREFUSED){
-	  throw err;
+	  throw ErrnoException();
 	}
 
 	usleep(1000);
@@ -98,7 +98,10 @@ ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
   zmq::poll(&item, 1, timeout);
 
   if(item.revents & ZMQ_POLLIN){
-    m_socket->recv(m_message); 
+    if(!m_isRecvPending){
+      m_socket->recv(m_message); 
+      m_isRecvPending = true;
+    }
 
     if(m_semantics == MOVE_DATA){
       *buffer = m_message->data();
@@ -113,6 +116,7 @@ ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
       }
     }
 
+    m_isRecvPending = false;
     return m_message->size();
   }else{
     return -1;
@@ -120,6 +124,8 @@ ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
 }
 
 ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_ROUTER), m_lastAddress(new zmq::message_t){
+  int mandatory = 1;
+  m_socket->setsockopt(ZMQ_ROUTER_MANDATORY, &mandatory, sizeof (mandatory));
   m_socket->bind((m_channel.name).c_str());
 }
 
@@ -158,9 +164,11 @@ void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discrim
   if(discriminator){
     zmq::message_t address(discriminator->size());
     memcpy((void*)address.data(), discriminator->c_str(), discriminator->size());
-    m_socket->send(address, ZMQ_SNDMORE);
+    if(m_socket->send(address, ZMQ_SNDMORE) == -1)
+      throw UnroutableException();
   }else{
-    m_socket->send(*m_lastAddress, ZMQ_SNDMORE);
+    if(m_socket->send(*m_lastAddress, ZMQ_SNDMORE) == -1)
+      throw UnroutableException();
   }
 
   m_socket->send(message);
@@ -175,8 +183,11 @@ ssize_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
   zmq::poll(&item, 1, timeout);
 
   if(item.revents & ZMQ_POLLIN){
-    m_socket->recv(m_lastAddress);
-    m_socket->recv(m_message);
+    if(!m_isRecvPending){
+      m_socket->recv(m_lastAddress);
+      m_socket->recv(m_message);
+      m_isRecvPending = true;
+    }
 
     if(m_semantics == MOVE_DATA){
       *buffer = m_message->data();
@@ -195,6 +206,7 @@ ssize_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
       *discriminator = (char *)m_lastAddress->data();
     }
 
+    m_isRecvPending = false;
     return m_message->size();
   }else{
     return -1;

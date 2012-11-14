@@ -53,10 +53,6 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -i pipe -y
 	@echo
-	./examples/benchmarks/benchmark -i splice
-	@echo
-	./examples/benchmarks/benchmark -i splice -y
-	@echo
 	./examples/benchmarks/benchmark -c THREAD
 	@echo
 	./examples/benchmarks/benchmark -c DISTRIBUTED_PROCESS
