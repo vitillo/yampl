@@ -21,11 +21,6 @@ class SocketBase : public ISocket{
 
     virtual ~SocketBase();
     
-    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0) = 0;
-    virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
-    virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0) = 0;
-    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
-
   protected:
     SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type);
 
@@ -48,6 +43,7 @@ class ClientSocket : public SocketBase{
     virtual ~ClientSocket();
 
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
+    virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
     virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
@@ -67,7 +63,9 @@ class ServerSocket : public SocketBase{
     virtual ~ServerSocket();
  
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0);
+    virtual bool try_send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0, long timeout = 0);
     virtual size_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0);
+    virtual size_t try_recv(void **buffer, size_t size, discriminator_t *discriminator = 0, long timeout = 0);
 
   private:
     ServerSocket(const ClientSocket &);

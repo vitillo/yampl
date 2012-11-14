@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <iostream>
 
 #include <zmq.hpp>
 
@@ -26,32 +27,6 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
-size_t SocketBase::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
-  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
-
-  zmq::poll(&item, 1, timeout);
-
-  if(item.revents & ZMQ_POLLIN){
-    return recv(buffer, size, discriminator);
-  }else{
-    return -1;
-  }
-}
-
-
-bool SocketBase::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
-  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLOUT, 0};
-
-  zmq::poll(&item, 1, timeout);
-
-  if(item.revents & ZMQ_POLLOUT){
-    send(buffer, size, discriminator, hint);
-    return true;
-  }else{
-    return false;
-  }
-}
-
 ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
 }
 
@@ -59,20 +34,32 @@ ClientSocket::~ClientSocket(){
 }
 
 void ClientSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
+  try_send(buffer, size, discriminator, hint, -1);
+}
+
+bool ClientSocket::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
   if(!m_isConnected){
     connect();
   }
 
-  if(m_semantics == MOVE_DATA){
-    zmq::message_t message((void *)buffer, size, m_deallocator, hint);
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLOUT, 0};
+  zmq::poll(&item, 1, timeout);
+  
+  if(item.revents & ZMQ_POLLOUT){
+    if(m_semantics == MOVE_DATA){
+      zmq::message_t message((void *)buffer, size, m_deallocator, hint);
 
-    m_socket->send(message);
+      m_socket->send(message);
+    }else{
+      zmq::message_t message(size);
+
+      memcpy((void*)message.data(), buffer, size);
+      m_socket->send(message);
+     }
+    return true;
   }else{
-    zmq::message_t message(size);
-
-    memcpy((void*)message.data(), buffer, size);
-    m_socket->send(message);
-   }
+    return false;
+  }
 }
 
 void ClientSocket::connect(){
@@ -99,26 +86,7 @@ void ClientSocket::connect(){
 }
     
 size_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  if(!m_isConnected){
-    connect();
-  }
-
-  m_socket->recv(m_message); 
-
-  if(m_semantics == MOVE_DATA){
-    *buffer = m_message->data();
-  }else{
-    if(*buffer && size < m_message->size()){
-      throw InvalidSizeException();
-    }else if(*buffer){
-      memcpy(*buffer, m_message->data(), m_message->size());
-    }else{
-      *buffer = malloc(m_message->size());
-      memcpy(*buffer, m_message->data(), m_message->size());
-    }
-  }
-
-  return m_message->size();
+  return try_recv(buffer, size, discriminator, -1);
 }
 
 
@@ -127,7 +95,29 @@ size_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *discr
     connect();
   }
 
-  return SocketBase::try_recv(buffer, size, discriminator, timeout);
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
+  zmq::poll(&item, 1, timeout);
+
+  if(item.revents & ZMQ_POLLIN){
+    m_socket->recv(m_message); 
+
+    if(m_semantics == MOVE_DATA){
+      *buffer = m_message->data();
+    }else{
+      if(*buffer && size < m_message->size()){
+	throw InvalidSizeException();
+      }else if(*buffer){
+	memcpy(*buffer, m_message->data(), m_message->size());
+      }else{
+	*buffer = malloc(m_message->size());
+	memcpy(*buffer, m_message->data(), m_message->size());
+      }
+    }
+
+    return m_message->size();
+  }else{
+    return -1;
+  }
 }
 
 ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_ROUTER), m_lastAddress(new zmq::message_t){
@@ -139,15 +129,29 @@ ServerSocket::~ServerSocket(){
 }
 
 void ServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  if(m_semantics == MOVE_DATA){
-    zmq::message_t message((void *)buffer, size, m_deallocator, hint);
+  try_send(buffer, size, discriminator, hint, -1);
+}
 
-    sendMessage(message, discriminator);
+
+bool ServerSocket::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLOUT, 0};
+  zmq::poll(&item, 1, timeout);
+
+  if(item.revents & ZMQ_POLLOUT){
+    if(m_semantics == MOVE_DATA){
+      zmq::message_t message((void *)buffer, size, m_deallocator, hint);
+
+      sendMessage(message, discriminator);
+    }else{
+      zmq::message_t message(size);
+
+      memcpy((void*)message.data(), buffer, size);
+      sendMessage(message, discriminator);
+    }
+
+    return true;
   }else{
-    zmq::message_t message(size);
-
-    memcpy((void*)message.data(), buffer, size);
-    sendMessage(message, discriminator);
+    return false;
   }
 }
 
@@ -164,27 +168,38 @@ void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discrim
 }
 
 size_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  m_socket->recv(m_lastAddress);
-  m_socket->recv(m_message);
+  return try_recv(buffer, size, discriminator, -1);
+}
 
-  if(m_semantics == MOVE_DATA){
-    *buffer = m_message->data();
-  }else{
-    if(*buffer && size < m_message->size()){
-      throw InvalidSizeException();
-    }else if(*buffer){
-      memcpy(*buffer, m_message->data(), m_message->size());
+size_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+  zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
+  zmq::poll(&item, 1, timeout);
+
+  if(item.revents & ZMQ_POLLIN){
+    m_socket->recv(m_lastAddress);
+    m_socket->recv(m_message);
+
+    if(m_semantics == MOVE_DATA){
+      *buffer = m_message->data();
     }else{
-      *buffer = malloc(m_message->size());
-      memcpy(*buffer, m_message->data(), m_message->size());
+      if(*buffer && size < m_message->size()){
+	throw InvalidSizeException();
+      }else if(*buffer){
+	memcpy(*buffer, m_message->data(), m_message->size());
+      }else{
+	*buffer = malloc(m_message->size());
+	memcpy(*buffer, m_message->data(), m_message->size());
+      }
     }
-  }
 
-  if(discriminator){
-    *discriminator = (char *)m_lastAddress->data();
-  }
+    if(discriminator){
+      *discriminator = (char *)m_lastAddress->data();
+    }
 
-  return m_message->size();
+    return m_message->size();
+  }else{
+    return -1;
+  }
 }
 
 }
