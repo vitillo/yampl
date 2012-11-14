@@ -22,7 +22,8 @@ class SocketFactory : public ISocketFactory{
     virtual ISocket *createServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
 
   private:
-    ZMQ::SocketFactory *m_zmqFactory ;
+    ISocketFactory *m_zmqFactory;
+    ISocketFactory *m_pipeFactory;
 
     SocketFactory & operator=(const SocketFactory &);
 };

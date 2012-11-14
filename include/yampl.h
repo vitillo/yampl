@@ -5,7 +5,6 @@
 #include "yampl/Exceptions.h"
 #include "yampl/ISocket.h"
 #include "yampl/ISocketFactory.h"
-#include "yampl/Socket.h"
 #include "yampl/SocketFactory.h"
 #include "yampl/utils/utils.h"
 

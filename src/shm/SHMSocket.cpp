@@ -12,8 +12,11 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void
 }
 
 PipeSocketBase::~PipeSocketBase(){
-  munmap((char *)m_buffer - sizeof(bool), m_size + sizeof(bool));
-  close(m_fd);
+  if(munmap((char *)m_buffer - sizeof(bool), m_size + sizeof(bool)))
+    throw ErrnoException();
+
+  if(close(m_fd))
+    throw ErrnoException();
 
   free(m_receiveBuffer);
 }

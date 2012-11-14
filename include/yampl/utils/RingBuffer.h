@@ -10,7 +10,7 @@ namespace yampl{
  */
 class RingBuffer{
   public:
-    RingBuffer(size_t size, void *buffer): m_size(size), m_buffer((char *)buffer), /**m_head(((size_t *)m_buffer)[0]), *m_tail((*(size_t *)&m_buffer[size - sizeof(size_t)])), */m_initialized(false){
+    RingBuffer(size_t size, void *buffer): m_size(size), m_buffer((char *)buffer), m_initialized(false){
       /* Try to use different cachelines for m_head and m_tail to avoid cache ping-pong */
       m_head = &((size_t *)m_buffer)[0];
       m_tail = (size_t *)&m_buffer[size - sizeof(size_t)];

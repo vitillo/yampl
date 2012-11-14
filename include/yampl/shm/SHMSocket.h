@@ -12,6 +12,7 @@
 #include "yampl/ISocketFactory.h"
 #include "yampl/Channel.h"
 #include "yampl/utils/RingBuffer.h"
+#include "yampl/utils/SharedMemory.h"
 #include "yampl/generic/ServiceSocket.h"
 
 namespace yampl{
