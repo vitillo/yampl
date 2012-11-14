@@ -271,11 +271,18 @@ void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discrimina
 }
 
 size_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
+  return try_recv(buffer, size, discriminator, -1);
+}
+
+size_t MOServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
   if(m_currentPeer)
     throw InvalidOperationException();
 
-  m_peerPoll.poll((void **)&m_currentPeer, -1);
-  return m_currentPeer->recv(buffer, size, discriminator);
+  if(!m_peerPoll.poll((void **)&m_currentPeer, timeout)){
+    return -1;
+  }else{
+    return m_currentPeer->recv(buffer, size, discriminator);
+  }
 }
 
 }

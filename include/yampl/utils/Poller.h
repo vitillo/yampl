@@ -49,16 +49,6 @@ class Poller{
 	break;
       }
 
-      switch(epoll_wait(m_poll, &ev, 1, timeout)){
-	case 0:
-	  return -1;
-	case -1:
-	  if(errno != EINTR)
-	    throw ErrnoException("Failed to wait on epoll handle");
-	default:
-	  break;
-      }
-
       *data = ev.data.ptr;
       return ev.data.fd;
     }
