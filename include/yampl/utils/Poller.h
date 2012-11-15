@@ -28,7 +28,7 @@ class Poller{
 	throw ErrnoException("Failed to add fd to epoll handle");
     }
 
-    int poll(void **data, int timeout = 500){
+    int poll(void **data, int timeout = -1){
       epoll_event ev;
 
       while(true){

@@ -33,6 +33,11 @@ class Thread{
       m_isDestroyable = true;
     }
 
+    void cancel(){
+      pthread_cancel(m_thread);
+      m_isDestroyable = true;
+    }
+
   private:
     Thread(const Thread &);
     Thread & operator=(const Thread &);

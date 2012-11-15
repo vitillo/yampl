@@ -69,7 +69,7 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics sema
 PipeSocketBase::~PipeSocketBase(){
   if(m_mode == PIPE_PUSH){
     m_destroy = true;
-    m_ctlThread->join();
+    m_ctlThread->cancel();
   }
 
   free(m_receiveBuffer);
@@ -153,7 +153,7 @@ MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, void
 
 MOServerSocket::~MOServerSocket(){
   m_destroy = true;
-  m_listener->join();
+  m_listener->cancel();
 }
 
 void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
