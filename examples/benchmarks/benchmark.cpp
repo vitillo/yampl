@@ -13,6 +13,7 @@
 
 #include "yampl/ZMQ/ZMQSocketFactory.h"
 #include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/shm/SHMSocketFactory.h"
 #include "yampl/utils/Thread.h"
 
 using namespace yampl;
@@ -37,6 +38,8 @@ long stop_clock(){
 ISocketFactory *parseFactory(const char *impl){
   if(strcasecmp(impl, "pipe") == 0){
     return new pipe::SocketFactory();
+  }else if(strcasecmp(impl, "shm") == 0){
+    return new shm::SocketFactory();
   }else{
     return new ZMQ::SocketFactory();
   }
@@ -61,6 +64,8 @@ Context parseContext(const char *c, string &channelName){
 void dumpImpl(const char *impl){
   if(strcasecmp(impl, "pipe") == 0){
     cout << "implementation: PipeSocket" << endl;
+  }else if(strcasecmp(impl, "shm") == 0){
+    cout << "implementation: SHMSocket" << endl;
   }else{
     cout << "implementation: ZMQSocket" << endl;
   }
