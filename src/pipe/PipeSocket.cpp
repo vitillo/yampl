@@ -158,7 +158,7 @@ MOServerSocket::~MOServerSocket(){
 
 void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
   if(!m_currentPeer)
-    throw InvalidOperationException();
+    throw UnroutableException();
 
   m_currentPeer->send(buffer, size, discriminator, hint);
   m_currentPeer = 0;
@@ -169,9 +169,6 @@ ssize_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discri
 }
 
 ssize_t MOServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
-  if(m_currentPeer)
-    throw InvalidOperationException();
-
   if(!m_peerPoll.poll((void **)&m_currentPeer, timeout)){
     return -1;
   }else{
