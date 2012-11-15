@@ -49,7 +49,11 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -y
 	@echo
+	./examples/benchmarks/benchmark -y -m 32 -n 128 -s 250000
+	@echo
 	./examples/benchmarks/benchmark -i pipe
+	@echo
+	./examples/benchmarks/benchmark -i pipe -m 8 -n 128 -s 250000
 	@echo
 	./examples/benchmarks/benchmark -i pipe -y
 	@echo

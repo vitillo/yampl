@@ -9,6 +9,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
+#include <vector>
 
 #include "yampl/ZMQ/ZMQSocketFactory.h"
 #include "yampl/pipe/PipeSocketFactory.h"
@@ -35,10 +36,8 @@ long stop_clock(){
 
 ISocketFactory *parseFactory(const char *impl){
   if(strcasecmp(impl, "pipe") == 0){
-    cout << "implementation: PipeSocket" << endl;
     return new pipe::SocketFactory();
   }else{
-    cout << "implementation: ZMQSocket" << endl;
     return new ZMQ::SocketFactory();
   }
 }
@@ -59,6 +58,14 @@ Context parseContext(const char *c, string &channelName){
   exit(-1);
 }
 
+void dumpImpl(const char *impl){
+  if(strcasecmp(impl, "pipe") == 0){
+    cout << "implementation: PipeSocket" << endl;
+  }else{
+    cout << "implementation: ZMQSocket" << endl;
+  }
+}
+
 void dumpSemantics(Semantics semantics){
   if(semantics == MOVE_DATA){
     cout << "semantics: MOVE_DATA" << endl;
@@ -68,8 +75,6 @@ void dumpSemantics(Semantics semantics){
 }
 
 void client(ISocketFactory *factory, Channel channel, Semantics semantics, void *s_buffer, void *r_buffer, unsigned size, unsigned iterations){
-  cout << "Creating Client " << endl;
-
   s_buffer = new char[size];
   ISocket *socket = factory->createClientSocket(channel, semantics, deallocator);
 
@@ -81,14 +86,12 @@ void client(ISocketFactory *factory, Channel channel, Semantics semantics, void 
   delete socket;
 }
 
-void server(ISocketFactory *factory, Channel channel, Semantics semantics, void *s_buffer, void *r_buffer, unsigned size, unsigned iterations){
-  cout << "Creating Server " << endl;
-
+void server(ISocketFactory *factory, Channel channel, Semantics semantics, void *s_buffer, void *r_buffer, unsigned size, unsigned iterations, unsigned multiplicity){
   s_buffer = new char[size];
   ISocket *socket = factory->createServerSocket(channel, semantics, deallocator);
   
   start_clock();
-  for(size_t i = 0; i < iterations; i++){
+  for(size_t i = 0; i < iterations * multiplicity; i++){
     socket->recv(&r_buffer, size);
 #ifndef NDEBUG
     assert(memcmp(s_buffer, r_buffer, size) == 0);
@@ -98,11 +101,13 @@ void server(ISocketFactory *factory, Channel channel, Semantics semantics, void 
   }
 
   long t = stop_clock();
-  cout << "Latency " << t / (2*iterations) << " microseconds"<< endl;
-  cout << "Bandwidth " << (size * iterations * 2)/t<< " MB/s" << endl;
+  cout << "Latency " << t / (2*iterations*multiplicity) << " microseconds"<< endl;
+  cout << "Bandwidth " << (size*iterations*multiplicity*2)/t<< " MB/s" << endl;
 
-  int status;
-  wait(&status);
+  for(unsigned i = 0; i < multiplicity; i++){
+    int status;
+    wait(&status);
+  }
 
   delete socket;
 }
@@ -113,13 +118,14 @@ int main(int argc, char *argv[]){
   const char *cont = "LOCAL";
   unsigned iterations = 1000;
   unsigned size = 1000000;
+  unsigned multiplicity = 1;
   char *s_buffer = 0;
   char *r_buffer = 0;
   string channelName = "service";
   Context context = LOCAL;
   Semantics semantics = MOVE_DATA;
 
-  while((opt = getopt(argc, argv, "i:n:s:yc:")) != -1){
+  while((opt = getopt(argc, argv, "i:n:s:yc:m:")) != -1){
     switch(opt){
       case 'i':
 	impl = strdup(optarg);
@@ -136,6 +142,9 @@ int main(int argc, char *argv[]){
       case 'c':
 	cont = strdup(optarg);
 	break;
+      case 'm':
+	multiplicity = atoi(optarg);
+	break;
       default:
 	fprintf(stderr, "Usage: %s [-i impl] [-y] [-c context] [-n iterations] [-s size]\n", argv[0]);
 	exit(EXIT_FAILURE);
@@ -144,7 +153,9 @@ int main(int argc, char *argv[]){
 
   cout << "iterations: " << iterations << endl;
   cout << "buffer size: " << size << endl;
+  cout << "multiplicity: " << multiplicity << endl;
 
+  dumpImpl(impl);
   context = parseContext(cont, channelName);
   dumpSemantics(semantics);
   Channel channel(channelName, context);
@@ -152,20 +163,31 @@ int main(int argc, char *argv[]){
   r_buffer = new char[size];
 
   if(channel.context == LOCAL|| channel.context == DISTRIBUTED){
-    if(fork() == 0){
-      ISocketFactory *factory = parseFactory(impl);
-      client(factory, channel, semantics, s_buffer, r_buffer, size, iterations);
-    }else{
-      ISocketFactory *factory = parseFactory(impl);
-      server(factory, channel, semantics, s_buffer, r_buffer, size, iterations);
+    for(unsigned i = 0; i < multiplicity; i++){
+      if(fork() == 0){
+	ISocketFactory *factory = parseFactory(impl);
+	client(factory, channel, semantics, s_buffer, r_buffer, size, iterations);
+	return 0;
+      }else{
+	continue;
+      }
     }
+    ISocketFactory *factory = parseFactory(impl);
+    server(factory, channel, semantics, s_buffer, r_buffer, size, iterations, multiplicity);
   }else if(channel.context == THREAD){
     ISocketFactory *factory = parseFactory(impl);
+    vector<Thread*> threads;
 
-    Thread c(tr1::bind(client, factory, channel, semantics, s_buffer, r_buffer, size, iterations));
-    Thread s(tr1::bind(server, factory, channel, semantics, s_buffer, r_buffer, size, iterations));
+    Thread s(tr1::bind(server, factory, channel, semantics, s_buffer, r_buffer, size, iterations, multiplicity));
 
-    c.join();
+    for(unsigned i = 0; i < multiplicity; i++){
+      threads.push_back(new Thread(tr1::bind(client, factory, channel, semantics, s_buffer, r_buffer, size, iterations)));
+    }
+
+    for(unsigned i = 0; i < multiplicity; i++){
+      threads[i]->join();
+    }
+
     s.join();
   }
 
