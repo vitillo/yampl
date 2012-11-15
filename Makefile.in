@@ -53,9 +53,13 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -i pipe
 	@echo
+	./examples/benchmarks/benchmark -i pipe -y
+	@echo
 	./examples/benchmarks/benchmark -i pipe -m 32 -n 128 -s 250000
 	@echo
-	./examples/benchmarks/benchmark -i pipe -y
+	./examples/benchmarks/benchmark -i shm
+	@echo
+	./examples/benchmarks/benchmark -i shm -y
 	@echo
 	./examples/benchmarks/benchmark -c THREAD
 	@echo

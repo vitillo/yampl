@@ -94,7 +94,7 @@ void client(ISocketFactory *factory, Channel channel, Semantics semantics, void 
 void server(ISocketFactory *factory, Channel channel, Semantics semantics, void *s_buffer, void *r_buffer, unsigned size, unsigned iterations, unsigned multiplicity){
   s_buffer = new char[size];
   ISocket *socket = factory->createServerSocket(channel, semantics, deallocator);
-  
+
   start_clock();
   for(size_t i = 0; i < iterations * multiplicity; i++){
     socket->recv(&r_buffer, size);
@@ -177,6 +177,7 @@ int main(int argc, char *argv[]){
 	continue;
       }
     }
+
     ISocketFactory *factory = parseFactory(impl);
     server(factory, channel, semantics, s_buffer, r_buffer, size, iterations, multiplicity);
   }else if(channel.context == THREAD){

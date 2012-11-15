@@ -27,12 +27,13 @@ class PipeSocketBase : public ISocket{
 
   protected:
     size_t m_size;
-    int m_fd;
     std::string m_name;
-    void *m_buffer;
+    std::tr1::shared_ptr<SharedMemory> m_memory;
     std::tr1::shared_ptr<RingBuffer> m_queue;
 
     PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *));
+
+    void openSocket(bool create);
 
   private:
     PipeSocketBase(const PipeSocketBase &);
@@ -47,17 +48,8 @@ class PipeSocketBase : public ISocket{
 class ProducerSocket : public PipeSocketBase{
   public:
     ProducerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, semantics, deallocator){
-      if((m_fd = shm_open(m_name.c_str(), O_RDWR | O_CREAT | O_EXCL, S_IRWXU)) == -1)
-	throw ErrnoException("Shared memory object already exists");
-
-      if(ftruncate(m_fd, m_size) == -1)
-	throw ErrnoException("Failed to set the size of the shared memory object");
-
-      if((m_buffer = mmap(NULL, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == NULL)
-	throw ErrnoException("Failed to mmap shared object");
-
-      m_queue.reset(new RingBuffer(m_size, m_buffer));
-    }
+      openSocket(true);
+     }
 
     ~ProducerSocket(){
       shm_unlink(m_name.c_str());
@@ -86,30 +78,13 @@ class ConsumerSocket : public PipeSocketBase{
     }
 
     virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator){
-      openSocket();
+      openSocket(false);
       return PipeSocketBase::recv(buffer, size, discriminator);
     }
 
   private:
     ConsumerSocket(const ConsumerSocket &);
     ConsumerSocket & operator=(const ConsumerSocket &);
-
-    void openSocket(){
-      if(m_fd != -1)
-	return;
-
-      while((m_fd = shm_open(m_name.c_str(), O_RDWR, S_IRWXU)) == -1 && errno == ENOENT);
-      if(m_fd == -1)
-	throw ErrnoException("Failed to open shared memory object");
-
-      if(ftruncate(m_fd, m_size) == -1)
-	throw ErrnoException("Failed to set the size of the shared memory object");
-
-      if((m_buffer = mmap(NULL, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == NULL)
-	throw ErrnoException("Failed to mmap shared object");
-
-      m_queue.reset(new RingBuffer(m_size, m_buffer));
-    }
 };
 
 typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
