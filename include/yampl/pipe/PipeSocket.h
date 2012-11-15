@@ -15,6 +15,7 @@
 #include "yampl/utils/SpinLock.h"
 #include "yampl/utils/Poller.h"
 #include "yampl/utils/Thread.h"
+#include "yampl/utils/RawPipe.h"
 #include "yampl/generic/ServiceSocket.h"
 
 namespace yampl{
@@ -28,23 +29,6 @@ enum Mode{
 };
 
 class MOServerSocket;
-
-class RawPipe{
-  public:
-    int read;
-    int write;
-
-    RawPipe(const std::string &name);
-    ~RawPipe();
-
-
-  private:
-    RawPipe(const RawPipe &);
-    RawPipe & operator=(const RawPipe &);
-
-    const std::string m_name;
-    bool m_doUnlink;
-};
 
 class PipeSocketBase : public ISocket{
   friend class MOServerSocket;
@@ -132,7 +116,7 @@ class MOClientSocket: public ISocket{
     MOClientSocket & operator=(const MOClientSocket &);
 
     pid_t m_pid;
-    ISocket *m_server;
+    RawPipe m_announce;
     ISocket *m_private;
 };
 

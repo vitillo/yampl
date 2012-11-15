@@ -23,48 +23,17 @@ using namespace std;
 namespace yampl{
 namespace pipe{
 
-RawPipe::RawPipe(const std::string &name) : m_name(name), m_doUnlink(false){
-  if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
-    throw ErrnoException("Failed to create FIFO");
-
-  if(errno != EEXIST)
-    m_doUnlink = true;
-
-  // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
-  if((read = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
-    throw ErrnoException("Failed to open FIFO for reading");
-  if((write = open(name.c_str(), O_WRONLY)) == -1){
-    close(read);
-    throw ErrnoException("Failed to open FIFO for writing");
-  }
-
-  if((fcntl(read, F_SETFL, fcntl(read, F_GETFL) & ~O_NONBLOCK)) == -1){
-    close(read);
-    close(write);
-    throw ErrnoException("Failed to update FIFO");
-  }
-}
-
-RawPipe::~RawPipe(){
-  close(read);
-  close(write);
-
-  if(m_doUnlink)
-    unlink(m_name.c_str());
-}
-
 void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
   Poller poller;
-  poller.add(m_ctlPipe->read);
+  poller.add(m_ctlPipe->getReadFD());
 
   while(!m_destroy){
-    if(poller.poll() == -1)
+    if(poller.poll() == -1){
       continue;
+    }
 
     char signal = 0;
-
-    if(TEMP_FAILURE_RETRY(read(m_ctlPipe->read, &signal, 1)) == -1)
-      throw ErrnoException("Failed to receive ctl signal");
+    m_ctlPipe->read(&signal, 1);
 
     m_lock.lock();
     std::pair<void *, void *> entry = m_pendingBuffers.front();
@@ -88,7 +57,7 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics sema
   if(m_mode == PIPE_PULL){
 #ifdef F_SETPIPE_SZ
     //feature added in Linux 2.6.35
-    if(fcntl(m_transferPipe->write, F_SETPIPE_SZ, 1048576) == -1)
+    if(fcntl(m_transferPipe->getWriteFD(), F_SETPIPE_SZ, 1048576) == -1)
       throw ErrnoException("Failed to set the pipe's buffer size");
 #endif
   }else if(m_mode == PIPE_PUSH)
@@ -107,17 +76,7 @@ PipeSocketBase::~PipeSocketBase(){
 }
 
 void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  size_t bytesWritten = 0;
-  struct iovec vec;
-
-  while(bytesWritten != sizeof(size)){
-    ssize_t sent = TEMP_FAILURE_RETRY(write(m_transferPipe->write, &size, sizeof(size)));
-
-    if(sent == -1)
-      throw ErrnoException("Send failed");
-
-    bytesWritten += sent;
-  }
+  m_transferPipe->write(&size, sizeof(size));
 
   if(m_semantics == COPY_DATA){
     void *tmp = NULL;
@@ -132,29 +91,11 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
   m_pendingBuffers.push_back(make_pair(buffer, hint));
   m_lock.unlock();
 
-  for(bytesWritten = 0; bytesWritten != size;){
-    ssize_t sent = 0;
-    vec.iov_base = ((char *) buffer) + bytesWritten;
-    vec.iov_len = size - bytesWritten;
-
-    if((sent = vmsplice(m_transferPipe->write, &vec, 1, 0)) == -1)
-      throw ErrnoException("Send failed");
-
-    bytesWritten += sent;
-  }
+  m_transferPipe->writeSplice(buffer, size);
 }
 
 ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  size_t bytesRead = 0;
-
-  while(bytesRead != sizeof(m_receiveSize)){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe->read, &m_receiveSize, sizeof(m_receiveSize)));
-
-    if(r == -1)
-      throw ErrnoException("Receive failed");
-
-    bytesRead += r;
-  }
+  m_transferPipe->read(&m_receiveSize, sizeof(m_receiveSize));
 
   if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
@@ -168,55 +109,41 @@ ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discri
       *buffer = malloc(m_receiveSize);
   }
 
-  for(bytesRead = 0; bytesRead != m_receiveSize;){
-    ssize_t r = TEMP_FAILURE_RETRY(read(m_transferPipe->read, (char *)*buffer + bytesRead, m_receiveSize - bytesRead));
+  size_t bytesRead = m_transferPipe->read(*buffer, m_receiveSize);
+  m_ctlPipe->write(" ", 1);
 
-    if(r == -1)
-      throw ErrnoException("Receive failed");
-
-    bytesRead += r;
-  }
-
-  if(write(m_ctlPipe->write, " ", 1) == -1)
-    throw ErrnoException("Receive failed");
-
-  m_receiveSize = 0;
   return bytesRead;
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_server(0), m_private(0){
-  Channel announce(channel.name + "_announce");
+MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_announce(channel.name + "_announce"), m_private(0){
   Channel priv(channel.name + "_" + to_string(getpid()));
 
   m_private = new ClientSocket(priv, semantics, deallocator);
-  m_server = new ProducerSocket(announce, MOVE_DATA, voidDeallocator);
-  m_server->send(&m_pid, sizeof(m_pid));
+  m_announce.write(&m_pid, sizeof(m_pid));
 }
 
 MOClientSocket::~MOClientSocket(){
-  delete m_server;
   delete m_private;
 }
 
 void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
+  RawPipe listener(channel.name + "_announce");
   Poller poller;
-  Channel announce(channel.name + "_announce");
-  tr1::shared_ptr<ConsumerSocket> listener(new ConsumerSocket(announce, COPY_DATA));
 
-  poller.add(listener->m_transferPipe->read);
+  poller.add(listener.getReadFD());
 
   while(!m_destroy){
     if(poller.poll() == -1)
       continue;
 
-    pid_t pid, *pidptr = &pid;
-    listener->recv((void **)&pidptr, sizeof(pid));
+    pid_t pid;
+    listener.read(&pid, sizeof(pid));
 
     Channel peerChannel(channel.name + "_" + to_string(pid));
     tr1::shared_ptr<ServerSocket> peer(new ServerSocket(peerChannel, semantics, deallocator));
     m_peers.push_back(peer);
 
-    m_peerPoll.add(((ConsumerSocket *)(peer->getConsumerSocket()))->m_transferPipe->read, peer.get());
+    m_peerPoll.add(((ConsumerSocket *)(peer->getConsumerSocket()))->m_transferPipe->getReadFD(), peer.get());
   }
 }
 
