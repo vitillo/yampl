@@ -5,8 +5,6 @@
 
 #include <cstring>
 
-using namespace std;
-
 namespace yampl{
 /*
  * Lock and wait-free implementation of a multithreaded single-producer, single-consumer ring buffer. The buffer needs to be zero-initialized.

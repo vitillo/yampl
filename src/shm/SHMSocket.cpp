@@ -18,7 +18,7 @@ PipeSocketBase::~PipeSocketBase(){
 void PipeSocketBase::openSocket(bool create){
 
   if(!m_memory){
-    m_memory.reset(new SharedMemory(m_name.c_str(), m_size, create));
+    m_memory.reset(new SharedMemory(m_name.c_str(), m_size));
     m_queue.reset(new RingBuffer(m_size, m_memory->getMemory()));
   }
 }

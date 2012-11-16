@@ -51,10 +51,6 @@ class ProducerSocket : public PipeSocketBase{
       openSocket(true);
      }
 
-    ~ProducerSocket(){
-      shm_unlink(m_name.c_str());
-    }
-
     virtual void send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
       PipeSocketBase::send(buffer, size, discriminator, hint);
     }
