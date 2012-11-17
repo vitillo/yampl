@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
   ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
   while(true){
-    socket->send(message.c_str(), message.size());
+    socket->send(message);
     cout << "Message sent" <<  endl;
     sleep(1);
   }

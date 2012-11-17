@@ -75,7 +75,7 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, const std::string &peerID, void *hint){
   m_transferPipe->write(&size, sizeof(size));
 
   if(m_semantics == COPY_DATA){
@@ -94,22 +94,22 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
   m_transferPipe->writeSplice(buffer, size);
 }
 
-ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t PipeSocketBase::recv(void *&buffer, size_t size, const std::string *&peerID){
   m_transferPipe->read(&m_receiveSize, sizeof(m_receiveSize));
 
   if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
       throw ErrnoException("Receive failed");
 
-    *buffer = m_receiveBuffer;
+    buffer = m_receiveBuffer;
   }else{
-    if(*buffer && size < m_receiveSize)
+    if(buffer && size < m_receiveSize)
       throw InvalidSizeException();
-    else if(!*buffer)
-      *buffer = malloc(m_receiveSize);
+    else if(!buffer)
+      buffer = malloc(m_receiveSize);
   }
 
-  size_t bytesRead = m_transferPipe->read(*buffer, m_receiveSize);
+  size_t bytesRead = m_transferPipe->read(buffer, m_receiveSize);
   m_ctlPipe->write(" ", 1);
 
   return bytesRead;
@@ -156,23 +156,23 @@ MOServerSocket::~MOServerSocket(){
   m_listener->cancel();
 }
 
-void MOServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
+void MOServerSocket::send(void *buffer, size_t size, const std::string &peerID, void *hint){
   if(!m_currentPeer)
     throw UnroutableException();
 
-  m_currentPeer->send(buffer, size, discriminator, hint);
+  m_currentPeer->send(buffer, size, peerID, hint);
   m_currentPeer = 0;
 }
 
-ssize_t MOServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  return try_recv(buffer, size, discriminator, -1);
+ssize_t MOServerSocket::recv(void *&buffer, size_t size, const std::string *&peerID){
+  return try_recv(buffer, size, peerID, -1);
 }
 
-ssize_t MOServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t MOServerSocket::try_recv(void *&buffer, size_t size, const std::string *&peerID, long timeout){
   if(!m_peerPoll.poll((void **)&m_currentPeer, timeout)){
     return -1;
   }else{
-    return m_currentPeer->recv(buffer, size, discriminator);
+    return m_currentPeer->recv(buffer, size, peerID);
   }
 }
 

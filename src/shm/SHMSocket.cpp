@@ -23,7 +23,7 @@ void PipeSocketBase::openSocket(bool create){
   }
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
+void PipeSocketBase::send(void *buffer, size_t size, const std::string &peerID, void *hint){
   size_t bytesWritten = 0;
 
   // write message size
@@ -50,7 +50,7 @@ void PipeSocketBase::send(void *buffer, size_t size, discriminator_t *discrimina
     m_deallocator(buffer, hint);
 }
 
-ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discriminator){
+ssize_t PipeSocketBase::recv(void *&buffer, size_t size, const std::string *&peerID){
   size_t bytesRead = 0;
 
   while(m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize)) == 0);
@@ -59,19 +59,19 @@ ssize_t PipeSocketBase::recv(void **buffer, size_t size, discriminator_t *discri
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
       throw ErrnoException("Receive failed");
 
-    *buffer = m_receiveBuffer;
+    buffer = m_receiveBuffer;
   }else{
-    if(*buffer && size < m_receiveSize)
+    if(buffer && size < m_receiveSize)
       throw InvalidSizeException();
-    else if(!*buffer)
-      *buffer = malloc(m_receiveSize);
+    else if(!buffer)
+      buffer = malloc(m_receiveSize);
   }
 
   while(bytesRead != size){
     size_t chunkSize = 0;
 
     while(m_queue->dequeue(&chunkSize, sizeof(chunkSize)) == 0);
-    m_queue->dequeue((char *)*buffer + bytesRead, chunkSize);
+    m_queue->dequeue((char *)buffer + bytesRead, chunkSize);
 
     bytesRead += chunkSize;
   }

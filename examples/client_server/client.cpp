@@ -7,16 +7,16 @@ using namespace std;
 using namespace yampl;
 
 int main(int argc, char *argv[]){
+  char pong[100];
   const string ping = "Ping from " + to_string(getpid());
-  char pong[100], *pong_ptr = &pong[0];
   
   Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 
   while(true){
-    socket->send(ping.c_str(), ping.size() + 1);
-    socket->recv(&pong_ptr, sizeof(pong));
+    socket->send(ping);
+    socket->recv(pong);
     cout << pong << endl;
   }
 }

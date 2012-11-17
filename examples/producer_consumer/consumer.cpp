@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
   ISocket *socket = factory->createServerSocket(channel, MOVE_DATA);
 
   while(true){
-    socket->recv(&message);
+    socket->recv(message);
     cout << message << endl;
   }
 }

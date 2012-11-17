@@ -39,20 +39,20 @@ The clients ping a server process and receive a reply from it.
 
 #include "yampl.h"
 
-using namespace yampl;
 using namespace std;
+using namespace yampl;
 
 int main(int argc, char *argv[]){
+  char pong[100];
   const string ping = "Ping from " + to_string(getpid());
-  char pong[100], *pong_ptr = &pong[0];
   
   Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 
   while(true){
-    socket->send(ping.c_str(), ping.size() + 1);
-    socket->recv(&pong_ptr, sizeof(pong));
+    socket->send(ping);
+    socket->recv(pong);
     cout << pong << endl;
   }
 }
@@ -71,7 +71,7 @@ using namespace std;
 using namespace yampl;
 
 int main(int argc, char *argv[]){
-  char ping[100], *ping_ptr = &ping[0];
+  char ping[100];
   string pong = "Pong from " + to_string(getpid());
   
   Channel channel("service");
@@ -79,8 +79,8 @@ int main(int argc, char *argv[]){
   ISocket *socket = factory->createServerSocket(channel);
 
   while(true){
-    socket->recv(&ping_ptr, sizeof(ping));
-    socket->send(pong.c_str(), pong.size() + 1);
+    socket->recv(ping);
+    socket->send(pong);
     cout << ping << endl;
     sleep(1);
   }
@@ -102,12 +102,12 @@ void deallocator(void *, void*){}
 int main(int argc, char *argv[]){
   string message = "Hello from " +  to_string(getpid());
   
-  Channel channel("127.0.0.1:3333", DISTRIBUTED_PROCESS);
+  Channel channel("127.0.0.1:3333", DISTRIBUTED);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
   while(true){
-    socket->send(message.c_str(), message.size());
+    socket->send(message);
     cout << "Message sent" <<  endl;
     sleep(1);
   }
@@ -126,12 +126,12 @@ using namespace yampl;
 int main(int argc, char *argv[]){
   char *message = 0;
 
-  Channel channel("127.0.0.1:3333", DISTRIBUTED_PROCESS);
+  Channel channel("127.0.0.1:3333", DISTRIBUTED);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel, MOVE_DATA);
 
   while(true){
-    socket->recv(&message);
+    socket->recv(message);
     cout << message << endl;
   }
 }

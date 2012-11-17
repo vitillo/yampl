@@ -19,6 +19,11 @@ SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics seman
   }
 
   m_socket = new zmq::socket_t(*context, type);
+
+  size_t ids = 255;
+  char id[ids];
+  m_socket->getsockopt(ZMQ_IDENTITY, id, &ids);
+  m_identity = id;
 }
 
 SocketBase::~SocketBase(){
@@ -32,11 +37,11 @@ ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics s
 ClientSocket::~ClientSocket(){
 }
 
-void ClientSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  try_send(buffer, size, discriminator, hint, -1);
+void ClientSocket::send(void *buffer, size_t size, const std::string &peerID, void *hint){
+  try_send(buffer, size, peerID, hint, -1);
 }
 
-bool ClientSocket::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
+bool ClientSocket::try_send(void *buffer, size_t size, const std::string &peerID, void *hint, long timeout){
   if(!m_isConnected){
     connect();
   }
@@ -84,12 +89,12 @@ void ClientSocket::connect(){
   m_isConnected = true;
 }
     
-ssize_t ClientSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  return try_recv(buffer, size, discriminator, -1);
+ssize_t ClientSocket::recv(void *&buffer, size_t size, const std::string *&peerID){
+  return try_recv(buffer, size, peerID, -1);
 }
 
 
-ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t ClientSocket::try_recv(void *&buffer, size_t size, const std::string *&peerID, long timeout){
   if(!m_isConnected){
     connect();
   }
@@ -104,15 +109,15 @@ ssize_t ClientSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
     }
 
     if(m_semantics == MOVE_DATA){
-      *buffer = m_message->data();
+      buffer = m_message->data();
     }else{
-      if(*buffer && size < m_message->size()){
+      if(buffer && size < m_message->size()){
 	throw InvalidSizeException();
-      }else if(*buffer){
-	memcpy(*buffer, m_message->data(), m_message->size());
+      }else if(buffer){
+	memcpy(buffer, m_message->data(), m_message->size());
       }else{
-	*buffer = malloc(m_message->size());
-	memcpy(*buffer, m_message->data(), m_message->size());
+	buffer = malloc(m_message->size());
+	memcpy(buffer, m_message->data(), m_message->size());
       }
     }
 
@@ -133,12 +138,12 @@ ServerSocket::~ServerSocket(){
   delete m_lastAddress;
 }
 
-void ServerSocket::send(void *buffer, size_t size, discriminator_t *discriminator, void *hint){
-  try_send(buffer, size, discriminator, hint, -1);
+void ServerSocket::send(void *buffer, size_t size, const std::string &peerID, void *hint){
+  try_send(buffer, size, peerID, hint, -1);
 }
 
 
-bool ServerSocket::try_send(void *buffer, size_t size, discriminator_t *discriminator, void *hint, long timeout){
+bool ServerSocket::try_send(void *buffer, size_t size, const std::string &peerID, void *hint, long timeout){
   zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLOUT, 0};
   zmq::poll(&item, 1, timeout);
 
@@ -146,12 +151,12 @@ bool ServerSocket::try_send(void *buffer, size_t size, discriminator_t *discrimi
     if(m_semantics == MOVE_DATA){
       zmq::message_t message((void *)buffer, size, m_deallocator, hint);
 
-      sendMessage(message, discriminator);
+      sendMessage(message, peerID);
     }else{
       zmq::message_t message(size);
 
       memcpy((void*)message.data(), buffer, size);
-      sendMessage(message, discriminator);
+      sendMessage(message, peerID);
     }
 
     return true;
@@ -160,10 +165,10 @@ bool ServerSocket::try_send(void *buffer, size_t size, discriminator_t *discrimi
   }
 }
 
-void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discriminator){
-  if(discriminator){
-    zmq::message_t address(discriminator->size());
-    memcpy((void*)address.data(), discriminator->c_str(), discriminator->size());
+void ServerSocket::sendMessage(zmq::message_t &message, const std::string &peerID){
+  if(&peerID != &NO_ID){
+    zmq::message_t address(peerID.size());
+    memcpy((void*)address.data(), peerID.c_str(), peerID.size());
     if(m_socket->send(address, ZMQ_SNDMORE) == -1)
       throw UnroutableException();
   }else{
@@ -174,11 +179,11 @@ void ServerSocket::sendMessage(zmq::message_t &message, discriminator_t *discrim
   m_socket->send(message);
 }
 
-ssize_t ServerSocket::recv(void **buffer, size_t size, discriminator_t *discriminator){
-  return try_recv(buffer, size, discriminator, -1);
+ssize_t ServerSocket::recv(void *&buffer, size_t size, const std::string *&peerID){
+  return try_recv(buffer, size, peerID, -1);
 }
 
-ssize_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *discriminator, long timeout){
+ssize_t ServerSocket::try_recv(void *&buffer, size_t size, const std::string *&peerID, long timeout){
   zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
   zmq::poll(&item, 1, timeout);
 
@@ -190,20 +195,25 @@ ssize_t ServerSocket::try_recv(void **buffer, size_t size, discriminator_t *disc
     }
 
     if(m_semantics == MOVE_DATA){
-      *buffer = m_message->data();
+      buffer = m_message->data();
     }else{
-      if(*buffer && size < m_message->size()){
+      if(buffer && size < m_message->size()){
 	throw InvalidSizeException();
-      }else if(*buffer){
-	memcpy(*buffer, m_message->data(), m_message->size());
+      }else if(buffer){
+	memcpy(buffer, m_message->data(), m_message->size());
       }else{
-	*buffer = malloc(m_message->size());
-	memcpy(*buffer, m_message->data(), m_message->size());
+	buffer = malloc(m_message->size());
+	memcpy(buffer, m_message->data(), m_message->size());
       }
     }
 
-    if(discriminator){
-      *discriminator = (char *)m_lastAddress->data();
+    if(&peerID != &NO_ID_PTR){
+      if(peerID){
+	throw UnsupportedException();
+      }else{
+	//TODO: return always the same instance!
+	peerID = new string((char *)m_lastAddress->data());
+      }
     }
 
     m_isRecvPending = false;

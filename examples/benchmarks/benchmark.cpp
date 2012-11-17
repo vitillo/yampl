@@ -85,7 +85,7 @@ void client(ISocketFactory *factory, Channel channel, Semantics semantics, void 
 
   for(size_t i = 0; i < iterations; i++){
     socket->send(s_buffer, size);
-    socket->recv(&r_buffer, size);
+    socket->recv(r_buffer, size);
   }
 
   delete socket;
@@ -97,7 +97,7 @@ void server(ISocketFactory *factory, Channel channel, Semantics semantics, void 
 
   start_clock();
   for(size_t i = 0; i < iterations * multiplicity; i++){
-    socket->recv(&r_buffer, size);
+    socket->recv(r_buffer, size);
 #ifndef NDEBUG
     assert(memcmp(s_buffer, r_buffer, size) == 0);
     memset((void *)r_buffer, 0, size);

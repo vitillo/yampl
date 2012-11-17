@@ -12,11 +12,12 @@ class ServiceSocketBase : public ISocket{
       delete m_consumerSocket;
     }
 
-    virtual void send(void *buffer, size_t size, discriminator_t *discriminator = 0, void *hint = 0){
-      m_producerSocket->send(buffer, size, discriminator, hint);
+    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
+      m_producerSocket->send(buffer, size, peerID, hint);
     }
-    virtual ssize_t recv(void **buffer, size_t size, discriminator_t *discriminator = 0){
-      return m_consumerSocket->recv(buffer, size, discriminator);
+
+    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
+      return m_consumerSocket->recv(buffer, size, peerID);
     }
 
     ISocket *getProducerSocket(){
