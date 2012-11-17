@@ -36,9 +36,9 @@ $(EXAMPLES): $(LIBYAMPL)
 	+$(MAKE) -C $@
 
 install: all
-	mkdir -p $(PREFIX)/{lib,include,pkgconfig}
+	mkdir -p $(PREFIX)/{lib/pkgconfig,include}
 	cp $(LIBYAMPL) $(PREFIX)/lib
-	cp yampl.pc /usr/share/pkgconfig/
+	cp yampl.pc $(PREFIX)/lib/pkgconfig/
 	cp -R ./include/yampl $(PREFIX)/include/
 
 uninstall: 
