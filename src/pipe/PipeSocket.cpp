@@ -118,10 +118,10 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
   return bytesRead;
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_pid(getpid()), m_announce(channel.name + "_announce"), m_private(0){
+MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : m_pid(getpid()), m_announce(channel.name + "_announce"), m_private(0){
   Channel priv(channel.name + "_" + to_string(getpid()));
 
-  m_private = new ClientSocket(priv, semantics, deallocator);
+  m_private = new ClientSocket(priv, semantics, deallocator, name);
   m_announce.write(&m_pid, sizeof(m_pid));
 }
 

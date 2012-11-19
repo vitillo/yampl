@@ -19,11 +19,6 @@ SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics seman
   }
 
   m_socket = new zmq::socket_t(*context, type);
-
-  size_t ids = 255;
-  char id[ids];
-  m_socket->getsockopt(ZMQ_IDENTITY, id, &ids);
-  m_identity = id;
 }
 
 SocketBase::~SocketBase(){
@@ -31,7 +26,14 @@ SocketBase::~SocketBase(){
   delete m_socket;
 }
 
-ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
+ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
+  if(&name == &DEFAULT_ID){
+    size_t ids = 255;
+    char id[ids];
+    m_socket->getsockopt(ZMQ_IDENTITY, id, &ids);
+  }else{
+    m_socket->setsockopt(ZMQ_IDENTITY, name.c_str(), name.size() + 1);
+  }
 }
 
 ClientSocket::~ClientSocket(){

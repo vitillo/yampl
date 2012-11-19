@@ -6,6 +6,8 @@
 
 namespace yampl{
 
+extern std::string DEFAULT_ID;
+
 class ISocket{
   public:
     virtual ~ISocket(){}
@@ -145,8 +147,6 @@ class ISocket{
     virtual ssize_t recv(RecvArgs &args) = 0;
 
   private:
-    static std::string DEFAULT_ID;
-
     ISocket & operator=(const ISocket &);
 };
 

@@ -13,8 +13,8 @@ SocketFactory::~SocketFactory(){
   delete m_context;
 }
 
-ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
-  return new ClientSocket(channel, m_context, semantics, deallocator);
+ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name){
+  return new ClientSocket(channel, m_context, semantics, deallocator, name);
 }
 
 ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){

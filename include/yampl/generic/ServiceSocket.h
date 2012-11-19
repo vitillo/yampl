@@ -44,7 +44,7 @@ class ServiceSocketBase : public ISocket{
 template <typename P, typename C>
 class ClientSocket : public ServiceSocketBase{
   public:
-    ClientSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : ServiceSocketBase(channel, semantics, deallocator){
+    ClientSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : ServiceSocketBase(channel, semantics, deallocator){
       m_producerSocket = new P(m_reqChannel, semantics, deallocator);
       m_consumerSocket = new C(m_repChannel, semantics); 
     }

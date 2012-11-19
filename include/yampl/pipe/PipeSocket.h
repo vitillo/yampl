@@ -100,7 +100,7 @@ typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
 
 class MOClientSocket: public ISocket{
   public:
-    MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
+    MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name);
     virtual ~MOClientSocket();
 
     virtual void send(SendArgs &args){

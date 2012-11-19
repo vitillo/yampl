@@ -31,9 +31,18 @@ class ISocketFactory{
      *        acquires ownership
      * @param deallocator the deallocation policy to invoke when the implementation 
      *        has to free the memory of a message it owns
+     * @param name the identifier name of the Socket
      * @return a ClientSocket
      */
-    virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator) = 0;
+    virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator, const std::string& name = DEFAULT_ID) = 0;
+
+    ISocket *createClientSocket(Channel channel, const std::string& name){
+      return createClientSocket(channel, COPY_DATA, defaultDeallocator, name);
+    }
+
+    ISocket *createClientSocket(Channel channel, Semantics semantics, const std::string& name){
+      return createClientSocket(channel, semantics, defaultDeallocator, name);
+    }
 
     /**
      * Creates a ServerSocket. A ServerSocket can be connected to zero ore more 

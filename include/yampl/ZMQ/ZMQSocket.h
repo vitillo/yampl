@@ -30,7 +30,6 @@ class SocketBase : public ISocket{
     zmq::socket_t *m_socket;
     zmq::message_t *m_message;
     bool m_isRecvPending;
-    std::string m_identity;
 
   private:
     SocketBase(const SocketBase &);
@@ -39,7 +38,7 @@ class SocketBase : public ISocket{
 
 class ClientSocket : public SocketBase{
   public:
-    ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
+    ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name);
     virtual ~ClientSocket();
 
     virtual void send(SendArgs& args);
