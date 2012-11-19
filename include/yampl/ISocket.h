@@ -22,19 +22,19 @@ class ISocket{
     // send wrappers
     template <typename T>
     void send(T *buffer, size_t n, void *hint = 0){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       send((void *)buffer, n * sizeof(T), hint);
     }
 
     template <typename T, int N>
     void send(T (&buffer)[N], void *hint = 0){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       send((void *)&buffer[0], sizeof(buffer), hint);
     }
 
     template <typename T>
     void send(const T &value, void *hint = 0){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       send(&value, sizeof(T), hint);
     }
 
@@ -44,13 +44,13 @@ class ISocket{
     
     template <typename T>
     void sendTo(const std::string &peerId, T *buffer, size_t n, void *hint = 0){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       sendTo(peerId, (void *)buffer, n * sizeof(T), hint);
     }
 
     template <typename T>
     void sendTo(const std::string &peerId, const T &value, void *hint = 0){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       send(peerId, &value, sizeof(T), hint);
     }
 
@@ -61,28 +61,28 @@ class ISocket{
     // recv wrappers
     template <typename T>
     ssize_t recv(T *&buffer, size_t n, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       void **tmp = (void **)&buffer;
       return recv(*tmp, n * sizeof(T), peerId);
     }
 
     template <typename T>
     ssize_t recv(T *&buffer, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       void **tmp = (void **) &buffer;
       return recv(*tmp, peerId);
     }
 
     template <typename T, int N>
     ssize_t recv(T (&buffer)[N], std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       T *ptr = &buffer[0];
       return recv(ptr, sizeof(buffer), peerId);
     }
 
     template <typename T>
     T & recv(std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       T *buffer = 0;
       recv(buffer, sizeof(T), peerId);
       return *buffer;
@@ -91,28 +91,28 @@ class ISocket{
     // tryRecv wrapper
     template <typename T>
     ssize_t tryRecv(T *&buffer, size_t n, long timeout = 0, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       void **tmp = (void **)&buffer;
       return tryRecv(*tmp, n * sizeof(T), timeout, peerId);
     }
 
     template <typename T>
     ssize_t tryRecv(T *&buffer, long timeout = 0, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       void **tmp = (void **) &buffer;
       return tryRecv(*tmp, timeout, peerId);
     }
 
     template <typename T, int N>
     ssize_t tryRecv(T (&buffer)[N], long timeout = 0, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       T *ptr = &buffer[0];
       return tryRecv(ptr, sizeof(buffer), timeout, peerId);
     }
 
     template <typename T>
     T & tryRecv(long timeout = 0, std::string &peerId = DEFAULT_ID){
-      assert(__has_trivial_copy(T));
+      assert(__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T));
       T *buffer = 0;
       tryRecv(buffer, sizeof(T), timeout, peerId);
       return *buffer;
