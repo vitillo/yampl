@@ -6,6 +6,17 @@ A channel allows to send and receive data over it. Receives are blocking while s
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
 * **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
+YAMPL allows to send and receive 
+* objects of trivially copiable types
+* arrays of trivially copiable types
+* pointers to arrays of trivially copiable types
+
+A trivially copiable type
+* has no non-trivial copy constructors (no virtual functions or virtual bases)
+* has no non-trivial copy assignment constructors
+* has a trivial destructor
+In other words, a trivially copyable type is any type for which the underlying bytes can be copied to an array of char or unsigned char and into a new object of the same type, and the resulting object would have the same value as the original.
+
 The implementation determines at run-time the best communication strategy possible in order to reduce the latency and to increase the bandwidth for the current communication pattern:
 * **Inter-thread:** Lock Free Queues
 * **Inter-process (local):**

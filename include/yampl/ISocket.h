@@ -2,8 +2,7 @@
 #define YAMPL_ISOCKET_H
 
 #include <unistd.h>
-
-#include "yampl/Exceptions.h"
+#include <assert.h>
 
 namespace yampl{
 
@@ -22,22 +21,21 @@ class ISocket{
 
     // send wrappers
     template <typename T>
-    void send(T *buffer, size_t size, void *hint = 0){
-      send((void *)buffer, size, hint);
+    void send(T *buffer, size_t n, void *hint = 0){
+      assert(__has_trivial_copy(T));
+      send((void *)buffer, n * sizeof(T), hint);
     }
 
     template <typename T, int N>
     void send(T (&buffer)[N], void *hint = 0){
+      assert(__has_trivial_copy(T));
       send((void *)&buffer[0], sizeof(buffer), hint);
     }
 
     template <typename T>
     void send(const T &value, void *hint = 0){
-      //C++11 is_trivially_copyable
-      if(__has_trivial_copy(T))
-	send(&value, sizeof(value), hint);
-      else
-	throw InvalidOperationException("Type is not trivially copiable");
+      assert(__has_trivial_copy(T));
+      send(&value, sizeof(T), hint);
     }
 
     void send(const std::string &msg, void *hint = 0){
@@ -45,17 +43,15 @@ class ISocket{
     }
     
     template <typename T>
-    void sendTo(const std::string &peerId, T *buffer, size_t size, void *hint = 0){
-      sendTo(peerId, (void *)buffer, size, hint);
+    void sendTo(const std::string &peerId, T *buffer, size_t n, void *hint = 0){
+      assert(__has_trivial_copy(T));
+      sendTo(peerId, (void *)buffer, n * sizeof(T), hint);
     }
 
     template <typename T>
     void sendTo(const std::string &peerId, const T &value, void *hint = 0){
-      //C++11 is_trivially_copyable
-      if(__has_trivial_copy(T))
-	send(peerId, &value, sizeof(value), hint);
-      else
-	throw InvalidOperationException("Type is not trivially copiable");
+      assert(__has_trivial_copy(T));
+      send(peerId, &value, sizeof(T), hint);
     }
 
     void sendTo(const std::string &peerId, const std::string &msg, void *hint = 0){
@@ -64,60 +60,62 @@ class ISocket{
 
     // recv wrappers
     template <typename T>
-    ssize_t recv(T *&buffer, size_t size, std::string &peerId = DEFAULT_ID){
+    ssize_t recv(T *&buffer, size_t n, std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       void **tmp = (void **)&buffer;
-      return recv(*tmp, size, peerId);
+      return recv(*tmp, n * sizeof(T), peerId);
     }
 
     template <typename T>
     ssize_t recv(T *&buffer, std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       void **tmp = (void **) &buffer;
       return recv(*tmp, peerId);
     }
 
     template <typename T, int N>
     ssize_t recv(T (&buffer)[N], std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       T *ptr = &buffer[0];
-      return recv(ptr, N, peerId);
+      return recv(ptr, sizeof(buffer), peerId);
     }
 
     template <typename T>
     T & recv(std::string &peerId = DEFAULT_ID){
-      if(__has_trivial_copy(T)){
-	T *buffer = 0;
-	recv(buffer, sizeof(T), peerId);
-	return *buffer;
-      }else
-	throw InvalidOperationException("Type is not trivially copiable");
+      assert(__has_trivial_copy(T));
+      T *buffer = 0;
+      recv(buffer, sizeof(T), peerId);
+      return *buffer;
     }
 
     // tryRecv wrapper
     template <typename T>
-    ssize_t tryRecv(T *&buffer, size_t size, long timeout = 0, std::string &peerId = DEFAULT_ID){
+    ssize_t tryRecv(T *&buffer, size_t n, long timeout = 0, std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       void **tmp = (void **)&buffer;
-      return tryRecv(*tmp, size, timeout, peerId);
+      return tryRecv(*tmp, n * sizeof(T), timeout, peerId);
     }
 
     template <typename T>
     ssize_t tryRecv(T *&buffer, long timeout = 0, std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       void **tmp = (void **) &buffer;
       return tryRecv(*tmp, timeout, peerId);
     }
 
     template <typename T, int N>
     ssize_t tryRecv(T (&buffer)[N], long timeout = 0, std::string &peerId = DEFAULT_ID){
+      assert(__has_trivial_copy(T));
       T *ptr = &buffer[0];
-      return tryRecv(ptr, N, timeout, peerId);
+      return tryRecv(ptr, sizeof(buffer), timeout, peerId);
     }
 
     template <typename T>
     T & tryRecv(long timeout = 0, std::string &peerId = DEFAULT_ID){
-      if(__has_trivial_copy(T)){
-	T *buffer = 0;
-	tryRecv(buffer, sizeof(T), timeout, peerId);
-	return *buffer;
-      }else
-	throw InvalidOperationException("Type is not trivially copiable");
+      assert(__has_trivial_copy(T));
+      T *buffer = 0;
+      tryRecv(buffer, sizeof(T), timeout, peerId);
+      return *buffer;
     }
 
     struct SendArgs{
