@@ -11,7 +11,7 @@ YAMPL allows to send and receive
 * arrays of trivially copiable types
 * pointers to arrays of trivially copiable types
 
-A trivially copiable type
+A **trivially copiable** type
 * has no non-trivial copy constructors (no virtual functions or virtual bases)
 * has no non-trivial copy assignment constructors
 * has a trivial destructor
