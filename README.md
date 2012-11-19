@@ -9,7 +9,6 @@ A channel allows to send and receive data over it. Receives are blocking while s
 YAMPL allows to send and receive: 
 * objects of trivially copiable types
 * arrays of trivially copiable types
-* pointers to arrays of trivially copiable types
 
 A **trivially copiable** type
 * has no non-trivial copy constructors (no virtual functions or virtual bases)
