@@ -6,7 +6,7 @@ A channel allows to send and receive data over it. Receives are blocking while s
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
 * **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
-YAMPL allows to send and receive 
+YAMPL allows to send and receive: 
 * objects of trivially copiable types
 * arrays of trivially copiable types
 * pointers to arrays of trivially copiable types
@@ -23,6 +23,8 @@ The implementation determines at run-time the best communication strategy possib
     * "small" messages: Lock Free Queues over POSIX Shared Memory 
     * "big" messages: UNIX Pipes (vmsplice)
 * **Inter-process (distributed):** POSIX Sockets 
+
+Furthermore, the library doesn't impose any order on the creation of the sockets, e.g. ClientSockets can be instantiated before their respective ServerSocket.
 
 ## Build, Test & Install
 ``` bash
