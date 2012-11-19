@@ -12,8 +12,6 @@ inline void defaultDeallocator(void *buffer, void *){
   free(buffer);
 }
 
-inline void voidDeallocator(void *, void *){}
-
 enum Semantics{
   COPY_DATA = 0,
   MOVE_DATA
