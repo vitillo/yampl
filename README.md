@@ -44,7 +44,7 @@ using namespace yampl;
 
 int main(int argc, char *argv[]){
   char pong[100];
-  const string ping = "Ping from " + to_string(getpid());
+  const string ping = "ping from " + to_string(getpid());
   
   Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
@@ -72,15 +72,13 @@ using namespace yampl;
 
 int main(int argc, char *argv[]){
   char ping[100];
-  string pong = "Pong from " + to_string(getpid());
-  
   Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel);
 
   while(true){
     socket->recv(ping);
-    socket->send(pong);
+    socket->send("pong");
     cout << ping << endl;
     sleep(1);
   }
