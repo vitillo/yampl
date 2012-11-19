@@ -22,8 +22,8 @@ class PipeSocketBase : public ISocket{
   public:
     virtual ~PipeSocketBase();
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0);
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR);
+    virtual void send(SendArgs &args);
+    virtual ssize_t recv(RecvArgs &args);
 
   protected:
     size_t m_size;
@@ -51,11 +51,11 @@ class ProducerSocket : public PipeSocketBase{
       openSocket(true);
      }
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
-      PipeSocketBase::send(buffer, size, peerID, hint);
+    virtual void send(SendArgs &args){
+      PipeSocketBase::send(args);
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
+    virtual ssize_t recv(RecvArgs &args){
       throw InvalidOperationException();
     }
 
@@ -69,13 +69,13 @@ class ConsumerSocket : public PipeSocketBase{
     ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, semantics, 0){
     }
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
+    virtual void send(SendArgs &args){
       throw InvalidOperationException();
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
+    virtual ssize_t recv(RecvArgs &args){
       openSocket(false);
-      return PipeSocketBase::recv(buffer, size, peerID);
+      return PipeSocketBase::recv(args);
     }
 
   private:

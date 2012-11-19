@@ -36,8 +36,8 @@ class PipeSocketBase : public ISocket{
   public:
     virtual ~PipeSocketBase();
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0);
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR);
+    virtual void send(SendArgs &args);
+    virtual ssize_t recv(RecvArgs &args);
 
   protected:
     PipeSocketBase(const Channel &channel, Mode type, Semantics semantics, void (*deallocator)(void *, void *));
@@ -64,11 +64,11 @@ class ProducerSocket : public PipeSocketBase{
   public:
     ProducerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : PipeSocketBase(channel, PIPE_PUSH, semantics, deallocator){}
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
-      PipeSocketBase::send(buffer, size, peerID, hint);
+    virtual void send(SendArgs &args){
+      PipeSocketBase::send(args);
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
+    virtual ssize_t recv(RecvArgs &args){
       throw InvalidOperationException();
     }
 
@@ -81,12 +81,12 @@ class ConsumerSocket : public PipeSocketBase{
   public:
     ConsumerSocket(const Channel &channel, Semantics semantics) : PipeSocketBase(channel, PIPE_PULL, semantics, 0){}
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
+    virtual void send(SendArgs &args){
       throw InvalidOperationException();
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
-      return PipeSocketBase::recv(buffer, size, peerID);
+    virtual ssize_t recv(RecvArgs &args){
+      return PipeSocketBase::recv(args);
     }
 
   private:
@@ -103,12 +103,12 @@ class MOClientSocket: public ISocket{
     MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~MOClientSocket();
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
-      m_private->send(buffer, size, peerID, hint);
+    virtual void send(SendArgs &args){
+      m_private->send(args);
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
-      return m_private->recv(buffer, size, peerID);
+    virtual ssize_t recv(RecvArgs &args){
+      return m_private->recv(args);
     }
 
   private:
@@ -125,9 +125,8 @@ class MOServerSocket: public ISocket{
     MOServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~MOServerSocket();
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0);
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR);
-    virtual ssize_t try_recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR, long timeout = 0);
+    virtual void send(SendArgs &args);
+    virtual ssize_t recv(RecvArgs &args);
 
   private:
     MOServerSocket(const MOServerSocket &);

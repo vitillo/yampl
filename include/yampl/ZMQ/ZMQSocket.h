@@ -42,10 +42,8 @@ class ClientSocket : public SocketBase{
     ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~ClientSocket();
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0);
-    virtual bool try_send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0, long timeout = 0);
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR);
-    virtual ssize_t try_recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR, long timeout = 0);
+    virtual void send(SendArgs& args);
+    virtual ssize_t recv(RecvArgs& args);
 
   private:
     bool m_isConnected;
@@ -60,15 +58,13 @@ class ServerSocket : public SocketBase{
     ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *));
     virtual ~ServerSocket();
  
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0);
-    virtual bool try_send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0, long timeout = 0);
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR);
-    virtual ssize_t try_recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR, long timeout = 0);
+    virtual void send(SendArgs& args);
+    virtual ssize_t recv(RecvArgs& args);
 
   private:
     ServerSocket(const ClientSocket &);
     ServerSocket & operator=(const ClientSocket &);
-    void sendMessage(zmq::message_t &message, const std::string &peerID);
+    void sendMessage(zmq::message_t &message, const std::string *peerId);
 
     zmq::message_t *m_lastAddress;
  };

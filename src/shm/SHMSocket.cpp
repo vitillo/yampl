@@ -23,34 +23,34 @@ void PipeSocketBase::openSocket(bool create){
   }
 }
 
-void PipeSocketBase::send(void *buffer, size_t size, const std::string &peerID, void *hint){
+void PipeSocketBase::send(SendArgs &args){
   size_t bytesWritten = 0;
 
   // write message size
-  while(m_queue->emptySize() < sizeof(size));
-  m_queue->enqueue(&size, sizeof(size), false);
+  while(m_queue->emptySize() < sizeof(args.size));
+  m_queue->enqueue(&args.size, sizeof(args.size), false);
 
   // write message in chunks
-  while(bytesWritten != size){
+  while(bytesWritten != args.size){
     while(m_queue->emptySize() < sizeof(size_t));
 
     size_t availSize = m_queue->emptySize();
-    size_t chunkSize = min(availSize - sizeof(size), size - bytesWritten);
+    size_t chunkSize = min(availSize - sizeof(args.size), args.size - bytesWritten);
 
     if(chunkSize == 0)
       continue;
 
     m_queue->enqueue(&chunkSize, sizeof(chunkSize), true);
-    m_queue->enqueue((char *)buffer + bytesWritten, chunkSize, false);
+    m_queue->enqueue((char *)args.buffer + bytesWritten, chunkSize, false);
 
     bytesWritten += chunkSize;
   }
 
   if(m_semantics == MOVE_DATA)
-    m_deallocator(buffer, hint);
+    m_deallocator(args.buffer, args.hint);
 }
 
-ssize_t PipeSocketBase::recv(void *&buffer, size_t size, const std::string *&peerID){
+ssize_t PipeSocketBase::recv(RecvArgs &args){
   size_t bytesRead = 0;
 
   while(m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize)) == 0);
@@ -59,24 +59,25 @@ ssize_t PipeSocketBase::recv(void *&buffer, size_t size, const std::string *&pee
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
       throw ErrnoException("Receive failed");
 
-    buffer = m_receiveBuffer;
+    *args.buffer = m_receiveBuffer;
   }else{
-    if(buffer && size < m_receiveSize)
+    if(args.allocate){
+      *args.buffer = malloc(m_receiveSize);
+    }else if(args.size < m_receiveSize){
       throw InvalidSizeException();
-    else if(!buffer)
-      buffer = malloc(m_receiveSize);
+    }
   }
 
-  while(bytesRead != size){
+  while(bytesRead != m_receiveSize){
     size_t chunkSize = 0;
 
     while(m_queue->dequeue(&chunkSize, sizeof(chunkSize)) == 0);
-    m_queue->dequeue((char *)buffer + bytesRead, chunkSize);
+    m_queue->dequeue((char *)*args.buffer + bytesRead, chunkSize);
 
     bytesRead += chunkSize;
   }
 
-  return size;
+  return args.size;
 }
 
 }

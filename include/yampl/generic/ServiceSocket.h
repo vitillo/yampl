@@ -12,12 +12,12 @@ class ServiceSocketBase : public ISocket{
       delete m_consumerSocket;
     }
 
-    virtual void send(void *buffer, size_t size, const std::string &peerID = NO_ID, void *hint = 0){
-      m_producerSocket->send(buffer, size, peerID, hint);
+    virtual void send(SendArgs &args){
+      m_producerSocket->send(args);
     }
 
-    virtual ssize_t recv(void *&buffer, size_t size, const std::string *&peerID = NO_ID_PTR){
-      return m_consumerSocket->recv(buffer, size, peerID);
+    virtual ssize_t recv(RecvArgs &args){
+      return m_consumerSocket->recv(args);
     }
 
     ISocket *getProducerSocket(){
@@ -29,12 +29,12 @@ class ServiceSocketBase : public ISocket{
     }
 
   protected:
-    ServiceSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_reqChannel(channel.name + "_req", channel.context), m_repChannel(channel.name + "_rep", channel.context), m_producerSocket(0), m_consumerSocket(0){}
-
     Channel m_reqChannel;
     Channel m_repChannel;
     ISocket *m_producerSocket;
     ISocket *m_consumerSocket;
+
+    ServiceSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_reqChannel(channel.name + "_req", channel.context), m_repChannel(channel.name + "_rep", channel.context), m_producerSocket(0), m_consumerSocket(0){}
 
   private:
     ServiceSocketBase(const ServiceSocketBase &);

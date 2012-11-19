@@ -6,14 +6,16 @@
 
 namespace yampl{
 
+std::string ISocket::DEFAULT_ID;
+
 SocketFactory::SocketFactory(){
   m_zmqFactory = new ZMQ::SocketFactory();
-  m_pipeFactory = new pipe::SocketFactory();
+  //m_pipeFactory = new pipe::SocketFactory();
 }
 
 SocketFactory::~SocketFactory(){
   delete m_zmqFactory;
-  delete m_pipeFactory;
+  //delete m_pipeFactory;
 }
 
 ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
