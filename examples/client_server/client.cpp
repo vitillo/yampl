@@ -8,7 +8,7 @@ using namespace yampl;
 
 int main(int argc, char *argv[]){
   char pong[100];
-  const string ping = "Ping from " + to_string(getpid());
+  const string ping = "ping from " + to_string(getpid());
   
   Channel channel("service");
   ISocketFactory *factory = new SocketFactory();
