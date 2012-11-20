@@ -17,6 +17,8 @@
 #include "yampl/utils/Thread.h"
 #include "yampl/utils/RawPipe.h"
 #include "yampl/generic/ServiceSocket.h"
+#include "yampl/generic/MOClientSocket.h"
+#include "yampl/generic/MOServerSocket.h"
 
 namespace yampl{
 namespace pipe{
@@ -98,47 +100,26 @@ class ConsumerSocket : public PipeSocketBase{
 typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
 typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
 
-class MOClientSocket: public ISocket{
-  public:
-    MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name);
-    virtual ~MOClientSocket();
+typedef MOClientSocket<ClientSocket> MOClientSocket;
 
-    virtual void send(SendArgs &args){
-      m_private->send(args);
+class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
+  public:
+    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator){}
+
+    virtual void listenTo(std::tr1::shared_ptr<ServerSocket> socket){
+      m_peerPoll.add(((ConsumerSocket *)(socket->getConsumerSocket()))->m_transferPipe->getReadFD(), socket.get());
     }
 
     virtual ssize_t recv(RecvArgs &args){
-      return m_private->recv(args);
+       if(!m_peerPoll.poll((void **)&m_currentPeer, args.timeout)){
+	return -1;
+      }else{
+	return m_currentPeer->recv(args);
+      }
     }
 
   private:
-    MOClientSocket(const MOClientSocket &);
-    MOClientSocket & operator=(const MOClientSocket &);
-
-    pid_t m_pid;
-    RawPipe m_announce;
-    ISocket *m_private;
-};
-
-class MOServerSocket: public ISocket{
-  public:
-    MOServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *));
-    virtual ~MOServerSocket();
-
-    virtual void send(SendArgs &args);
-    virtual ssize_t recv(RecvArgs &args);
-
-  private:
-    MOServerSocket(const MOServerSocket &);
-    MOServerSocket & operator=(const MOServerSocket &);
-
-    void listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *));
-
     Poller m_peerPoll;
-    ServerSocket *m_currentPeer;
-    bool m_destroy;
-    std::tr1::shared_ptr<Thread> m_listener;
-    std::vector<std::tr1::shared_ptr<ServerSocket> > m_peers;
 };
 
 }

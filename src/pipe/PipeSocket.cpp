@@ -118,63 +118,6 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
   return bytesRead;
 }
 
-MOClientSocket::MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : m_pid(getpid()), m_announce(channel.name + "_announce"), m_private(0){
-  Channel priv(channel.name + "_" + to_string(getpid()));
-
-  m_private = new ClientSocket(priv, semantics, deallocator, name);
-  m_announce.write(&m_pid, sizeof(m_pid));
-}
-
-MOClientSocket::~MOClientSocket(){
-  delete m_private;
-}
-
-void MOServerSocket::listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
-  RawPipe listener(channel.name + "_announce");
-  Poller poller;
-
-  poller.add(listener.getReadFD());
-
-  while(!m_destroy){
-    if(poller.poll() == -1)
-      continue;
-
-    pid_t pid;
-    listener.read(&pid, sizeof(pid));
-
-    Channel peerChannel(channel.name + "_" + to_string(pid));
-    tr1::shared_ptr<ServerSocket> peer(new ServerSocket(peerChannel, semantics, deallocator));
-    m_peers.push_back(peer);
-
-    m_peerPoll.add(((ConsumerSocket *)(peer->getConsumerSocket()))->m_transferPipe->getReadFD(), peer.get());
-  }
-}
-
-MOServerSocket::MOServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_currentPeer(0), m_destroy(false){
-  m_listener.reset(new Thread(tr1::bind(&MOServerSocket::listenerThreadFun, this, channel, semantics, deallocator)));
-}
-
-MOServerSocket::~MOServerSocket(){
-  m_destroy = true;
-  m_listener->cancel();
-}
-
-void MOServerSocket::send(SendArgs &args){
-  if(!m_currentPeer)
-    throw UnroutableException();
-
-  m_currentPeer->send(args);
-  m_currentPeer = 0;
-}
-
-ssize_t MOServerSocket::recv(RecvArgs &args){
-  if(!m_peerPoll.poll((void **)&m_currentPeer, args.timeout)){
-    return -1;
-  }else{
-    return m_currentPeer->recv(args);
-  }
-}
-
 }
 }
 
