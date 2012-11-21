@@ -61,6 +61,8 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -i shm -y
 	@echo
+	./examples/benchmarks/benchmark -i shm -m 32 -n 128 -s 250000
+	@echo
 	./examples/benchmarks/benchmark -c THREAD
 	@echo
 	./examples/benchmarks/benchmark -c DISTRIBUTED

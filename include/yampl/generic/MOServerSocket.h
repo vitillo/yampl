@@ -8,6 +8,7 @@
 #include "yampl/utils/RawPipe.h"
 #include "yampl/utils/Thread.h"
 #include "yampl/utils/Poller.h"
+#include "yampl/utils/SpinLock.h"
 
 namespace yampl{
 
@@ -24,8 +25,9 @@ class MOServerSocket: public ISocket{
     }
 
     virtual void send(SendArgs &args){
-      if(!m_currentPeer)
+      if(!m_currentPeer){
 	throw UnroutableException();
+      }
 
       m_currentPeer->send(args);
       m_currentPeer = 0;
@@ -35,6 +37,8 @@ class MOServerSocket: public ISocket{
 
   protected:
     T *m_currentPeer;
+    SpinLock m_lock;
+    std::vector<std::tr1::shared_ptr<T> > m_peers;
 
     virtual void listenTo(std::tr1::shared_ptr<T> socket) = 0;
 
@@ -57,7 +61,10 @@ class MOServerSocket: public ISocket{
 
 	Channel peerChannel(channel.name + "_" + to_string(pid));
 	std::tr1::shared_ptr<T> peer(new T(peerChannel, semantics, deallocator));
+
+	m_lock.lock();
 	m_peers.push_back(peer);
+	m_lock.unlock();
 
 	listenTo(peer);
       }
@@ -65,7 +72,6 @@ class MOServerSocket: public ISocket{
 
     bool m_destroy;
     std::tr1::shared_ptr<Thread> m_listener;
-    std::vector<std::tr1::shared_ptr<T> > m_peers;
 };
 
 }

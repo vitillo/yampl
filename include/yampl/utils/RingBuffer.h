@@ -53,6 +53,10 @@ class RingBuffer{
       return size;
     }
 
+    bool empty(){
+      return *m_head == *m_tail;
+    }
+
     size_t emptySize(){
       size_t tail = m_partTail > 0 ? m_partTail : *m_tail;
       size_t head = *m_head;

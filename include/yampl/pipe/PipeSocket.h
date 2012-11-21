@@ -107,7 +107,7 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
     MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator){}
 
     virtual void listenTo(std::tr1::shared_ptr<ServerSocket> socket){
-      m_peerPoll.add(((ConsumerSocket *)(socket->getConsumerSocket()))->m_transferPipe->getReadFD(), socket.get());
+      m_peerPoll.add(socket->getConsumerSocket()->m_transferPipe->getReadFD(), socket.get());
     }
 
     virtual ssize_t recv(RecvArgs &args){

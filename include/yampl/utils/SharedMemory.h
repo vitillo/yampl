@@ -16,6 +16,7 @@ class SharedMemory{
 
       int ret = 0;
 
+      // the first peer acquires a write lock to ensure that it is the only one to zero-initializes the memory object
       if((ret = flock(m_fd, LOCK_EX | LOCK_NB)) == 0){
 	// truncate to 0 and only then to size to ensure that the shared object is zero filled
 	if(ftruncate(m_fd, 0) == -1)
@@ -27,6 +28,7 @@ class SharedMemory{
 	throw ErrnoException("Failed to acquire shared lock");
       }
 
+      // The lock conversion is not guaranteed to be atomic but even if another peer acquires a write lock and re-initializes the memory object, it can be easily proven that all memory mappings are executed after all zero-initializations. If that wouldn't be the case then a write lock would have been acquired after another peer acquired a read lock (the shared object is mapped only after acquiring a read lock) but this is impossible since they are mutually exclusive.
       flock(m_fd, LOCK_SH);
 
       if((m_buffer = mmap(NULL, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == NULL)

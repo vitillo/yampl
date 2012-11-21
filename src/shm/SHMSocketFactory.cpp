@@ -11,7 +11,7 @@ namespace shm{
     throw UnsupportedException();
   }
 
-  return new ClientSocket(channel, semantics, deallocator, name);
+  return new MOClientSocket(channel, semantics, deallocator, name);
 }
 
 ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
@@ -19,7 +19,7 @@ ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics,
     throw UnsupportedException();
   }
 
-  return new ServerSocket(channel, semantics, deallocator);
+  return new MOServerSocket(channel, semantics, deallocator);
 }
 
 }
