@@ -39,6 +39,13 @@ class SharedMemory{
     }
 
     ~SharedMemory(){
+      if(flock(m_fd, LOCK_EX | LOCK_NB) == 0){
+	// The last peer unlinks the shared memory object
+	if(shm_unlink(m_name.c_str()) == -1){
+	  throw ErrnoException("Failed to unlink shared memory object");
+	}
+      }
+
       if(munlock(m_buffer, m_size) == 0)
 	ErrnoException("Failed to munlock shared memory");
 
