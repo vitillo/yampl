@@ -111,10 +111,8 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
 
     virtual void send(SendArgs &args){
       syncWithServer();
+      args.custom = m_semaphore.get();
       yampl::MOClientSocket<ClientSocket>::send(args);
-
-      // Notify the server that a new message is available
-      m_semaphore->up(1);
     }
 
   private:

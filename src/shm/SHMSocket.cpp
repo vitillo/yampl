@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "yampl/Exceptions.h"
 #include "yampl/shm/SHMSocket.h"
 
@@ -27,6 +29,11 @@ void PipeSocketBase::send(SendArgs &args){
   // write message size
   m_queue->enqueue(&args.size, sizeof(args.size));
   
+  // MOServerSocket needs to be notified after the first message part in order to avoid a deadlock
+  if(args.custom){
+    static_cast<Semaphore *>(args.custom)->up(1);
+  }
+
   // write message in chunks
   while(bytesWritten != args.size){
     m_queue->enqueue(&chunkSize, sizeof(chunkSize));

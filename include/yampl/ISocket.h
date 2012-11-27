@@ -124,18 +124,19 @@ class ISocket{
 
     struct SendArgs{
       public:
-	SendArgs(void *buffer, size_t size) : buffer(buffer), size(size), peerId(0), hint(0){}
+	SendArgs(void *buffer, size_t size) : buffer(buffer), size(size), peerId(0), hint(0), custom(0){}
       
 	void *buffer;
 	size_t size;
 	const std::string *peerId;
 	void *hint;
+	void *custom;
     };
 
     struct RecvArgs{
       public:
-	RecvArgs(void **buffer, size_t size) : buffer(buffer), size(size), allocate(false), timeout(-1), peerId(0), peerIdOut(0){}
-	RecvArgs(void **buffer) : buffer(buffer), size(0), allocate(true), timeout(-1), peerId(0), peerIdOut(0){}
+	RecvArgs(void **buffer, size_t size) : buffer(buffer), size(size), allocate(false), timeout(-1), peerId(0), peerIdOut(0), custom(0){}
+	RecvArgs(void **buffer) : buffer(buffer), size(0), allocate(true), timeout(-1), peerId(0), peerIdOut(0), custom(0){}
 
 	void **buffer;
 	size_t size;
@@ -143,6 +144,7 @@ class ISocket{
 	long timeout;
 	const std::string *peerId;
 	std::string *peerIdOut;
+	void *custom;
     };
 
     virtual void send(SendArgs &args) = 0;
