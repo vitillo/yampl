@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <assert.h>
 
+#include <string>
+
 namespace yampl{
 
 extern std::string DEFAULT_ID;

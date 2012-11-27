@@ -5,7 +5,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include <string>
 #include <tr1/memory>
 
 #include "yampl/ISocket.h"
@@ -36,7 +35,7 @@ class PipeSocketBase : public ISocket{
 
     PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *));
 
-    void openSocket(bool create);
+    void openSocket(bool isProducer);
 
   private:
     PipeSocketBase(const PipeSocketBase &);
@@ -98,8 +97,7 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
   public: 
     MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : yampl::MOClientSocket<ClientSocket>(channel, semantics, deallocator, name){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
-      m_semaphore = (int *)m_memory->getMemory();
-      m_futex.reset(new Futex(m_semaphore));
+      m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
 
     void syncWithServer(){
@@ -116,23 +114,19 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
       yampl::MOClientSocket<ClientSocket>::send(args);
 
       // Notify the server that a new message is available
-      if(__sync_fetch_and_add(m_semaphore, 1) == -1){
-	m_futex->wake(1);
-      }
+      m_semaphore->up(1);
     }
 
   private:
     std::tr1::shared_ptr<SharedMemory> m_memory;
-    std::tr1::shared_ptr<Futex> m_futex;
-    int *m_semaphore;
+    std::tr1::shared_ptr<Semaphore> m_semaphore;
 };
 
 class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
   public:
     MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator), m_nextPeerToVisit(0){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
-      m_semaphore = (int *)m_memory->getMemory();
-      m_futex.reset(new Futex(m_semaphore));
+      m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
 
     virtual void listenTo(std::tr1::shared_ptr<ServerSocket> socket){
@@ -141,12 +135,7 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
     }
 
     virtual ssize_t recv(RecvArgs &args){
-      if(__sync_fetch_and_sub(m_semaphore, 1) == 0){
-	// TODO: investigate spurious wakeups
-	while(*m_semaphore == -1){
-	  m_futex->wait(-1, args.timeout);
-	}
-      }
+      m_semaphore->down(1, args.timeout);
       
       // Using a futex and iterating over all open sockets should still be faster than using e.g. eventfd and performing a systemcall to poll. The whole point of using a SHMSocket is to keep the latency as low as possible.
       size_t i = m_nextPeerToVisit;
@@ -169,8 +158,7 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
 
   private:
     std::tr1::shared_ptr<SharedMemory> m_memory;
-    std::tr1::shared_ptr<Futex> m_futex;
-    int *m_semaphore;
+    std::tr1::shared_ptr<Semaphore> m_semaphore;
     size_t m_nextPeerToVisit;
 };
 

@@ -13,34 +13,27 @@ PipeSocketBase::~PipeSocketBase(){
   free(m_receiveBuffer);
 }
 
-void PipeSocketBase::openSocket(bool create){
+void PipeSocketBase::openSocket(bool isProducer){
   if(!m_memory){
     m_memory.reset(new SharedMemory(m_name.c_str(), m_size));
-    m_queue.reset(new RingBuffer(m_size, m_memory->getMemory()));
+    m_queue.reset(new RingBuffer(m_size, m_memory->getMemory(), isProducer));
   }
 }
 
 void PipeSocketBase::send(SendArgs &args){
+  size_t chunkSize = min(m_queue->size() - 2*sizeof(size_t), args.size);
   size_t bytesWritten = 0;
 
   // write message size
-  while(m_queue->emptySize() < sizeof(args.size));
-  m_queue->enqueue(&args.size, sizeof(args.size), false);
-
+  m_queue->enqueue(&args.size, sizeof(args.size));
+  
   // write message in chunks
   while(bytesWritten != args.size){
-    while(m_queue->emptySize() < sizeof(size_t));
-
-    size_t availSize = m_queue->emptySize();
-    size_t chunkSize = min(availSize - sizeof(args.size), args.size - bytesWritten);
-
-    if(chunkSize == 0)
-      continue;
-
-    m_queue->enqueue(&chunkSize, sizeof(chunkSize), true);
-    m_queue->enqueue((char *)args.buffer + bytesWritten, chunkSize, false);
+    m_queue->enqueue(&chunkSize, sizeof(chunkSize));
+    m_queue->enqueue((char *)args.buffer + bytesWritten, chunkSize);
 
     bytesWritten += chunkSize;
+    chunkSize = min(m_queue->size() - sizeof(chunkSize), args.size - bytesWritten);
   }
 
   if(m_semantics == MOVE_DATA)
@@ -50,7 +43,8 @@ void PipeSocketBase::send(SendArgs &args){
 ssize_t PipeSocketBase::recv(RecvArgs &args){
   size_t bytesRead = 0;
 
-  while(m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize)) == 0);
+  // read message size
+  m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize));
 
   if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
@@ -65,10 +59,11 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
     }
   }
 
+  // read message in chunks
   while(bytesRead != m_receiveSize){
     size_t chunkSize = 0;
 
-    while(m_queue->dequeue(&chunkSize, sizeof(chunkSize)) == 0);
+    m_queue->dequeue(&chunkSize, sizeof(chunkSize));
     m_queue->dequeue((char *)*args.buffer + bytesRead, chunkSize);
 
     bytesRead += chunkSize;

@@ -19,7 +19,7 @@ class Futex{
       t.tv_sec = timeout / 1000;
 
       if(syscall(SYS_futex, m_addr, FUTEX_WAIT, expected, (timeout == -1 ? NULL : &t), NULL, 0) == -1){
-	if(errno == EWOULDBLOCK || errno == EINTR){
+	if(errno == EWOULDBLOCK || errno == EINTR || errno == ETIMEDOUT){
 	  return false;
 	}else{
 	  throw ErrnoException("Failed to wait on futex");
