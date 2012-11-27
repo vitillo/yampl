@@ -39,7 +39,7 @@ class ISocket{
     template <typename T>
     void send(const T &value, void *hint = 0){
       assert(__is_pod(T) || (__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T)));
-      send(&value, sizeof(T), hint);
+      send((void *)&value, sizeof(T), hint);
     }
 
     void send(const std::string &msg, void *hint = 0){

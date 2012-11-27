@@ -8,7 +8,7 @@ using namespace std;
 namespace yampl{
 namespace shm{
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_size(1048576), m_name("/" + channel.name), m_semantics(semantics), m_deallocator(deallocator), m_receiveSize(0), m_receiveBuffer(NULL){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : m_size(1048576), m_name("/" + channel.name), m_semantics(semantics), m_deallocator(deallocator), m_isRecvPending(false), m_receiveSize(0), m_receiveBuffer(NULL){
 }
 
 PipeSocketBase::~PipeSocketBase(){
@@ -51,7 +51,10 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
   size_t bytesRead = 0;
 
   // read message size
-  m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize));
+  if(!m_isRecvPending){
+    m_queue->dequeue(&m_receiveSize, sizeof(m_receiveSize));
+    m_isRecvPending = true;
+  }
 
   if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
@@ -76,6 +79,7 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
     bytesRead += chunkSize;
   }
 
+  m_isRecvPending = false;
   return args.size;
 }
 

@@ -43,6 +43,7 @@ class PipeSocketBase : public ISocket{
 
     Semantics m_semantics;
     void (*m_deallocator)(void *, void *);
+    bool m_isRecvPending;
     size_t m_receiveSize;
     void *m_receiveBuffer;
 };
@@ -122,7 +123,7 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
 
 class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
   public:
-    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator), m_nextPeerToVisit(0){
+    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator), m_nextPeerToVisit(0), m_isRecvPending(false){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
       m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
@@ -133,7 +134,10 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
     }
 
     virtual ssize_t recv(RecvArgs &args){
-      m_semaphore->down(1, args.timeout);
+      if(!m_isRecvPending){
+	m_semaphore->down(1, args.timeout);
+	m_isRecvPending = true;
+      }
       
       // Using a futex and iterating over all open sockets should still be faster than using e.g. eventfd and performing a systemcall to poll. The whole point of using a SHMSocket is to keep the latency as low as possible.
       size_t i = m_nextPeerToVisit;
@@ -151,13 +155,23 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
       }
 
       m_lock.unlock();
-      return m_currentPeer->recv(args);
+
+      // If a receive is pending we need to proceed reading from the same socket the next time recv is called.
+      try{
+	size_t ret = m_currentPeer->recv(args);
+	m_isRecvPending = false;
+	return ret;
+      }catch(InvalidSizeException){
+	m_nextPeerToVisit = (m_nextPeerToVisit - 1) % m_peers.size();
+	throw InvalidSizeException();
+      }
     }
 
   private:
     std::tr1::shared_ptr<SharedMemory> m_memory;
     std::tr1::shared_ptr<Semaphore> m_semaphore;
     size_t m_nextPeerToVisit;
+    bool m_isRecvPending;
 };
 
 }

@@ -47,7 +47,7 @@ void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
   }
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_isRecvPending(false), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
@@ -97,7 +97,10 @@ void PipeSocketBase::send(SendArgs &args){
 }
 
 ssize_t PipeSocketBase::recv(RecvArgs &args){
-  m_transferPipe->read(&m_receiveSize, sizeof(m_receiveSize));
+  if(!m_isRecvPending){
+    m_transferPipe->read(&m_receiveSize, sizeof(m_receiveSize));
+    m_isRecvPending = true;
+  }
 
   if(m_semantics == MOVE_DATA){
     if((m_receiveBuffer = realloc(m_receiveBuffer, m_receiveSize)) == 0)
@@ -115,6 +118,7 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
   size_t bytesRead = m_transferPipe->read(*args.buffer, m_receiveSize);
   m_ctlPipe->write(" ", 1);
 
+  m_isRecvPending = false;
   return bytesRead;
 }
 

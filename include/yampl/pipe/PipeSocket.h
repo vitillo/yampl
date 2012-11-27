@@ -52,6 +52,7 @@ class PipeSocketBase : public ISocket{
  
     Mode m_mode;
     Semantics m_semantics;
+    bool m_isRecvPending;
     size_t m_receiveSize;
     void *m_receiveBuffer;
     bool m_destroy;

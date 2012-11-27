@@ -66,6 +66,8 @@ check:
 	./examples/benchmarks/benchmark -c THREAD
 	@echo
 	./examples/benchmarks/benchmark -c DISTRIBUTED
+	@echo
+	./examples/tests/size
 
 .PHONY: clean
 clean:

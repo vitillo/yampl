@@ -85,9 +85,12 @@ ssize_t ClientSocket::recv(RecvArgs& args){
   }
 
   zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
-  zmq::poll(&item, 1, args.timeout);
+  
+  if(!m_isRecvPending){
+    zmq::poll(&item, 1, args.timeout);
+  }
 
-  if(item.revents & ZMQ_POLLIN){
+  if(item.revents & ZMQ_POLLIN || m_isRecvPending){
     if(!m_isRecvPending){
       m_socket->recv(m_message); 
       m_isRecvPending = true;
@@ -152,9 +155,12 @@ void ServerSocket::sendMessage(zmq::message_t &message, const std::string *peerI
 
 ssize_t ServerSocket::recv(RecvArgs& args){
   zmq::pollitem_t item = {*m_socket, 0, ZMQ_POLLIN, 0};
-  zmq::poll(&item, 1, args.timeout);
 
-  if(item.revents & ZMQ_POLLIN){
+  if(!m_isRecvPending){
+    zmq::poll(&item, 1, args.timeout);
+  }
+
+  if(item.revents & ZMQ_POLLIN || m_isRecvPending){
     if(!m_isRecvPending){
       m_socket->recv(m_lastAddress);
       m_socket->recv(m_message);
