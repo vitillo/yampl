@@ -5,8 +5,7 @@ LDFLAGS = -L../ -lyampl -Wl,-rpath,'$$ORIGIN'/../../
 EXE = producer_consumer/producer producer_consumer/consumer \
       client_server/client client_server/server \
       multithreaded/multithread \
-      benchmarks/benchmark \
-      tests/size
+      benchmarks/benchmark
 
 all: $(EXE)
 

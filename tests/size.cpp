@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <cassert>
+#include <iostream>
 
 #include "yampl.h"
 #include "yampl/ZMQ/ZMQSocketFactory.h"
@@ -62,6 +63,8 @@ int main(int argc, char *argv[]){
     server(pipeFactory);
     ISocketFactory *shmFactory = new shm::SocketFactory();
     server(shmFactory);
+
     wait();
+    cout << "Success" << endl;
   }
 }

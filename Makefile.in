@@ -12,10 +12,11 @@ DEPS = $(SOURCES:.cpp=.d)
 LIBYAMPL = libyampl.so
 LIBZMQ = ./zeromq/src/.libs/libzmq.a
 EXAMPLES = examples
+TESTS = tests
 PREFIX = @prefix@
 TAGS = tags
 
-all: $(LIBZMQ) $(LIBYAMPL) $(EXAMPLES) $(TAGS)
+all: $(LIBZMQ) $(LIBYAMPL) $(EXAMPLES) $(TESTS) $(TAGS)
 
 $(TAGS):
 	ctags -R ./
@@ -33,6 +34,10 @@ $(LIBYAMPL): $(OBJECTS) $(LIBZMQ)
 
 .PHONY: $(EXAMPLES)
 $(EXAMPLES): $(LIBYAMPL)
+	+$(MAKE) -C $@
+
+.PHONY: $(TESTS)
+$(TESTS): $(LIBYAMPL)
 	+$(MAKE) -C $@
 
 install: all
@@ -67,10 +72,13 @@ check:
 	@echo
 	./examples/benchmarks/benchmark -c DISTRIBUTED
 	@echo
-	./examples/tests/size
+	./tests/size
+	@echo
+	./tests/calls
 
 .PHONY: clean
 clean:
 	$(MAKE) -C $(EXAMPLES) clean
+	$(MAKE) -C $(TESTS) clean
 	$(MAKE) -C zeromq clean
 	rm -rf $(LIBYAMPL) $(OBJECTS) $(DEPS) tags

@@ -52,10 +52,16 @@ class ISocket{
       sendTo(peerId, (void *)buffer, n * sizeof(T), hint);
     }
 
+    template <typename T, int N>
+    void sendTo(const std::string &peerId, T (&buffer)[N], void *hint = 0){
+      assert(__is_pod(T) || (__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T)));
+      sendTo(peerId, (void *)&buffer[0], sizeof(buffer), hint);
+    }
+
     template <typename T>
     void sendTo(const std::string &peerId, const T &value, void *hint = 0){
       assert(__is_pod(T) || (__has_trivial_copy(T) && __has_trivial_assign(T) && __has_trivial_destructor(T)));
-      send(peerId, &value, sizeof(T), hint);
+      sendTo(peerId, (void *)&value, sizeof(T), hint);
     }
 
     void sendTo(const std::string &peerId, const std::string &msg, void *hint = 0){
