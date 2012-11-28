@@ -28,7 +28,6 @@ void client(ISocketFactory *factory){
   assert(strcmp(buffer, message) == 0);
 
   delete socket;
-  delete factory;
 }
 
 void server(ISocketFactory *factory){
@@ -45,7 +44,6 @@ void server(ISocketFactory *factory){
   socket->send(message);
 
   delete socket;
-  delete factory;
 }
 
 int main(int argc, char *argv[]){

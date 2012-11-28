@@ -115,6 +115,10 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
        if(!m_peerPoll.poll((void **)&m_currentPeer, args.timeout)){
 	return -1;
       }else{
+	if(args.peerIdOut){
+	  *args.peerIdOut = m_peerToId[m_currentPeer];
+	}
+
 	return m_currentPeer->recv(args);
       }
     }

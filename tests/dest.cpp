@@ -3,16 +3,16 @@
 #include <iostream>
 
 #include "yampl.h"
+#include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/shm/SHMSocketFactory.h"
+#include "yampl/ZMQ/ZMQSocketFactory.h"
 
 using namespace yampl;
 using namespace std;
 
 Channel channel("service");
 
-void client(){
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createClientSocket(channel, "client");
-
+void client(ISocket *socket){
   socket->send("Hello World!");
 
   char buffer[100];
@@ -21,29 +21,45 @@ void client(){
   assert(strcmp(buffer, "pong") == 0);
 
   delete socket;
-  delete factory;
 }
 
-void server(){
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createServerSocket(channel);
-
+void server(ISocket *socket){
   char buffer[100];
   std::string dest;
   socket->recv(buffer, dest);
 
   assert(dest == "client");
-  socket->sendTo(dest, "pong");
+
+  try{
+    socket->sendTo("foobar", "pong");
+  }catch(UnroutableException){}
+
+  socket->sendTo("client", "pong");
 
   delete socket;
-  delete factory;
 }
 
 int main(){
   if(fork() == 0){
-    client();
+    ISocketFactory *factory = new shm::SocketFactory();
+    ISocket *socket = factory->createClientSocket(channel, "client");
+    client(socket);
+    factory = new pipe::SocketFactory();
+    socket = factory->createClientSocket(channel, "client");
+    client(socket);
+    factory = new ZMQ::SocketFactory();
+    socket = factory->createClientSocket(channel, "client");
+    client(socket);
   }else{
-    server();
+    ISocketFactory *factory = new shm::SocketFactory();
+    ISocket *socket = factory->createServerSocket(channel);
+    server(socket);
+    factory = new pipe::SocketFactory();
+    socket = factory->createServerSocket(channel);
+    server(socket);
+    factory = new ZMQ::SocketFactory();
+    socket = factory->createServerSocket(channel);
+    server(socket);
     wait();
     cout << "Success" << endl;
   }

@@ -3,6 +3,7 @@
 
 #include <tr1/memory>
 #include <vector>
+#include <map>
 
 #include "yampl/ISocket.h"
 #include "yampl/utils/RawPipe.h"
@@ -25,20 +26,36 @@ class MOServerSocket: public ISocket{
     }
 
     virtual void send(SendArgs &args){
-      if(!m_currentPeer){
+      T *peer;
+
+      if(args.peerId){
+	typename IdToPeerMap::iterator elem;
+
+	if((elem = m_idToPeer.find(*args.peerId)) != m_idToPeer.end()){
+	  peer = elem->second;
+	}else{
+	  throw UnroutableException();
+	}
+      }else if(!m_currentPeer){
 	throw UnroutableException();
+      }else{
+	peer = m_currentPeer;
       }
 
-      m_currentPeer->send(args);
-      m_currentPeer = 0;
+      peer->send(args);
     }
 
     virtual ssize_t recv(RecvArgs &args) = 0;
 
   protected:
+    typedef std::map<std::string, T*> IdToPeerMap;
+    typedef std::map<T*, std::string> PeerToIdMap;
+
     T *m_currentPeer;
     SpinLock m_lock;
     std::vector<std::tr1::shared_ptr<T> > m_peers;
+    IdToPeerMap m_idToPeer;
+    PeerToIdMap m_peerToId;
 
     virtual void listenTo(std::tr1::shared_ptr<T> socket) = 0;
 
@@ -47,8 +64,8 @@ class MOServerSocket: public ISocket{
     MOServerSocket & operator=(const MOServerSocket &);
 
     void listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
-      RawPipe listener("/tmp/" + channel.name + "_announce");
       Poller poller;
+      RawPipe listener("/tmp/" + channel.name + "_announce");
 
       poller.add(listener.getReadFD());
 
@@ -56,14 +73,14 @@ class MOServerSocket: public ISocket{
 	if(poller.poll() == -1)
 	  continue;
 
-	pid_t pid;
-	listener.read(&pid, sizeof(pid));
-
-	Channel peerChannel(channel.name + "_" + to_string(pid));
+	UUID id = UUID::readFrom(listener);
+	Channel peerChannel(channel.name + "_" + (std::string)id);
 	std::tr1::shared_ptr<T> peer(new T(peerChannel, semantics, deallocator));
 
 	m_lock.lock();
 	m_peers.push_back(peer);
+	m_idToPeer[id] = peer.get();
+	m_peerToId[peer.get()] = id;
 	m_lock.unlock();
 
 	listenTo(peer);

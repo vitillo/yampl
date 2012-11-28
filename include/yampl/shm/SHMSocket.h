@@ -159,6 +159,11 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
       // If a receive is pending we need to proceed reading from the same socket the next time recv is called.
       try{
 	size_t ret = m_currentPeer->recv(args);
+
+	if(args.peerIdOut){
+	  *args.peerIdOut = m_peerToId[m_currentPeer];
+	}
+
 	m_isRecvPending = false;
 	return ret;
       }catch(InvalidSizeException){

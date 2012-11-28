@@ -6,7 +6,7 @@
 namespace yampl{
 namespace pipe{
 
-  ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name){
+ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name){
   if(channel.context != LOCAL){
     throw UnsupportedException();
   }

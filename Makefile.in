@@ -75,6 +75,8 @@ check:
 	./tests/size
 	@echo
 	./tests/calls
+	@echo
+	./tests/dest
 
 .PHONY: clean
 clean:
