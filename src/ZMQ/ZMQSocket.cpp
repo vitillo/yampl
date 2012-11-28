@@ -141,8 +141,8 @@ void ServerSocket::send(SendArgs& args){
 
 void ServerSocket::sendMessage(zmq::message_t &message, const std::string *peerId){
   if(peerId){
-    zmq::message_t address(peerId->size());
-    memcpy((void*)address.data(), peerId->c_str(), peerId->size());
+    zmq::message_t address(peerId->size() + 1);
+    memcpy((void*)address.data(), peerId->c_str(), peerId->size() + 1);
     if(m_socket->send(address, ZMQ_SNDMORE) == -1)
       throw UnroutableException();
   }else{
