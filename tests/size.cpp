@@ -10,10 +10,9 @@
 using namespace std;
 using namespace yampl;
 
-Channel channel("service");
 const char message[] = "Hello World!";
 
-void client(ISocketFactory *factory){
+void client(ISocketFactory *factory, const Channel &channel){
   char *buffer = new char[100];
   ISocket *socket = factory->createClientSocket(channel);
 
@@ -28,9 +27,10 @@ void client(ISocketFactory *factory){
   assert(strcmp(buffer, message) == 0);
 
   delete socket;
+  delete factory;
 }
 
-void server(ISocketFactory *factory){
+void server(ISocketFactory *factory, const Channel &channel){
   char *buffer = new char[100];
   ISocket *socket = factory->createServerSocket(channel);
 
@@ -44,23 +44,24 @@ void server(ISocketFactory *factory){
   socket->send(message);
 
   delete socket;
+  delete factory;
 }
 
 int main(int argc, char *argv[]){
   if(fork() == 0){
     ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
-    client(zmqFactory);
+    client(zmqFactory, Channel("zmq"));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    client(pipeFactory);
+    client(pipeFactory, Channel("pipe"));
     ISocketFactory *shmFactory = new shm::SocketFactory();
-    client(shmFactory);
+    client(shmFactory, Channel("shm"));
   }else{
     ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
-    server(zmqFactory);
+    server(zmqFactory, Channel("zmq"));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    server(pipeFactory);
+    server(pipeFactory, Channel("pipe"));
     ISocketFactory *shmFactory = new shm::SocketFactory();
-    server(shmFactory);
+    server(shmFactory, Channel("shm"));
 
     wait();
     cout << "Success" << endl;

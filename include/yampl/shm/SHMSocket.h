@@ -123,14 +123,14 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
 
 class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
   public:
-    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator), m_nextPeerToVisit(0), m_isRecvPending(false){
+    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator, std::tr1::bind(&MOServerSocket::accept, this, std::tr1::placeholders::_1)), m_nextPeerToVisit(0), m_isRecvPending(false){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
       m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
 
-    virtual void listenTo(std::tr1::shared_ptr<ServerSocket> socket){
+    void accept(ServerSocket *socket){
       // Send synchronization message
-      static_cast<ISocket *>(socket.get())->send(' ');
+      static_cast<ISocket *>(socket)->send(' ');
     }
 
     virtual ssize_t recv(RecvArgs &args){

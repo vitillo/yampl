@@ -70,6 +70,7 @@ PipeSocketBase::~PipeSocketBase(){
   if(m_mode == PIPE_PUSH){
     m_destroy = true;
     m_ctlThread->cancel();
+    m_ctlThread->join();
   }
 
   free(m_receiveBuffer);

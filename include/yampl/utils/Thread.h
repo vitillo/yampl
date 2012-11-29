@@ -21,21 +21,28 @@ class Thread{
     ~Thread(){
       if(!m_isDestroyable)
 	throw InvalidOperationException("Thread has to be detached or joined");
+
+      delete m_fun;
     }
 
     void join(){
-      pthread_join(m_thread, NULL);
+      if(pthread_join(m_thread, NULL)){
+	throw ErrnoException("Failure to join thread");
+      }
       m_isDestroyable = true;
     }
 
     void detach(){
-      pthread_detach(m_thread);
+      if(pthread_detach(m_thread)){
+	throw ErrnoException("Failure to detach thread");
+      }
       m_isDestroyable = true;
     }
 
     void cancel(){
-      pthread_cancel(m_thread);
-      m_isDestroyable = true;
+      if(pthread_cancel(m_thread)){
+	throw ErrnoException("Failure to cancel thread");
+      }
     }
 
   private:

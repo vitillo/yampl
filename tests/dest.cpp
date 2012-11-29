@@ -10,20 +10,20 @@
 using namespace yampl;
 using namespace std;
 
-Channel channel("service");
 
-void client(ISocket *socket){
-  socket->send("Hello World!");
-
+void client(ISocketFactory *factory, const Channel &channel){
+  ISocket *socket = factory->createClientSocket(channel, "client");
   char buffer[100];
-  socket->recv(buffer);
 
+  socket->send("Hello World!");
+  socket->recv(buffer);
   assert(strcmp(buffer, "pong") == 0);
 
   delete socket;
 }
 
-void server(ISocket *socket){
+void server(ISocketFactory *factory, const Channel &channel){
+  ISocket *socket = factory->createServerSocket(channel);
   char buffer[100];
   std::string dest;
   socket->recv(buffer, dest);
@@ -39,27 +39,22 @@ void server(ISocket *socket){
   delete socket;
 }
 
-int main(){
+int main(int argc, char *argv[]){
   if(fork() == 0){
-    ISocketFactory *factory = new shm::SocketFactory();
-    ISocket *socket = factory->createClientSocket(channel, "client");
-    client(socket);
-    factory = new pipe::SocketFactory();
-    socket = factory->createClientSocket(channel, "client");
-    client(socket);
-    factory = new ZMQ::SocketFactory();
-    socket = factory->createClientSocket(channel, "client");
-    client(socket);
+    ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
+    client(zmqFactory, Channel("zmq"));
+    ISocketFactory *pipeFactory = new pipe::SocketFactory();
+    client(pipeFactory, Channel("pipe"));
+    ISocketFactory *shmFactory = new shm::SocketFactory();
+    client(shmFactory, Channel("shm"));
   }else{
-    ISocketFactory *factory = new shm::SocketFactory();
-    ISocket *socket = factory->createServerSocket(channel);
-    server(socket);
-    factory = new pipe::SocketFactory();
-    socket = factory->createServerSocket(channel);
-    server(socket);
-    factory = new ZMQ::SocketFactory();
-    socket = factory->createServerSocket(channel);
-    server(socket);
+    ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
+    server(zmqFactory, Channel("zmq"));
+    ISocketFactory *pipeFactory = new pipe::SocketFactory();
+    server(pipeFactory, Channel("pipe"));
+    ISocketFactory *shmFactory = new shm::SocketFactory();
+    server(shmFactory, Channel("shm"));
+
     wait();
     cout << "Success" << endl;
   }

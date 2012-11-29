@@ -103,12 +103,16 @@ typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
 
 typedef MOClientSocket<ClientSocket> MOClientSocket;
 
+inline void fun(const std::string& n){
+
+}
+
 class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
   public:
-    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator){}
+    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator, std::tr1::bind(&MOServerSocket::accept, this, std::tr1::placeholders::_1)){}
 
-    virtual void listenTo(std::tr1::shared_ptr<ServerSocket> socket){
-      m_peerPoll.add(socket->getConsumerSocket()->m_transferPipe->getReadFD(), socket.get());
+    void accept(ServerSocket *socket){
+      m_peerPoll.add(socket->getConsumerSocket()->m_transferPipe->getReadFD(), socket);
     }
 
     virtual ssize_t recv(RecvArgs &args){
