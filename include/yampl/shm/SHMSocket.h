@@ -13,9 +13,10 @@
 #include "yampl/utils/RingBuffer.h"
 #include "yampl/utils/SharedMemory.h"
 #include "yampl/utils/Futex.h"
-#include "yampl/generic/ServiceSocket.h"
-#include "yampl/generic/MOClientSocket.h"
-#include "yampl/generic/MOServerSocket.h"
+#include "yampl/generic/ClientSocket.h"
+#include "yampl/generic/ServerSocket.h"
+#include "yampl/generic/SimpleClientSocket.h"
+#include "yampl/generic/SimpleServerSocket.h"
 
 namespace yampl{
 namespace shm{
@@ -91,12 +92,12 @@ class ConsumerSocket : public PipeSocketBase{
     ConsumerSocket & operator=(const ConsumerSocket &);
 };
 
-typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
-typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
+typedef SimpleClientSocket<ProducerSocket, ConsumerSocket> SimpleClientSocket;
+typedef SimpleServerSocket<ProducerSocket, ConsumerSocket> SimpleServerSocket;
 
-class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
+class ClientSocket : public yampl::ClientSocket<SimpleClientSocket>{
   public: 
-    MOClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : yampl::MOClientSocket<ClientSocket>(channel, semantics, deallocator, name){
+    ClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : yampl::ClientSocket<SimpleClientSocket>(channel, semantics, deallocator, name){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
       m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
@@ -113,7 +114,7 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
     virtual void send(SendArgs &args){
       syncWithServer();
       args.custom = m_semaphore.get();
-      yampl::MOClientSocket<ClientSocket>::send(args);
+      yampl::ClientSocket<SimpleClientSocket>::send(args);
     }
 
   private:
@@ -121,14 +122,14 @@ class MOClientSocket : public yampl::MOClientSocket<ClientSocket>{
     std::tr1::shared_ptr<Semaphore> m_semaphore;
 };
 
-class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
+class ServerSocket : public yampl::ServerSocket<SimpleServerSocket>{
   public:
-    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator, std::tr1::bind(&MOServerSocket::accept, this, std::tr1::placeholders::_1)), m_nextPeerToVisit(0), m_isRecvPending(false){
+    ServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::ServerSocket<SimpleServerSocket>(channel, semantics, deallocator, std::tr1::bind(&ServerSocket::accept, this, std::tr1::placeholders::_1)), m_nextPeerToVisit(0), m_isRecvPending(false){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
       m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }
 
-    void accept(ServerSocket *socket){
+    void accept(SimpleServerSocket *socket){
       // Send synchronization message
       static_cast<ISocket *>(socket)->send(' ');
     }
@@ -144,7 +145,7 @@ class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
       m_lock.lock();
 
       for(size_t j = 0; j != m_peers.size(); i = (i + 1) % m_peers.size(), j++){
-	std::tr1::shared_ptr<ServerSocket> peer = m_peers[i];
+	std::tr1::shared_ptr<SimpleServerSocket> peer = m_peers[i];
 	ConsumerSocket *consumer = peer->getConsumerSocket();
 
 	if(consumer->hasPendingMessages()){

@@ -16,9 +16,10 @@
 #include "yampl/utils/Poller.h"
 #include "yampl/utils/Thread.h"
 #include "yampl/utils/RawPipe.h"
-#include "yampl/generic/ServiceSocket.h"
-#include "yampl/generic/MOClientSocket.h"
-#include "yampl/generic/MOServerSocket.h"
+#include "yampl/generic/ClientSocket.h"
+#include "yampl/generic/ServerSocket.h"
+#include "yampl/generic/SimpleClientSocket.h"
+#include "yampl/generic/SimpleServerSocket.h"
 
 namespace yampl{
 namespace pipe{
@@ -30,10 +31,10 @@ enum Mode{
   PIPE_SERVER
 };
 
-class MOServerSocket;
+class ServerSocket;
 
 class PipeSocketBase : public ISocket{
-  friend class MOServerSocket;
+  friend class ServerSocket;
 
   public:
     virtual ~PipeSocketBase();
@@ -98,20 +99,16 @@ class ConsumerSocket : public PipeSocketBase{
 
 };
 
-typedef ClientSocket<ProducerSocket, ConsumerSocket> ClientSocket;
-typedef ServerSocket<ProducerSocket, ConsumerSocket> ServerSocket;
+typedef SimpleClientSocket<ProducerSocket, ConsumerSocket> SimpleClientSocket;
+typedef SimpleServerSocket<ProducerSocket, ConsumerSocket> SimpleServerSocket;
 
-typedef MOClientSocket<ClientSocket> MOClientSocket;
+typedef ClientSocket<SimpleClientSocket> ClientSocket;
 
-inline void fun(const std::string& n){
-
-}
-
-class MOServerSocket : public yampl::MOServerSocket<ServerSocket>{
+class ServerSocket : public yampl::ServerSocket<SimpleServerSocket>{
   public:
-    MOServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::MOServerSocket<ServerSocket>(channel, semantics, deallocator, std::tr1::bind(&MOServerSocket::accept, this, std::tr1::placeholders::_1)){}
+    ServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::ServerSocket<SimpleServerSocket>(channel, semantics, deallocator, std::tr1::bind(&ServerSocket::accept, this, std::tr1::placeholders::_1)){}
 
-    void accept(ServerSocket *socket){
+    void accept(SimpleServerSocket *socket){
       m_peerPoll.add(socket->getConsumerSocket()->m_transferPipe->getReadFD(), socket);
     }
 
