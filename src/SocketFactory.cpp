@@ -1,7 +1,7 @@
 #include <cstdlib>
 
 #include "yampl/ZMQ/ZMQSocketFactory.h"
-#include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/pipe/SocketFactory.h"
 #include "yampl/SocketFactory.h"
 
 namespace yampl{

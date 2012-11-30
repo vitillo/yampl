@@ -4,7 +4,7 @@
 #include <sys/types.h>
 
 #include <cstring>
-#include <memory>
+#include <tr1/memory>
 
 #include "yampl/utils/Semaphore.h"
 

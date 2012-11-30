@@ -1,6 +1,6 @@
 #include "yampl/Exceptions.h"
 
-#include "yampl/pipe/PipeSocketFactory.h"
+#include "yampl/pipe/SocketFactory.h"
 #include "yampl/pipe/ServerSocket.h"
 #include "yampl/pipe/ClientSocket.h"
 

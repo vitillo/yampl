@@ -1,7 +1,7 @@
 #include <cmath>
 
 #include "yampl/Exceptions.h"
-#include "yampl/shm/SHMSocket.h"
+#include "yampl/shm/PipeSocketBase.h"
 
 using namespace std;
 

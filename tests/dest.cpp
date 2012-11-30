@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "yampl.h"
-#include "yampl/pipe/PipeSocketFactory.h"
-#include "yampl/shm/SHMSocketFactory.h"
+#include "yampl/pipe/SocketFactory.h"
+#include "yampl/shm/SocketFactory.h"
 #include "yampl/ZMQ/ZMQSocketFactory.h"
 
 using namespace yampl;

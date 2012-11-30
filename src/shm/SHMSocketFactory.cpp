@@ -1,7 +1,8 @@
 #include "yampl/Exceptions.h"
 
-#include "yampl/shm/SHMSocketFactory.h"
-#include "yampl/shm/SHMSocket.h"
+#include "yampl/shm/SocketFactory.h"
+#include "yampl/shm/ClientSocket.h"
+#include "yampl/shm/ServerSocket.h"
 
 namespace yampl{
 namespace shm{

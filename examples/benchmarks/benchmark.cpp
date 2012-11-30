@@ -12,8 +12,8 @@
 #include <vector>
 
 #include "yampl/ZMQ/ZMQSocketFactory.h"
-#include "yampl/pipe/PipeSocketFactory.h"
-#include "yampl/shm/SHMSocketFactory.h"
+#include "yampl/pipe/SocketFactory.h"
+#include "yampl/shm/SocketFactory.h"
 #include "yampl/utils/Thread.h"
 
 using namespace yampl;

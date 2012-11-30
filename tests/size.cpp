@@ -4,8 +4,8 @@
 
 #include "yampl.h"
 #include "yampl/ZMQ/ZMQSocketFactory.h"
-#include "yampl/pipe/PipeSocketFactory.h"
-#include "yampl/shm/SHMSocketFactory.h"
+#include "yampl/pipe/SocketFactory.h"
+#include "yampl/shm/SocketFactory.h"
 
 using namespace std;
 using namespace yampl;
