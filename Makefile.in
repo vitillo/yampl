@@ -4,7 +4,7 @@ LDFLAGS = -shared -lpthread -lrt -luuid
 
 SOURCES = $(wildcard src/pipe/*.cpp) \
 	  $(wildcard src/shm/*.cpp)  \
-	  $(wildcard src/ZMQ/*.cpp)  \
+	  $(wildcard src/zeromq/*.cpp)  \
 	  $(wildcard src/*.cpp)
 
 OBJECTS = $(SOURCES:.cpp=.o)

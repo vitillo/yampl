@@ -2,10 +2,10 @@
 
 #include "yampl/Exceptions.h"
 
-#include "yampl/ZMQ/ClientSocket.h"
+#include "yampl/zeromq/ClientSocket.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
   if(&name == &DEFAULT_ID){

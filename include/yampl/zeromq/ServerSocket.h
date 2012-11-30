@@ -1,10 +1,10 @@
-#ifndef YAMPL_ZMQ_SERVERSOCKET_H
-#define YAMPL_ZMQ_SERVERSOCKET_H
+#ifndef YAMPL_ZEROMQ_SERVERSOCKET_H
+#define YAMPL_ZEROMQ_SERVERSOCKET_H
 
-#include "yampl/ZMQ/SocketBase.h"
+#include "yampl/zeromq/SocketBase.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 class ServerSocket : public SocketBase{
   public:

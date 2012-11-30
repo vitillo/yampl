@@ -1,11 +1,11 @@
 #include <zmq.hpp>
 
-#include "yampl/ZMQ/SocketFactory.h"
-#include "yampl/ZMQ/ClientSocket.h"
-#include "yampl/ZMQ/ServerSocket.h"
+#include "yampl/zeromq/SocketFactory.h"
+#include "yampl/zeromq/ClientSocket.h"
+#include "yampl/zeromq/ServerSocket.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 SocketFactory::SocketFactory() : m_context(new zmq::context_t(1)){
 }

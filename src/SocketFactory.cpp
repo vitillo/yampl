@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "yampl/ZMQ/SocketFactory.h"
+#include "yampl/zeromq/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/SocketFactory.h"
 
@@ -9,7 +9,7 @@ namespace yampl{
 std::string DEFAULT_ID = "";
 
 SocketFactory::SocketFactory(){
-  m_zmqFactory = new ZMQ::SocketFactory();
+  m_zmqFactory = new zeromq::SocketFactory();
   m_pipeFactory = new pipe::SocketFactory();
 }
 

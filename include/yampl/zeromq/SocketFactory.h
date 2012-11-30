@@ -1,5 +1,5 @@
-#ifndef YAMPL_ZMQ_SOCKETFACTORY_H
-#define YAMPL_ZMQ_SOCKETFACTORY_H
+#ifndef YAMPL_ZEROMQ_SOCKETFACTORY_H
+#define YAMPL_ZEROMQ_SOCKETFACTORY_H
 
 #include "yampl/ISocketFactory.h"
 
@@ -8,7 +8,7 @@ namespace zmq{
 }
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 class SocketFactory : public ISocketFactory{
   public:

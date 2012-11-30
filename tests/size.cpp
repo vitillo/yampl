@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "yampl.h"
-#include "yampl/ZMQ/SocketFactory.h"
+#include "yampl/zeromq/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
 
@@ -49,14 +49,14 @@ void server(ISocketFactory *factory, const Channel &channel){
 
 int main(int argc, char *argv[]){
   if(fork() == 0){
-    ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
+    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
     client(zmqFactory, Channel("zmq"));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
     client(pipeFactory, Channel("pipe"));
     ISocketFactory *shmFactory = new shm::SocketFactory();
     client(shmFactory, Channel("shm"));
   }else{
-    ISocketFactory *zmqFactory = new ZMQ::SocketFactory();
+    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
     server(zmqFactory, Channel("zmq"));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
     server(pipeFactory, Channel("pipe"));

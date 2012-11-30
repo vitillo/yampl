@@ -2,10 +2,10 @@
 
 #include "yampl/Exceptions.h"
 
-#include "yampl/ZMQ/ServerSocket.h"
+#include "yampl/zeromq/ServerSocket.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 ServerSocket::ServerSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *)) : SocketBase(channel, context, semantics, deallocator, ZMQ_ROUTER), m_lastAddress(new zmq::message_t){
   int mandatory = 1;

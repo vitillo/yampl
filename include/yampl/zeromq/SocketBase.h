@@ -1,5 +1,5 @@
-#ifndef YAMPL_ZMQ_SOCKETBASE_H
-#define YAMPL_ZMQ_SOCKETBASE_H
+#ifndef YAMPL_ZEROMQ_SOCKETBASE_H
+#define YAMPL_ZEROMQ_SOCKETBASE_H
 
 #include "yampl/ISocket.h"
 #include "yampl/Channel.h"
@@ -12,7 +12,7 @@ namespace zmq{
 }
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 class SocketBase : public ISocket{
   public:

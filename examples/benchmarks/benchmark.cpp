@@ -11,7 +11,7 @@
 #include <cstdio>
 #include <vector>
 
-#include "yampl/ZMQ/SocketFactory.h"
+#include "yampl/zeromq/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
 #include "yampl/utils/Thread.h"
@@ -41,7 +41,7 @@ ISocketFactory *parseFactory(const char *impl){
   }else if(strcasecmp(impl, "shm") == 0){
     return new shm::SocketFactory();
   }else{
-    return new ZMQ::SocketFactory();
+    return new zeromq::SocketFactory();
   }
 }
 

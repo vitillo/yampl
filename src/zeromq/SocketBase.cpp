@@ -1,9 +1,9 @@
 #include <zmq.hpp>
 
-#include "yampl/ZMQ/SocketBase.h"
+#include "yampl/zeromq/SocketBase.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 SocketBase::SocketBase(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), int type) : m_channel(channel), m_semantics(semantics), m_deallocator(deallocator), m_socket(0), m_message(new zmq::message_t()), m_isRecvPending(false){
   if(m_channel.context == LOCAL){

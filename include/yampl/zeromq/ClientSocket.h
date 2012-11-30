@@ -1,10 +1,10 @@
-#ifndef YAMPL_ZMQ_CLIENTSOCKET_H
-#define YAMPL_ZMQ_CLIENTSOCKET_H
+#ifndef YAMPL_ZEROMQ_CLIENTSOCKET_H
+#define YAMPL_ZEROMQ_CLIENTSOCKET_H
 
-#include "yampl/ZMQ/SocketBase.h"
+#include "yampl/zeromq/SocketBase.h"
 
 namespace yampl{
-namespace ZMQ{
+namespace zeromq{
 
 class ClientSocket : public SocketBase{
   public:
