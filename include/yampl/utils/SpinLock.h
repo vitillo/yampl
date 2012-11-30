@@ -5,17 +5,10 @@ namespace yampl{
 
 class SpinLock{
   public:
-    SpinLock() : m_flag(false){}
+    SpinLock();
 
-    void lock(){
-      while(__sync_lock_test_and_set(&m_flag, 1))
-	while(m_flag);
-    }
-
-    void unlock(){
-      __sync_lock_release(&m_flag);
-    }
-
+    void lock();
+    void unlock();
 
   private:
     SpinLock(const SpinLock&);
@@ -23,6 +16,19 @@ class SpinLock{
 
     volatile bool m_flag;
 };
+
+inline SpinLock::SpinLock() : m_flag(false){
+}
+
+inline void SpinLock::lock(){
+  while(__sync_lock_test_and_set(&m_flag, 1)){
+    while(m_flag);
+  }
+}
+
+inline void SpinLock::unlock(){
+  __sync_lock_release(&m_flag);
+}
 
 }
 

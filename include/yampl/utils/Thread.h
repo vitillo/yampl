@@ -10,57 +10,66 @@ namespace yampl{
 
 class Thread{
   public:
-    Thread(const std::tr1::function<void()> &fun) : m_isDestroyable(false), m_fun(new std::tr1::function<void()>(fun)){
-      int err = pthread_create(&m_thread, NULL, startWrapper, this);
+    Thread(const std::tr1::function<void()> &fun);
+    ~Thread();
 
-      if(err){
-        throw ErrnoException(err, "Failed to create thread");
-      }
-    }
-
-    ~Thread(){
-      if(!m_isDestroyable)
-	throw InvalidOperationException("Thread has to be detached or joined");
-
-      delete m_fun;
-    }
-
-    void join(){
-      if(pthread_join(m_thread, NULL)){
-	throw ErrnoException("Failure to join thread");
-      }
-      m_isDestroyable = true;
-    }
-
-    void detach(){
-      if(pthread_detach(m_thread)){
-	throw ErrnoException("Failure to detach thread");
-      }
-      m_isDestroyable = true;
-    }
-
-    void cancel(){
-      if(pthread_cancel(m_thread)){
-	throw ErrnoException("Failure to cancel thread");
-      }
-    }
+    void join();
+    void detach();
+    void cancel();
 
   private:
     Thread(const Thread &);
     Thread & operator=(const Thread &);
 
-    static void *startWrapper(void *arg){
-      Thread *thread = (Thread *)arg;
-      (*thread->m_fun)();
-      delete thread->m_fun;
-      thread->m_fun = 0;
-      return NULL;
-    }
+    static void *startWrapper(void *arg);
 
     bool m_isDestroyable;
     pthread_t m_thread;
     std::tr1::function<void()> *m_fun;
 };
+
+inline Thread::Thread(const std::tr1::function<void()> &fun) : m_isDestroyable(false), m_fun(new std::tr1::function<void()>(fun)){
+  int err = pthread_create(&m_thread, NULL, startWrapper, this);
+
+  if(err){
+    throw ErrnoException(err, "Failed to create thread");
+  }
+}
+
+inline Thread::~Thread(){
+  if(!m_isDestroyable)
+    throw InvalidOperationException("Thread has to be detached or joined");
+
+  delete m_fun;
+}
+
+inline void Thread::join(){
+  if(pthread_join(m_thread, NULL)){
+    throw ErrnoException("Failure to join thread");
+  }
+  m_isDestroyable = true;
+}
+
+inline void Thread::detach(){
+  if(pthread_detach(m_thread)){
+    throw ErrnoException("Failure to detach thread");
+  }
+  m_isDestroyable = true;
+}
+
+inline void Thread::cancel(){
+  if(pthread_cancel(m_thread)){
+    throw ErrnoException("Failure to cancel thread");
+  }
+}
+
+inline void * Thread::startWrapper(void *arg){
+  Thread *thread = (Thread *)arg;
+  (*thread->m_fun)();
+  delete thread->m_fun;
+  thread->m_fun = 0;
+  return NULL;
+}
 
 }
 
