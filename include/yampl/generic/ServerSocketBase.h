@@ -18,10 +18,10 @@
 namespace yampl{
 
 template <typename T>
-class ServerSocket: public ISocket{
+class ServerSocketBase: public ISocket{
   public:
-    ServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::tr1::function<void(T*)> &accept);
-    virtual ~ServerSocket();
+    ServerSocketBase(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::tr1::function<void(T*)> &accept);
+    virtual ~ServerSocketBase();
 
     virtual void send(SendArgs &args);
     virtual ssize_t recv(RecvArgs &args) = 0;
@@ -37,8 +37,8 @@ class ServerSocket: public ISocket{
     std::vector<std::tr1::shared_ptr<T> > m_peers;
 
   private:
-    ServerSocket(const ServerSocket &);
-    ServerSocket & operator=(const ServerSocket &);
+    ServerSocketBase(const ServerSocketBase &);
+    ServerSocketBase & operator=(const ServerSocketBase &);
 
     void listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *));
 
@@ -48,19 +48,19 @@ class ServerSocket: public ISocket{
 };
 
 template <typename T>
-inline ServerSocket<T>::ServerSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::tr1::function<void(T*)> &accept) : m_currentPeer(0), m_destroy(false), m_accept(accept){
-  m_listener.reset(new Thread(std::tr1::bind(&ServerSocket::listenerThreadFun, this, channel, semantics, deallocator)));
+inline ServerSocketBase<T>::ServerSocketBase(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::tr1::function<void(T*)> &accept) : m_currentPeer(0), m_destroy(false), m_accept(accept){
+  m_listener.reset(new Thread(std::tr1::bind(&ServerSocketBase::listenerThreadFun, this, channel, semantics, deallocator)));
 }
 
 template <typename T>
-inline ServerSocket<T>::~ServerSocket(){
+inline ServerSocketBase<T>::~ServerSocketBase(){
   m_destroy = true;
   m_listener->cancel();
   m_listener->join();
 }
 
 template <typename T>
-void ServerSocket<T>::send(SendArgs &args){
+void ServerSocketBase<T>::send(SendArgs &args){
   T *peer;
 
   if(args.peerId){
@@ -81,7 +81,7 @@ void ServerSocket<T>::send(SendArgs &args){
 }
 
 template <typename T>
-void ServerSocket<T>::listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
+void ServerSocketBase<T>::listenerThreadFun(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)){
   Poller poller;
   RawPipe listener("/tmp/" + channel.name + "_announce");
 

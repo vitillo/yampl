@@ -14,9 +14,8 @@
 #include <algorithm>
 #include <tr1/functional>
 
-#include "yampl/utils/utils.h"
-#include "yampl/Channel.h"
-#include "yampl/pipe/PipeSocket.h"
+#include "yampl/pipe/PipeSocketBase.h"
+#include "yampl/utils/Poller.h"
 
 using namespace std;
 

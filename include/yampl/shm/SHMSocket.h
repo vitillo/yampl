@@ -14,7 +14,7 @@
 #include "yampl/utils/SharedMemory.h"
 #include "yampl/utils/Futex.h"
 #include "yampl/generic/ClientSocket.h"
-#include "yampl/generic/ServerSocket.h"
+#include "yampl/generic/ServerSocketBase.h"
 #include "yampl/generic/SimpleClientSocket.h"
 #include "yampl/generic/SimpleServerSocket.h"
 
@@ -122,9 +122,9 @@ class ClientSocket : public yampl::ClientSocket<SimpleClientSocket>{
     std::tr1::shared_ptr<Semaphore> m_semaphore;
 };
 
-class ServerSocket : public yampl::ServerSocket<SimpleServerSocket>{
+class ServerSocket : public yampl::ServerSocketBase<SimpleServerSocket>{
   public:
-    ServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::ServerSocket<SimpleServerSocket>(channel, semantics, deallocator, std::tr1::bind(&ServerSocket::accept, this, std::tr1::placeholders::_1)), m_nextPeerToVisit(0), m_isRecvPending(false){
+    ServerSocket(const Channel &channel, Semantics semantics, void (*deallocator)(void *, void *)) : yampl::ServerSocketBase<SimpleServerSocket>(channel, semantics, deallocator, std::tr1::bind(&ServerSocket::accept, this, std::tr1::placeholders::_1)), m_nextPeerToVisit(0), m_isRecvPending(false){
       m_memory.reset(new SharedMemory(channel.name + "_sem", sizeof(int)));
       m_semaphore.reset(new Semaphore((int *)m_memory->getMemory()));
     }

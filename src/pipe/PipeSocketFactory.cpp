@@ -1,7 +1,8 @@
 #include "yampl/Exceptions.h"
 
 #include "yampl/pipe/PipeSocketFactory.h"
-#include "yampl/pipe/PipeSocket.h"
+#include "yampl/pipe/ServerSocket.h"
+#include "yampl/pipe/ClientSocket.h"
 
 namespace yampl{
 namespace pipe{
