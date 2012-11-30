@@ -1,7 +1,8 @@
 #include <zmq.hpp>
 
-#include "yampl/ZMQ/ZMQSocketFactory.h"
-#include "yampl/ZMQ/ZMQSocket.h"
+#include "yampl/ZMQ/SocketFactory.h"
+#include "yampl/ZMQ/ClientSocket.h"
+#include "yampl/ZMQ/ServerSocket.h"
 
 namespace yampl{
 namespace ZMQ{

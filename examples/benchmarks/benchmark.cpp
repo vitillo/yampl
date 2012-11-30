@@ -11,7 +11,7 @@
 #include <cstdio>
 #include <vector>
 
-#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/ZMQ/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
 #include "yampl/utils/Thread.h"

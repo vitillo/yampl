@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/ZMQ/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/SocketFactory.h"
 

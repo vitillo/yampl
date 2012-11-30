@@ -5,7 +5,7 @@
 #include "yampl.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
-#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/ZMQ/SocketFactory.h"
 
 using namespace yampl;
 using namespace std;

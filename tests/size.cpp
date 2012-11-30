@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "yampl.h"
-#include "yampl/ZMQ/ZMQSocketFactory.h"
+#include "yampl/ZMQ/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
 
