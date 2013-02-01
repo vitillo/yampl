@@ -8,7 +8,7 @@ using namespace yampl;
 
 int main(int argc, char *argv[]){
   char ping[100];
-  Channel channel("service");
+  Channel channel("service", LOCAL_SHM);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel);
 

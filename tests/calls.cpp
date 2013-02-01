@@ -7,7 +7,7 @@
 using namespace yampl;
 using namespace std;
 
-Channel channel("service");
+Channel channel("service", LOCAL);
 
 void client(){
   ISocketFactory *factory = new SocketFactory();

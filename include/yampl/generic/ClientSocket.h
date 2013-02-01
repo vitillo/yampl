@@ -28,7 +28,7 @@ class ClientSocket: public ISocket{
 
 template <typename T>
 inline ClientSocket<T>::ClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : m_announce("/tmp/" + channel.name + "_announce"), m_private(0), m_uuid(name){
-  Channel priv(channel.name + "_" + (std::string)m_uuid);
+  Channel priv(channel.name + "_" + (std::string)m_uuid, channel.context);
 
   m_private = new T(priv, semantics, deallocator, name);
   m_uuid.writeTo(m_announce);

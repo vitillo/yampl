@@ -92,7 +92,7 @@ void ServerSocketBase<T>::listenerThreadFun(const Channel &channel, Semantics se
       continue;
 
     UUID id = UUID::readFrom(listener);
-    Channel peerChannel(channel.name + "_" + (std::string)id);
+    Channel peerChannel(channel.name + "_" + (std::string)id, channel.context);
     std::tr1::shared_ptr<T> peer(new T(peerChannel, semantics, deallocator));
 
     m_lock.lock();

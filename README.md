@@ -2,7 +2,7 @@
 
 YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels.
 
-A channel allows to send and receive data over it. Receives are blocking while sends are buffered and block only when the internal buffer is full. Each end of a channel is attached to a socket:
+A channel allows to send and receive data over it. Each end of a channel is attached to a socket:
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
 * **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
 
@@ -17,14 +17,12 @@ A **trivially copiable** type
 
 In other words, a trivially copyable type is any type for which the underlying bytes can be copied to an array of char or unsigned char and into a new object of the same type, and the resulting object would have the same value as the original.
 
-The implementation determines at run-time the best communication strategy possible in order to reduce the latency and to increase the bandwidth for the current communication pattern:
+Different communication strategies are offered to provide the best performances for the given problem:
 * **Inter-thread:** Lock Free Queues
 * **Inter-process (local):**
-    * "small" messages: Lock Free Queues over POSIX Shared Memory 
-    * "big" messages: UNIX Pipes (vmsplice)
+    * "small" messages: Lock Free Queues over POSIX Shared Memory, optimized for latency
+    * "big" messages: UNIX Pipes (vmsplice), optimized for bandwidth
 * **Inter-process (distributed):** POSIX Sockets 
-
-Furthermore, the library doesn't impose any order on the creation of the sockets, e.g. ClientSockets can be instantiated before their respective ServerSocket.
 
 ## Build, Test & Install
 ``` bash
@@ -59,7 +57,7 @@ int main(int argc, char *argv[]){
   char pong[100];
   const string ping = "ping from " + to_string(getpid());
   
-  Channel channel("service");
+  Channel channel("service", LOCAL_SHM);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 
@@ -86,7 +84,7 @@ using namespace yampl;
 int main(int argc, char *argv[]){
   char ping[100];
 
-  Channel channel("service");
+  Channel channel("service", LOCAL_SHM);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel);
 

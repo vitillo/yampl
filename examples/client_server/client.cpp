@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
   char pong[100];
   const string ping = "ping from " + to_string(getpid());
   
-  Channel channel("service");
+  Channel channel("service", LOCAL_SHM);
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
 

@@ -24,6 +24,7 @@ class SocketFactory : public ISocketFactory{
   private:
     ISocketFactory *m_zmqFactory;
     ISocketFactory *m_pipeFactory;
+    ISocketFactory *m_shmFactory;
 
     SocketFactory & operator=(const SocketFactory &);
 };

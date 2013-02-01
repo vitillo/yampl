@@ -50,18 +50,18 @@ void server(ISocketFactory *factory, const Channel &channel){
 int main(int argc, char *argv[]){
   if(fork() == 0){
     ISocketFactory *zmqFactory = new zeromq::SocketFactory();
-    client(zmqFactory, Channel("zmq"));
+    client(zmqFactory, Channel("zmq", LOCAL));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    client(pipeFactory, Channel("pipe"));
+    client(pipeFactory, Channel("pipe", LOCAL_PIPE));
     ISocketFactory *shmFactory = new shm::SocketFactory();
-    client(shmFactory, Channel("shm"));
+    client(shmFactory, Channel("shm", LOCAL_SHM));
   }else{
     ISocketFactory *zmqFactory = new zeromq::SocketFactory();
-    server(zmqFactory, Channel("zmq"));
+    server(zmqFactory, Channel("zmq", LOCAL));
     ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    server(pipeFactory, Channel("pipe"));
+    server(pipeFactory, Channel("pipe", LOCAL_PIPE));
     ISocketFactory *shmFactory = new shm::SocketFactory();
-    server(shmFactory, Channel("shm"));
+    server(shmFactory, Channel("shm", LOCAL_SHM));
 
     wait();
     cout << "Success" << endl;
