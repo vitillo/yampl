@@ -43,7 +43,7 @@ class ISocket{
     }
 
     void send(const std::string &msg, void *hint = 0){
-      send(msg.c_str(), msg.size() + 1);
+      send(msg.c_str(), msg.size() + 1, hint);
     }
     
     template <typename T>
@@ -65,7 +65,7 @@ class ISocket{
     }
 
     void sendTo(const std::string &peerId, const std::string &msg, void *hint = 0){
-      sendTo(peerId, msg.c_str(), msg.size() + 1);
+      sendTo(peerId, msg.c_str(), msg.size() + 1, hint);
     }
 
     // recv wrappers
@@ -188,6 +188,7 @@ inline ssize_t ISocket::recv(void *&buffer, std::string &peerId){
 inline ssize_t ISocket::tryRecv(void *&buffer, size_t size, long timeout, std::string &peerId){
   RecvArgs args(&buffer, size);
   args.timeout = timeout;
+  args.peerIdOut = &peerId;
   return recv(args);
 }
 
