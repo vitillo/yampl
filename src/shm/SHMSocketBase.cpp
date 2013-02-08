@@ -80,7 +80,7 @@ ssize_t PipeSocketBase::recv(RecvArgs &args){
   }
 
   m_isRecvPending = false;
-  return args.size;
+  return bytesRead;
 }
 
 }
