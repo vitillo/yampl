@@ -28,7 +28,7 @@ inline ServerSocket::ServerSocket(const Channel &channel, Semantics semantics, v
 
 inline void ServerSocket::accept(SimpleServerSocket *socket){
   // Send synchronization message
-  static_cast<ISocket *>(socket)->send(' ');
+  static_cast<ISocket *>(socket)->send();
 }
 
 }

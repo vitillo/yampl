@@ -43,7 +43,7 @@ void PipeSocketBase::send(SendArgs &args){
     chunkSize = min(m_queue->size() - sizeof(chunkSize), args.size - bytesWritten);
   }
 
-  if(m_semantics == MOVE_DATA)
+  if(m_semantics == MOVE_DATA && !args.overrideSemantics)
     m_deallocator(args.buffer, args.hint);
 }
 

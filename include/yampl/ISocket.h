@@ -14,6 +14,7 @@ class ISocket{
   public:
     virtual ~ISocket(){}
 
+    virtual void send();
     virtual void send(void *buffer, size_t size, void *hint = 0);
     virtual void sendTo(const std::string &peerId, void *buffer, size_t size, void *hint = 0);
 
@@ -130,13 +131,14 @@ class ISocket{
 
     struct SendArgs{
       public:
-	SendArgs(void *buffer, size_t size) : buffer(buffer), size(size), peerId(0), hint(0), custom(0){}
+	SendArgs(void *buffer, size_t size) : buffer(buffer), size(size), peerId(0), hint(0), custom(0), overrideSemantics(false){}
       
 	void *buffer;
 	size_t size;
 	const std::string *peerId;
 	void *hint;
 	void *custom;
+	bool overrideSemantics;
     };
 
     struct RecvArgs{
@@ -159,6 +161,13 @@ class ISocket{
   private:
     ISocket & operator=(const ISocket &);
 };
+
+inline void ISocket::send(){ // used for synchronization only
+      char sync = ' ';
+      SendArgs args((void *)&sync, 1);
+      args.overrideSemantics = true;
+      send(args);
+}
 
 inline void ISocket::send(void *buffer, size_t size, void *hint){
   SendArgs args(buffer, size);
