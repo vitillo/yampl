@@ -30,11 +30,13 @@ class ServerSocketBase: public ISocket{
     typedef std::list<std::tr1::shared_ptr<T> > PeerList;
     typedef std::map<std::string, typename PeerList::iterator> IdToPeerMap;
     typedef std::map<std::tr1::shared_ptr<T>, std::string> PeerToIdMap;
+    typedef std::map<T*, std::tr1::shared_ptr<T> > RawToPeerMap;
 
     virtual void notifyPeerDisconnection(typename PeerList::iterator it);
 
     std::tr1::shared_ptr<T> m_currentPeer;
     SpinLock m_lock;
+    RawToPeerMap m_rawToPeer;
     IdToPeerMap m_idToPeer;
     PeerToIdMap m_peerToId;
     PeerList m_peers;
@@ -90,6 +92,7 @@ void ServerSocketBase<T>::openConnection(const Channel &channel, Semantics seman
 
   m_lock.lock();
   typename PeerList::iterator i = m_peers.insert(m_peers.begin(), peer);
+  m_rawToPeer[peer.get()] = peer;
   m_idToPeer[uuid] = i;
   m_peerToId[peer] = uuid;
   m_lock.unlock();
@@ -103,6 +106,7 @@ void ServerSocketBase<T>::closeConnection(const UUID &uuid){
   std::tr1::shared_ptr<T> peer = *i;
 
   m_lock.lock();
+  m_rawToPeer.erase(peer.get());
   m_peerToId.erase(peer);
   m_idToPeer.erase(uuid);
   notifyPeerDisconnection(i);

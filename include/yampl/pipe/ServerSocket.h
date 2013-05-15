@@ -1,5 +1,6 @@
 #ifndef YAMPL_PIPE_SERVERSOCKET_H
 #define YAMPL_PIPE_SERVERSOCKET_H
+#include <iostream>
 
 #include "yampl/generic/ServerSocketBase.h"
 #include "yampl/pipe/SimpleServerSocket.h"
@@ -29,13 +30,18 @@ inline void ServerSocket::accept(SimpleServerSocket *socket){
 }
 
 inline ssize_t ServerSocket::recv(RecvArgs &args){
- if(!m_peerPoll.poll((void **)&m_currentPeer, args.timeout)){
+ SimpleServerSocket *peer;
+
+ if(!m_peerPoll.poll((void **)&peer, args.timeout)){
     return -1;
   }else{
-    if(args.peerIdOut){
-      *args.peerIdOut = m_peerToId[m_currentPeer];
-    }
+    m_lock.lock();
+    m_currentPeer = m_rawToPeer[peer];
 
+    if(args.peerIdOut)
+      *args.peerIdOut = m_peerToId[m_currentPeer];
+
+    m_lock.unlock();
     return m_currentPeer->recv(args);
   }
 }
