@@ -3,7 +3,7 @@
 namespace yampl{
 namespace shm{
 
-void ServerSocket::notifyPeerDisconnection(typename PeerList::iterator it){
+void ServerSocket::notifyPeerDisconnection(PeerList::iterator it){
 #ifndef NDEBUG
   std::tr1::shared_ptr<SimpleServerSocket> peer = *it;
   ConsumerSocket *consumer = peer->getConsumerSocket();

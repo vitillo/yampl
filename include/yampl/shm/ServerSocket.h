@@ -17,12 +17,12 @@ class ServerSocket : public yampl::ServerSocketBase<SimpleServerSocket>{
   protected:
     typedef ServerSocketBase<SimpleServerSocket>::PeerList PeerList;
 
-    void notifyPeerDisconnection(typename PeerList::iterator it);
+    void notifyPeerDisconnection(PeerList::iterator it);
 
   private:
     std::tr1::shared_ptr<SharedMemory> m_memory;
     std::tr1::shared_ptr<Semaphore> m_semaphore;
-    typename PeerList::iterator m_nextPeerToVisit;
+    PeerList::iterator m_nextPeerToVisit;
     bool m_isRecvPending;
 };
 
