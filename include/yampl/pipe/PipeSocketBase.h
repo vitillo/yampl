@@ -44,7 +44,6 @@ class PipeSocketBase : public ISocket{
     bool m_isRecvPending;
     size_t m_receiveSize;
     void *m_receiveBuffer;
-    bool m_destroy;
     SpinLock m_lock;
     std::tr1::shared_ptr<Thread> m_ctlThread;
     std::tr1::shared_ptr<RawPipe> m_transferPipe;

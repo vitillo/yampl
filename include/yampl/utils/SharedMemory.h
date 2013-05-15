@@ -56,9 +56,7 @@ inline SharedMemory::SharedMemory(const std::string& name, size_t size) : m_name
 inline SharedMemory::~SharedMemory(){
   if(flock(m_fd, LOCK_EX | LOCK_NB) == 0){
     // The last peer unlinks the shared memory object
-    if(shm_unlink(m_name.c_str()) == -1){
-      throw ErrnoException("Failed to unlink shared memory object");
-    }
+    shm_unlink(m_name.c_str());
   }
 
   if(munlock(m_buffer, m_size) == 0)

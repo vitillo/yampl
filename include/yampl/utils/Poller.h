@@ -12,7 +12,7 @@ class Poller{
     Poller();
     ~Poller();
 
-    int poll();
+    int poll(int timeout = -1);
     int poll(void **data, int timeout = -1);
     void add(int fd, void *data = NULL);
 
@@ -35,9 +35,9 @@ inline Poller::~Poller(){
   }
 }
 
-inline int Poller::poll(){
+inline int Poller::poll(int timeout){
   void *data;
-  return poll(&data);
+  return poll(&data, timeout);
 }
 
 inline int Poller::poll(void **data, int timeout){
@@ -52,7 +52,6 @@ inline int Poller::poll(void **data, int timeout){
 	if(errno == EINTR){
 	  continue;
 	}
-	throw ErrnoException("Failed to wait on epoll handle");
 
       default:
 	break;

@@ -10,7 +10,6 @@
 #include <string>
 #include <sstream>
 #include <cstdlib>
-#include <iostream>
 #include <algorithm>
 #include <tr1/functional>
 
@@ -23,15 +22,16 @@ namespace yampl{
 namespace pipe{
 
 void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
+  char signal = 0;
   Poller poller;
   poller.add(m_ctlPipe->getReadFD());
 
-  while(!m_destroy){
+  while(true){
     if(poller.poll() == -1){
       continue;
     }
 
-    char signal = 0;
+    Thread::disableCancelState();
     m_ctlPipe->read(&signal, 1);
 
     m_lock.lock();
@@ -43,10 +43,12 @@ void PipeSocketBase::ctlThreadFun(void (*deallocator)(void *, void *)){
       deallocator((void *)entry.first, (void *)entry.second);
     else
       free(entry.first);
+
+    Thread::enableCancelState();
   }
 }
 
-PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_isRecvPending(false), m_receiveSize(0), m_receiveBuffer(NULL), m_destroy(false){
+PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics semantics, void (*deallocator)(void *, void *)) : m_mode(mode), m_semantics(semantics), m_isRecvPending(false), m_receiveSize(0), m_receiveBuffer(NULL){
   const string& transferPipeName = "/tmp/fifo_" + channel.name;
   const string& ctlPipeName = transferPipeName + "_ctl";
   
@@ -67,7 +69,6 @@ PipeSocketBase::PipeSocketBase(const Channel &channel, Mode mode, Semantics sema
 
 PipeSocketBase::~PipeSocketBase(){
   if(m_mode == PIPE_PUSH){
-    m_destroy = true;
     m_ctlThread->cancel();
     m_ctlThread->join();
   }

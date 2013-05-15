@@ -17,6 +17,9 @@ class Thread{
     void detach();
     void cancel();
 
+    static void disableCancelState();
+    static void enableCancelState();
+
   private:
     Thread(const Thread &);
     Thread & operator=(const Thread &);
@@ -27,6 +30,14 @@ class Thread{
     pthread_t m_thread;
     std::tr1::function<void()> *m_fun;
 };
+
+inline void Thread::disableCancelState(){
+  pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+}
+
+inline void Thread::enableCancelState(){
+  pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+}
 
 inline Thread::Thread(const std::tr1::function<void()> &fun) : m_isDestroyable(false), m_fun(new std::tr1::function<void()>(fun)){
   int err = pthread_create(&m_thread, NULL, startWrapper, this);
@@ -58,9 +69,7 @@ inline void Thread::detach(){
 }
 
 inline void Thread::cancel(){
-  if(pthread_cancel(m_thread)){
-    throw ErrnoException("Failure to cancel thread");
-  }
+  pthread_cancel(m_thread);
 }
 
 inline void * Thread::startWrapper(void *arg){

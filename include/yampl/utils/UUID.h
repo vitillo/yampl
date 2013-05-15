@@ -2,6 +2,7 @@
 #define YAMPL_UUID_H
 
 #include <uuid/uuid.h>
+#include <alloca.h>
 
 #include <string>
 #include <cmath>
@@ -17,8 +18,8 @@ class UUID{
   public:
     UUID(const std::string &id);
 
-    void writeTo(RawPipe &pipe);
-    operator std::string();
+    void writeTo(RawPipe &pipe, void *header = 0, size_t headerLength = 0) const;
+    operator std::string() const;
 
     static UUID readFrom(RawPipe &pipe);
 
@@ -49,14 +50,16 @@ inline UUID::UUID(const std::string &id){
   }
 }
 
-inline void UUID::writeTo(RawPipe &pipe){
-  char out[s_size] = {0};
+inline void UUID::writeTo(RawPipe &pipe, void *header, size_t headerLength) const{
+  char *out = (char *) alloca(s_size + headerLength);
+  memset(out, 0, s_size + headerLength);
 
-  memcpy(out, m_id.c_str(), std::min(s_size, m_id.size()));
-  pipe.write(out, s_size);
+  memcpy(out, header, headerLength);
+  memcpy(out + headerLength, m_id.c_str(), m_id.size());
+  pipe.write(out, s_size + headerLength);
 }
 
-inline UUID::operator std::string(){
+inline UUID::operator std::string() const{
   return m_id;
 }
 

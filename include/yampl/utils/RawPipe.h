@@ -13,7 +13,7 @@ namespace yampl{
 
 class RawPipe{
   public:
-    RawPipe(const std::string &name);
+    RawPipe(const std::string &name, bool doUnlink = true);
     ~RawPipe();
 
     size_t read(void *buffer, size_t size);
@@ -27,18 +27,15 @@ class RawPipe{
     RawPipe(const RawPipe &);
     RawPipe & operator=(const RawPipe &);
 
-    const std::string m_name;
+    std::string m_name;
     bool m_doUnlink;
     int readfd;
     int writefd;
 };
 
-inline RawPipe::RawPipe(const std::string &name){
+inline RawPipe::RawPipe(const std::string &name, bool doUnlink): m_name(name), m_doUnlink(doUnlink){
   if(mkfifo(name.c_str(), S_IRWXU) == -1 && errno != EEXIST)
     throw ErrnoException("Failed to create FIFO");
-
-  if(errno != EEXIST)
-    m_doUnlink = true;
 
   // Deadlock prevention, open FIFO in RD and WR mode (O_RDWR unspecified for FIFO)
   if((readfd = open(name.c_str(), O_RDONLY | O_NONBLOCK)) == -1)
@@ -59,9 +56,8 @@ inline RawPipe::~RawPipe(){
   close(readfd);
   close(writefd);
 
-  if(m_doUnlink){
+  if(m_doUnlink)
     unlink(m_name.c_str());
-  }
 }
 
 inline size_t RawPipe::read(void *buffer, size_t size){
