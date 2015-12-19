@@ -27,7 +27,7 @@ ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics,
   }else if(channel.context == LOCAL_SHM){
     return m_shmFactory->createClientSocket(channel, semantics, deallocator);
   }else{
-    return m_zmqFactory->createClientSocket(channel, semantics, deallocator);
+    return m_zmqFactory->createClientSocket(channel, semantics, deallocator,name);
   }
 }
 
