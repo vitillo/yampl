@@ -29,14 +29,15 @@ namespace zmq
 
     //  Interface to be implemented by message source.
 
-    struct i_msg_source
+    class i_msg_source
     {
-        virtual ~i_msg_source () {}
+        public:
+          virtual ~i_msg_source () {}
 
-        //  Fetch a message. Returns 0 if successful; -1 otherwise.
-        //  The caller is responsible for freeing the message when no
-        //  longer used.
-        virtual int pull_msg (msg_t *msg_) = 0;
+          //  Fetch a message. Returns 0 if successful; -1 otherwise.
+          //  The caller is responsible for freeing the message when no
+          //  longer used.
+          virtual int pull_msg (msg_t *msg_) = 0;
     };
 
 }

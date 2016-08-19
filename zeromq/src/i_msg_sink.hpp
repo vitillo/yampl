@@ -29,13 +29,14 @@ namespace zmq
 
     //  Interface to be implemented by message sink.
 
-    struct i_msg_sink
+    class i_msg_sink
     {
-        virtual ~i_msg_sink () {}
+        public: 
+          virtual ~i_msg_sink () {}
 
-        //  Delivers a message. Returns 0 if successful; -1 otherwise.
-        //  The function takes ownership of the passed message.
-        virtual int push_msg (msg_t *msg_) = 0;
+          //  Delivers a message. Returns 0 if successful; -1 otherwise.
+          //  The function takes ownership of the passed message.
+          virtual int push_msg (msg_t *msg_) = 0;
     };
 
 }
