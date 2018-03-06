@@ -23,7 +23,7 @@ $(TAGS):
 	ctags -R ./
 
 $(LIBZMQ):
-	+cd zeromq && CXX=${CXX} CC=${CC} LDFLAGS=${LDFLAGS} ./configure --with-pic && make
+	+cd zeromq && CXX=${CXX} CC=${CC} ./configure --with-pic && make
 
 -include $(DEPS)
 
