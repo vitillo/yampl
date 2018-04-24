@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -O2 -g -Wall -I../include -DNDEBUG -Wall
-LDFLAGS = -L../ -lyampl -lpthread -Wl,-rpath,'$$ORIGIN'/../../
+LDFLAGS = -L../ -lyampl -lpthread -luuid -lrt -Wl,-rpath,'$$ORIGIN'/../../
 
 EXE = producer_consumer/producer producer_consumer/consumer \
       client_server/client client_server/server \
@@ -8,6 +8,9 @@ EXE = producer_consumer/producer producer_consumer/consumer \
       benchmarks/benchmark
 
 all: $(EXE)
+
+$(EXE): %: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 .PHONY: clean
 clean:
