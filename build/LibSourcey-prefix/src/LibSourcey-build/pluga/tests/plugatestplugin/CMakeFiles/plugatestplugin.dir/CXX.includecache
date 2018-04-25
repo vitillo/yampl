@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base/include/scy/base.h
+libsourcey.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base/include/scy/libsourcey.h
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/include/scy/pluga/pluga.h
+scy/base.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/include/scy/pluga/scy/base.h
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/testplugin.cpp
+testplugin.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/testplugin.h
+fstream
+-
+iostream
+-
+stdexcept
+-
+string.h
+-
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/testplugin.h
+testpluginapi.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/testpluginapi.h
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/testpluginapi.h
+scy/pluga/pluga.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin/scy/pluga/pluga.h
+string
+-
+
+libsourcey.h
+

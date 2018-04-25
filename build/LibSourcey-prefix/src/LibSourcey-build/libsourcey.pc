@@ -1,0 +1,14 @@
+Name: LibSourcey
+Description: LibSourcey C++ Networking Evolved
+Version: 1.1.4
+
+prefix=/usr/local
+exec_prefix=/usr/local/bin
+libdir=/usr/local/lib
+includedir=/usr/local/include
+vendorlibdir=/usr/local/share/libsourcey/vendor/lib
+vendorincludedir=/usr/local/share/libsourcey/vendor/include
+
+Requires:
+Libs: -L${libdir} -L${vendorlibdir}  -lscy_archo -lscy_av -lscy_base -lscy_crypto -lscy_http -lscy_json -lscy_net -lscy_pluga -lscy_sched -lscy_socketio -lscy_stun -lscy_symple -lscy_turn -lscy_util -llibuv -lzlib -lminizip -lhttp_parser
+Cflags: -I${includedir} -I${vendorincludedir}

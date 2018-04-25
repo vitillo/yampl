@@ -1,9 +1,10 @@
-#include <cstdlib>
-
 #include "yampl/zeromq/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
 #include "yampl/shm/SocketFactory.h"
 #include "yampl/SocketFactory.h"
+
+#include <cstdlib>
+#include <scy/sharedlibrary.h>
 
 namespace yampl{
 

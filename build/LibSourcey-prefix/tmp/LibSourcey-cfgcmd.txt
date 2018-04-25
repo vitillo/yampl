@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DCMAKE_BUILD_TYPE=RELEASE;-DBUILD_MODULE_pluga=ON;-DBUILD_MODULE_webrtc=OFF;-DWITH_OPENCV=OFF;-DWITH_WEBRTC=OFF;-DWITH_FFMPEG=OFF;-GUnix Makefiles;/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy'

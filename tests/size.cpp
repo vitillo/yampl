@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <cassert>
 #include <iostream>
+#include <sys/wait.h>
 
 #include "yampl.h"
 #include "yampl/zeromq/SocketFactory.h"
@@ -47,7 +48,10 @@ void server(ISocketFactory *factory, const Channel &channel){
   delete factory;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
+  int status;
+
   if(fork() == 0){
     ISocketFactory *zmqFactory = new zeromq::SocketFactory();
     client(zmqFactory, Channel("zmq", LOCAL));
@@ -63,7 +67,7 @@ int main(int argc, char *argv[]){
     ISocketFactory *shmFactory = new shm::SocketFactory();
     server(shmFactory, Channel("shm", LOCAL_SHM));
 
-    wait();
+    wait(&status);
     cout << "Success" << endl;
   }
 }

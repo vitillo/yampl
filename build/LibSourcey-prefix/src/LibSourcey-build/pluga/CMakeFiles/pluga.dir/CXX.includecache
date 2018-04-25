@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base/include/scy/base.h
+libsourcey.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base/include/scy/libsourcey.h
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/include/scy/pluga/pluga.h
+scy/base.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/include/scy/pluga/scy/base.h
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/src/pluga.cpp
+scy/pluga/pluga.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/src/scy/pluga/pluga.h
+
+libsourcey.h
+

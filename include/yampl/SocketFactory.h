@@ -2,6 +2,9 @@
 #define YAMPL_SOCKETFACTORY_H
 
 #include "yampl/ISocketFactory.h"
+#include "yampl/plugin/IPlugin.hpp"
+
+#include <scy/sharedlibrary.h>
 
 namespace yampl{
 
@@ -22,6 +25,7 @@ class SocketFactory : public ISocketFactory{
     virtual ISocket *createServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
 
   private:
+    scy::SharedLibrary lib;
     ISocketFactory *m_zmqFactory;
     ISocketFactory *m_pipeFactory;
     ISocketFactory *m_shmFactory;
