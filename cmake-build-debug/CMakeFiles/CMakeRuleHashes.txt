@@ -1,0 +1,12 @@
+# Hashes of file build rules.
+90050ba5fe096f23a2237238a958344e CMakeFiles/LibSourcey
+d582e5377e0b7ee90a35012deee20c46 CMakeFiles/LibSourcey-complete
+709056a806d01e38cd857ffc41780700 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-AddPluga
+10436828905161749b05ac7253a10ed0 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-build
+6a2bc2e0f8008b1d697c4b91849c11f1 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-configure
+6e3d619f40abe60996c0c99599c5f517 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-download
+ffffebb2681a6b31388b0f9bfc99a9c2 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-install
+bb8183c00c5ca0aa4e8acf6bb5eb7fad LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-mkdir
+31f93bb91eac95ea1b46882e85f6983e LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-patch
+b99631ad91a65e87705a56aea4a5b5f1 LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-test
+46f53bc4ae0ef4fa8be922da12d8520a LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-update
