@@ -15,3 +15,6 @@
 # vim trash
 *.swp
 *.un~
+
+# build directory
+build/
