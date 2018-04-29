@@ -1,10 +1,11 @@
 #ifndef YAMPL_ISOCKETFACTORY_H
 #define YAMPL_ISOCKETFACTORY_H
 
-#include <stdlib.h>
-
 #include "yampl/Channel.h"
 #include "yampl/ISocket.h"
+
+#include <stdlib.h>
+#include <scy/pluga/pluga.h>
 
 namespace yampl{
 
@@ -17,8 +18,10 @@ enum Semantics{
   MOVE_DATA
 };
 
-class ISocketFactory{
+class ISocketFactory: public scy::pluga::IPlugin
+{
   public:
+    ISocketFactory() {}
     virtual ~ISocketFactory(){}
 
     /**

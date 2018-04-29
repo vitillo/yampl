@@ -56,9 +56,20 @@ CMAKE_BINARY_DIR = /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-pre
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+
+.PHONY : install/local/fast
+
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\" \"samples\" \"tests\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -76,17 +87,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # Special rule for the target install/strip
 install/strip: preinstall
@@ -133,27 +133,16 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : install/local/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -292,58 +281,6 @@ http_parser/fast:
 .PHONY : http_parser/fast
 
 #=============================================================================
-# Target rules for targets named archo
-
-# Build rule for target.
-archo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 archo
-.PHONY : archo
-
-# fast build rule for target.
-archo/fast:
-	$(MAKE) -f archo/CMakeFiles/archo.dir/build.make archo/CMakeFiles/archo.dir/build
-.PHONY : archo/fast
-
-#=============================================================================
-# Target rules for targets named archotests
-
-# Build rule for target.
-archotests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 archotests
-.PHONY : archotests
-
-# fast build rule for target.
-archotests/fast:
-	$(MAKE) -f archo/tests/CMakeFiles/archotests.dir/build.make archo/tests/CMakeFiles/archotests.dir/build
-.PHONY : archotests/fast
-
-#=============================================================================
-# Target rules for targets named av
-
-# Build rule for target.
-av: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 av
-.PHONY : av
-
-# fast build rule for target.
-av/fast:
-	$(MAKE) -f av/CMakeFiles/av.dir/build.make av/CMakeFiles/av.dir/build
-.PHONY : av/fast
-
-#=============================================================================
-# Target rules for targets named avtests
-
-# Build rule for target.
-avtests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 avtests
-.PHONY : avtests
-
-# fast build rule for target.
-avtests/fast:
-	$(MAKE) -f av/tests/CMakeFiles/avtests.dir/build.make av/tests/CMakeFiles/avtests.dir/build
-.PHONY : avtests/fast
-
-#=============================================================================
 # Target rules for targets named base
 
 # Build rule for target.
@@ -355,136 +292,6 @@ base: cmake_check_build_system
 base/fast:
 	$(MAKE) -f base/CMakeFiles/base.dir/build.make base/CMakeFiles/base.dir/build
 .PHONY : base/fast
-
-#=============================================================================
-# Target rules for targets named basetests
-
-# Build rule for target.
-basetests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 basetests
-.PHONY : basetests
-
-# fast build rule for target.
-basetests/fast:
-	$(MAKE) -f base/tests/CMakeFiles/basetests.dir/build.make base/tests/CMakeFiles/basetests.dir/build
-.PHONY : basetests/fast
-
-#=============================================================================
-# Target rules for targets named crypto
-
-# Build rule for target.
-crypto: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 crypto
-.PHONY : crypto
-
-# fast build rule for target.
-crypto/fast:
-	$(MAKE) -f crypto/CMakeFiles/crypto.dir/build.make crypto/CMakeFiles/crypto.dir/build
-.PHONY : crypto/fast
-
-#=============================================================================
-# Target rules for targets named cryptotests
-
-# Build rule for target.
-cryptotests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 cryptotests
-.PHONY : cryptotests
-
-# fast build rule for target.
-cryptotests/fast:
-	$(MAKE) -f crypto/tests/CMakeFiles/cryptotests.dir/build.make crypto/tests/CMakeFiles/cryptotests.dir/build
-.PHONY : cryptotests/fast
-
-#=============================================================================
-# Target rules for targets named http
-
-# Build rule for target.
-http: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 http
-.PHONY : http
-
-# fast build rule for target.
-http/fast:
-	$(MAKE) -f http/CMakeFiles/http.dir/build.make http/CMakeFiles/http.dir/build
-.PHONY : http/fast
-
-#=============================================================================
-# Target rules for targets named httpechoserver
-
-# Build rule for target.
-httpechoserver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 httpechoserver
-.PHONY : httpechoserver
-
-# fast build rule for target.
-httpechoserver/fast:
-	$(MAKE) -f http/samples/httpechoserver/CMakeFiles/httpechoserver.dir/build.make http/samples/httpechoserver/CMakeFiles/httpechoserver.dir/build
-.PHONY : httpechoserver/fast
-
-#=============================================================================
-# Target rules for targets named httptests
-
-# Build rule for target.
-httptests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 httptests
-.PHONY : httptests
-
-# fast build rule for target.
-httptests/fast:
-	$(MAKE) -f http/tests/CMakeFiles/httptests.dir/build.make http/tests/CMakeFiles/httptests.dir/build
-.PHONY : httptests/fast
-
-#=============================================================================
-# Target rules for targets named json
-
-# Build rule for target.
-json: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 json
-.PHONY : json
-
-# fast build rule for target.
-json/fast:
-	$(MAKE) -f json/CMakeFiles/json.dir/build.make json/CMakeFiles/json.dir/build
-.PHONY : json/fast
-
-#=============================================================================
-# Target rules for targets named net
-
-# Build rule for target.
-net: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 net
-.PHONY : net
-
-# fast build rule for target.
-net/fast:
-	$(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/build
-.PHONY : net/fast
-
-#=============================================================================
-# Target rules for targets named echoserver
-
-# Build rule for target.
-echoserver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 echoserver
-.PHONY : echoserver
-
-# fast build rule for target.
-echoserver/fast:
-	$(MAKE) -f net/samples/echoserver/CMakeFiles/echoserver.dir/build.make net/samples/echoserver/CMakeFiles/echoserver.dir/build
-.PHONY : echoserver/fast
-
-#=============================================================================
-# Target rules for targets named nettests
-
-# Build rule for target.
-nettests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 nettests
-.PHONY : nettests
-
-# fast build rule for target.
-nettests/fast:
-	$(MAKE) -f net/tests/CMakeFiles/nettests.dir/build.make net/tests/CMakeFiles/nettests.dir/build
-.PHONY : nettests/fast
 
 #=============================================================================
 # Target rules for targets named pluga
@@ -499,210 +306,15 @@ pluga/fast:
 	$(MAKE) -f pluga/CMakeFiles/pluga.dir/build.make pluga/CMakeFiles/pluga.dir/build
 .PHONY : pluga/fast
 
-#=============================================================================
-# Target rules for targets named plugatests
-
-# Build rule for target.
-plugatests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 plugatests
-.PHONY : plugatests
-
-# fast build rule for target.
-plugatests/fast:
-	$(MAKE) -f pluga/tests/CMakeFiles/plugatests.dir/build.make pluga/tests/CMakeFiles/plugatests.dir/build
-.PHONY : plugatests/fast
-
-#=============================================================================
-# Target rules for targets named plugatestplugin
-
-# Build rule for target.
-plugatestplugin: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 plugatestplugin
-.PHONY : plugatestplugin
-
-# fast build rule for target.
-plugatestplugin/fast:
-	$(MAKE) -f pluga/tests/plugatestplugin/CMakeFiles/plugatestplugin.dir/build.make pluga/tests/plugatestplugin/CMakeFiles/plugatestplugin.dir/build
-.PHONY : plugatestplugin/fast
-
-#=============================================================================
-# Target rules for targets named sched
-
-# Build rule for target.
-sched: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sched
-.PHONY : sched
-
-# fast build rule for target.
-sched/fast:
-	$(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/build
-.PHONY : sched/fast
-
-#=============================================================================
-# Target rules for targets named schedtests
-
-# Build rule for target.
-schedtests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 schedtests
-.PHONY : schedtests
-
-# fast build rule for target.
-schedtests/fast:
-	$(MAKE) -f sched/tests/CMakeFiles/schedtests.dir/build.make sched/tests/CMakeFiles/schedtests.dir/build
-.PHONY : schedtests/fast
-
-#=============================================================================
-# Target rules for targets named socketio
-
-# Build rule for target.
-socketio: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 socketio
-.PHONY : socketio
-
-# fast build rule for target.
-socketio/fast:
-	$(MAKE) -f socketio/CMakeFiles/socketio.dir/build.make socketio/CMakeFiles/socketio.dir/build
-.PHONY : socketio/fast
-
-#=============================================================================
-# Target rules for targets named socketiotests
-
-# Build rule for target.
-socketiotests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 socketiotests
-.PHONY : socketiotests
-
-# fast build rule for target.
-socketiotests/fast:
-	$(MAKE) -f socketio/tests/CMakeFiles/socketiotests.dir/build.make socketio/tests/CMakeFiles/socketiotests.dir/build
-.PHONY : socketiotests/fast
-
-#=============================================================================
-# Target rules for targets named stun
-
-# Build rule for target.
-stun: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stun
-.PHONY : stun
-
-# fast build rule for target.
-stun/fast:
-	$(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/build
-.PHONY : stun/fast
-
-#=============================================================================
-# Target rules for targets named stuntests
-
-# Build rule for target.
-stuntests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stuntests
-.PHONY : stuntests
-
-# fast build rule for target.
-stuntests/fast:
-	$(MAKE) -f stun/tests/CMakeFiles/stuntests.dir/build.make stun/tests/CMakeFiles/stuntests.dir/build
-.PHONY : stuntests/fast
-
-#=============================================================================
-# Target rules for targets named symple
-
-# Build rule for target.
-symple: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 symple
-.PHONY : symple
-
-# fast build rule for target.
-symple/fast:
-	$(MAKE) -f symple/CMakeFiles/symple.dir/build.make symple/CMakeFiles/symple.dir/build
-.PHONY : symple/fast
-
-#=============================================================================
-# Target rules for targets named sympleconsole
-
-# Build rule for target.
-sympleconsole: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sympleconsole
-.PHONY : sympleconsole
-
-# fast build rule for target.
-sympleconsole/fast:
-	$(MAKE) -f symple/samples/sympleconsole/CMakeFiles/sympleconsole.dir/build.make symple/samples/sympleconsole/CMakeFiles/sympleconsole.dir/build
-.PHONY : sympleconsole/fast
-
-#=============================================================================
-# Target rules for targets named sympletests
-
-# Build rule for target.
-sympletests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sympletests
-.PHONY : sympletests
-
-# fast build rule for target.
-sympletests/fast:
-	$(MAKE) -f symple/tests/CMakeFiles/sympletests.dir/build.make symple/tests/CMakeFiles/sympletests.dir/build
-.PHONY : sympletests/fast
-
-#=============================================================================
-# Target rules for targets named turn
-
-# Build rule for target.
-turn: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 turn
-.PHONY : turn
-
-# fast build rule for target.
-turn/fast:
-	$(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/build
-.PHONY : turn/fast
-
-#=============================================================================
-# Target rules for targets named turnserver
-
-# Build rule for target.
-turnserver: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 turnserver
-.PHONY : turnserver
-
-# fast build rule for target.
-turnserver/fast:
-	$(MAKE) -f turn/samples/turnserver/CMakeFiles/turnserver.dir/build.make turn/samples/turnserver/CMakeFiles/turnserver.dir/build
-.PHONY : turnserver/fast
-
-#=============================================================================
-# Target rules for targets named turnclienttest
-
-# Build rule for target.
-turnclienttest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 turnclienttest
-.PHONY : turnclienttest
-
-# fast build rule for target.
-turnclienttest/fast:
-	$(MAKE) -f turn/tests/turnclienttest/CMakeFiles/turnclienttest.dir/build.make turn/tests/turnclienttest/CMakeFiles/turnclienttest.dir/build
-.PHONY : turnclienttest/fast
-
-#=============================================================================
-# Target rules for targets named util
-
-# Build rule for target.
-util: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 util
-.PHONY : util
-
-# fast build rule for target.
-util/fast:
-	$(MAKE) -f util/CMakeFiles/util.dir/build.make util/CMakeFiles/util.dir/build
-.PHONY : util/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... install/strip"
 	@echo "... doc"
 	@echo "... package"
@@ -710,44 +322,14 @@ help:
 	@echo "... install"
 	@echo "... check"
 	@echo "... uninstall"
-	@echo "... install/local"
-	@echo "... test"
+	@echo "... edit_cache"
 	@echo "... libuv"
 	@echo "... zlib"
 	@echo "... zlibstatic"
 	@echo "... minizip"
 	@echo "... http_parser"
-	@echo "... archo"
-	@echo "... archotests"
-	@echo "... av"
-	@echo "... avtests"
 	@echo "... base"
-	@echo "... basetests"
-	@echo "... crypto"
-	@echo "... cryptotests"
-	@echo "... http"
-	@echo "... httpechoserver"
-	@echo "... httptests"
-	@echo "... json"
-	@echo "... net"
-	@echo "... echoserver"
-	@echo "... nettests"
 	@echo "... pluga"
-	@echo "... plugatests"
-	@echo "... plugatestplugin"
-	@echo "... sched"
-	@echo "... schedtests"
-	@echo "... socketio"
-	@echo "... socketiotests"
-	@echo "... stun"
-	@echo "... stuntests"
-	@echo "... symple"
-	@echo "... sympleconsole"
-	@echo "... sympletests"
-	@echo "... turn"
-	@echo "... turnserver"
-	@echo "... turnclienttest"
-	@echo "... util"
 .PHONY : help
 
 

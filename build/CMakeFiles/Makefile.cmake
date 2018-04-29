@@ -46,7 +46,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.7/Modules/CheckFunctionExists.c"
   "/usr/share/cmake-3.7/Modules/CheckIncludeFile.c.in"
   "/usr/share/cmake-3.7/Modules/CheckIncludeFile.cmake"
-  "/usr/share/cmake-3.7/Modules/CheckIncludeFiles.cmake"
   "/usr/share/cmake-3.7/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake-3.7/Modules/CheckSymbolExists.cmake"
   "/usr/share/cmake-3.7/Modules/Compiler/ADSP-DetermineCompiler.cmake"
@@ -128,6 +127,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/LibSourcey.dir/DependInfo.cmake"
   "CMakeFiles/yampl.dir/DependInfo.cmake"
+  "CMakeFiles/LibSourcey.dir/DependInfo.cmake"
+  "CMakeFiles/client.dir/DependInfo.cmake"
+  "CMakeFiles/server.dir/DependInfo.cmake"
+  "CMakeFiles/yampl-shm.dir/DependInfo.cmake"
   )

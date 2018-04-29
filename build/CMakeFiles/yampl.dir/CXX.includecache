@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+../include/yampl.h
+yampl/Channel.h
+../include/yampl/Channel.h
+yampl/Exceptions.h
+../include/yampl/Exceptions.h
+yampl/ISocket.h
+../include/yampl/ISocket.h
+yampl/ISocketFactory.h
+../include/yampl/ISocketFactory.h
+yampl/SocketFactory.h
+../include/yampl/SocketFactory.h
+yampl/utils/utils.h
+../include/yampl/utils/utils.h
+
 ../include/yampl/Channel.h
 string
 -
@@ -21,6 +35,8 @@ errno.h
 -
 
 ../include/yampl/ISocket.h
+plugin/IPlugin.hpp
+../include/yampl/plugin/IPlugin.hpp
 unistd.h
 -
 assert.h
@@ -29,18 +45,22 @@ string
 -
 
 ../include/yampl/ISocketFactory.h
-stdlib.h
--
 yampl/Channel.h
 ../include/yampl/yampl/Channel.h
 yampl/ISocket.h
 ../include/yampl/yampl/ISocket.h
+stdlib.h
+-
+scy/pluga/pluga.h
+-
 
 ../include/yampl/SocketFactory.h
 yampl/ISocketFactory.h
 ../include/yampl/yampl/ISocketFactory.h
 yampl/plugin/IPlugin.hpp
 ../include/yampl/yampl/plugin/IPlugin.hpp
+vector
+-
 scy/sharedlibrary.h
 -
 
@@ -160,67 +180,15 @@ scy/pluga/pluga.h
 cstdint
 -
 
-../include/yampl/shm/ClientSocket.h
-yampl/generic/ClientSocket.h
-../include/yampl/shm/yampl/generic/ClientSocket.h
-yampl/shm/SimpleClientSocket.h
-../include/yampl/shm/yampl/shm/SimpleClientSocket.h
-
-../include/yampl/shm/ConsumerSocket.h
-yampl/shm/PipeSocketBase.h
-../include/yampl/shm/yampl/shm/PipeSocketBase.h
-
-../include/yampl/shm/PipeSocketBase.h
-yampl/ISocket.h
-../include/yampl/shm/yampl/ISocket.h
-yampl/Channel.h
-../include/yampl/shm/yampl/Channel.h
-yampl/ISocketFactory.h
-../include/yampl/shm/yampl/ISocketFactory.h
-yampl/utils/SharedMemory.h
-../include/yampl/shm/yampl/utils/SharedMemory.h
-yampl/utils/RingBuffer.h
-../include/yampl/shm/yampl/utils/RingBuffer.h
-
-../include/yampl/shm/ProducerSocket.h
-yampl/shm/PipeSocketBase.h
-../include/yampl/shm/yampl/shm/PipeSocketBase.h
-
-../include/yampl/shm/ServerSocket.h
-yampl/generic/ServerSocketBase.h
-../include/yampl/shm/yampl/generic/ServerSocketBase.h
-yampl/shm/SimpleServerSocket.h
-../include/yampl/shm/yampl/shm/SimpleServerSocket.h
-
-../include/yampl/shm/SimpleClientSocket.h
-yampl/generic/SimpleClientSocket.h
-../include/yampl/shm/yampl/generic/SimpleClientSocket.h
-yampl/shm/ProducerSocket.h
-../include/yampl/shm/yampl/shm/ProducerSocket.h
-yampl/shm/ConsumerSocket.h
-../include/yampl/shm/yampl/shm/ConsumerSocket.h
-
-../include/yampl/shm/SimpleServerSocket.h
-yampl/generic/SimpleServerSocket.h
-../include/yampl/shm/yampl/generic/SimpleServerSocket.h
-yampl/shm/ProducerSocket.h
-../include/yampl/shm/yampl/shm/ProducerSocket.h
-yampl/shm/ConsumerSocket.h
-../include/yampl/shm/yampl/shm/ConsumerSocket.h
+../include/yampl/plugin/PluginArbiter.hpp
+cstdint
+-
+scy/pluga/pluga.h
+-
 
 ../include/yampl/shm/SocketFactory.h
 yampl/ISocketFactory.h
 ../include/yampl/shm/yampl/ISocketFactory.h
-
-../include/yampl/utils/Futex.h
-linux/futex.h
--
-sys/time.h
--
-unistd.h
--
-sys/syscall.h
--
 
 ../include/yampl/utils/Poller.h
 sys/epoll.h
@@ -241,30 +209,6 @@ sys/stat.h
 -
 yampl/Exceptions.h
 ../include/yampl/utils/yampl/Exceptions.h
-
-../include/yampl/utils/RingBuffer.h
-sys/types.h
--
-cstring
--
-tr1/memory
--
-yampl/utils/Semaphore.h
-../include/yampl/utils/yampl/utils/Semaphore.h
-
-../include/yampl/utils/Semaphore.h
-yampl/utils/Futex.h
-../include/yampl/utils/yampl/utils/Futex.h
-
-../include/yampl/utils/SharedMemory.h
-sys/mman.h
--
-sys/stat.h
--
-sys/file.h
--
-fcntl.h
--
 
 ../include/yampl/utils/SpinLock.h
 
@@ -289,6 +233,12 @@ yampl/utils/RawPipe.h
 ../include/yampl/utils/yampl/utils/RawPipe.h
 yampl/Exceptions.h
 ../include/yampl/utils/yampl/Exceptions.h
+
+../include/yampl/utils/utils.h
+string
+-
+sstream
+-
 
 ../include/yampl/zeromq/ClientSocket.h
 yampl/zeromq/SocketBase.h
@@ -331,6 +281,12 @@ algorithm
 -
 exception
 -
+
+/home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp
+yampl.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl.h
+yampl/ISocket.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/ISocket.h
 
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/SocketFactory.cpp
 yampl/zeromq/SocketFactory.h
@@ -384,27 +340,9 @@ yampl/pipe/ServerSocket.h
 yampl/pipe/ClientSocket.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/pipe/yampl/pipe/ClientSocket.h
 
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp
-cmath
--
-yampl/Exceptions.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/Exceptions.h
-yampl/shm/PipeSocketBase.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/shm/PipeSocketBase.h
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp
-yampl/Exceptions.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/Exceptions.h
-yampl/shm/SocketFactory.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/shm/SocketFactory.h
-yampl/shm/ClientSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/shm/ClientSocket.h
-yampl/shm/ServerSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/shm/ServerSocket.h
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp
-yampl/shm/ServerSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/yampl/shm/ServerSocket.h
+/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp
+yampl/plugin/PluginArbiter.hpp
+/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/yampl/plugin/PluginArbiter.hpp
 
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp
 zmq.hpp

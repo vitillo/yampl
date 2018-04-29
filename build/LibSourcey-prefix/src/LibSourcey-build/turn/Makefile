@@ -67,38 +67,16 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target install/local
+install/local/fast: install/local
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\" \"samples\" \"tests\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-
-.PHONY : package/fast
+.PHONY : install/local/fast
 
 # Special rule for the target package_source
 package_source:
@@ -111,27 +89,28 @@ package_source/fast: package_source
 
 .PHONY : package_source/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target package
+package/fast: package
 
-.PHONY : install/local/fast
+.PHONY : package/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -154,6 +133,16 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -187,291 +176,6 @@ depend:
 	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-turn/CMakeFiles/turn.dir/rule:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f CMakeFiles/Makefile2 turn/CMakeFiles/turn.dir/rule
-.PHONY : turn/CMakeFiles/turn.dir/rule
-
-# Convenience name for target.
-turn: turn/CMakeFiles/turn.dir/rule
-
-.PHONY : turn
-
-# fast build rule for target.
-turn/fast:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/build
-.PHONY : turn/fast
-
-src/client/client.o: src/client/client.cpp.o
-
-.PHONY : src/client/client.o
-
-# target to build an object file
-src/client/client.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/client.cpp.o
-.PHONY : src/client/client.cpp.o
-
-src/client/client.i: src/client/client.cpp.i
-
-.PHONY : src/client/client.i
-
-# target to preprocess a source file
-src/client/client.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/client.cpp.i
-.PHONY : src/client/client.cpp.i
-
-src/client/client.s: src/client/client.cpp.s
-
-.PHONY : src/client/client.s
-
-# target to generate assembly for a file
-src/client/client.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/client.cpp.s
-.PHONY : src/client/client.cpp.s
-
-src/client/tcpclient.o: src/client/tcpclient.cpp.o
-
-.PHONY : src/client/tcpclient.o
-
-# target to build an object file
-src/client/tcpclient.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/tcpclient.cpp.o
-.PHONY : src/client/tcpclient.cpp.o
-
-src/client/tcpclient.i: src/client/tcpclient.cpp.i
-
-.PHONY : src/client/tcpclient.i
-
-# target to preprocess a source file
-src/client/tcpclient.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/tcpclient.cpp.i
-.PHONY : src/client/tcpclient.cpp.i
-
-src/client/tcpclient.s: src/client/tcpclient.cpp.s
-
-.PHONY : src/client/tcpclient.s
-
-# target to generate assembly for a file
-src/client/tcpclient.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/tcpclient.cpp.s
-.PHONY : src/client/tcpclient.cpp.s
-
-src/client/udpclient.o: src/client/udpclient.cpp.o
-
-.PHONY : src/client/udpclient.o
-
-# target to build an object file
-src/client/udpclient.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/udpclient.cpp.o
-.PHONY : src/client/udpclient.cpp.o
-
-src/client/udpclient.i: src/client/udpclient.cpp.i
-
-.PHONY : src/client/udpclient.i
-
-# target to preprocess a source file
-src/client/udpclient.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/udpclient.cpp.i
-.PHONY : src/client/udpclient.cpp.i
-
-src/client/udpclient.s: src/client/udpclient.cpp.s
-
-.PHONY : src/client/udpclient.s
-
-# target to generate assembly for a file
-src/client/udpclient.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/client/udpclient.cpp.s
-.PHONY : src/client/udpclient.cpp.s
-
-src/fivetuple.o: src/fivetuple.cpp.o
-
-.PHONY : src/fivetuple.o
-
-# target to build an object file
-src/fivetuple.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/fivetuple.cpp.o
-.PHONY : src/fivetuple.cpp.o
-
-src/fivetuple.i: src/fivetuple.cpp.i
-
-.PHONY : src/fivetuple.i
-
-# target to preprocess a source file
-src/fivetuple.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/fivetuple.cpp.i
-.PHONY : src/fivetuple.cpp.i
-
-src/fivetuple.s: src/fivetuple.cpp.s
-
-.PHONY : src/fivetuple.s
-
-# target to generate assembly for a file
-src/fivetuple.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/fivetuple.cpp.s
-.PHONY : src/fivetuple.cpp.s
-
-src/iallocation.o: src/iallocation.cpp.o
-
-.PHONY : src/iallocation.o
-
-# target to build an object file
-src/iallocation.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/iallocation.cpp.o
-.PHONY : src/iallocation.cpp.o
-
-src/iallocation.i: src/iallocation.cpp.i
-
-.PHONY : src/iallocation.i
-
-# target to preprocess a source file
-src/iallocation.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/iallocation.cpp.i
-.PHONY : src/iallocation.cpp.i
-
-src/iallocation.s: src/iallocation.cpp.s
-
-.PHONY : src/iallocation.s
-
-# target to generate assembly for a file
-src/iallocation.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/iallocation.cpp.s
-.PHONY : src/iallocation.cpp.s
-
-src/server/server.o: src/server/server.cpp.o
-
-.PHONY : src/server/server.o
-
-# target to build an object file
-src/server/server.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/server.cpp.o
-.PHONY : src/server/server.cpp.o
-
-src/server/server.i: src/server/server.cpp.i
-
-.PHONY : src/server/server.i
-
-# target to preprocess a source file
-src/server/server.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/server.cpp.i
-.PHONY : src/server/server.cpp.i
-
-src/server/server.s: src/server/server.cpp.s
-
-.PHONY : src/server/server.s
-
-# target to generate assembly for a file
-src/server/server.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/server.cpp.s
-.PHONY : src/server/server.cpp.s
-
-src/server/serverallocation.o: src/server/serverallocation.cpp.o
-
-.PHONY : src/server/serverallocation.o
-
-# target to build an object file
-src/server/serverallocation.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/serverallocation.cpp.o
-.PHONY : src/server/serverallocation.cpp.o
-
-src/server/serverallocation.i: src/server/serverallocation.cpp.i
-
-.PHONY : src/server/serverallocation.i
-
-# target to preprocess a source file
-src/server/serverallocation.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/serverallocation.cpp.i
-.PHONY : src/server/serverallocation.cpp.i
-
-src/server/serverallocation.s: src/server/serverallocation.cpp.s
-
-.PHONY : src/server/serverallocation.s
-
-# target to generate assembly for a file
-src/server/serverallocation.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/serverallocation.cpp.s
-.PHONY : src/server/serverallocation.cpp.s
-
-src/server/tcpallocation.o: src/server/tcpallocation.cpp.o
-
-.PHONY : src/server/tcpallocation.o
-
-# target to build an object file
-src/server/tcpallocation.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpallocation.cpp.o
-.PHONY : src/server/tcpallocation.cpp.o
-
-src/server/tcpallocation.i: src/server/tcpallocation.cpp.i
-
-.PHONY : src/server/tcpallocation.i
-
-# target to preprocess a source file
-src/server/tcpallocation.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpallocation.cpp.i
-.PHONY : src/server/tcpallocation.cpp.i
-
-src/server/tcpallocation.s: src/server/tcpallocation.cpp.s
-
-.PHONY : src/server/tcpallocation.s
-
-# target to generate assembly for a file
-src/server/tcpallocation.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpallocation.cpp.s
-.PHONY : src/server/tcpallocation.cpp.s
-
-src/server/tcpconnectionpair.o: src/server/tcpconnectionpair.cpp.o
-
-.PHONY : src/server/tcpconnectionpair.o
-
-# target to build an object file
-src/server/tcpconnectionpair.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpconnectionpair.cpp.o
-.PHONY : src/server/tcpconnectionpair.cpp.o
-
-src/server/tcpconnectionpair.i: src/server/tcpconnectionpair.cpp.i
-
-.PHONY : src/server/tcpconnectionpair.i
-
-# target to preprocess a source file
-src/server/tcpconnectionpair.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpconnectionpair.cpp.i
-.PHONY : src/server/tcpconnectionpair.cpp.i
-
-src/server/tcpconnectionpair.s: src/server/tcpconnectionpair.cpp.s
-
-.PHONY : src/server/tcpconnectionpair.s
-
-# target to generate assembly for a file
-src/server/tcpconnectionpair.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/tcpconnectionpair.cpp.s
-.PHONY : src/server/tcpconnectionpair.cpp.s
-
-src/server/udpallocation.o: src/server/udpallocation.cpp.o
-
-.PHONY : src/server/udpallocation.o
-
-# target to build an object file
-src/server/udpallocation.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/udpallocation.cpp.o
-.PHONY : src/server/udpallocation.cpp.o
-
-src/server/udpallocation.i: src/server/udpallocation.cpp.i
-
-.PHONY : src/server/udpallocation.i
-
-# target to preprocess a source file
-src/server/udpallocation.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/udpallocation.cpp.i
-.PHONY : src/server/udpallocation.cpp.i
-
-src/server/udpallocation.s: src/server/udpallocation.cpp.s
-
-.PHONY : src/server/udpallocation.s
-
-# target to generate assembly for a file
-src/server/udpallocation.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f turn/CMakeFiles/turn.dir/build.make turn/CMakeFiles/turn.dir/src/server/udpallocation.cpp.s
-.PHONY : src/server/udpallocation.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -479,45 +183,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... install/local"
-	@echo "... turn"
-	@echo "... test"
+	@echo "... package_source"
+	@echo "... package"
+	@echo "... install"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... src/client/client.o"
-	@echo "... src/client/client.i"
-	@echo "... src/client/client.s"
-	@echo "... src/client/tcpclient.o"
-	@echo "... src/client/tcpclient.i"
-	@echo "... src/client/tcpclient.s"
-	@echo "... src/client/udpclient.o"
-	@echo "... src/client/udpclient.i"
-	@echo "... src/client/udpclient.s"
-	@echo "... src/fivetuple.o"
-	@echo "... src/fivetuple.i"
-	@echo "... src/fivetuple.s"
-	@echo "... src/iallocation.o"
-	@echo "... src/iallocation.i"
-	@echo "... src/iallocation.s"
-	@echo "... src/server/server.o"
-	@echo "... src/server/server.i"
-	@echo "... src/server/server.s"
-	@echo "... src/server/serverallocation.o"
-	@echo "... src/server/serverallocation.i"
-	@echo "... src/server/serverallocation.s"
-	@echo "... src/server/tcpallocation.o"
-	@echo "... src/server/tcpallocation.i"
-	@echo "... src/server/tcpallocation.s"
-	@echo "... src/server/tcpconnectionpair.o"
-	@echo "... src/server/tcpconnectionpair.i"
-	@echo "... src/server/tcpconnectionpair.s"
-	@echo "... src/server/udpallocation.o"
-	@echo "... src/server/udpallocation.i"
-	@echo "... src/server/udpallocation.s"
+	@echo "... list_install_components"
 .PHONY : help
 
 

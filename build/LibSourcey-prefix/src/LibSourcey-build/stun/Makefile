@@ -67,38 +67,16 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target install/local
+install/local/fast: install/local
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\" \"samples\" \"tests\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-
-.PHONY : package/fast
+.PHONY : install/local/fast
 
 # Special rule for the target package_source
 package_source:
@@ -111,27 +89,28 @@ package_source/fast: package_source
 
 .PHONY : package_source/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target package
+package/fast: package
 
-.PHONY : install/local/fast
+.PHONY : package/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -154,6 +133,16 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -187,102 +176,6 @@ depend:
 	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-stun/CMakeFiles/stun.dir/rule:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f CMakeFiles/Makefile2 stun/CMakeFiles/stun.dir/rule
-.PHONY : stun/CMakeFiles/stun.dir/rule
-
-# Convenience name for target.
-stun: stun/CMakeFiles/stun.dir/rule
-
-.PHONY : stun
-
-# fast build rule for target.
-stun/fast:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/build
-.PHONY : stun/fast
-
-src/attributes.o: src/attributes.cpp.o
-
-.PHONY : src/attributes.o
-
-# target to build an object file
-src/attributes.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/attributes.cpp.o
-.PHONY : src/attributes.cpp.o
-
-src/attributes.i: src/attributes.cpp.i
-
-.PHONY : src/attributes.i
-
-# target to preprocess a source file
-src/attributes.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/attributes.cpp.i
-.PHONY : src/attributes.cpp.i
-
-src/attributes.s: src/attributes.cpp.s
-
-.PHONY : src/attributes.s
-
-# target to generate assembly for a file
-src/attributes.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/attributes.cpp.s
-.PHONY : src/attributes.cpp.s
-
-src/message.o: src/message.cpp.o
-
-.PHONY : src/message.o
-
-# target to build an object file
-src/message.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/message.cpp.o
-.PHONY : src/message.cpp.o
-
-src/message.i: src/message.cpp.i
-
-.PHONY : src/message.i
-
-# target to preprocess a source file
-src/message.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/message.cpp.i
-.PHONY : src/message.cpp.i
-
-src/message.s: src/message.cpp.s
-
-.PHONY : src/message.s
-
-# target to generate assembly for a file
-src/message.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/message.cpp.s
-.PHONY : src/message.cpp.s
-
-src/transaction.o: src/transaction.cpp.o
-
-.PHONY : src/transaction.o
-
-# target to build an object file
-src/transaction.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/transaction.cpp.o
-.PHONY : src/transaction.cpp.o
-
-src/transaction.i: src/transaction.cpp.i
-
-.PHONY : src/transaction.i
-
-# target to preprocess a source file
-src/transaction.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/transaction.cpp.i
-.PHONY : src/transaction.cpp.i
-
-src/transaction.s: src/transaction.cpp.s
-
-.PHONY : src/transaction.s
-
-# target to generate assembly for a file
-src/transaction.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f stun/CMakeFiles/stun.dir/build.make stun/CMakeFiles/stun.dir/src/transaction.cpp.s
-.PHONY : src/transaction.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -290,24 +183,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
-	@echo "... stun"
 	@echo "... install/local"
-	@echo "... test"
+	@echo "... package_source"
+	@echo "... package"
+	@echo "... install"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... src/attributes.o"
-	@echo "... src/attributes.i"
-	@echo "... src/attributes.s"
-	@echo "... src/message.o"
-	@echo "... src/message.i"
-	@echo "... src/message.s"
-	@echo "... src/transaction.o"
-	@echo "... src/transaction.i"
-	@echo "... src/transaction.s"
+	@echo "... list_install_components"
 .PHONY : help
 
 

@@ -4,12 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/ISocket.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/SocketFactory.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/SocketFactory.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/pipe/PipeSocketBase.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/pipe/PipeSocketBase.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/pipe/PipeSocketFactory.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o"
+  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ServerSocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketBase.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o"

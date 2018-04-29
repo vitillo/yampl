@@ -67,38 +67,16 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target install/local
+install/local/fast: install/local
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\" \"samples\" \"tests\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-
-.PHONY : package/fast
+.PHONY : install/local/fast
 
 # Special rule for the target package_source
 package_source:
@@ -111,38 +89,28 @@ package_source/fast: package_source
 
 .PHONY : package_source/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target package
+package/fast: package
 
-.PHONY : rebuild_cache/fast
+.PHONY : package/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target install/local
-install/local/fast: install/local
-
-.PHONY : install/local/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -154,6 +122,27 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -187,345 +176,6 @@ depend:
 	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-net/CMakeFiles/net.dir/rule:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f CMakeFiles/Makefile2 net/CMakeFiles/net.dir/rule
-.PHONY : net/CMakeFiles/net.dir/rule
-
-# Convenience name for target.
-net: net/CMakeFiles/net.dir/rule
-
-.PHONY : net
-
-# fast build rule for target.
-net/fast:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/build
-.PHONY : net/fast
-
-src/address.o: src/address.cpp.o
-
-.PHONY : src/address.o
-
-# target to build an object file
-src/address.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/address.cpp.o
-.PHONY : src/address.cpp.o
-
-src/address.i: src/address.cpp.i
-
-.PHONY : src/address.i
-
-# target to preprocess a source file
-src/address.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/address.cpp.i
-.PHONY : src/address.cpp.i
-
-src/address.s: src/address.cpp.s
-
-.PHONY : src/address.s
-
-# target to generate assembly for a file
-src/address.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/address.cpp.s
-.PHONY : src/address.cpp.s
-
-src/packetsocket.o: src/packetsocket.cpp.o
-
-.PHONY : src/packetsocket.o
-
-# target to build an object file
-src/packetsocket.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/packetsocket.cpp.o
-.PHONY : src/packetsocket.cpp.o
-
-src/packetsocket.i: src/packetsocket.cpp.i
-
-.PHONY : src/packetsocket.i
-
-# target to preprocess a source file
-src/packetsocket.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/packetsocket.cpp.i
-.PHONY : src/packetsocket.cpp.i
-
-src/packetsocket.s: src/packetsocket.cpp.s
-
-.PHONY : src/packetsocket.s
-
-# target to generate assembly for a file
-src/packetsocket.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/packetsocket.cpp.s
-.PHONY : src/packetsocket.cpp.s
-
-src/socketadapter.o: src/socketadapter.cpp.o
-
-.PHONY : src/socketadapter.o
-
-# target to build an object file
-src/socketadapter.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketadapter.cpp.o
-.PHONY : src/socketadapter.cpp.o
-
-src/socketadapter.i: src/socketadapter.cpp.i
-
-.PHONY : src/socketadapter.i
-
-# target to preprocess a source file
-src/socketadapter.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketadapter.cpp.i
-.PHONY : src/socketadapter.cpp.i
-
-src/socketadapter.s: src/socketadapter.cpp.s
-
-.PHONY : src/socketadapter.s
-
-# target to generate assembly for a file
-src/socketadapter.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketadapter.cpp.s
-.PHONY : src/socketadapter.cpp.s
-
-src/socketemitter.o: src/socketemitter.cpp.o
-
-.PHONY : src/socketemitter.o
-
-# target to build an object file
-src/socketemitter.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketemitter.cpp.o
-.PHONY : src/socketemitter.cpp.o
-
-src/socketemitter.i: src/socketemitter.cpp.i
-
-.PHONY : src/socketemitter.i
-
-# target to preprocess a source file
-src/socketemitter.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketemitter.cpp.i
-.PHONY : src/socketemitter.cpp.i
-
-src/socketemitter.s: src/socketemitter.cpp.s
-
-.PHONY : src/socketemitter.s
-
-# target to generate assembly for a file
-src/socketemitter.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/socketemitter.cpp.s
-.PHONY : src/socketemitter.cpp.s
-
-src/ssladapter.o: src/ssladapter.cpp.o
-
-.PHONY : src/ssladapter.o
-
-# target to build an object file
-src/ssladapter.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/ssladapter.cpp.o
-.PHONY : src/ssladapter.cpp.o
-
-src/ssladapter.i: src/ssladapter.cpp.i
-
-.PHONY : src/ssladapter.i
-
-# target to preprocess a source file
-src/ssladapter.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/ssladapter.cpp.i
-.PHONY : src/ssladapter.cpp.i
-
-src/ssladapter.s: src/ssladapter.cpp.s
-
-.PHONY : src/ssladapter.s
-
-# target to generate assembly for a file
-src/ssladapter.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/ssladapter.cpp.s
-.PHONY : src/ssladapter.cpp.s
-
-src/sslcontext.o: src/sslcontext.cpp.o
-
-.PHONY : src/sslcontext.o
-
-# target to build an object file
-src/sslcontext.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslcontext.cpp.o
-.PHONY : src/sslcontext.cpp.o
-
-src/sslcontext.i: src/sslcontext.cpp.i
-
-.PHONY : src/sslcontext.i
-
-# target to preprocess a source file
-src/sslcontext.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslcontext.cpp.i
-.PHONY : src/sslcontext.cpp.i
-
-src/sslcontext.s: src/sslcontext.cpp.s
-
-.PHONY : src/sslcontext.s
-
-# target to generate assembly for a file
-src/sslcontext.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslcontext.cpp.s
-.PHONY : src/sslcontext.cpp.s
-
-src/sslmanager.o: src/sslmanager.cpp.o
-
-.PHONY : src/sslmanager.o
-
-# target to build an object file
-src/sslmanager.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslmanager.cpp.o
-.PHONY : src/sslmanager.cpp.o
-
-src/sslmanager.i: src/sslmanager.cpp.i
-
-.PHONY : src/sslmanager.i
-
-# target to preprocess a source file
-src/sslmanager.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslmanager.cpp.i
-.PHONY : src/sslmanager.cpp.i
-
-src/sslmanager.s: src/sslmanager.cpp.s
-
-.PHONY : src/sslmanager.s
-
-# target to generate assembly for a file
-src/sslmanager.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslmanager.cpp.s
-.PHONY : src/sslmanager.cpp.s
-
-src/sslsession.o: src/sslsession.cpp.o
-
-.PHONY : src/sslsession.o
-
-# target to build an object file
-src/sslsession.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsession.cpp.o
-.PHONY : src/sslsession.cpp.o
-
-src/sslsession.i: src/sslsession.cpp.i
-
-.PHONY : src/sslsession.i
-
-# target to preprocess a source file
-src/sslsession.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsession.cpp.i
-.PHONY : src/sslsession.cpp.i
-
-src/sslsession.s: src/sslsession.cpp.s
-
-.PHONY : src/sslsession.s
-
-# target to generate assembly for a file
-src/sslsession.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsession.cpp.s
-.PHONY : src/sslsession.cpp.s
-
-src/sslsocket.o: src/sslsocket.cpp.o
-
-.PHONY : src/sslsocket.o
-
-# target to build an object file
-src/sslsocket.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsocket.cpp.o
-.PHONY : src/sslsocket.cpp.o
-
-src/sslsocket.i: src/sslsocket.cpp.i
-
-.PHONY : src/sslsocket.i
-
-# target to preprocess a source file
-src/sslsocket.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsocket.cpp.i
-.PHONY : src/sslsocket.cpp.i
-
-src/sslsocket.s: src/sslsocket.cpp.s
-
-.PHONY : src/sslsocket.s
-
-# target to generate assembly for a file
-src/sslsocket.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/sslsocket.cpp.s
-.PHONY : src/sslsocket.cpp.s
-
-src/tcpsocket.o: src/tcpsocket.cpp.o
-
-.PHONY : src/tcpsocket.o
-
-# target to build an object file
-src/tcpsocket.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/tcpsocket.cpp.o
-.PHONY : src/tcpsocket.cpp.o
-
-src/tcpsocket.i: src/tcpsocket.cpp.i
-
-.PHONY : src/tcpsocket.i
-
-# target to preprocess a source file
-src/tcpsocket.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/tcpsocket.cpp.i
-.PHONY : src/tcpsocket.cpp.i
-
-src/tcpsocket.s: src/tcpsocket.cpp.s
-
-.PHONY : src/tcpsocket.s
-
-# target to generate assembly for a file
-src/tcpsocket.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/tcpsocket.cpp.s
-.PHONY : src/tcpsocket.cpp.s
-
-src/udpsocket.o: src/udpsocket.cpp.o
-
-.PHONY : src/udpsocket.o
-
-# target to build an object file
-src/udpsocket.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/udpsocket.cpp.o
-.PHONY : src/udpsocket.cpp.o
-
-src/udpsocket.i: src/udpsocket.cpp.i
-
-.PHONY : src/udpsocket.i
-
-# target to preprocess a source file
-src/udpsocket.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/udpsocket.cpp.i
-.PHONY : src/udpsocket.cpp.i
-
-src/udpsocket.s: src/udpsocket.cpp.s
-
-.PHONY : src/udpsocket.s
-
-# target to generate assembly for a file
-src/udpsocket.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/udpsocket.cpp.s
-.PHONY : src/udpsocket.cpp.s
-
-src/util.o: src/util.cpp.o
-
-.PHONY : src/util.o
-
-# target to build an object file
-src/util.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/util.cpp.o
-.PHONY : src/util.cpp.o
-
-src/util.i: src/util.cpp.i
-
-.PHONY : src/util.i
-
-# target to preprocess a source file
-src/util.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/util.cpp.i
-.PHONY : src/util.cpp.i
-
-src/util.s: src/util.cpp.s
-
-.PHONY : src/util.s
-
-# target to generate assembly for a file
-src/util.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f net/CMakeFiles/net.dir/build.make net/CMakeFiles/net.dir/src/util.cpp.s
-.PHONY : src/util.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -533,51 +183,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
-	@echo "... net"
-	@echo "... rebuild_cache"
 	@echo "... install/local"
-	@echo "... test"
+	@echo "... package_source"
+	@echo "... package"
+	@echo "... install"
 	@echo "... edit_cache"
-	@echo "... src/address.o"
-	@echo "... src/address.i"
-	@echo "... src/address.s"
-	@echo "... src/packetsocket.o"
-	@echo "... src/packetsocket.i"
-	@echo "... src/packetsocket.s"
-	@echo "... src/socketadapter.o"
-	@echo "... src/socketadapter.i"
-	@echo "... src/socketadapter.s"
-	@echo "... src/socketemitter.o"
-	@echo "... src/socketemitter.i"
-	@echo "... src/socketemitter.s"
-	@echo "... src/ssladapter.o"
-	@echo "... src/ssladapter.i"
-	@echo "... src/ssladapter.s"
-	@echo "... src/sslcontext.o"
-	@echo "... src/sslcontext.i"
-	@echo "... src/sslcontext.s"
-	@echo "... src/sslmanager.o"
-	@echo "... src/sslmanager.i"
-	@echo "... src/sslmanager.s"
-	@echo "... src/sslsession.o"
-	@echo "... src/sslsession.i"
-	@echo "... src/sslsession.s"
-	@echo "... src/sslsocket.o"
-	@echo "... src/sslsocket.i"
-	@echo "... src/sslsocket.s"
-	@echo "... src/tcpsocket.o"
-	@echo "... src/tcpsocket.i"
-	@echo "... src/tcpsocket.s"
-	@echo "... src/udpsocket.o"
-	@echo "... src/udpsocket.i"
-	@echo "... src/udpsocket.s"
-	@echo "... src/util.o"
-	@echo "... src/util.i"
-	@echo "... src/util.s"
+	@echo "... rebuild_cache"
+	@echo "... list_install_components"
 .PHONY : help
 
 

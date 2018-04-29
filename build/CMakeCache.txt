@@ -168,11 +168,20 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Git command line client
 GIT_EXECUTABLE:FILEPATH=/usr/bin/git
 
+//No help, variable specified on the command line.
+WITH_EXAMPLES:UNINITIALIZED=ON
+
+//No help, variable specified on the command line.
+WITH_SHM_PLUGIN:UNINITIALIZED=ON
+
+//Dependencies for target
+yampl-shm_LIB_DEPENDS:STATIC=
+
 //Value Computed by CMake
 yampl_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build
 
 //Dependencies for the target
-yampl_LIB_DEPENDS:STATIC=general;-lpthread;general;libuv;
+yampl_LIB_DEPENDS:STATIC=general;-lpthread;general;rt;general;uuid;general;libuv;general;scy_base;general;scy_pluga;general;zlib;general;minizip;general;http_parser;
 
 //Value Computed by CMake
 yampl_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl
@@ -319,8 +328,4 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
-//Have include fcntl.h
-HAVE_FCNTL_H:INTERNAL=1
-//Have include inttypes.h
-HAVE_INTTYPES_H:INTERNAL=1
 

@@ -105,81 +105,33 @@ CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o.provides: CMakeFiles/yampl
 CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o.provides.build: CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o
 
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o: CMakeFiles/yampl.dir/flags.make
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o: ../src/shm/ServerSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o: CMakeFiles/yampl.dir/flags.make
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o: ../src/plugin/PluginArbiter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp > CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.i
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp > CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.i
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp -o CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.s
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp -o CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.s
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.requires:
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.requires:
 
-.PHONY : CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.requires
+.PHONY : CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.requires
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.provides: CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.requires
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.provides.build
-.PHONY : CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.provides
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.provides: CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.requires
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.provides.build
+.PHONY : CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.provides
 
-CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.provides.build: CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o
-
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o: CMakeFiles/yampl.dir/flags.make
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o: ../src/shm/SHMSocketBase.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp > CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.i
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp -o CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.s
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.requires:
-
-.PHONY : CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.requires
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.provides: CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.requires
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.provides.build
-.PHONY : CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.provides
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.provides.build: CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o
-
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o: CMakeFiles/yampl.dir/flags.make
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o: ../src/shm/SHMSocketFactory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp > CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.i
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp -o CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.s
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.requires:
-
-.PHONY : CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.requires
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.provides: CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.requires
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.provides.build
-.PHONY : CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.provides
-
-CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.provides.build: CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o
+CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.provides.build: CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o
 
 
 CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o: ../src/zeromq/ClientSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp
 
 CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.i: cmake_force
@@ -203,7 +155,7 @@ CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o: ../src/zeromq/ServerSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ServerSocket.cpp
 
 CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.i: cmake_force
@@ -227,7 +179,7 @@ CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o: ../src/zeromq/SocketBase.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketBase.cpp
 
 CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.i: cmake_force
@@ -251,7 +203,7 @@ CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o.provides.build: CMakeFiles/yamp
 
 CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o: ../src/zeromq/SocketFactory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketFactory.cpp
 
 CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.i: cmake_force
@@ -275,7 +227,7 @@ CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o.provides.build: CMakeFiles/y
 
 CMakeFiles/yampl.dir/src/SocketFactory.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/src/SocketFactory.cpp.o: ../src/SocketFactory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/yampl.dir/src/SocketFactory.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/yampl.dir/src/SocketFactory.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/SocketFactory.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/SocketFactory.cpp
 
 CMakeFiles/yampl.dir/src/SocketFactory.cpp.i: cmake_force
@@ -297,9 +249,33 @@ CMakeFiles/yampl.dir/src/SocketFactory.cpp.o.provides: CMakeFiles/yampl.dir/src/
 CMakeFiles/yampl.dir/src/SocketFactory.cpp.o.provides.build: CMakeFiles/yampl.dir/src/SocketFactory.cpp.o
 
 
+CMakeFiles/yampl.dir/src/ISocket.cpp.o: CMakeFiles/yampl.dir/flags.make
+CMakeFiles/yampl.dir/src/ISocket.cpp.o: ../src/ISocket.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/yampl.dir/src/ISocket.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/src/ISocket.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp
+
+CMakeFiles/yampl.dir/src/ISocket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yampl.dir/src/ISocket.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp > CMakeFiles/yampl.dir/src/ISocket.cpp.i
+
+CMakeFiles/yampl.dir/src/ISocket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yampl.dir/src/ISocket.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp -o CMakeFiles/yampl.dir/src/ISocket.cpp.s
+
+CMakeFiles/yampl.dir/src/ISocket.cpp.o.requires:
+
+.PHONY : CMakeFiles/yampl.dir/src/ISocket.cpp.o.requires
+
+CMakeFiles/yampl.dir/src/ISocket.cpp.o.provides: CMakeFiles/yampl.dir/src/ISocket.cpp.o.requires
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/ISocket.cpp.o.provides.build
+.PHONY : CMakeFiles/yampl.dir/src/ISocket.cpp.o.provides
+
+CMakeFiles/yampl.dir/src/ISocket.cpp.o.provides.build: CMakeFiles/yampl.dir/src/ISocket.cpp.o
+
+
 CMakeFiles/yampl.dir/zeromq/src/address.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/address.cpp.o: ../zeromq/src/address.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/address.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/address.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/address.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/address.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/address.cpp.i: cmake_force
@@ -323,7 +299,7 @@ CMakeFiles/yampl.dir/zeromq/src/address.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o: ../zeromq/src/clock.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/clock.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/clock.cpp.i: cmake_force
@@ -347,7 +323,7 @@ CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o.provides.build: CMakeFiles/yampl.dir
 
 CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o: ../zeromq/src/ctx.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/ctx.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.i: cmake_force
@@ -371,7 +347,7 @@ CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o: ../zeromq/src/dealer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/dealer.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.i: cmake_force
@@ -395,7 +371,7 @@ CMakeFiles/yampl.dir/zeromq/src/dealer.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o: ../zeromq/src/decoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/decoder.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.i: cmake_force
@@ -419,7 +395,7 @@ CMakeFiles/yampl.dir/zeromq/src/decoder.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o: ../zeromq/src/devpoll.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/devpoll.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.i: cmake_force
@@ -443,7 +419,7 @@ CMakeFiles/yampl.dir/zeromq/src/devpoll.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o: ../zeromq/src/dist.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/dist.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/dist.cpp.i: cmake_force
@@ -467,7 +443,7 @@ CMakeFiles/yampl.dir/zeromq/src/dist.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o: ../zeromq/src/encoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/encoder.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.i: cmake_force
@@ -491,7 +467,7 @@ CMakeFiles/yampl.dir/zeromq/src/encoder.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o: ../zeromq/src/epoll.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/epoll.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.i: cmake_force
@@ -515,7 +491,7 @@ CMakeFiles/yampl.dir/zeromq/src/epoll.cpp.o.provides.build: CMakeFiles/yampl.dir
 
 CMakeFiles/yampl.dir/zeromq/src/err.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/err.cpp.o: ../zeromq/src/err.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/err.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/err.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/err.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/err.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/err.cpp.i: cmake_force
@@ -539,7 +515,7 @@ CMakeFiles/yampl.dir/zeromq/src/err.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o: ../zeromq/src/fq.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/fq.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/fq.cpp.i: cmake_force
@@ -563,7 +539,7 @@ CMakeFiles/yampl.dir/zeromq/src/fq.cpp.o.provides.build: CMakeFiles/yampl.dir/ze
 
 CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o: ../zeromq/src/io_object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/io_object.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.i: cmake_force
@@ -587,7 +563,7 @@ CMakeFiles/yampl.dir/zeromq/src/io_object.cpp.o.provides.build: CMakeFiles/yampl
 
 CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o: ../zeromq/src/io_thread.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/io_thread.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.i: cmake_force
@@ -611,7 +587,7 @@ CMakeFiles/yampl.dir/zeromq/src/io_thread.cpp.o.provides.build: CMakeFiles/yampl
 
 CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o: ../zeromq/src/ip.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/ip.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/ip.cpp.i: cmake_force
@@ -635,7 +611,7 @@ CMakeFiles/yampl.dir/zeromq/src/ip.cpp.o.provides.build: CMakeFiles/yampl.dir/ze
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o: ../zeromq/src/ipc_address.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/ipc_address.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.i: cmake_force
@@ -659,7 +635,7 @@ CMakeFiles/yampl.dir/zeromq/src/ipc_address.cpp.o.provides.build: CMakeFiles/yam
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o: ../zeromq/src/ipc_connecter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/ipc_connecter.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.i: cmake_force
@@ -683,7 +659,7 @@ CMakeFiles/yampl.dir/zeromq/src/ipc_connecter.cpp.o.provides.build: CMakeFiles/y
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o: ../zeromq/src/ipc_listener.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/ipc_listener.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.i: cmake_force
@@ -707,7 +683,7 @@ CMakeFiles/yampl.dir/zeromq/src/ipc_listener.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o: ../zeromq/src/kqueue.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/kqueue.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.i: cmake_force
@@ -731,7 +707,7 @@ CMakeFiles/yampl.dir/zeromq/src/kqueue.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o: ../zeromq/src/lb.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/lb.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/lb.cpp.i: cmake_force
@@ -755,7 +731,7 @@ CMakeFiles/yampl.dir/zeromq/src/lb.cpp.o.provides.build: CMakeFiles/yampl.dir/ze
 
 CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o: ../zeromq/src/mailbox.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/mailbox.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.i: cmake_force
@@ -779,7 +755,7 @@ CMakeFiles/yampl.dir/zeromq/src/mailbox.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o: ../zeromq/src/msg.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/msg.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/msg.cpp.i: cmake_force
@@ -803,7 +779,7 @@ CMakeFiles/yampl.dir/zeromq/src/msg.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o: ../zeromq/src/mtrie.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/mtrie.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.i: cmake_force
@@ -827,7 +803,7 @@ CMakeFiles/yampl.dir/zeromq/src/mtrie.cpp.o.provides.build: CMakeFiles/yampl.dir
 
 CMakeFiles/yampl.dir/zeromq/src/object.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/object.cpp.o: ../zeromq/src/object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/object.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/object.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/object.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/object.cpp.i: cmake_force
@@ -851,7 +827,7 @@ CMakeFiles/yampl.dir/zeromq/src/object.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/options.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/options.cpp.o: ../zeromq/src/options.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/options.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/options.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/options.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/options.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/options.cpp.i: cmake_force
@@ -875,7 +851,7 @@ CMakeFiles/yampl.dir/zeromq/src/options.cpp.o.provides.build: CMakeFiles/yampl.d
 
 CMakeFiles/yampl.dir/zeromq/src/own.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/own.cpp.o: ../zeromq/src/own.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/own.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/own.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/own.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/own.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/own.cpp.i: cmake_force
@@ -899,7 +875,7 @@ CMakeFiles/yampl.dir/zeromq/src/own.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o: ../zeromq/src/pair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pair.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pair.cpp.i: cmake_force
@@ -923,7 +899,7 @@ CMakeFiles/yampl.dir/zeromq/src/pair.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o: ../zeromq/src/pgm_receiver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pgm_receiver.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.i: cmake_force
@@ -947,7 +923,7 @@ CMakeFiles/yampl.dir/zeromq/src/pgm_receiver.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o: ../zeromq/src/pgm_sender.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pgm_sender.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.i: cmake_force
@@ -971,7 +947,7 @@ CMakeFiles/yampl.dir/zeromq/src/pgm_sender.cpp.o.provides.build: CMakeFiles/yamp
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o: ../zeromq/src/pgm_socket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pgm_socket.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.i: cmake_force
@@ -995,7 +971,7 @@ CMakeFiles/yampl.dir/zeromq/src/pgm_socket.cpp.o.provides.build: CMakeFiles/yamp
 
 CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o: ../zeromq/src/pipe.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pipe.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.i: cmake_force
@@ -1019,7 +995,7 @@ CMakeFiles/yampl.dir/zeromq/src/pipe.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o: ../zeromq/src/poll.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/poll.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/poll.cpp.i: cmake_force
@@ -1043,7 +1019,7 @@ CMakeFiles/yampl.dir/zeromq/src/poll.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o: ../zeromq/src/poller_base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/poller_base.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.i: cmake_force
@@ -1067,7 +1043,7 @@ CMakeFiles/yampl.dir/zeromq/src/poller_base.cpp.o.provides.build: CMakeFiles/yam
 
 CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o: ../zeromq/src/precompiled.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/precompiled.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.i: cmake_force
@@ -1091,7 +1067,7 @@ CMakeFiles/yampl.dir/zeromq/src/precompiled.cpp.o.provides.build: CMakeFiles/yam
 
 CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o: ../zeromq/src/proxy.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/proxy.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.i: cmake_force
@@ -1115,7 +1091,7 @@ CMakeFiles/yampl.dir/zeromq/src/proxy.cpp.o.provides.build: CMakeFiles/yampl.dir
 
 CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o: ../zeromq/src/pub.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pub.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pub.cpp.i: cmake_force
@@ -1139,7 +1115,7 @@ CMakeFiles/yampl.dir/zeromq/src/pub.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o: ../zeromq/src/pull.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/pull.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/pull.cpp.i: cmake_force
@@ -1163,7 +1139,7 @@ CMakeFiles/yampl.dir/zeromq/src/pull.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/push.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/push.cpp.o: ../zeromq/src/push.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/push.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/push.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/push.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/push.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/push.cpp.i: cmake_force
@@ -1187,7 +1163,7 @@ CMakeFiles/yampl.dir/zeromq/src/push.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/random.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/random.cpp.o: ../zeromq/src/random.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/random.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/random.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/random.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/random.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/random.cpp.i: cmake_force
@@ -1211,7 +1187,7 @@ CMakeFiles/yampl.dir/zeromq/src/random.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o: ../zeromq/src/reaper.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/reaper.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.i: cmake_force
@@ -1235,7 +1211,7 @@ CMakeFiles/yampl.dir/zeromq/src/reaper.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o: ../zeromq/src/rep.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/rep.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/rep.cpp.i: cmake_force
@@ -1259,7 +1235,7 @@ CMakeFiles/yampl.dir/zeromq/src/rep.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/req.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/req.cpp.o: ../zeromq/src/req.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/req.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/req.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/req.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/req.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/req.cpp.i: cmake_force
@@ -1283,7 +1259,7 @@ CMakeFiles/yampl.dir/zeromq/src/req.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/router.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/router.cpp.o: ../zeromq/src/router.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/router.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/router.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/router.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/router.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/router.cpp.i: cmake_force
@@ -1307,7 +1283,7 @@ CMakeFiles/yampl.dir/zeromq/src/router.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/select.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/select.cpp.o: ../zeromq/src/select.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/select.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/select.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/select.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/select.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/select.cpp.i: cmake_force
@@ -1331,7 +1307,7 @@ CMakeFiles/yampl.dir/zeromq/src/select.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o: ../zeromq/src/session_base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/session_base.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.i: cmake_force
@@ -1355,7 +1331,7 @@ CMakeFiles/yampl.dir/zeromq/src/session_base.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o: ../zeromq/src/signaler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/signaler.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.i: cmake_force
@@ -1379,7 +1355,7 @@ CMakeFiles/yampl.dir/zeromq/src/signaler.cpp.o.provides.build: CMakeFiles/yampl.
 
 CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o: ../zeromq/src/socket_base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/socket_base.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.i: cmake_force
@@ -1403,7 +1379,7 @@ CMakeFiles/yampl.dir/zeromq/src/socket_base.cpp.o.provides.build: CMakeFiles/yam
 
 CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o: ../zeromq/src/stream_engine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/stream_engine.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.i: cmake_force
@@ -1427,7 +1403,7 @@ CMakeFiles/yampl.dir/zeromq/src/stream_engine.cpp.o.provides.build: CMakeFiles/y
 
 CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o: ../zeromq/src/sub.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/sub.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/sub.cpp.i: cmake_force
@@ -1451,7 +1427,7 @@ CMakeFiles/yampl.dir/zeromq/src/sub.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o: ../zeromq/src/tcp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/tcp.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.i: cmake_force
@@ -1475,7 +1451,7 @@ CMakeFiles/yampl.dir/zeromq/src/tcp.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o: ../zeromq/src/tcp_address.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/tcp_address.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.i: cmake_force
@@ -1499,7 +1475,7 @@ CMakeFiles/yampl.dir/zeromq/src/tcp_address.cpp.o.provides.build: CMakeFiles/yam
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o: ../zeromq/src/tcp_connecter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/tcp_connecter.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.i: cmake_force
@@ -1523,7 +1499,7 @@ CMakeFiles/yampl.dir/zeromq/src/tcp_connecter.cpp.o.provides.build: CMakeFiles/y
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o: ../zeromq/src/tcp_listener.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/tcp_listener.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.i: cmake_force
@@ -1547,7 +1523,7 @@ CMakeFiles/yampl.dir/zeromq/src/tcp_listener.cpp.o.provides.build: CMakeFiles/ya
 
 CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o: ../zeromq/src/thread.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/thread.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/thread.cpp.i: cmake_force
@@ -1571,7 +1547,7 @@ CMakeFiles/yampl.dir/zeromq/src/thread.cpp.o.provides.build: CMakeFiles/yampl.di
 
 CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o: ../zeromq/src/trie.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/trie.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/trie.cpp.i: cmake_force
@@ -1595,7 +1571,7 @@ CMakeFiles/yampl.dir/zeromq/src/trie.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o: ../zeromq/src/v1_decoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/v1_decoder.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.i: cmake_force
@@ -1619,7 +1595,7 @@ CMakeFiles/yampl.dir/zeromq/src/v1_decoder.cpp.o.provides.build: CMakeFiles/yamp
 
 CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o: ../zeromq/src/v1_encoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/v1_encoder.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.i: cmake_force
@@ -1643,7 +1619,7 @@ CMakeFiles/yampl.dir/zeromq/src/v1_encoder.cpp.o.provides.build: CMakeFiles/yamp
 
 CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o: ../zeromq/src/xpub.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/xpub.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.i: cmake_force
@@ -1667,7 +1643,7 @@ CMakeFiles/yampl.dir/zeromq/src/xpub.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o: ../zeromq/src/xsub.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/xsub.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.i: cmake_force
@@ -1691,7 +1667,7 @@ CMakeFiles/yampl.dir/zeromq/src/xsub.cpp.o.provides.build: CMakeFiles/yampl.dir/
 
 CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o: ../zeromq/src/zmq.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/zmq.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.i: cmake_force
@@ -1715,7 +1691,7 @@ CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o.provides.build: CMakeFiles/yampl.dir/z
 
 CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o: CMakeFiles/yampl.dir/flags.make
 CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o: ../zeromq/src/zmq_utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o -c /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/src/zmq_utils.cpp
 
 CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.i: cmake_force
@@ -1741,14 +1717,13 @@ CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o.provides.build: CMakeFiles/yampl
 yampl_OBJECTS = \
 "CMakeFiles/yampl.dir/src/pipe/PipeSocketBase.cpp.o" \
 "CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o" \
-"CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o" \
-"CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o" \
-"CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o" \
+"CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o" \
 "CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o" \
 "CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o" \
 "CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o" \
 "CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o" \
 "CMakeFiles/yampl.dir/src/SocketFactory.cpp.o" \
+"CMakeFiles/yampl.dir/src/ISocket.cpp.o" \
 "CMakeFiles/yampl.dir/zeromq/src/address.cpp.o" \
 "CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o" \
 "CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o" \
@@ -1815,14 +1790,13 @@ yampl_EXTERNAL_OBJECTS =
 
 libyampl.so: CMakeFiles/yampl.dir/src/pipe/PipeSocketBase.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o
-libyampl.so: CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o
-libyampl.so: CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o
-libyampl.so: CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o
+libyampl.so: CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/src/SocketFactory.cpp.o
+libyampl.so: CMakeFiles/yampl.dir/src/ISocket.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/zeromq/src/address.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o
@@ -1885,7 +1859,7 @@ libyampl.so: CMakeFiles/yampl.dir/zeromq/src/zmq.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/zeromq/src/zmq_utils.cpp.o
 libyampl.so: CMakeFiles/yampl.dir/build.make
 libyampl.so: CMakeFiles/yampl.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Linking CXX shared library libyampl.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Linking CXX shared library libyampl.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/yampl.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -1895,14 +1869,13 @@ CMakeFiles/yampl.dir/build: libyampl.so
 
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/pipe/PipeSocketBase.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.o.requires
-CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o.requires
-CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o.requires
-CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o.requires
+CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/zeromq/ClientSocket.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/zeromq/ServerSocket.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/zeromq/SocketBase.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/zeromq/SocketFactory.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/SocketFactory.cpp.o.requires
+CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/src/ISocket.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/zeromq/src/address.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/zeromq/src/clock.cpp.o.requires
 CMakeFiles/yampl.dir/requires: CMakeFiles/yampl.dir/zeromq/src/ctx.cpp.o.requires

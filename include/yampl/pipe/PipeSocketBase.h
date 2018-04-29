@@ -21,7 +21,8 @@ enum Mode{
   PIPE_SERVER
 };
 
-class PipeSocketBase : public ISocket{
+class PipeSocketBase : public ISocket
+{
   friend class ServerSocket;
 
   public:

@@ -67,38 +67,16 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target install/local
+install/local/fast: install/local
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\" \"samples\" \"tests\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-
-.PHONY : package/fast
+.PHONY : install/local/fast
 
 # Special rule for the target package_source
 package_source:
@@ -111,27 +89,28 @@ package_source/fast: package_source
 
 .PHONY : package_source/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target package
+package/fast: package
 
-.PHONY : install/local/fast
+.PHONY : package/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -154,6 +133,16 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"dev\" \"libs\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -187,102 +176,6 @@ depend:
 	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-sched/CMakeFiles/sched.dir/rule:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f CMakeFiles/Makefile2 sched/CMakeFiles/sched.dir/rule
-.PHONY : sched/CMakeFiles/sched.dir/rule
-
-# Convenience name for target.
-sched: sched/CMakeFiles/sched.dir/rule
-
-.PHONY : sched
-
-# fast build rule for target.
-sched/fast:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/build
-.PHONY : sched/fast
-
-src/scheduler.o: src/scheduler.cpp.o
-
-.PHONY : src/scheduler.o
-
-# target to build an object file
-src/scheduler.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/scheduler.cpp.o
-.PHONY : src/scheduler.cpp.o
-
-src/scheduler.i: src/scheduler.cpp.i
-
-.PHONY : src/scheduler.i
-
-# target to preprocess a source file
-src/scheduler.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/scheduler.cpp.i
-.PHONY : src/scheduler.cpp.i
-
-src/scheduler.s: src/scheduler.cpp.s
-
-.PHONY : src/scheduler.s
-
-# target to generate assembly for a file
-src/scheduler.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/scheduler.cpp.s
-.PHONY : src/scheduler.cpp.s
-
-src/task.o: src/task.cpp.o
-
-.PHONY : src/task.o
-
-# target to build an object file
-src/task.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/task.cpp.o
-.PHONY : src/task.cpp.o
-
-src/task.i: src/task.cpp.i
-
-.PHONY : src/task.i
-
-# target to preprocess a source file
-src/task.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/task.cpp.i
-.PHONY : src/task.cpp.i
-
-src/task.s: src/task.cpp.s
-
-.PHONY : src/task.s
-
-# target to generate assembly for a file
-src/task.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/task.cpp.s
-.PHONY : src/task.cpp.s
-
-src/trigger.o: src/trigger.cpp.o
-
-.PHONY : src/trigger.o
-
-# target to build an object file
-src/trigger.cpp.o:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/trigger.cpp.o
-.PHONY : src/trigger.cpp.o
-
-src/trigger.i: src/trigger.cpp.i
-
-.PHONY : src/trigger.i
-
-# target to preprocess a source file
-src/trigger.cpp.i:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/trigger.cpp.i
-.PHONY : src/trigger.cpp.i
-
-src/trigger.s: src/trigger.cpp.s
-
-.PHONY : src/trigger.s
-
-# target to generate assembly for a file
-src/trigger.cpp.s:
-	cd /home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build && $(MAKE) -f sched/CMakeFiles/sched.dir/build.make sched/CMakeFiles/sched.dir/src/trigger.cpp.s
-.PHONY : src/trigger.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -290,24 +183,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... package"
-	@echo "... package_source"
-	@echo "... sched"
 	@echo "... install/local"
-	@echo "... test"
+	@echo "... package_source"
+	@echo "... package"
+	@echo "... install"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... src/scheduler.o"
-	@echo "... src/scheduler.i"
-	@echo "... src/scheduler.s"
-	@echo "... src/task.o"
-	@echo "... src/task.i"
-	@echo "... src/task.s"
-	@echo "... src/trigger.o"
-	@echo "... src/trigger.i"
-	@echo "... src/trigger.s"
+	@echo "... list_install_components"
 .PHONY : help
 
 

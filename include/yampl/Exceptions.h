@@ -22,9 +22,14 @@ class Exception: public std::exception{
     const char * m_msg;
 };
 
-class UnsupportedException: public Exception{
-  public:
-  UnsupportedException() : Exception("This feature is not supported yet"){}
+class UnsupportedException: public Exception
+{
+    public:
+        UnsupportedException() : Exception("This feature is not supported yet") {}
+        /**
+         * @author Ayoub Chouak
+         */
+        UnsupportedException(char* const what) : Exception(what) {}
 };
 
 class InvalidOperationException: public Exception{

@@ -56,6 +56,52 @@ CMAKE_BINARY_DIR = /home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/home/ntauthority/Downloads/clion-2017.3.3/bin/cmake/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -135,6 +181,33 @@ LibSourcey: cmake_check_build_system
 LibSourcey/fast:
 	$(MAKE) -f CMakeFiles/LibSourcey.dir/build.make CMakeFiles/LibSourcey.dir/build
 .PHONY : LibSourcey/fast
+
+src/ISocket.o: src/ISocket.cpp.o
+
+.PHONY : src/ISocket.o
+
+# target to build an object file
+src/ISocket.cpp.o:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/ISocket.cpp.o
+.PHONY : src/ISocket.cpp.o
+
+src/ISocket.i: src/ISocket.cpp.i
+
+.PHONY : src/ISocket.i
+
+# target to preprocess a source file
+src/ISocket.cpp.i:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/ISocket.cpp.i
+.PHONY : src/ISocket.cpp.i
+
+src/ISocket.s: src/ISocket.cpp.s
+
+.PHONY : src/ISocket.s
+
+# target to generate assembly for a file
+src/ISocket.cpp.s:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/ISocket.cpp.s
+.PHONY : src/ISocket.cpp.s
 
 src/SocketFactory.o: src/SocketFactory.cpp.o
 
@@ -217,86 +290,32 @@ src/pipe/PipeSocketFactory.cpp.s:
 	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/pipe/PipeSocketFactory.cpp.s
 .PHONY : src/pipe/PipeSocketFactory.cpp.s
 
-src/shm/SHMSocketBase.o: src/shm/SHMSocketBase.cpp.o
+src/plugin/PluginArbiter.o: src/plugin/PluginArbiter.cpp.o
 
-.PHONY : src/shm/SHMSocketBase.o
-
-# target to build an object file
-src/shm/SHMSocketBase.cpp.o:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.o
-.PHONY : src/shm/SHMSocketBase.cpp.o
-
-src/shm/SHMSocketBase.i: src/shm/SHMSocketBase.cpp.i
-
-.PHONY : src/shm/SHMSocketBase.i
-
-# target to preprocess a source file
-src/shm/SHMSocketBase.cpp.i:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.i
-.PHONY : src/shm/SHMSocketBase.cpp.i
-
-src/shm/SHMSocketBase.s: src/shm/SHMSocketBase.cpp.s
-
-.PHONY : src/shm/SHMSocketBase.s
-
-# target to generate assembly for a file
-src/shm/SHMSocketBase.cpp.s:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketBase.cpp.s
-.PHONY : src/shm/SHMSocketBase.cpp.s
-
-src/shm/SHMSocketFactory.o: src/shm/SHMSocketFactory.cpp.o
-
-.PHONY : src/shm/SHMSocketFactory.o
+.PHONY : src/plugin/PluginArbiter.o
 
 # target to build an object file
-src/shm/SHMSocketFactory.cpp.o:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.o
-.PHONY : src/shm/SHMSocketFactory.cpp.o
+src/plugin/PluginArbiter.cpp.o:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.o
+.PHONY : src/plugin/PluginArbiter.cpp.o
 
-src/shm/SHMSocketFactory.i: src/shm/SHMSocketFactory.cpp.i
+src/plugin/PluginArbiter.i: src/plugin/PluginArbiter.cpp.i
 
-.PHONY : src/shm/SHMSocketFactory.i
-
-# target to preprocess a source file
-src/shm/SHMSocketFactory.cpp.i:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.i
-.PHONY : src/shm/SHMSocketFactory.cpp.i
-
-src/shm/SHMSocketFactory.s: src/shm/SHMSocketFactory.cpp.s
-
-.PHONY : src/shm/SHMSocketFactory.s
-
-# target to generate assembly for a file
-src/shm/SHMSocketFactory.cpp.s:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/SHMSocketFactory.cpp.s
-.PHONY : src/shm/SHMSocketFactory.cpp.s
-
-src/shm/ServerSocket.o: src/shm/ServerSocket.cpp.o
-
-.PHONY : src/shm/ServerSocket.o
-
-# target to build an object file
-src/shm/ServerSocket.cpp.o:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.o
-.PHONY : src/shm/ServerSocket.cpp.o
-
-src/shm/ServerSocket.i: src/shm/ServerSocket.cpp.i
-
-.PHONY : src/shm/ServerSocket.i
+.PHONY : src/plugin/PluginArbiter.i
 
 # target to preprocess a source file
-src/shm/ServerSocket.cpp.i:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.i
-.PHONY : src/shm/ServerSocket.cpp.i
+src/plugin/PluginArbiter.cpp.i:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.i
+.PHONY : src/plugin/PluginArbiter.cpp.i
 
-src/shm/ServerSocket.s: src/shm/ServerSocket.cpp.s
+src/plugin/PluginArbiter.s: src/plugin/PluginArbiter.cpp.s
 
-.PHONY : src/shm/ServerSocket.s
+.PHONY : src/plugin/PluginArbiter.s
 
 # target to generate assembly for a file
-src/shm/ServerSocket.cpp.s:
-	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/shm/ServerSocket.cpp.s
-.PHONY : src/shm/ServerSocket.cpp.s
+src/plugin/PluginArbiter.cpp.s:
+	$(MAKE) -f CMakeFiles/yampl.dir/build.make CMakeFiles/yampl.dir/src/plugin/PluginArbiter.cpp.s
+.PHONY : src/plugin/PluginArbiter.cpp.s
 
 src/zeromq/ClientSocket.o: src/zeromq/ClientSocket.cpp.o
 
@@ -2032,10 +2051,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/strip"
+	@echo "... install/local"
+	@echo "... install"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... yampl"
 	@echo "... LibSourcey"
+	@echo "... src/ISocket.o"
+	@echo "... src/ISocket.i"
+	@echo "... src/ISocket.s"
 	@echo "... src/SocketFactory.o"
 	@echo "... src/SocketFactory.i"
 	@echo "... src/SocketFactory.s"
@@ -2045,15 +2071,9 @@ help:
 	@echo "... src/pipe/PipeSocketFactory.o"
 	@echo "... src/pipe/PipeSocketFactory.i"
 	@echo "... src/pipe/PipeSocketFactory.s"
-	@echo "... src/shm/SHMSocketBase.o"
-	@echo "... src/shm/SHMSocketBase.i"
-	@echo "... src/shm/SHMSocketBase.s"
-	@echo "... src/shm/SHMSocketFactory.o"
-	@echo "... src/shm/SHMSocketFactory.i"
-	@echo "... src/shm/SHMSocketFactory.s"
-	@echo "... src/shm/ServerSocket.o"
-	@echo "... src/shm/ServerSocket.i"
-	@echo "... src/shm/ServerSocket.s"
+	@echo "... src/plugin/PluginArbiter.o"
+	@echo "... src/plugin/PluginArbiter.i"
+	@echo "... src/plugin/PluginArbiter.s"
 	@echo "... src/zeromq/ClientSocket.o"
 	@echo "... src/zeromq/ClientSocket.i"
 	@echo "... src/zeromq/ClientSocket.s"

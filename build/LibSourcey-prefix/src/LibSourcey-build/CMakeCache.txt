@@ -24,121 +24,31 @@ ASM686:BOOL=OFF
 BUILD_ALPHA:BOOL=OFF
 
 //Build LibSourcey applications
-BUILD_APPLICATIONS:BOOL=ON
+BUILD_APPLICATIONS:BOOL=OFF
 
 //Build third party dependencies
 BUILD_DEPENDENCIES:BOOL=ON
 
 //Build LibSourcey modules
-BUILD_MODULES:BOOL=ON
+BUILD_MODULES:BOOL=OFF
 
-//Build LibSourcey module: archo
-BUILD_MODULE_archo:BOOL=ON
+//No help, variable specified on the command line.
+BUILD_MODULE_base:UNINITIALIZED=ON
 
-//Build LibSourcey module: av
-BUILD_MODULE_av:BOOL=ON
+//No help, variable specified on the command line.
+BUILD_MODULE_pluga:UNINITIALIZED=ON
 
-//Build LibSourcey module: base
-BUILD_MODULE_base:BOOL=ON
-
-//Build LibSourcey module: crypto
-BUILD_MODULE_crypto:BOOL=ON
-
-//Build LibSourcey module: http
-BUILD_MODULE_http:BOOL=ON
-
-//Build LibSourcey module: json
-BUILD_MODULE_json:BOOL=ON
-
-//Build LibSourcey module: net
-BUILD_MODULE_net:BOOL=ON
-
-//Build LibSourcey module: pluga
-BUILD_MODULE_pluga:BOOL=ON
-
-//Build LibSourcey module: sched
-BUILD_MODULE_sched:BOOL=ON
-
-//Build LibSourcey module: socketio
-BUILD_MODULE_socketio:BOOL=ON
-
-//Build LibSourcey module: stun
-BUILD_MODULE_stun:BOOL=ON
-
-//Build LibSourcey module: symple
-BUILD_MODULE_symple:BOOL=ON
-
-//Build LibSourcey module: turn
-BUILD_MODULE_turn:BOOL=ON
-
-//Build LibSourcey module: util
-BUILD_MODULE_util:BOOL=ON
-
-//Build LibSourcey module: webrtc
-BUILD_MODULE_webrtc:BOOL=OFF
+//No help, variable specified on the command line.
+BUILD_MODULE_uv:UNINITIALIZED=ON
 
 //Build module sample applications?
-BUILD_SAMPLES:BOOL=ON
-
-//Build LibSourcey sample: av
-BUILD_SAMPLES_av:BOOL=ON
-
-//Build LibSourcey sample: http
-BUILD_SAMPLES_http:BOOL=ON
-
-//Build LibSourcey sample: net
-BUILD_SAMPLES_net:BOOL=ON
-
-//Build LibSourcey sample: socketio
-BUILD_SAMPLES_socketio:BOOL=ON
-
-//Build LibSourcey sample: symple
-BUILD_SAMPLES_symple:BOOL=ON
-
-//Build LibSourcey sample: turn
-BUILD_SAMPLES_turn:BOOL=ON
+BUILD_SAMPLES:BOOL=OFF
 
 //Build shared libraries (.dll/.so) instead of static ones (.lib/.a)
 BUILD_SHARED_LIBS:BOOL=ON
 
 //Build module test applications?
-BUILD_TESTS:BOOL=ON
-
-//Build LibSourcey test: archo
-BUILD_TESTS_archo:BOOL=ON
-
-//Build LibSourcey test: av
-BUILD_TESTS_av:BOOL=ON
-
-//Build LibSourcey test: base
-BUILD_TESTS_base:BOOL=ON
-
-//Build LibSourcey test: crypto
-BUILD_TESTS_crypto:BOOL=ON
-
-//Build LibSourcey test: http
-BUILD_TESTS_http:BOOL=ON
-
-//Build LibSourcey test: net
-BUILD_TESTS_net:BOOL=ON
-
-//Build LibSourcey test: pluga
-BUILD_TESTS_pluga:BOOL=ON
-
-//Build LibSourcey test: sched
-BUILD_TESTS_sched:BOOL=ON
-
-//Build LibSourcey test: socketio
-BUILD_TESTS_socketio:BOOL=ON
-
-//Build LibSourcey test: stun
-BUILD_TESTS_stun:BOOL=ON
-
-//Build LibSourcey test: symple
-BUILD_TESTS_symple:BOOL=ON
-
-//Build LibSourcey test: turn
-BUILD_TESTS_turn:BOOL=ON
+BUILD_TESTS:BOOL=OFF
 
 //Include debug info into debug libs
 BUILD_WITH_DEBUG_INFO:BOOL=ON
@@ -548,36 +458,6 @@ WITH_WXWIDGETS:BOOL=OFF
 WITH_ZLIB:BOOL=ON
 
 //Value Computed by CMake
-archo_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/archo
-
-//Dependencies for the target
-archo_LIB_DEPENDS:STATIC=general;base;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-archo_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/archo
-
-//Value Computed by CMake
-archotests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/archo/tests
-
-//Value Computed by CMake
-archotests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/archo/tests
-
-//Value Computed by CMake
-av_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/av
-
-//Dependencies for the target
-av_LIB_DEPENDS:STATIC=general;base;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-av_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/av
-
-//Value Computed by CMake
-avtests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/av/tests
-
-//Value Computed by CMake
-avtests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/av/tests
-
-//Value Computed by CMake
 base_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/base
 
 //Dependencies for the target
@@ -587,42 +467,6 @@ base_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr
 base_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base
 
 //Value Computed by CMake
-basetests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/base/tests
-
-//Value Computed by CMake
-basetests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/base/tests
-
-//Value Computed by CMake
-crypto_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/crypto
-
-//Dependencies for the target
-crypto_LIB_DEPENDS:STATIC=general;base;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-crypto_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/crypto
-
-//Value Computed by CMake
-cryptotests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/crypto/tests
-
-//Value Computed by CMake
-cryptotests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/crypto/tests
-
-//Value Computed by CMake
-echoserver_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/net/samples/echoserver
-
-//Value Computed by CMake
-echoserver_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/net/samples/echoserver
-
-//Value Computed by CMake
-http_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/http
-
-//Dependencies for the target
-http_LIB_DEPENDS:STATIC=general;base;general;net;general;crypto;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-http_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/http
-
-//Value Computed by CMake
 http_parser_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser
 
 //Dependencies for target
@@ -630,27 +474,6 @@ http_parser_LIB_DEPENDS:STATIC=
 
 //Value Computed by CMake
 http_parser_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/vendor/http_parser
-
-//Value Computed by CMake
-httpechoserver_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/http/samples/httpechoserver
-
-//Value Computed by CMake
-httpechoserver_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/http/samples/httpechoserver
-
-//Value Computed by CMake
-httptests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/http/tests
-
-//Value Computed by CMake
-httptests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/http/tests
-
-//Value Computed by CMake
-json_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/json
-
-//Dependencies for the target
-json_LIB_DEPENDS:STATIC=general;base;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-json_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/json
 
 //Value Computed by CMake
 libuv_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv
@@ -671,21 +494,6 @@ minizip_LIB_DEPENDS:STATIC=general;zlib;general;dl;
 minizip_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/vendor/minizip
 
 //Value Computed by CMake
-net_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/net
-
-//Dependencies for the target
-net_LIB_DEPENDS:STATIC=general;base;general;crypto;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-net_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/net
-
-//Value Computed by CMake
-nettests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/net/tests
-
-//Value Computed by CMake
-nettests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/net/tests
-
-//Value Computed by CMake
 pluga_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/pluga
 
 //Dependencies for the target
@@ -693,117 +501,6 @@ pluga_LIB_DEPENDS:STATIC=general;base;general;/usr/lib/x86_64-linux-gnu/libssl.s
 
 //Value Computed by CMake
 pluga_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga
-
-//Value Computed by CMake
-plugatestplugin_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/pluga/tests/plugatestplugin
-
-//Dependencies for the target
-plugatestplugin_LIB_DEPENDS:STATIC=general;base;general;pluga;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-plugatestplugin_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests/plugatestplugin
-
-//Value Computed by CMake
-plugatests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/pluga/tests
-
-//Value Computed by CMake
-plugatests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/tests
-
-//Value Computed by CMake
-sched_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/sched
-
-//Dependencies for the target
-sched_LIB_DEPENDS:STATIC=general;base;general;json;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-sched_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/sched
-
-//Value Computed by CMake
-schedtests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/sched/tests
-
-//Value Computed by CMake
-schedtests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/sched/tests
-
-//Value Computed by CMake
-socketio_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/socketio
-
-//Dependencies for the target
-socketio_LIB_DEPENDS:STATIC=general;base;general;crypto;general;net;general;http;general;json;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-socketio_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/socketio
-
-//Value Computed by CMake
-socketiotests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/socketio/tests
-
-//Value Computed by CMake
-socketiotests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/socketio/tests
-
-//Value Computed by CMake
-stun_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/stun
-
-//Dependencies for the target
-stun_LIB_DEPENDS:STATIC=general;base;general;net;general;crypto;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-stun_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/stun
-
-//Value Computed by CMake
-stuntests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/stun/tests
-
-//Value Computed by CMake
-stuntests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/stun/tests
-
-//Value Computed by CMake
-symple_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/symple
-
-//Dependencies for the target
-symple_LIB_DEPENDS:STATIC=general;base;general;crypto;general;net;general;http;general;socketio;general;json;general;util;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-symple_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/symple
-
-//Value Computed by CMake
-sympleconsole_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/symple/samples/sympleconsole
-
-//Value Computed by CMake
-sympleconsole_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/symple/samples/sympleconsole
-
-//Value Computed by CMake
-sympletests_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/symple/tests
-
-//Value Computed by CMake
-sympletests_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/symple/tests
-
-//Value Computed by CMake
-turn_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/turn
-
-//Dependencies for the target
-turn_LIB_DEPENDS:STATIC=general;base;general;net;general;stun;general;crypto;general;util;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-turn_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/turn
-
-//Value Computed by CMake
-turnclienttest_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/turn/tests/turnclienttest
-
-//Value Computed by CMake
-turnclienttest_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/turn/tests/turnclienttest
-
-//Value Computed by CMake
-turnserver_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/turn/samples/turnserver
-
-//Value Computed by CMake
-turnserver_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/turn/samples/turnserver
-
-//Value Computed by CMake
-util_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/util
-
-//Dependencies for the target
-util_LIB_DEPENDS:STATIC=general;base;general;json;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;/usr/lib/x86_64-linux-gnu/libssl.so;general;/usr/lib/x86_64-linux-gnu/libcrypto.so;general;libuv;general;zlib;general;minizip;general;http_parser;
-
-//Value Computed by CMake
-util_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/util
 
 //Value Computed by CMake
 zlib_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib
@@ -822,72 +519,10 @@ zlibstatic_LIB_DEPENDS:STATIC=
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: BUILD_MODULE_archo
-BUILD_MODULE_archo-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_av
-BUILD_MODULE_av-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: BUILD_MODULE_base
 BUILD_MODULE_base-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_crypto
-BUILD_MODULE_crypto-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_http
-BUILD_MODULE_http-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_json
-BUILD_MODULE_json-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_net
-BUILD_MODULE_net-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: BUILD_MODULE_pluga
 BUILD_MODULE_pluga-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_sched
-BUILD_MODULE_sched-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_socketio
-BUILD_MODULE_socketio-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_stun
-BUILD_MODULE_stun-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_symple
-BUILD_MODULE_symple-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_turn
-BUILD_MODULE_turn-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_util
-BUILD_MODULE_util-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_MODULE_webrtc
-BUILD_MODULE_webrtc-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_av
-BUILD_SAMPLES_av-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_http
-BUILD_SAMPLES_http-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_net
-BUILD_SAMPLES_net-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_socketio
-BUILD_SAMPLES_socketio-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_symple
-BUILD_SAMPLES_symple-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_SAMPLES_turn
-BUILD_SAMPLES_turn-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_archo
-BUILD_TESTS_archo-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_av
-BUILD_TESTS_av-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_base
-BUILD_TESTS_base-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_crypto
-BUILD_TESTS_crypto-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_http
-BUILD_TESTS_http-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_net
-BUILD_TESTS_net-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_pluga
-BUILD_TESTS_pluga-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_sched
-BUILD_TESTS_sched-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_socketio
-BUILD_TESTS_socketio-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_stun
-BUILD_TESTS_stun-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_symple
-BUILD_TESTS_symple-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BUILD_TESTS_turn
-BUILD_TESTS_turn-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
 CMAKE_AR-ADVANCED:INTERNAL=1
 //This is the directory where this CMakeCache.txt was created
@@ -978,7 +613,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=44
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=20
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1363,7 +998,6 @@ HAVE_MINIZIP:INTERNAL=TRUE
 //Result of TRY_COMPILE
 HAVE_OFF64_T:INTERNAL=TRUE
 HAVE_OPENSSL:INTERNAL=TRUE
-HAVE_SSL:INTERNAL=TRUE
 //Have include stddef.h
 HAVE_STDDEF_H:INTERNAL=1
 //Have include stdint.h
@@ -1374,9 +1008,11 @@ HAVE_ZLIB:INTERNAL=TRUE
 //Applications to build
 LibSourcey_BUILD_APPLICATIONS:INTERNAL=
 LibSourcey_BUILD_DEPENDENCIES:INTERNAL=libuv;zlib;minizip;http_parser
-LibSourcey_BUILD_MODULES:INTERNAL=archo;av;base;crypto;http;json;net;pluga;sched;socketio;stun;symple;turn;util
-LibSourcey_BUILD_SAMPLES:INTERNAL=av;http;net;socketio;symple;turn
-LibSourcey_BUILD_TESTS:INTERNAL=archo;av;base;crypto;http;net;pluga;sched;socketio;stun;symple;turn
+LibSourcey_BUILD_MODULES:INTERNAL=base;pluga
+//Samples to build
+LibSourcey_BUILD_SAMPLES:INTERNAL=
+//Tests to build
+LibSourcey_BUILD_TESTS:INTERNAL=
 //Extra compiler options
 LibSourcey_EXTRA_C_FLAGS:INTERNAL= -Wall -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections
 //Extra compiler options for Debug build
@@ -1389,8 +1025,8 @@ LibSourcey_EXTRA_EXE_LINKER_FLAGS:INTERNAL=
 LibSourcey_EXTRA_EXE_LINKER_FLAGS_DEBUG:INTERNAL=
 //Extra linker flags for Release build
 LibSourcey_EXTRA_EXE_LINKER_FLAGS_RELEASE:INTERNAL=
-LibSourcey_INCLUDE_DIRS:INTERNAL=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/vendor/http_parser;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include
-LibSourcey_INCLUDE_LIBRARIES:INTERNAL=/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so;/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so;/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so;/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so
+LibSourcey_INCLUDE_DIRS:INTERNAL=/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/vendor/http_parser;/usr/include;/usr/include
+LibSourcey_INCLUDE_LIBRARIES:INTERNAL=/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so;/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so
 LibSourcey_LIBRARY_DIRS:INTERNAL=/usr/local/share/libsourcey/vendor/lib
 LibSourcey_LINK_LIBRARIES:INTERNAL=libuv;zlib;minizip;http_parser
 //CHECK_TYPE_SIZE: sizeof(off64_t)
@@ -1435,7 +1071,6 @@ OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 OPENSSL_SSL_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-SSL_FOUND:INTERNAL=TRUE
 //Have include unistd.h
 Z_HAVE_UNISTD_H:INTERNAL=1
 _OPENSSL_CFLAGS:INTERNAL=

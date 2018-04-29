@@ -4,12 +4,12 @@
 #include "yampl/generic/ClientSocket.h"
 #include "yampl/pipe/SimpleClientSocket.h"
 
-namespace yampl{
-namespace pipe{
+namespace yampl {
+    namespace pipe {
 
-typedef ClientSocket<SimpleClientSocket> ClientSocket;
+        typedef ClientSocket<SimpleClientSocket> ClientSocket;
 
-}
+    }
 }
 
 #endif

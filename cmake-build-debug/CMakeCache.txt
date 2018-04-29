@@ -197,11 +197,14 @@ ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
+//Dependencies for target
+yampl-shm_LIB_DEPENDS:STATIC=
+
 //Value Computed by CMake
 yampl_BINARY_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug
 
 //Dependencies for the target
-yampl_LIB_DEPENDS:STATIC=general;-lpthread;general;libuv;
+yampl_LIB_DEPENDS:STATIC=general;-lpthread;general;rt;general;uuid;general;libuv;general;scy_base;general;scy_pluga;general;zlib;general;minizip;general;http_parser;
 
 //Value Computed by CMake
 yampl_SOURCE_DIR:STATIC=/home/ntauthority/Desktop/CERN-HSF/yampl

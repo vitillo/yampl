@@ -80,9 +80,3 @@ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
 file(INSTALL DESTINATION "/usr/local" TYPE DIRECTORY FILES "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy/src/pluga/include")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-build/pluga/tests/cmake_install.cmake")
-
-endif()
-

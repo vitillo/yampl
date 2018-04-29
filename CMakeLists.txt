@@ -20,11 +20,6 @@ project(yampl)
 # Use C++14
 set(CMAKE_CXX_STANDARD 14)
 
-# Check. TODO: Copy all the checks from config.h
-include(CheckIncludeFiles)
-check_include_files(fcntl.h HAVE_FCNTL_H)
-check_include_files(inttypes.h HAVE_INTTYPES_H)
-
 # Pthreads
 find_package(Threads)
 
@@ -32,10 +27,12 @@ find_package(Threads)
 include(YamplDepends)
 
 # Include libsourcey.pc
-# set(CMAKE_CXX_FLAGS "-std=c++14 `pkg-config --libs --cflags libsourcey`")
+# execute_process(COMMAND pkg-config --libs --cflags libsourcey OUTPUT_VARIABLE LIBSCY_PKG)
+# message(STATUS ${LIBSCY_PKG})
+# set(CMAKE_CXX_FLAGS ${LIBSCY_PKG})
 
 # Include directories
-include_directories(include zeromq/include
+include_directories(include/ zeromq/include
         /usr/local/include
         /usr/local/share/libsourcey/vendor/include
 )
@@ -91,14 +88,13 @@ add_library(yampl SHARED
         include/yampl.h
         src/pipe/PipeSocketBase.cpp
         src/pipe/PipeSocketFactory.cpp
-        src/shm/ServerSocket.cpp
-        src/shm/SHMSocketBase.cpp
-        src/shm/SHMSocketFactory.cpp
+        src/plugin/PluginArbiter.cpp
         src/zeromq/ClientSocket.cpp
         src/zeromq/ServerSocket.cpp
         src/zeromq/SocketBase.cpp
         src/zeromq/SocketFactory.cpp
         src/SocketFactory.cpp
+        src/ISocket.cpp
         zeromq/builds/msvc/platform.hpp
         zeromq/include/zmq.h
         zeromq/include/zmq.hpp
@@ -246,10 +242,70 @@ add_library(yampl SHARED
         zeromq/tests/testutil.hpp
 )
 
+if(WITH_EXAMPLES STREQUAL ON)
+    add_executable(client examples/client_server/client.cpp)
+    add_executable(server examples/client_server/server.cpp)
+    set_target_properties(client server
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/lib"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/bin"
+    )
+    target_link_libraries(client ${CMAKE_BINARY_DIR}/libyampl.so uuid)
+    target_link_libraries(server ${CMAKE_BINARY_DIR}/libyampl.so uuid)
+endif()
+
 # Libraries
 target_link_libraries(yampl ${CMAKE_THREAD_LIBS_INIT}
+    rt
+    uuid
     libuv
+    scy_base
+    scy_pluga
+    zlib
+    minizip
+    http_parser
 )
+
+# Properties
+file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/yampl/*.h" "include/yampl/*.hpp")
+set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
 
 # Add dependencies
 add_dependencies(yampl LibSourcey)
+
+# Install step
+# @todo: Generate project configuration file
+install(TARGETS yampl
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl
+)
+
+# SHM Plugin
+if (WITH_SHM_PLUGIN STREQUAL ON)
+    add_library(yampl-shm SHARED
+            src/shm/ServerSocket.cpp
+            src/shm/SHMSocketBase.cpp
+            src/shm/SHMSocketFactory.cpp
+            src/ISocket.cpp
+            src/plugin/PluginArbiter.cpp
+    )
+
+    set_target_properties(yampl-shm PROPERTIES SUFFIX ".yam")
+    set_target_properties(yampl-shm
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
+    )
+    add_dependencies(yampl-shm LibSourcey)
+
+    install(TARGETS yampl-shm
+            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl/plugins/shm
+    )
+endif()
+
+# Copy the uninstall script over to the build directory
+execute_process(COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/uninstall.sh ./ && chmod +x uninstall.sh)

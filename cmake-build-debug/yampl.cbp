@@ -17,6 +17,46 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
 				<Option type="4"/>
@@ -223,6 +263,9 @@
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/zeromq/SocketFactory.h">
 			<Option target="yampl"/>
 		</Unit>
+		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp">
+			<Option target="yampl"/>
+		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/SocketFactory.cpp">
 			<Option target="yampl"/>
 		</Unit>
@@ -232,13 +275,7 @@
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/pipe/PipeSocketFactory.cpp">
 			<Option target="yampl"/>
 		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp">
+		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp">
 			<Option target="yampl"/>
 		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp">

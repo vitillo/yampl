@@ -13,6 +13,7 @@
       ▀       ▀         ▀  ▀         ▀  ▀            ▀▀▀▀▀▀▀▀▀▀▀
  Configuring...
 
+cp: target 'uninstall.sh' is not a directory
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug
