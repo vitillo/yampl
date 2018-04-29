@@ -1,6 +1,6 @@
 # IDE folders
-.vscode
-.idea
+.vscode/
+.idea/
 
 # Compiled Object files
 *.slo
@@ -20,5 +20,10 @@
 *.swp
 *.un~
 
-# build directory
+# Build directories
 build/
+cmake-build-debug/
+cmake-build-release/
+
+# Plugins
+plugins/

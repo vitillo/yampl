@@ -197,30 +197,6 @@
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/SocketFactory.h">
 			<Option target="yampl"/>
 		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/ClientSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/ConsumerSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/PipeSocketBase.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/ProducerSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/ServerSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/SimpleClientSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/SimpleServerSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/shm/SocketFactory.h">
-			<Option target="yampl"/>
-		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/Futex.h">
 			<Option target="yampl"/>
 		</Unit>

@@ -20,6 +20,9 @@ project(yampl)
 # Use C++14
 set(CMAKE_CXX_STANDARD 14)
 
+# Common source files for plugins
+set(YAMPL_PLUGIN_COMMON_SRCS "src/ISocket.cpp src/plugin/PluginArbiter.cpp")
+
 # Pthreads
 find_package(Threads)
 
@@ -58,14 +61,6 @@ add_library(yampl SHARED
         include/yampl/pipe/SimpleClientSocket.h
         include/yampl/pipe/SimpleServerSocket.h
         include/yampl/pipe/SocketFactory.h
-        include/yampl/shm/ClientSocket.h
-        include/yampl/shm/ConsumerSocket.h
-        include/yampl/shm/PipeSocketBase.h
-        include/yampl/shm/ProducerSocket.h
-        include/yampl/shm/ServerSocket.h
-        include/yampl/shm/SimpleClientSocket.h
-        include/yampl/shm/SimpleServerSocket.h
-        include/yampl/shm/SocketFactory.h
         include/yampl/utils/Futex.h
         include/yampl/utils/Poller.h
         include/yampl/utils/RawPipe.h
@@ -284,13 +279,13 @@ install(TARGETS yampl
 )
 
 # SHM Plugin
+# @todo: Move this to an external .cmake file in the yampl-shm git repo
 if (WITH_SHM_PLUGIN STREQUAL ON)
     add_library(yampl-shm SHARED
             src/shm/ServerSocket.cpp
             src/shm/SHMSocketBase.cpp
             src/shm/SHMSocketFactory.cpp
-            src/ISocket.cpp
-            src/plugin/PluginArbiter.cpp
+            ${YAMPL_PLUGIN_COMMON_SRCS}
     )
 
     set_target_properties(yampl-shm PROPERTIES SUFFIX ".yam")
