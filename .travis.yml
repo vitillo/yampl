@@ -18,7 +18,8 @@ env:
 
 before_install:
         - docker pull ${distribution}:${version}
-        - docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis          - docker run -d --volume="${PWD}":/home/yampl/workdir ${distribution_name}-${version}:yampl-build > "${container_id}"
+        - docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis
+        - docker run -d --volume="${PWD}":/home/yampl/workdir ${distribution_name}-${version}:yampl-build > "${container_id}"
         - docker ps -a
 
 script:
