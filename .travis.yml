@@ -17,9 +17,10 @@ env:
       version: 7
 
 before_install:
-        - 'docker pull ${distribution}:${version}'
-        - 'docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis'        - 'docker run -d --volume="${PWD}":/home/yampl/workdir ${distribution_name}-${version}:yampl-build > "${container_id}"'
-        - 'docker ps -a'
+        - docker pull ${distribution}:${version}
+        - docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis'        - docker run -d --volume="${PWD}":/home/yampl/workdir ${distribution_name}-${version}:yampl-build > "${container_id}"
+        - docker ps -a
+
 script:
     - container_id=$(mktemp)
-    - 'docker exec "$(cat ${container_id})" mkdir build_${container_id}; cd build_${container_dir}; cmake .. -DWITH_EXAMPLES=ON && sudo make'
+    - docker exec "$(cat ${container_id})" mkdir build_${container_id}; cd build_${container_dir}; cmake .. -DWITH_EXAMPLES=ON && sudo make
