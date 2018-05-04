@@ -23,3 +23,4 @@ before_install:
 script:
     - container_id=$(mktemp)
     - 'sudo docker run --detach --privileged --volume="${PWD}":~/yampl/workdir ${distribution}-${version}:yampl-build > "${container_id}"'
+    - 'sudo docker exec "$(cat ${container_id})" mkdir build_${container_id} && cd build_${container_dir} && cmake .. -DWITH_EXAMPLES=ON && sudo make'
