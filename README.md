@@ -1,5 +1,7 @@
 # YAMPL
 
+[![Build Status](https://travis-ci.org/ntauth/yampl.svg?branch=master)](https://travis-ci.org/ntauth/yampl)
+
 YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels.
 
 A channel allows to send and receive data over it. Each end of a channel is attached to a socket:
