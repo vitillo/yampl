@@ -20,8 +20,8 @@ before_install:
     - container_id=$(mktemp)
     - docker pull ${distribution}:${version}
     - docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis
-    - docker run -d --volume="${PWD}":/home/yampl/workdir ${distribution_name}-${version}:yampl-build > "${container_id}"
+    - docker run -d --volume="${PWD}":/yampl ${distribution_name}-${version}:yampl-build > "${container_id}"
     - docker ps -a
 
 script:
-    - docker exec "$(cat ${container_id})" mkdir -p build${container_id}; cd build${container_id}; cmake .. -DWITH_EXAMPLES=ON && sudo make
+    - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir -p build; cd build; cmake .. -DWITH_EXAMPLES=ON && sudo make"
