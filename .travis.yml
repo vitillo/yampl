@@ -24,4 +24,4 @@ before_install:
     - docker ps -a
 
 script:
-    - docker exec "$(cat ${container_id})" mkdir build_${container_id}; cd build_${container_dir}; cmake .. -DWITH_EXAMPLES=ON && sudo make
+    - docker exec "$(cat ${container_id})" mkdir build_${container_id}; cd build_${container_id}; cmake .. -DWITH_EXAMPLES=ON && sudo make
