@@ -1,59 +1,49 @@
-
 {
 	"sources" : 
 	[
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles/LibSourcey"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles/LibSourcey.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/CMakeFiles/LibSourcey-complete.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-install.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-mkdir.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-download.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-update.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-patch.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-configure.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-build.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-test.rule"
 		},
-		
 		{
 			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-AddPluga.rule"
 		}
 	],
 	"target" : 
 	{
-		"labels" : [ "LibSourcey" ],
+		"labels" : 
+		[
+			"LibSourcey"
+		],
 		"name" : "LibSourcey"
 	}
 }

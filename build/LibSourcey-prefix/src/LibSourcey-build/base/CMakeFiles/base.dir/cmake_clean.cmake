@@ -26,8 +26,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/base.dir/src/timer.cpp.o"
   "CMakeFiles/base.dir/src/util.cpp.o"
   "libscy_base.pdb"
-  "libscy_base.so"
   "libscy_base.so.1.1.4"
+  "libscy_base.so"
   "libscy_base.so.1.1"
 )
 

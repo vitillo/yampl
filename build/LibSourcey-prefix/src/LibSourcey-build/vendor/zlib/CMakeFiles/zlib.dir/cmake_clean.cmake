@@ -15,8 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/zlib.dir/uncompr.c.o"
   "CMakeFiles/zlib.dir/zutil.c.o"
   "libzlib.pdb"
-  "libzlib.so"
   "libzlib.so.1.2.8"
+  "libzlib.so"
   "libzlib.so.1"
 )
 

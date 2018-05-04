@@ -1,1 +1,1 @@
-/usr/bin/cc  -fPIC   -Wall -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -O3 -DNDEBUG  -DNDEBUG  -shared -Wl,-soname,libhttp_parser.so -o libhttp_parser.so CMakeFiles/http_parser.dir/http_parser.c.o  -L/usr/local/share/libsourcey/vendor/lib 
+/usr/bin/cc -fPIC   -Wall -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -O3 -DNDEBUG  -DNDEBUG  -shared -Wl,-soname,libhttp_parser.so -o libhttp_parser.so CMakeFiles/http_parser.dir/http_parser.c.o  -L/usr/local/share/libsourcey/vendor/lib 

@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -186,10 +186,6 @@ cstdint
 scy/pluga/pluga.h
 -
 
-../include/yampl/shm/SocketFactory.h
-yampl/ISocketFactory.h
-../include/yampl/shm/yampl/ISocketFactory.h
-
 ../include/yampl/utils/Poller.h
 sys/epoll.h
 -
@@ -240,48 +236,6 @@ string
 sstream
 -
 
-../include/yampl/zeromq/ClientSocket.h
-yampl/zeromq/SocketBase.h
-../include/yampl/zeromq/yampl/zeromq/SocketBase.h
-
-../include/yampl/zeromq/ServerSocket.h
-yampl/zeromq/SocketBase.h
-../include/yampl/zeromq/yampl/zeromq/SocketBase.h
-
-../include/yampl/zeromq/SocketBase.h
-yampl/ISocket.h
-../include/yampl/zeromq/yampl/ISocket.h
-yampl/Channel.h
-../include/yampl/zeromq/yampl/Channel.h
-yampl/ISocketFactory.h
-../include/yampl/zeromq/yampl/ISocketFactory.h
-
-../include/yampl/zeromq/SocketFactory.h
-yampl/ISocketFactory.h
-../include/yampl/zeromq/yampl/ISocketFactory.h
-
-../zeromq/include/zmq.h
-errno.h
--
-stddef.h
--
-stdio.h
--
-winsock2.h
--
-
-../zeromq/include/zmq.hpp
-zmq.h
--
-cassert
--
-cstring
--
-algorithm
--
-exception
--
-
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp
 yampl.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl.h
@@ -289,12 +243,8 @@ yampl/ISocket.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/ISocket.h
 
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/SocketFactory.cpp
-yampl/zeromq/SocketFactory.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/zeromq/SocketFactory.h
 yampl/pipe/SocketFactory.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/pipe/SocketFactory.h
-yampl/shm/SocketFactory.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/shm/SocketFactory.h
 yampl/SocketFactory.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/yampl/SocketFactory.h
 cstdlib
@@ -343,38 +293,6 @@ yampl/pipe/ClientSocket.h
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp
 yampl/plugin/PluginArbiter.hpp
 /home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/yampl/plugin/PluginArbiter.hpp
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp
-zmq.hpp
--
-yampl/Exceptions.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/Exceptions.h
-yampl/zeromq/ClientSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/ClientSocket.h
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ServerSocket.cpp
-zmq.hpp
--
-yampl/Exceptions.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/Exceptions.h
-yampl/zeromq/ServerSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/ServerSocket.h
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketBase.cpp
-zmq.hpp
--
-yampl/zeromq/SocketBase.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/SocketBase.h
-
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketFactory.cpp
-zmq.hpp
--
-yampl/zeromq/SocketFactory.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/SocketFactory.h
-yampl/zeromq/ClientSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/ClientSocket.h
-yampl/zeromq/ServerSocket.h
-/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/yampl/zeromq/ServerSocket.h
 
 /home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/include/zmq.h
 errno.h

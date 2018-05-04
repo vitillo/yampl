@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/pluga.dir/src/pluga.cpp.o"
   "libscy_pluga.pdb"
-  "libscy_pluga.so"
   "libscy_pluga.so.1.1.4"
+  "libscy_pluga.so"
   "libscy_pluga.so.1.1"
 )
 

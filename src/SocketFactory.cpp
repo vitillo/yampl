@@ -1,6 +1,4 @@
-#include "yampl/zeromq/SocketFactory.h"
 #include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
 #include "yampl/SocketFactory.h"
 
 #include <cstdlib>
@@ -34,7 +32,7 @@ ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics,
 
     if (channel.context == LOCAL_PIPE)
     {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/pipe/libyampl-pipe.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-pipe/libyampl-pipe.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void**>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory*>(info->initializeFunc());
@@ -42,7 +40,7 @@ ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics,
     }
     else if (channel.context == LOCAL_SHM)
     {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/shm/libyampl-shm.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void**>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory*>(info->initializeFunc());
@@ -50,7 +48,7 @@ ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics,
     }
     else
     {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/zmq/libyampl-zmq.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void**>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory*>(info->initializeFunc());
@@ -74,19 +72,19 @@ ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics,
     ISocket *socket;
 
     if (channel.context == LOCAL_PIPE) {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/pipe/libyampl-pipe.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-pipe/libyampl-pipe.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void **>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory *>(info->initializeFunc());
         socket = socket_factory->createServerSocket(channel, semantics, deallocator);
     } else if (channel.context == LOCAL_SHM) {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/shm/libyampl-shm.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void **>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory *>(info->initializeFunc());
         socket = socket_factory->createServerSocket(channel, semantics, deallocator);
     } else {
-        yampl_lib.open("/usr/local/lib/yampl/plugins/zmq/libyampl-zmq.yam");
+        yampl_lib.open("/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam");
         // Parse header
         yampl_lib.sym("exports", reinterpret_cast<void **>(&info));
         auto socket_factory = reinterpret_cast<ISocketFactory *>(info->initializeFunc());

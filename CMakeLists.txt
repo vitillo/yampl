@@ -10,8 +10,8 @@ message(STATUS "
      ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░█▄▄▄▄▄▄▄▄▄
      ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░░░░░░░░░░░▌
       ▀       ▀         ▀  ▀         ▀  ▀            ▀▀▀▀▀▀▀▀▀▀▀
- Configuring...
 ")
+message(STATUS "Configuring...")
 
 # Preamble
 cmake_minimum_required(VERSION 3.7.2)
@@ -21,12 +21,15 @@ project(yampl)
 set(CMAKE_CXX_STANDARD 14)
 
 # Common source files for plugins
-set(YAMPL_PLUGIN_COMMON_SRCS "src/ISocket.cpp src/plugin/PluginArbiter.cpp")
+set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
+
+# Common libraries (for examples and tests)
+set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
 
 # Pthreads
 find_package(Threads)
 
-# Pull dependencies
+# Include YAMPL dependencies
 include(YamplDepends)
 
 # Include libsourcey.pc
@@ -43,7 +46,6 @@ include_directories(include/ zeromq/include
 # Library directiories
 link_directories(/usr/local/lib
         /usr/local/share/libsourcey/vendor/lib
-
 )
 
 # Source files
@@ -71,10 +73,6 @@ add_library(yampl SHARED
         include/yampl/utils/Thread.h
         include/yampl/utils/utils.h
         include/yampl/utils/UUID.h
-        include/yampl/zeromq/ClientSocket.h
-        include/yampl/zeromq/ServerSocket.h
-        include/yampl/zeromq/SocketBase.h
-        include/yampl/zeromq/SocketFactory.h
         include/yampl/Channel.h
         include/yampl/Exceptions.h
         include/yampl/ISocket.h
@@ -84,10 +82,6 @@ add_library(yampl SHARED
         src/pipe/PipeSocketBase.cpp
         src/pipe/PipeSocketFactory.cpp
         src/plugin/PluginArbiter.cpp
-        src/zeromq/ClientSocket.cpp
-        src/zeromq/ServerSocket.cpp
-        src/zeromq/SocketBase.cpp
-        src/zeromq/SocketFactory.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
         zeromq/builds/msvc/platform.hpp
@@ -238,6 +232,7 @@ add_library(yampl SHARED
 )
 
 if(WITH_EXAMPLES STREQUAL ON)
+    # Client-Server
     add_executable(client examples/client_server/client.cpp)
     add_executable(server examples/client_server/server.cpp)
     set_target_properties(client server
@@ -246,8 +241,18 @@ if(WITH_EXAMPLES STREQUAL ON)
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/lib"
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/bin"
     )
-    target_link_libraries(client ${CMAKE_BINARY_DIR}/libyampl.so uuid)
-    target_link_libraries(server ${CMAKE_BINARY_DIR}/libyampl.so uuid)
+    target_link_libraries(client ${YAMPL_COMMON_LIBS})
+    target_link_libraries(server ${YAMPL_COMMON_LIBS})
+
+    # Benchmarks
+    add_executable(benchmark examples/benchmarks/benchmark.cpp)
+    set_target_properties(benchmark
+            PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/lib"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/bin"
+    )
+    target_link_libraries(benchmark ${YAMPL_COMMON_LIBS})
 endif()
 
 # Libraries
@@ -278,29 +283,13 @@ install(TARGETS yampl
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl
 )
 
-# SHM Plugin
-# @todo: Move this to an external .cmake file in the yampl-shm git repo
-if (WITH_SHM_PLUGIN STREQUAL ON)
-    add_library(yampl-shm SHARED
-            src/shm/ServerSocket.cpp
-            src/shm/SHMSocketBase.cpp
-            src/shm/SHMSocketFactory.cpp
-            ${YAMPL_PLUGIN_COMMON_SRCS}
-    )
+# Include plugins
+file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake)
+foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
+    include(${YAMPL_CMAKE_FILE})
+endforeach(YAMPL_CMAKE_FILE)
 
-    set_target_properties(yampl-shm PROPERTIES SUFFIX ".yam")
-    set_target_properties(yampl-shm
-            PROPERTIES
-            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
-            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/shm"
-    )
-    add_dependencies(yampl-shm LibSourcey)
-
-    install(TARGETS yampl-shm
-            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl/plugins/shm
-    )
-endif()
 
 # Copy the uninstall script over to the build directory
-execute_process(COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/uninstall.sh ./ && chmod +x uninstall.sh)
+execute_process(COMMAND cp ../uninstall.sh ./)
+execute_process(COMMAND chmod +x ./uninstall.sh)

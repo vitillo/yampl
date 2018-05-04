@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ntauthority/Desktop/CERN-HSF/yampl/plugins/yampl-shm/src/SHMSocketBase.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/plugins/yampl-shm/src/SHMSocketBase.cpp.o"
+  "/home/ntauthority/Desktop/CERN-HSF/yampl/plugins/yampl-shm/src/SHMSocketFactory.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/plugins/yampl-shm/src/SHMSocketFactory.cpp.o"
+  "/home/ntauthority/Desktop/CERN-HSF/yampl/plugins/yampl-shm/src/ServerSocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/plugins/yampl-shm/src/ServerSocket.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/src/ISocket.cpp.o"
   "/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/src/plugin/PluginArbiter.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketBase.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/src/shm/SHMSocketBase.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/SHMSocketFactory.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/src/shm/SHMSocketFactory.cpp.o"
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/src/shm/ServerSocket.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/yampl-shm.dir/src/shm/ServerSocket.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -18,6 +18,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../zeromq/include"
   "/usr/local/include"
   "/usr/local/share/libsourcey/vendor/include"
+  "../plugins/yampl-shm/include"
   )
 
 # Targets to which this target links.

@@ -1,0 +1,25 @@
+#
+# Author: Ayoub Chouak (a.chouak@protonmail.com)
+# Brief:  Matrix build tests in Travis CI
+#
+
+sudo: required
+
+services:
+    - docker
+
+env:
+    - distribution: cern/slc6-base
+      distribution_name: slc6-base
+      version: latest
+    - distribution: centos
+      distribution_name: centos
+      version: 7
+
+before_install:
+        - 'sudo docker pull ${distribution}:${version}'
+        - 'sudo docker build --no-cache --rm --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution}-${version}:yampl-build travis'
+
+script:
+    - container_id=$(mktemp)
+    - 'sudo docker run --detach --privileged --volume="${PWD}":~/yampl/workdir ${distribution}-${version}:yampl-build > "${container_id}"'

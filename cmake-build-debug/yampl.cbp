@@ -5,7 +5,7 @@
 		<Option title="yampl"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\LibSourcey-prefix\;CMake Files\cmake-build-debug\LibSourcey-prefix\tmp\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\LibSourcey-prefix\;CMake Files\cmake-build-debug\LibSourcey-prefix\tmp\;CMake Files\plugins\;CMake Files\plugins\yampl-shm\;CMake Files\plugins\yampl-zmq\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
@@ -57,21 +57,11 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="rebuild_cache">
+			<Target title="LibSourcey">
 				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 LibSourcey"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -129,11 +119,21 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="LibSourcey">
+			<Target title="edit_cache">
 				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 LibSourcey"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -227,18 +227,6 @@
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/utils.h">
 			<Option target="yampl"/>
 		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/zeromq/ClientSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/zeromq/ServerSocket.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/zeromq/SocketBase.h">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/zeromq/SocketFactory.h">
-			<Option target="yampl"/>
-		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/ISocket.cpp">
 			<Option target="yampl"/>
 		</Unit>
@@ -252,18 +240,6 @@
 			<Option target="yampl"/>
 		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/plugin/PluginArbiter.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ClientSocket.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/ServerSocket.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketBase.cpp">
-			<Option target="yampl"/>
-		</Unit>
-		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/src/zeromq/SocketFactory.cpp">
 			<Option target="yampl"/>
 		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/zeromq/builds/msvc/platform.hpp">
@@ -709,6 +685,12 @@
 		</Unit>
 		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/cmake-build-debug/LibSourcey-prefix/tmp/LibSourcey-cfgcmd.txt.in">
 			<Option virtualFolder="CMake Files\cmake-build-debug\LibSourcey-prefix\tmp\"/>
+		</Unit>
+		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/plugins/yampl-shm/yampl-shm.cmake">
+			<Option virtualFolder="CMake Files\plugins\yampl-shm\"/>
+		</Unit>
+		<Unit filename="/home/ntauthority/Desktop/CERN-HSF/yampl/plugins/yampl-zmq/yampl-zmq.cmake">
+			<Option virtualFolder="CMake Files\plugins\yampl-zmq\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

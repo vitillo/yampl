@@ -29,10 +29,15 @@ endif()
 
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  set(CMAKE_INSTALL_SO_NO_EXE "1")
+  set(CMAKE_INSTALL_SO_NO_EXE "0")
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "libs" OR NOT CMAKE_INSTALL_COMPONENT)
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xlibsx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}/usr/local/share/libsourcey/vendor/lib/liblibuv.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/share/libsourcey/vendor/lib/liblibuv.so")
     file(RPATH_CHECK
@@ -60,7 +65,7 @@ file(INSTALL DESTINATION "/usr/local/share/libsourcey/vendor/lib" TYPE SHARED_LI
   endif()
 endif()
 
-if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "dev" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/usr/local/share/libsourcey/vendor/include/uv.h;/usr/local/share/libsourcey/vendor/include/uv-errno.h;/usr/local/share/libsourcey/vendor/include/uv-threadpool.h;/usr/local/share/libsourcey/vendor/include/uv-version.h;/usr/local/share/libsourcey/vendor/include/uv-unix.h;/usr/local/share/libsourcey/vendor/include/uv-linux.h")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)

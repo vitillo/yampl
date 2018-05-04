@@ -17,14 +17,6 @@
 /usr/local/include/yampl/SimpleClientSocket.h
 /usr/local/include/yampl/SimpleServerSocket.h
 /usr/local/include/yampl/SocketFactory.h
-/usr/local/include/yampl/ClientSocket.h
-/usr/local/include/yampl/ConsumerSocket.h
-/usr/local/include/yampl/PipeSocketBase.h
-/usr/local/include/yampl/ProducerSocket.h
-/usr/local/include/yampl/ServerSocket.h
-/usr/local/include/yampl/SimpleClientSocket.h
-/usr/local/include/yampl/SimpleServerSocket.h
-/usr/local/include/yampl/SocketFactory.h
 /usr/local/include/yampl/Futex.h
 /usr/local/include/yampl/Poller.h
 /usr/local/include/yampl/RawPipe.h
@@ -35,10 +27,7 @@
 /usr/local/include/yampl/Thread.h
 /usr/local/include/yampl/UUID.h
 /usr/local/include/yampl/utils.h
-/usr/local/include/yampl/ClientSocket.h
-/usr/local/include/yampl/ServerSocket.h
-/usr/local/include/yampl/SocketBase.h
-/usr/local/include/yampl/SocketFactory.h
 /usr/local/include/yampl/IPlugin.hpp
 /usr/local/include/yampl/PluginArbiter.hpp
-/usr/local/lib/yampl/plugins/shm/libyampl-shm.yam
+/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam
+/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam
