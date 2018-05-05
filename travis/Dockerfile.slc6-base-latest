@@ -7,7 +7,7 @@ RUN yum -y install git wget
 
 RUN yum -y install sl-release-scl-rh
 RUN yum -y --skip-broken install devtoolset-3
-RUN scl enable devtoolset-3-gcc devtoolset-3-gcc-c++ bash
+# RUN scl enable devtoolset-3-gcc devtoolset-3-gcc-c++ bash
 
 RUN echo 'PATH=/opt/rh/devtoolset-3/root/usr/bin/:$PATH' >> ~/.bash_profile
 RUN echo 'export PATH' >> ~/.bash_profile
