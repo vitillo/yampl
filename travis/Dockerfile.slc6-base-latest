@@ -1,3 +1,6 @@
 FROM cern/slc6-base:latest
 
-RUN yum check-update && yum install "http://ftp.scientificlinux.org/linux/scientific/6x/external_products/softwarecollections/yum-conf-softwarecollections-2.0-1.el6.noarch.rpm"
+RUN yum check-update
+RUN yum -y install sl-release-scl
+RUN yum -y install devtoolset-3*
+RUN scl enable devtoolset-3 bash

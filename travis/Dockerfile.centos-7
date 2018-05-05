@@ -5,10 +5,9 @@ RUN yum check-update && yum -y install git wget
 
 # Install build tools
 RUN yum -y install make automake
-RUN yum -y install centos-release-scl-rh
-RUN yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++
-RUN update-alternatives --install /usr/bin/gcc-4.9 gcc-4.9 /opt/rh/devtoolset-3/root/usr/bin/gcc 10
-RUN update-alternatives --install /usr/bin/g++-4.9 g++-4.9 /opt/rh/devtoolset-3/root/usr/bin/g++ 10
+RUN yum -y install centos-release-scl
+RUN yum -y install devtoolset-3-gcc*
+RUN scl enable devtoolset-3 bash
 
 # Install Cmake
 RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz
