@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-lc"]
 RUN yum -y install git wget
 
 RUN yum -y install sl-release-scl-rh
-RUN yum -y --skip-broken install cmake devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel uuid-dev
+RUN yum -y --skip-broken install cmake devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel libuuid libuuid-devel
 # RUN scl enable devtoolset6 bash
 
 RUN echo 'PATH=/opt/rh/devtoolset-6/root/usr/bin/:$PATH' >> ~/.bash_profile
