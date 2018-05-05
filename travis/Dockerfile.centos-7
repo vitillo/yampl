@@ -16,9 +16,13 @@ RUN echo 'export PATH' >> ~/.bash_profile
 RUN source ~/.bash_profile
 RUN gcc --version
 
-# Install CMake
-RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz
-RUN tar -zxvf cmake-3.11.1.tar.gz
-RUN bash -c "cd cmake-3.11.1; ./bootstrap --prefix=/usr/local && make && make install"
-RUN echo 'PATH=/usr/local/bin:$PATH:$HOME/bin' >> ~/.bash_profile
+# Make symbolic links for cc and c++
+RUN ln -s /opt/rh/devtoolset-3/root/usr/bin/cc /usr/bin/cc
+RUN ln -s /opt/rh/devtoolset-3/root/usr/bin/c++ /usr/bin/c++
 
+# Install CMake
+# RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz
+# RUN tar -zxvf cmake-3.11.1.tar.gz
+# RUN bash -c "cd cmake-3.11.1; ./bootstrap --prefix=/usr/local && make && make install"
+# RUN echo 'PATH=/usr/local/bin:$PATH:$HOME/bin' >> ~/.bash_profile
+RUN rpm -Uv http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//cmake-3.3.2-1.gf.el7.x86_64.rpm
