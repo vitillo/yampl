@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/server.dir/examples/client_server/server.cpp.o  -o examples/client_server/bin/server  -L/usr/local/lib  -L/usr/local/share/libsourcey/vendor/lib  -L/yampl/build -Wl,-rpath,/usr/local/lib:/usr/local/share/libsourcey/vendor/lib:/yampl/build -lyampl -luuid -lpthread 

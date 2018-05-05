@@ -1,4 +1,8 @@
-message(STATUS "
+##
+# @author: Ayoub Chouak (a.chouak@protonmail.com)
+# @brief:  CMakeLists for YAMPL
+##
+message("
  ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄
 ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░▌
 ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌   ▐░▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌
@@ -10,6 +14,7 @@ message(STATUS "
      ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░█▄▄▄▄▄▄▄▄▄
      ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░░░░░░░░░░░▌
       ▀       ▀         ▀  ▀         ▀  ▀            ▀▀▀▀▀▀▀▀▀▀▀
+      Yet Another Message Passing Library
 ")
 message(STATUS "Configuring...")
 
@@ -18,7 +23,7 @@ cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
-include(YamplMacros)
+include(cmake/YamplMacros)
 USE_CXX14()
 
 # Common source files for plugins
@@ -31,12 +36,7 @@ set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
 find_package(Threads)
 
 # Include YAMPL dependencies
-include(YamplDepends)
-
-# Include libsourcey.pc
-# execute_process(COMMAND pkg-config --libs --cflags libsourcey OUTPUT_VARIABLE LIBSCY_PKG)
-# message(STATUS ${LIBSCY_PKG})
-# set(CMAKE_CXX_FLAGS ${LIBSCY_PKG})
+include(cmake/YamplDepends)
 
 # Include directories
 include_directories(include/ zeromq/include
@@ -295,5 +295,5 @@ endforeach(YAMPL_CMAKE_FILE)
 
 
 # Copy the uninstall script over to the build directory
-execute_process(COMMAND cp ../uninstall.sh ./)
+execute_process(COMMAND cp ../cmake/uninstall.sh ./)
 execute_process(COMMAND chmod +x ./uninstall.sh)

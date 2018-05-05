@@ -1,3 +1,0 @@
-repository='https://github.com/sourcey/libsourcey.git'
-module=''
-tag=''
