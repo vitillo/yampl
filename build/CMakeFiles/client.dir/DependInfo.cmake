@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ntauthority/Desktop/CERN-HSF/yampl/examples/client_server/client.cpp" "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/client.dir/examples/client_server/client.cpp.o"
+  "/yampl/examples/client_server/client.cpp" "/yampl/build/CMakeFiles/client.dir/examples/client_server/client.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

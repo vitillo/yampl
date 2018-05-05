@@ -1,4 +1,4 @@
-# Install script for directory: /home/ntauthority/Desktop/CERN-HSF/yampl
+# Install script for directory: /yampl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -52,7 +52,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/usr/local/lib/yampl" TYPE SHARED_LIBRARY FILES "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libyampl.so")
+file(INSTALL DESTINATION "/usr/local/lib/yampl" TYPE SHARED_LIBRARY FILES "/yampl/build/libyampl.so")
   if(EXISTS "$ENV{DESTDIR}/usr/local/lib/yampl/libyampl.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/yampl/libyampl.so")
     file(RPATH_CHANGE
@@ -75,85 +75,37 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
 file(INSTALL DESTINATION "/usr/local/include/yampl" TYPE FILE FILES
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/Channel.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/Exceptions.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/ISocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/ISocketFactory.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/SocketFactory.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/generic/ClientSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/generic/ServerSocketBase.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/generic/ServiceSocketBase.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/generic/SimpleClientSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/generic/SimpleServerSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/ClientSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/ConsumerSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/PipeSocketBase.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/ProducerSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/ServerSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/SimpleClientSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/SimpleServerSocket.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/pipe/SocketFactory.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/Futex.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/Poller.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/RawPipe.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/RingBuffer.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/Semaphore.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/SharedMemory.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/SpinLock.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/Thread.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/UUID.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/utils/utils.h"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/plugin/IPlugin.hpp"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/include/yampl/plugin/PluginArbiter.hpp"
+    "/yampl/include/yampl/Channel.h"
+    "/yampl/include/yampl/Exceptions.h"
+    "/yampl/include/yampl/ISocket.h"
+    "/yampl/include/yampl/ISocketFactory.h"
+    "/yampl/include/yampl/SocketFactory.h"
+    "/yampl/include/yampl/generic/ClientSocket.h"
+    "/yampl/include/yampl/generic/ServerSocketBase.h"
+    "/yampl/include/yampl/generic/ServiceSocketBase.h"
+    "/yampl/include/yampl/generic/SimpleClientSocket.h"
+    "/yampl/include/yampl/generic/SimpleServerSocket.h"
+    "/yampl/include/yampl/pipe/ClientSocket.h"
+    "/yampl/include/yampl/pipe/ConsumerSocket.h"
+    "/yampl/include/yampl/pipe/PipeSocketBase.h"
+    "/yampl/include/yampl/pipe/ProducerSocket.h"
+    "/yampl/include/yampl/pipe/ServerSocket.h"
+    "/yampl/include/yampl/pipe/SimpleClientSocket.h"
+    "/yampl/include/yampl/pipe/SimpleServerSocket.h"
+    "/yampl/include/yampl/pipe/SocketFactory.h"
+    "/yampl/include/yampl/utils/Futex.h"
+    "/yampl/include/yampl/utils/Poller.h"
+    "/yampl/include/yampl/utils/RawPipe.h"
+    "/yampl/include/yampl/utils/RingBuffer.h"
+    "/yampl/include/yampl/utils/Semaphore.h"
+    "/yampl/include/yampl/utils/SharedMemory.h"
+    "/yampl/include/yampl/utils/SpinLock.h"
+    "/yampl/include/yampl/utils/Thread.h"
+    "/yampl/include/yampl/utils/UUID.h"
+    "/yampl/include/yampl/utils/utils.h"
+    "/yampl/include/yampl/plugin/IPlugin.hpp"
+    "/yampl/include/yampl/plugin/PluginArbiter.hpp"
     )
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam")
-    file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam"
-         RPATH "")
-  endif()
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam")
-  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-file(INSTALL DESTINATION "/usr/local/lib/yampl/plugins/yampl-shm" TYPE SHARED_LIBRARY FILES "/home/ntauthority/Desktop/CERN-HSF/yampl/build/plugins/yampl-shm/libyampl-shm.yam")
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam")
-    if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-shm/libyampl-shm.yam")
-    endif()
-  endif()
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam")
-    file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam"
-         RPATH "")
-  endif()
-  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam")
-  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
-    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
-  endif()
-file(INSTALL DESTINATION "/usr/local/lib/yampl/plugins/yampl-zmq" TYPE SHARED_LIBRARY FILES "/home/ntauthority/Desktop/CERN-HSF/yampl/build/plugins/yampl-zmq/libyampl-zmq.yam")
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam")
-    if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}/usr/local/lib/yampl/plugins/yampl-zmq/libyampl-zmq.yam")
-    endif()
-  endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -164,5 +116,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ntauthority/Desktop/CERN-HSF/yampl/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/yampl/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

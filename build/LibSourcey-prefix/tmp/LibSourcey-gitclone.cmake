@@ -4,21 +4,21 @@ endif()
 
 set(run 0)
 
-if("/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitinfo.txt" IS_NEWER_THAN "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt")
+if("/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitinfo.txt" IS_NEWER_THAN "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt")
   set(run 1)
 endif()
 
 if(NOT run)
-  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt'")
+  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt'")
   return()
 endif()
 
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E remove_directory "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "/yampl/build/libscy"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to remove directory: '/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy'")
+  message(FATAL_ERROR "Failed to remove directory: '/yampl/build/libscy'")
 endif()
 
 set(git_options)
@@ -47,13 +47,13 @@ foreach(config IN LISTS git_config)
   list(APPEND git_clone_options --config ${config})
 endforeach()
 
-# try the clone 3 times incase there is an odd git clone issue
+# try the clone 3 times in case there is an odd git clone issue
 set(error_code 1)
 set(number_of_tries 0)
 while(error_code AND number_of_tries LESS 3)
   execute_process(
     COMMAND "/usr/bin/git" ${git_options} clone ${git_clone_options} --origin "origin" "https://github.com/sourcey/libsourcey.git" "libscy"
-    WORKING_DIRECTORY "/home/ntauthority/Desktop/CERN-HSF/yampl/build"
+    WORKING_DIRECTORY "/yampl/build"
     RESULT_VARIABLE error_code
     )
   math(EXPR number_of_tries "${number_of_tries} + 1")
@@ -67,8 +67,8 @@ if(error_code)
 endif()
 
 execute_process(
-  COMMAND "/usr/bin/git" ${git_options} checkout 1.1.4 --
-  WORKING_DIRECTORY "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy"
+  COMMAND "/usr/bin/git" ${git_options} checkout 1.1.4 
+  WORKING_DIRECTORY "/yampl/build/libscy"
   RESULT_VARIABLE error_code
   )
 if(error_code)
@@ -77,32 +77,32 @@ endif()
 
 execute_process(
   COMMAND "/usr/bin/git" ${git_options} submodule init 
-  WORKING_DIRECTORY "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy"
+  WORKING_DIRECTORY "/yampl/build/libscy"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to init submodules in: '/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy'")
+  message(FATAL_ERROR "Failed to init submodules in: '/yampl/build/libscy'")
 endif()
 
 execute_process(
   COMMAND "/usr/bin/git" ${git_options} submodule update --recursive --init 
-  WORKING_DIRECTORY "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy"
+  WORKING_DIRECTORY "/yampl/build/libscy"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to update submodules in: '/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy'")
+  message(FATAL_ERROR "Failed to update submodules in: '/yampl/build/libscy'")
 endif()
 
 # Complete success, update the script-last-run stamp file:
 #
 execute_process(
   COMMAND ${CMAKE_COMMAND} -E copy
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitinfo.txt"
-    "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt"
-  WORKING_DIRECTORY "/home/ntauthority/Desktop/CERN-HSF/yampl/build/libscy"
+    "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitinfo.txt"
+    "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt"
+  WORKING_DIRECTORY "/yampl/build/libscy"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt'")
+  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-gitclone-lastrun.txt'")
 endif()
 

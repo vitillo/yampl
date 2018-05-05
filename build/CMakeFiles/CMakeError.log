@@ -1,22 +1,22 @@
 Determining if the pthread_create exist failed with the following output:
-Change Dir: /home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp
+Change Dir: /yampl/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_999a6/fast"
-/usr/bin/make -f CMakeFiles/cmTC_999a6.dir/build.make CMakeFiles/cmTC_999a6.dir/build
-make[1]: ingresso nella directory "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp"
-Building C object CMakeFiles/cmTC_999a6.dir/CheckSymbolExists.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_999a6.dir/CheckSymbolExists.c.o   -c /home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_999a6
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_999a6.dir/link.txt --verbose=1
-/usr/bin/cc      CMakeFiles/cmTC_999a6.dir/CheckSymbolExists.c.o  -o cmTC_999a6 
-CMakeFiles/cmTC_999a6.dir/CheckSymbolExists.c.o: nella funzione "main":
-CheckSymbolExists.c:(.text+0x1b): riferimento non definito a "pthread_create"
+Run Build Command:"/usr/bin/gmake" "cmTC_eaa13/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_eaa13.dir/build.make CMakeFiles/cmTC_eaa13.dir/build
+gmake[1]: Entering directory `/yampl/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_eaa13.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_eaa13.dir/CheckSymbolExists.c.o   -c /yampl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_eaa13
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eaa13.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_eaa13.dir/CheckSymbolExists.c.o  -o cmTC_eaa13 
+CMakeFiles/cmTC_eaa13.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_999a6.dir/build.make:98: cmTC_999a6] Error 1
-make[1]: uscita dalla directory "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp"
-make: *** [Makefile:126: cmTC_999a6/fast] Error 2
+gmake[1]: *** [cmTC_eaa13] Error 1
+gmake[1]: Leaving directory `/yampl/build/CMakeFiles/CMakeTmp'
+gmake: *** [cmTC_eaa13/fast] Error 2
 
-File /home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+File /yampl/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
 #include <pthread.h>
 
@@ -32,20 +32,20 @@ int main(int argc, char** argv)
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp
+Change Dir: /yampl/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_973ee/fast"
-/usr/bin/make -f CMakeFiles/cmTC_973ee.dir/build.make CMakeFiles/cmTC_973ee.dir/build
-make[1]: ingresso nella directory "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp"
-Building C object CMakeFiles/cmTC_973ee.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_973ee.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
-Linking C executable cmTC_973ee
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_973ee.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_973ee.dir/CheckFunctionExists.c.o  -o cmTC_973ee -lpthreads 
-/usr/bin/ld: impossibile trovare -lpthreads
+Run Build Command:"/usr/bin/gmake" "cmTC_930dd/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_930dd.dir/build.make CMakeFiles/cmTC_930dd.dir/build
+gmake[1]: Entering directory `/yampl/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_930dd.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_930dd.dir/CheckFunctionExists.c.o   -c /usr/local/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_930dd
+/usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_930dd.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_930dd.dir/CheckFunctionExists.c.o  -o cmTC_930dd -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_973ee.dir/build.make:98: cmTC_973ee] Error 1
-make[1]: uscita dalla directory "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/CMakeTmp"
-make: *** [Makefile:126: cmTC_973ee/fast] Error 2
+gmake[1]: *** [cmTC_930dd] Error 1
+gmake[1]: Leaving directory `/yampl/build/CMakeFiles/CMakeTmp'
+gmake: *** [cmTC_930dd/fast] Error 2
 
 

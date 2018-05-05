@@ -2,40 +2,40 @@
 	"sources" : 
 	[
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/LibSourcey"
+			"file" : "/yampl/build/CMakeFiles/LibSourcey"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/LibSourcey.rule"
+			"file" : "/yampl/build/CMakeFiles/LibSourcey.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/CMakeFiles/LibSourcey-complete.rule"
+			"file" : "/yampl/build/CMakeFiles/LibSourcey-complete.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-install.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-install.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-mkdir.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-mkdir.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-download.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-download.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-update.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-update.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-patch.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-patch.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-configure.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-configure.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-build.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-build.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-test.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-test.rule"
 		},
 		{
-			"file" : "/home/ntauthority/Desktop/CERN-HSF/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-AddPluga.rule"
+			"file" : "/yampl/build/LibSourcey-prefix/src/LibSourcey-stamp/LibSourcey-AddPluga.rule"
 		}
 	],
 	"target" : 
