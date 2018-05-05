@@ -6,13 +6,17 @@ SHELL ["/bin/bash", "-lc"]
 RUN yum -y install git wget
 
 RUN yum -y install sl-release-scl-rh
-RUN yum -y --skip-broken install devtoolset-3-gcc devtoolset-3-gcc-c++
+RUN yum -y --skip-broken install cmake devtoolset-3-gcc devtoolset-3-gcc-c++
 # RUN scl enable devtoolset3 bash
 
 RUN echo 'PATH=/opt/rh/devtoolset-3/root/usr/bin/:$PATH' >> ~/.bash_profile
 RUN echo 'export PATH' >> ~/.bash_profile
 RUN source ~/.bash_profile
 RUN gcc --version
+
+# Make symbolic links for cc and c++
+RUN ln -s /opt/rh/devtoolset-3/root/usr/bin/cc /usr/bin/cc
+RUN ln -s /opt/rh/devtoolset-3/root/usr/bin/c++ /usr/bin/c++
 
 # Install CMake
 RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz

@@ -14,7 +14,7 @@ message(STATUS "
 message(STATUS "Configuring...")
 
 # Preamble
-cmake_minimum_required(VERSION 3.3.2)
+cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
