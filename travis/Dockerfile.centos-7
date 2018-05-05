@@ -1,15 +1,22 @@
 FROM centos:7
 
+SHELL ["/bin/bash", "-lc"]
+
 # Install utilities
 RUN yum check-update && yum -y install git wget
 
 # Install build tools
 RUN yum -y install make automake
-RUN yum -y install centos-release-scl
-RUN yum -y install devtoolset-3
-RUN scl enable devtoolset-3 bash
+RUN yum -y install centos-release-scl-rh
+RUN yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++
+# RUN scl enable devtoolset-3 bash
 
-# Install Cmake
+RUN echo 'PATH=/opt/rh/devtoolset-3/root/usr/bin/:$PATH' >> ~/.bash_profile
+RUN echo 'export PATH' >> ~/.bash_profile
+RUN source ~/.bash_profile
+RUN gcc --version
+
+# Install CMake
 RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz
 RUN tar -zxvf cmake-3.11.1.tar.gz
 RUN bash -c "cd cmake-3.11.1; ./bootstrap --prefix=/usr/local && make && make install"
