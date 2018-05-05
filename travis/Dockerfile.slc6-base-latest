@@ -1,6 +1,5 @@
 FROM cern/slc6-base:latest
 
-RUN yum check-update
 RUN yum -y install sl-release-scl
-RUN yum -y install devtoolset-3*
+RUN yum -y install devtoolset-3
 RUN scl enable devtoolset-3 bash
