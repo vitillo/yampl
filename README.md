@@ -6,7 +6,7 @@ YAMPL (Yet Another Message Passing Library) provides a simple abstraction of int
 
 A channel allows to send and receive data over it. Each end of a channel is attached to a socket:
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
-* **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket***s through a channel;
+* **ServerSocket:** a ***ServerSocket*** can be connected to zero ore more ***ClientSocket*** through a channel;
 
 YAMPL allows to send and receive: 
 * objects of trivially copiable types
@@ -25,6 +25,10 @@ Different communication strategies are offered to provide the best performances 
     * "small" messages: Lock Free Queues over POSIX Shared Memory, optimized for latency
     * "big" messages: UNIX Pipes (vmsplice), optimized for bandwidth
 * **Inter-process (distributed):** POSIX Sockets 
+
+Each and all of these strategies are implemented as modular and independent plugins that can easily be pulled from Github, built and installed in the system. The plugin subsystem (***PluginArbiter***) allows for an easy integration of new custom plugins. When YAMPL is executed, the ***PluginArbiter*** loads all the plugins at runtime, handles memory management and all the bookkeeping. These are the currently available plugins:
+* **yampl-shm:** SHM backend for YAMPL - [repository](https://github.com/ntauth/yampl-shm)
+* **yampl-zmq:** ZeroMQ backend for YAMPL - [repository](https://github.com/ntauth/yampl-zmq)
 
 ## Build, Test & Install
 ``` bash
@@ -60,15 +64,15 @@ The clients ping a server process and receive a reply from it.
 using namespace std;
 using namespace yampl;
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
   char pong[100];
   const string ping = "ping from " + to_string(getpid());
   
   Channel channel("service", LOCAL_SHM);
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createClientSocket(channel);
+  ISocketFactory* factory = new SocketFactory();
+  ISocket* socket = factory->createClientSocket(channel);
 
-  while(true){
+  while(true) {
     socket->send(ping);
     socket->recv(pong);
     cout << pong << endl;
@@ -88,14 +92,14 @@ The server process replies to the pings of the client.
 using namespace std;
 using namespace yampl;
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
   char ping[100];
 
   Channel channel("service", LOCAL_SHM);
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createServerSocket(channel);
+  ISocketFactory* factory = new SocketFactory();
+  ISocket* socket = factory->createServerSocket(channel);
 
-  while(true){
+  while(true) {
     socket->recv(ping);
     socket->send("pong");
     cout << ping << endl;
@@ -114,16 +118,16 @@ int main(int argc, char *argv[]){
 using namespace yampl;
 using namespace std;
 
-void deallocator(void *, void*){}
+void deallocator(void *, void*) {}
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
   string message = "Hello from " +  to_string(getpid());
   
   Channel channel("127.0.0.1:3333", DISTRIBUTED);
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
+  ISocketFactory* factory = new SocketFactory();
+  ISocket* socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
-  while(true){
+  while(true) {
     socket->send(message);
     cout << "Message sent" <<  endl;
     sleep(1);
@@ -140,14 +144,14 @@ int main(int argc, char *argv[]){
 using namespace std;
 using namespace yampl;
 
-int main(int argc, char *argv[]){
-  char *message = 0;
+int main(int argc, char *argv[]) {
+  char* message = 0;
 
   Channel channel("127.0.0.1:3333", DISTRIBUTED);
-  ISocketFactory *factory = new SocketFactory();
-  ISocket *socket = factory->createServerSocket(channel, MOVE_DATA);
+  ISocketFactory* factory = new SocketFactory();
+  ISocket* socket = factory->createServerSocket(channel, MOVE_DATA);
 
-  while(true){
+  while(true) {
     socket->recv(message);
     cout << message << endl;
   }
@@ -165,30 +169,31 @@ The following is a similar example to the above one but this time in a multithre
 
 #include "yampl.h"
 
-inline void deallocator(void *, void*){}
+inline void deallocator(void *, void*) {}
 
 using namespace std;
 using namespace yampl;
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
   const int nThreads = 10;
-  ISocketFactory *factory = new SocketFactory();
+  ISocketFactory* factory = new SocketFactory();
 
   thread server([factory] {
     Channel channel("service", THREAD);
     ISocket *socket = factory->createServerSocket(channel, MOVE_DATA, deallocator);
 
-    while(true){
+    while(true) {
       cout << "Ping from client " << socket->recv<int>() << endl;
       socket->send(0);
       sleep(1);
     }
   });
   
-  for(int i = 0; i < nThreads; i++){
+  for(int i = 0; i < nThreads; i++) {
     thread t([factory, i] {
       Channel channel("service", THREAD);
-      ISocket *socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
+      ISocket* socket = factory->createClientSocket(channel, MOVE_DATA, deallocator);
 
       while(true){
         socket->send(i);
