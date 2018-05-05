@@ -8,7 +8,7 @@ RUN yum check-update && yum -y install git wget
 # Install build tools
 RUN yum -y install cmake make automake
 RUN yum -y install centos-release-scl-rh
-RUN yum -y install devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel
+RUN yum -y install devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel uuid-devel
 # RUN scl enable devtoolset-6 bash
 
 RUN echo 'PATH=/opt/rh/devtoolset-6/root/usr/bin/:$PATH' >> ~/.bash_profile
