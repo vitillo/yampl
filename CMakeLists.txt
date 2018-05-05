@@ -18,7 +18,8 @@ cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
-set(CMAKE_CXX_STANDARD 14)
+include(YamplMacros)
+USE_CXX14()
 
 # Common source files for plugins
 set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
