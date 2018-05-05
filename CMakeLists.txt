@@ -244,7 +244,9 @@ if(WITH_EXAMPLES STREQUAL ON)
     )
     target_link_libraries(client ${YAMPL_COMMON_LIBS})
     target_link_libraries(server ${YAMPL_COMMON_LIBS})
-
+    add_dependencies(client yampl)
+    add_dependencies(server yampl)
+	
     # Benchmarks
     add_executable(benchmark examples/benchmarks/benchmark.cpp)
     set_target_properties(benchmark
@@ -254,6 +256,7 @@ if(WITH_EXAMPLES STREQUAL ON)
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/bin"
     )
     target_link_libraries(benchmark ${YAMPL_COMMON_LIBS})
+    add_dependencies(benchmark yampl)
 endif()
 
 # Libraries
