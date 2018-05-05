@@ -5,8 +5,8 @@ RUN yum check-update && yum -y install git wget
 
 # Install build tools
 RUN yum -y install make automake
-RUN yum install centos-release-scl-rh
-RUN yum install devtoolset-3-gcc devtoolset-3-gcc-c++
+RUN yum -y install centos-release-scl-rh
+RUN yum -y install devtoolset-3-gcc devtoolset-3-gcc-c++
 RUN update-alternatives --install /usr/bin/gcc-4.9 gcc-4.9 /opt/rh/devtoolset-3/root/usr/bin/gcc 10
 RUN update-alternatives --install /usr/bin/g++-4.9 g++-4.9 /opt/rh/devtoolset-3/root/usr/bin/g++ 10
 
