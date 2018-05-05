@@ -1,8 +1,8 @@
-# YAMPL
+# YAMPL Core
 
 [![Build Status](https://travis-ci.org/ntauth/yampl.svg?branch=master)](https://travis-ci.org/ntauth/yampl)
 
-YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels.
+YAMPL (Yet Another Message Passing Library) provides a simple abstraction of inter-process (local or distributed) & inter-thread communication channels. This repository is a fork from `vitillo/yampl` and only contains the core YAMPL code.
 
 A channel allows to send and receive data over it. Each end of a channel is attached to a socket:
 * **ClientSocket:**  a ***ClientSocket*** can be connected to at most a single ***ServerSocket*** through a channel;
@@ -28,22 +28,27 @@ Different communication strategies are offered to provide the best performances 
 
 ## Build, Test & Install
 ``` bash
-git clone https://github.com/vitillo/yampl
+git clone https://github.com/ntauth/yampl
 cd yampl
-./configure --prefix=INSTALL_PATH
-make
-make check
-make install
+cd plugins
+git clone https://github.com/ntauth/yampl-{SHM|ZMQ|PIPE}
+cd ..
+mkdir build
+cd build
+cmake .. -DWITH_EXAMPLES={ON|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF}
+sudo make
+sudo make install
 ```
+
 To compile and link against the YAMPL library:
 ```
 g++ `pkg-config yampl --libs --cflags` foo.cpp
 ```
 
-##Examples
+## Examples
 The *examples* subdirectory provides binaries that demonstrate some use-cases.
 
-###Local Client
+### Local Client
 The clients ping a server process and receive a reply from it.
 
 ``` c++
@@ -71,7 +76,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Local Server
+### Local Server
 The server process replies to the pings of the client.
 
 ```c++
@@ -99,7 +104,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Distributed Producer
+### Distributed Producer
 ```c++
 #include <unistd.h>
 #include <iostream>
@@ -126,7 +131,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Distributed Consumer
+### Distributed Consumer
 ```c++
 #include <iostream>
 
@@ -149,7 +154,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-###Multithreaded Client-Server
+### Multithreaded Client-Server
 The following is a similar example to the above one but this time in a multithreaded environment (C++11).
 
 
