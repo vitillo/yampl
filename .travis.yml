@@ -34,4 +34,4 @@ script:
       # Build
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir build; cd build; cmake .. -DWITH_EXAMPLES=ON -DWITH_TESTS=ON && make"
       # Run tests
-    - docker exec "$(cat ${container_id})" bash -c "cd tests/; ./calls && ./dest && ./size"
+    - docker exec "$(cat ${container_id})" bash -c "cd /yampl/build/tests/; ./calls && ./dest && ./size"
