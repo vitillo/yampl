@@ -34,245 +34,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a3826e5-3004-4f7b-bf59-3d7d7d0826d0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/3.7.2/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeError.log" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeError.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/LibSourcey.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/client.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/client.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.c" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/feature_tests.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/server.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/server.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl-shm.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/CMakeFiles/yampl.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/3.7.2/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CMakeRuleHashes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CheckTypeSize/OFF64_T.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CheckTypeSize/OFF64_T.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CheckTypeSize/OFF64_T.c" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/CheckTypeSize/OFF64_T.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/check.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/check.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/doc.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/doc.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/doc.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/doc.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/feature_tests.c" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/feature_tests.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/uninstall.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CMakeFiles/uninstall.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CPackConfig.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CPackConfig.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CPackSourceConfig.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/CPackSourceConfig.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/Doxyfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/archo/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/av/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/CMakeFiles/base.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/libscy_base.so.1.1.4" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/base/libscy_base.so.1.1.4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/crypto/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/http/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/install_manifest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/install_manifest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/json/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/libsourcey.h" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/libsourcey.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/net/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/CMakeFiles/pluga.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/libscy_pluga.so.1.1.4" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/pluga/libscy_pluga.so.1.1.4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/sched/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/socketio/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/stun/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/symple/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/turn/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/util/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/CMakeFiles/http_parser.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/http_parser/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/CMakeFiles/libuv.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/libuv/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/CMakeFiles/minizip.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/minizip/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlib.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/C.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/C.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/CMakeFiles/zlibstatic.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/libzlib.so.1.2.8" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/vendor/zlib/libzlib.so.1.2.8" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/src/LibSourcey-build/webrtc/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/tmp/LibSourcey-cfgcmd.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/tmp/LibSourcey-cfgcmd.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/LibSourcey-prefix/tmp/LibSourcey-gitclone.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/LibSourcey-prefix/tmp/LibSourcey-gitclone.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/build/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/examples/client_server/bin/client" beforeDir="false" afterPath="$PROJECT_DIR$/build/examples/client_server/bin/client" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/examples/client_server/bin/server" beforeDir="false" afterPath="$PROJECT_DIR$/build/examples/client_server/bin/server" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/install_manifest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/install_manifest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/plugins/shm/libyampl-shm.yam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeRuleHashes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/LibSourcey.dir/Labels.json" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/LibSourcey.dir/Labels.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/LibSourcey.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/LibSourcey.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yampl.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/LibSourcey-prefix/tmp/LibSourcey-cfgcmd.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/LibSourcey-prefix/tmp/LibSourcey-cfgcmd.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/yampl.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/yampl.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/benchmarks/benchmark.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/benchmarks/benchmark.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/yampl/zeromq/ClientSocket.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/yampl/zeromq/ServerSocket.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/yampl/zeromq/SocketBase.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/yampl/zeromq/SocketFactory.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SocketFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/SocketFactory.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zeromq/ClientSocket.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zeromq/ServerSocket.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zeromq/SocketBase.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/zeromq/SocketFactory.cpp" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -285,16 +47,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SimpleClientSocket.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/SimpleClientSocket.h">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="432">
+              <caret line="279" column="22" lean-forward="true" selection-start-line="279" selection-start-column="22" selection-end-line="279" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -308,14 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SocketFactory.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SocketFactory.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SocketFactory.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
-              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
-              <folding>
-                <element signature="e#1#38#0" expanded="true" />
-              </folding>
+              <caret line="56" selection-start-line="56" selection-end-line="56" />
             </state>
           </provider>
         </entry>
@@ -332,7 +86,7 @@
       <file leaf-file-name="benchmark.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/benchmarks/benchmark.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="816">
               <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -344,20 +98,10 @@
       <file leaf-file-name="ISocket.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ISocket.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="221">
               <caret line="13" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerSocket.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/src/ServerSocket.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="ClientSocket.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/ClientSocket.h">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -449,39 +193,12 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="benchmarks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="client_server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yampl" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
               <item name="yampl" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -500,11 +217,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="yampl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yampl" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -563,20 +284,21 @@
       <workItem from="1525451584247" duration="122000" />
       <workItem from="1525451716607" duration="3628000" />
       <workItem from="1525458897938" duration="5842000" />
+      <workItem from="1525984170294" duration="426000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52509000" />
+    <option name="totallyTimeSpent" value="52935000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="CMake" order="8" sideWeight="0.49583334" visible="true" weight="0.32975295" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50416666" side_tool="true" visible="true" weight="0.32975295" />
+      <window_info active="true" anchor="bottom" id="CMake" order="8" sideWeight="0.4953125" visible="true" weight="0.32975295" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5046875" side_tool="true" visible="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -606,6 +328,51 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../yampl-zmq/include/SocketFactory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="51" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/yampl/Channel.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/benchmarks/benchmark.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ISocket.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SocketFactory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/include/yampl/shm/PipeSocketBase.h" />
     <entry file="file://$PROJECT_DIR$/include/yampl/plugin/IPlugin.hpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -628,9 +395,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="32" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -647,9 +411,6 @@
           <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../yampl-shm/include/PipeSocketBase.h">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../yampl-shm/include/ProducerSocket.h">
       <provider selected="true" editor-type-id="text-editor">
@@ -679,28 +440,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/SocketFactory.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/SimpleServerSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/ServerSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/ProducerSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/PipeSocketBase.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-239" />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/ConsumerSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/ClientSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/include/yampl/plugin/PluginArbiter.hpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -708,9 +451,6 @@
           <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/src/SHMSocketFactory.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/plugin/PluginArbiter.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -721,7 +461,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ISocket.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="221">
           <caret line="13" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
@@ -730,9 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-258">
           <caret line="25" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="e#63#89#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -796,9 +533,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding>
-            <element signature="e#69#95#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -831,13 +565,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/producer_consumer/consumer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/multithreaded/multithread.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -855,17 +583,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#33#59#0" expanded="true" />
-          </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/include/SimpleClientSocket.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/yampl-shm/src/ServerSocket.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../yampl-zmq/src/SocketFactory.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -874,20 +593,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/client_server/client.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -900,8 +609,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/benchmarks/benchmark.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="816">
           <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/calls.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
@@ -911,10 +629,14 @@
     <entry file="file://$PROJECT_DIR$/src/SocketFactory.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
-          <folding>
-            <element signature="e#1#38#0" expanded="true" />
-          </folding>
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="279" column="22" lean-forward="true" selection-start-line="279" selection-start-column="22" selection-end-line="279" selection-end-column="22" />
         </state>
       </provider>
     </entry>
