@@ -3,6 +3,12 @@
 # Brief:  Matrix build tests in Travis CI
 #
 
+# Branches
+branches:
+    except:
+        - master
+        - master-cmake
+
 sudo: required
 
 services:
