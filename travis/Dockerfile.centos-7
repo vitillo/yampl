@@ -3,7 +3,7 @@ FROM centos:7
 SHELL ["/bin/bash", "-lc"]
 
 # Install utilities
-RUN yum check-update && yum -y install git wget
+RUN yum -y install git wget
 
 # Install build tools
 RUN yum -y install cmake make automake
@@ -19,11 +19,3 @@ RUN gcc --version
 # Make symbolic links for cc and c++
 RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/cc /usr/bin/cc
 RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++
-
-# Install CMake
-# RUN wget https://cmake.org/files/v3.11/cmake-3.11.1.tar.gz
-# RUN tar -zxvf cmake-3.11.1.tar.gz
-# RUN bash -c "cd cmake-3.11.1; ./bootstrap --prefix=/usr/local && make && make install"
-# RUN echo 'PATH=/usr/local/bin:$PATH:$HOME/bin' >> ~/.bash_profile
-# RUN rpm -Uv http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/j/jsoncpp-0.10.5-2.el7.x86_64.rpm
-# RUN rpm -Uv http://mirror.ghettoforge.org/distributions/gf/el/7/plus/x86_64//cmake-3.3.2-1.gf.el7.x86_64.rpm
