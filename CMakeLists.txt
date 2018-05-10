@@ -266,6 +266,7 @@ if(WITH_TESTS STREQUAL ON)
             PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
     )
+    add_dependencies(calls yampl)
 
     # Dest Test
     add_executable(dest test/dest.cpp)
@@ -273,6 +274,7 @@ if(WITH_TESTS STREQUAL ON)
             PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
     )
+    add_dependencies(dest yampl)
 
     # Size Test
     add_executable(size test/size.cpp)
@@ -280,6 +282,7 @@ if(WITH_TESTS STREQUAL ON)
             PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
     )
+    add_dependencies(size yampl)
 endif()
 
 # Libraries
