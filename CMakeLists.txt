@@ -23,7 +23,7 @@ cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
-include(cmake/YamplMacros)
+include(cmake/YamplUtils)
 USE_CXX14()
 
 # Common source files for plugins

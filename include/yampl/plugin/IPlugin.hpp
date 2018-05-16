@@ -7,12 +7,11 @@
 #ifndef PLUGA_TEST_IPLUGIN_HPP
 #define PLUGA_TEST_IPLUGIN_HPP
 
-#include <scy/pluga/pluga.h>
 #include <cstdint>
 
-namespace scy
+namespace yampl
 {
-    namespace pluga
+    namespace plugin
     {
         /**
          * @brief Yampl plugin base interface
