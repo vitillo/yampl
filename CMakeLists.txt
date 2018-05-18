@@ -259,6 +259,35 @@ if(WITH_EXAMPLES STREQUAL ON)
     add_dependencies(benchmark yampl)
 endif()
 
+if(WITH_TESTS STREQUAL ON)
+    # Calls Test
+    add_executable(calls tests/calls.cpp)
+    set_target_properties(calls
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+    )
+    target_link_libraries(calls ${YAMPL_COMMON_LIBS})
+    add_dependencies(calls yampl)
+
+    # Dest Test
+    add_executable(dest tests/dest.cpp)
+    set_target_properties(dest
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+    )
+    target_link_libraries(dest ${YAMPL_COMMON_LIBS})
+    add_dependencies(dest yampl)
+
+    # Size Test
+    add_executable(size tests/size.cpp)
+    set_target_properties(size
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+    )
+    target_link_libraries(size ${YAMPL_COMMON_LIBS})
+    add_dependencies(size yampl)
+endif()
+
 # Libraries
 target_link_libraries(yampl ${CMAKE_THREAD_LIBS_INIT}
     rt
