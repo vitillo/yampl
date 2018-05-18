@@ -23,7 +23,7 @@ cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
-include(cmake/YamplMacros)
+include(cmake/YamplUtils.cmake)
 USE_CXX14()
 
 # Common source files for plugins
@@ -36,7 +36,7 @@ set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
 find_package(Threads)
 
 # Include YAMPL dependencies
-include(cmake/YamplDepends)
+include(cmake/YamplDepends.cmake)
 
 # Include directories
 include_directories(include/ zeromq/include
