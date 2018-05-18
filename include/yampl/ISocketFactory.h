@@ -18,7 +18,7 @@ enum Semantics{
   MOVE_DATA
 };
 
-class ISocketFactory: public scy::pluga::IPlugin
+class ISocketFactory // : public scy::pluga::IPlugin
 {
   public:
     ISocketFactory() {}

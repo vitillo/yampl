@@ -7,7 +7,10 @@
 #ifndef YAMPL_PLUGINARBITER_HPP
 #define YAMPL_PLUGINARBITER_HPP
 
+#include "DynamicModule.hpp"
+
 #include <cstdint>
+#include <memory>
 #include <unordered_map>
 #include <mutex>
 #include <list>
@@ -19,10 +22,8 @@ namespace yampl
         class PluginArbiter
         {
             private:
-                std::unordered_map<std::shared_ptr<DynModule>> _module_map; //!< Module map
-                std::list<std::shared_ptr<DynModule>> _module_list_lo; //!< Module list (Load order)
+                std::unordered_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
                 mutable std::mutex _module_map_mtx;
-                mutable std::mutex _module_list_lo;
 
         };
     }
