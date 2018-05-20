@@ -4,9 +4,6 @@
 #include <sys/wait.h>
 
 #include "yampl.h"
-#include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
-#include "yampl/zeromq/SocketFactory.h"
 
 using namespace yampl;
 using namespace std;
@@ -42,24 +39,27 @@ void server(ISocketFactory *factory, const Channel &channel){
 
 int main(int argc, char *argv[])
 {
-  int status;
+  int status = -1;
 
   if(fork() == 0){
-    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
+    ISocketFactory *zmqFactory = new SocketFactory();
     client(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new pipe::SocketFactory();
+    ISocketFactory *pipeFactory = new SocketFactory();
     client(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new shm::SocketFactory();
+    ISocketFactory *shmFactory = new SocketFactory();
     client(shmFactory, Channel("shm", LOCAL_SHM));
   }else{
-    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
+    ISocketFactory *zmqFactory = new SocketFactory();
     server(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new pipe::SocketFactory();
+    ISocketFactory *pipeFactory = new SocketFactory();
     server(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new shm::SocketFactory();
+    ISocketFactory *shmFactory = new SocketFactory();
     server(shmFactory, Channel("shm", LOCAL_SHM));
 
     wait(&status);
     cout << "Success" << endl;
+	status = 0;
   }
+
+  return status;
 }

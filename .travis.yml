@@ -8,6 +8,7 @@ branches:
     except:
         - master
         - master-cmake
+        - master-plugin
 
 sudo: required
 
