@@ -23,7 +23,7 @@ cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
 # Use C++14
-include(cmake/YamplUtils)
+include(cmake/YamplUtils.cmake)
 USE_CXX14()
 
 # Common source files for plugins
@@ -36,7 +36,7 @@ set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
 find_package(Threads)
 
 # Include YAMPL dependencies
-include(cmake/YamplDepends)
+include(cmake/YamplDepends.cmake)
 
 # Include directories
 include_directories(include/ zeromq/include
@@ -317,6 +317,15 @@ install(TARGETS yampl
 )
 
 # Include plugins
+execute_process(COMMAND sh "-c" "rm -R ../plugins; mkdir ../plugins")
+if (WITH_SHM_PLUGIN STREQUAL ON)
+    AddExtProjectGit("https://github.com/ntauth/yampl-shm" "../plugins")        
+endif()
+
+if (WITH_ZMQ_PLUGIN STREQUAL ON)
+    AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "../plugins")        
+endif()
+
 file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake)
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     include(${YAMPL_CMAKE_FILE})
