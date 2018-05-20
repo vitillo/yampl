@@ -53,7 +53,7 @@ void server(){
 
 int main()
 {
-  int status;
+  int status = -1;
 
   if(fork() == 0){
     client();
@@ -61,5 +61,8 @@ int main()
     server();
     wait(&status);
     cout << "Success" << endl;
+ 	status = 0; 
   }
+
+  return status;
 }
