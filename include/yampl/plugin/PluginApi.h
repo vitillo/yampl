@@ -9,6 +9,8 @@
 
 #include <stdint.h>
 
+#define PLUGIN_API_VERSION 0UL
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,66 +32,39 @@ extern "C" {
     #define YAMPL_DECL_LOCAL
 #endif
 
+#define PLUGIN_HDR_EXPORT _YAMPL_PLUGIN_HDR
+#define PLUGIN_HDR_EXPORT_SYM "_YAMPL_PLUGIN_HDR"
 /**
- * @brief Declares the specified class as a Yampl plugin and registers it with a unique moniker and a version
+ * @brief Helper macro to declare plugins
  */
-#define YAMPL_PLUGIN(_ClsName, _Id, _Ver)                                               \
-        extern "C" {                                                                   \
-            YAMPL_DECL_EXPORT yampl::plugin::IPluginProto* getPlugin()                  \
-            {                                                                           \
-                static _ClsName singleton;                                             \
-                return &singleton;                                                     \
-            }                                                                           \
-            YAMPL_DECL_EXPORT yampl::plugin::PluginHeader header = {                    \
-                YAMPL_PLUGIN_ARBITER_ABI_VER,                                           \
-                __FILE__,                                                               \
-                #_ClsName,                                                              \
-                pluginName,                                                             \
-                pluginVersion,                                                          \
-                getPlugin,                                                              \
-            };                                                                          \
-        }
+#define YAMPL_PLUGIN(_Moniker, _Ver_Maj, _Ver_Min) \
+    extern "C" { \
+        YAMPL_DECL_EXPORT plugin_info_hdr PLUGIN_HDR_EXPORT = { \
+            _Moniker, \
+            _Ver_Maj, \
+            _Ver_Min, \
+            PLUGIN_API_VERSION, \
+            PluginMain \
+        }; \
+    }
 
+/* Maximum length of the plugin moniker */
 #define __HDR_MONIKER_MAX_LEN 32
 
 typedef void* opaque_ptr;
 
-/*********************** Hook functions **/
-typedef opaque_ptr (*HOOK_CreateObject)(pobject_init_params /* params */);
-typedef hook_exec_status (*HOOK_DestroyObject)(opaque_ptr /* handle */);
-typedef hook_exec_status (*HOOK_RegisterObject)(object_proto_type /* type */, )
-
-typedef struct plugin_info_hdr_
+typedef enum app_service_type_
 {
-    /* Moniker */
-    char moniker[__HDR_MONIKER_MAX_LEN + 1];
-    /* Plugin Version */
-    union {
-        struct {
-           uint8_t major;
-           uint8_t minor;
-       } v;
-        uint16_t version;
-    } u;
-    /* Plugin API version */
-    uint32_t api_version;
-} plugin_info_hdr, *pplugin_info_hdr_;
-
-/**
- * @brief Enumeration that indicates to the PluginArbiter the underlying implementation language used for a plugin object
- */
-typedef enum object_impl_lang_
-{
-   OBJ_IMPL_C,
-   OBJ_IMPL_CPP
-} object_impl_lang, *pobject_impl_lang;
+    SVC_LOGGER_FACILITY,
+} app_service_type, *papp_service_type;
 
 /**
  * @brief Enumeration that indicates to the PluginArbiter the underlying interface implemented by a plugin object
  */
 typedef enum object_proto_type_
 {
-    OBJ_PROTO_SK_FACTORY = 0UL, // ISocketFactory
+    OBJ_PROTO_UNKNOWN = 0UL,
+    OBJ_PROTO_SK_FACTORY, // ISocketFactory
 } object_proto_type, *pobject_proto_type;
 
 typedef struct object_init_params_
@@ -97,25 +72,62 @@ typedef struct object_init_params_
     object_proto_type type; // Requested object
 } object_init_params, *pobject_init_params;
 
-typedef struct object_register_params_
-{
-    /* Plugin API version */
-    uint32_t api_version;
-
-    /* Lifecycle hook functions */
-    HOOK_CreateObject   hk_create;
-    HOOK_DestroyObject  hk_destroy;
-    HOOK_RegisterObject hk_register;
-
-    /* Implementation language */
-    object_impl_lang impl_lang;
-};
-
 typedef enum hook_exec_status_
 {
     HOOK_STATUS_SUCCESS,
     HOOK_STATUS_FAILURE,
 } hook_exec_status, *phook_exec_status;
+
+struct plugin_init_frame_;
+
+/*********************** Hook functions (Plugin side) **/
+typedef opaque_ptr (*HOOK_CreateObject)(pobject_init_params /* params */);
+typedef hook_exec_status (*HOOK_DestroyObject)(opaque_ptr /* handle */);
+typedef hook_exec_status (*HOOK_PluginMain)(plugin_init_frame_* /* frame */);
+
+/*********************** Hook functions (Application side) **/
+typedef hook_exec_status (*HOOK_RegisterObject)(object_proto_type /* type */);
+typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
+
+typedef struct plugin_init_frame_
+{
+    /* Plugin API version supported by the application */
+    uint32_t api_version;
+
+    /* Callback to register objects */
+    HOOK_RegisterObject hk_register;
+} plugin_init_frame, *pplugin_init_frame;
+
+typedef struct plugin_info_hdr_
+{
+    /* Moniker */
+    char moniker[__HDR_MONIKER_MAX_LEN + 1];
+
+    /* Plugin Version */
+    union {
+        struct {
+            uint8_t major;
+            uint8_t minor;
+        } v;
+        uint16_t version;
+    } u;
+
+    /* Plugin API version */
+    uint32_t api_compat_version;
+
+    /* PluginMain callback */
+    HOOK_PluginMain hk_plugin_main;
+} plugin_info_hdr, *pplugin_info_hdr;
+
+typedef struct object_register_params_
+{
+    /* Object versiom */
+    uint32_t obj_version;
+
+    /* Lifecycle hook functions */
+    HOOK_CreateObject   hk_create;
+    HOOK_DestroyObject  hk_destroy;
+} object_register_params, *pobject_register_params;
 
 #ifdef __cplusplus
 }
