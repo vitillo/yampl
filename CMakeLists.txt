@@ -83,6 +83,7 @@ add_library(yampl SHARED
         src/pipe/PipeSocketBase.cpp
         src/pipe/PipeSocketFactory.cpp
         src/plugin/PluginArbiter.cpp
+        src/plugin/DynamicModule.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
         zeromq/builds/msvc/platform.hpp
