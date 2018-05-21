@@ -10,6 +10,19 @@ include(CMakeParseArguments)
 # @brief: Function to pull git external projects
 #
 # @param repo_url: Url to the repository
+<<<<<<< HEAD
+# @param repo_tag: Tag of the repository
+# @param unpack_dst: Path of the directory where to unpack the binaries
+#
+# @usage: AddExtProjectGit("<url to git repository>", "<tag>", "<install destination>")
+#
+function(AddExtProjectGit repo_url repo_tag unpack_dst)
+
+        message(STATUS "Pulling external git project from: ${repo_url}: ${repo_tag}")
+
+        string(REGEX MATCH "([^\\/]+)[.]git$" proj_name ${repo_url})
+
+=======
 # @param unpack_dst: Path of the directory where to unpack the binaries
 #
 # @usage: AddExtProjectGit("<url to git repository>", "<clone destination>")
@@ -17,6 +30,7 @@ include(CMakeParseArguments)
 function(AddExtProjectGit repo_url clone_dst)
         message(STATUS "Pulling external git project from: ${repo_url}")
         execute_process(COMMAND sh "-c" "cd ${clone_dst} && git clone ${repo_url}")
+>>>>>>> 9d580f85f336cdc90e250a61a2e22a7f386355e4
 endfunction()
 
 #
