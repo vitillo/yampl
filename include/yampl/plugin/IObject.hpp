@@ -1,6 +1,7 @@
 /**
  * @author Ayoub Chouak (a.chouak@protonmail.com)
- * @file   IPlugin.hpp
+ * @file   IObject.hpp
+ * @brief  Base interface for plugin objects
  *
  */
 
@@ -16,11 +17,13 @@ namespace yampl
         /**
          * @brief Yampl plugin base interface
          */
-        class IPlugin
+        class IObject
         {
             public:
-                IPlugin() {}
-                virtual ~IPlugin() {}
+                static const uint32_t __OBJECT_VERSION;
+
+                IObject() {}
+                virtual ~IObject() {}
         };
     }
 }

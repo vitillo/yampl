@@ -1,7 +1,7 @@
 #ifndef YAMPL_ISOCKET_H
 #define YAMPL_ISOCKET_H
 
-#include "plugin/IPlugin.hpp"
+#include "plugin/IObject.hpp"
 
 #include <unistd.h>
 #include <assert.h>
