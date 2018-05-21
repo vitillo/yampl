@@ -261,6 +261,15 @@ if(WITH_EXAMPLES STREQUAL ON)
 endif()
 
 if(WITH_TESTS STREQUAL ON)
+    # Dynmodule Test
+    add_executable(dynmodule tests/dynmodule.cpp)
+    set_target_properties(dynmodule
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+    )
+    target_link_libraries(dynmodule ${YAMPL_COMMON_LIBS})
+    add_dependencies(dynmodule yampl)
+
     # Calls Test
     add_executable(calls tests/calls.cpp)
     set_target_properties(calls
