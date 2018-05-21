@@ -33,7 +33,19 @@ namespace yampl
                 dl_handle   _module_handle; //!< Opaque handle returned by dlopen
                 bool _free; //!< Prevents the destructor from performing a spurious dlclose
 
-            public:
+                /**
+                 * Internal non-throwing constructor
+                 * @param dyn_mod_pfx the directory prefix where the module is stored
+                 * @param dyn_mod_name the module name
+                 * @param handle the dl_handle to the module
+                 */
+                DynamicModule(std::string dyn_mod_pfx, std::string dyn_mod_name, dl_handle handle) noexcept;
+
+                /**
+                 * Non-visible copy constructor
+                 */
+                DynamicModule(DynamicModule const&);
+        public:
                 /**
                  * @brief Binding policy for dlopen
                  */
@@ -50,12 +62,19 @@ namespace yampl
                 };
 
                 /**
+                 * Move constructor
+                 *
+                 * @param rhs The dynamic module whose handle and data are to be moved
+                 */
+                DynamicModule(DynamicModule&& rhs) noexcept;
+
+                /**
                  *
                  * @param dyn_mod_pfx  the directory prefix where the module is stored
                  * @param dyn_mod_name the elided module name (ex. libyampl-shm => yampl-shm)
                  * @throws DynamicModuleLoadException
                  */
-                DynamicModule(std::string dyn_mod_pfx, std::string dyn_mod_name, BindingPolicy policy = BindingPolicy::Lazy) /* throw(DynamicModuleLoadException) */;
+                static DynamicModule open(std::string dyn_mod_pfx, std::string dyn_mod_name, BindingPolicy policy = BindingPolicy::Lazy) /* throw(DynamicModuleLoadException) */;
 
                 /**
                  * Performs cleanup of dynamically allocated memory (dlopen)
@@ -95,6 +114,11 @@ namespace yampl
                  *
                  */
                 void release();
+
+                /************************* Properties **/
+                std::string name() const;
+                std::string prefix() const;
+                bool free() const;
         };
     }
 }
