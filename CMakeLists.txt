@@ -30,7 +30,7 @@ USE_CXX14()
 set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
 
 # Common libraries (for examples and tests)
-set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
+set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so dl uuid pthread)
 
 # Pthreads
 find_package(Threads)
@@ -234,6 +234,22 @@ add_library(yampl SHARED
 )
 
 if(WITH_EXAMPLES STREQUAL ON)
+    # Dummy Plugin
+    add_library(yampl-dummy SHARED examples/dummy_plugin/plugin_main.cpp)
+    add_executable(consumer examples/dummy_plugin/consumer.cpp)
+    set_target_properties(yampl-dummy
+            PROPERTIES
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/dummy_plugin/lib"
+    )
+    set_target_properties(consumer
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/dummy_plugin/bin"
+    )
+    target_link_libraries(yampl-dummy ${YAMPL_COMMON_LIBS})
+    target_link_libraries(consumer ${YAMPL_COMMON_LIBS})
+    add_dependencies(yampl-dummy yampl)
+    add_dependencies(consumer yampl)
+
     # Client-Server
     add_executable(client examples/client_server/client.cpp)
     add_executable(server examples/client_server/server.cpp)

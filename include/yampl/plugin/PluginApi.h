@@ -32,17 +32,19 @@ extern "C" {
     #define YAMPL_DECL_LOCAL
 #endif
 
+#define PLUGIN_HDR_EXPORT _YAMPL_PLUGIN_HDR
+#define PLUGIN_HDR_EXPORT_SYM "_YAMPL_PLUGIN_HDR"
 /**
  * @brief Helper macro to declare plugins
  */
 #define YAMPL_PLUGIN(_Moniker, _Ver_Maj, _Ver_Min) \
     extern "C" { \
-        YAMPL_DECL_EXPORT plugin_info_hdr _YAMPL_PLUGIN_HDR = { \
-            .moniker = _Moniker, \
-            .u.v.major = _Ver_Maj, \
-            .u.v.minor = _Ver_Min, \
-            .api_compat_version = PLUGIN_API_VERSION \
-            .main_callback_fn = PluginMain \
+        YAMPL_DECL_EXPORT plugin_info_hdr PLUGIN_HDR_EXPORT = { \
+            _Moniker, \
+            _Ver_Maj, \
+            _Ver_Min, \
+            PLUGIN_API_VERSION, \
+            PluginMain \
         }; \
     }
 
@@ -56,19 +58,13 @@ typedef enum app_service_type_
     SVC_LOGGER_FACILITY,
 } app_service_type, *papp_service_type;
 
-typedef struct plugin_init_frame_
-{
-    /* Plugin API version supported by the application */
-    uint32_t api_version;
-
-} plugin_init_frame, *pplugin_init_frame;
-
 /**
  * @brief Enumeration that indicates to the PluginArbiter the underlying interface implemented by a plugin object
  */
 typedef enum object_proto_type_
 {
-    OBJ_PROTO_SK_FACTORY = 0UL, // ISocketFactory
+    OBJ_PROTO_UNKNOWN = 0UL,
+    OBJ_PROTO_SK_FACTORY, // ISocketFactory
 } object_proto_type, *pobject_proto_type;
 
 typedef struct object_init_params_
@@ -82,14 +78,25 @@ typedef enum hook_exec_status_
     HOOK_STATUS_FAILURE,
 } hook_exec_status, *phook_exec_status;
 
+struct plugin_init_frame_;
+
 /*********************** Hook functions (Plugin side) **/
 typedef opaque_ptr (*HOOK_CreateObject)(pobject_init_params /* params */);
 typedef hook_exec_status (*HOOK_DestroyObject)(opaque_ptr /* handle */);
-typedef hook_exec_status (*HOOK_PluginMain)(pplugin_init_frame /* frame */);
+typedef hook_exec_status (*HOOK_PluginMain)(plugin_init_frame_* /* frame */);
 
 /*********************** Hook functions (Application side) **/
 typedef hook_exec_status (*HOOK_RegisterObject)(object_proto_type /* type */);
 typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
+
+typedef struct plugin_init_frame_
+{
+    /* Plugin API version supported by the application */
+    uint32_t api_version;
+
+    /* Callback to register objects */
+    HOOK_RegisterObject hk_register;
+} plugin_init_frame, *pplugin_init_frame;
 
 typedef struct plugin_info_hdr_
 {
@@ -109,8 +116,8 @@ typedef struct plugin_info_hdr_
     uint32_t api_compat_version;
 
     /* PluginMain callback */
-    HOOK_PluginMain main_callback_fn;
-} plugin_info_hdr, *pplugin_info_hdr_;
+    HOOK_PluginMain hk_plugin_main;
+} plugin_info_hdr, *pplugin_info_hdr;
 
 typedef struct object_register_params_
 {
@@ -120,8 +127,7 @@ typedef struct object_register_params_
     /* Lifecycle hook functions */
     HOOK_CreateObject   hk_create;
     HOOK_DestroyObject  hk_destroy;
-    HOOK_RegisterObject hk_register;
-};
+} object_register_params, *pobject_register_params;
 
 #ifdef __cplusplus
 }
