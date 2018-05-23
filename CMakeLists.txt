@@ -293,14 +293,38 @@ target_link_libraries(yampl
 
 # Install step
 file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/yampl/*.h" "include/yampl/*.hpp")
+
 set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
+set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
+
+# Configure yampl-env.sh.in
+set(YAMPL_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/lib/yampl")
+set(YAMPL_ENV_DIR "/etc/profile.d")
+
+configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @ONLY)
+configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
 
 # @todo: Generate project configuration file
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl        
+)
+
+# Unpack resources
+install(DIRECTORY scripts/
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
+        PATTERN "scripts/*.sh"
+        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+                    GROUP_EXECUTE GROUP_READ
+)
+
+# Copy yampl-env.sh to /etc/profile.d
+install(FILES scripts/yampl-env.sh
+        DESTINATION ${YAMPL_ENV_DIR}
+        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+                    GROUP_EXECUTE GROUP_READ
 )
 
 # Include plugins
@@ -314,8 +338,3 @@ file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake)
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
-
-
-# Copy the uninstall script over to the build directory
-execute_process(COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/cmake/uninstall.sh ./)
-execute_process(COMMAND chmod +x ./uninstall.sh)
