@@ -34,6 +34,7 @@ extern "C" {
 
 #define PLUGIN_HDR_EXPORT _YAMPL_PLUGIN_HDR
 #define PLUGIN_HDR_EXPORT_SYM "_YAMPL_PLUGIN_HDR"
+
 /**
  * @brief Helper macro to declare plugins
  */
@@ -79,6 +80,7 @@ typedef enum hook_exec_status_
 } hook_exec_status, *phook_exec_status;
 
 struct plugin_init_frame_;
+struct object_register_params_;
 
 /*********************** Hook functions (Plugin side) **/
 typedef opaque_ptr (*HOOK_CreateObject)(pobject_init_params /* params */);
@@ -86,7 +88,7 @@ typedef hook_exec_status (*HOOK_DestroyObject)(opaque_ptr /* handle */);
 typedef hook_exec_status (*HOOK_PluginMain)(plugin_init_frame_* /* frame */);
 
 /*********************** Hook functions (Application side) **/
-typedef hook_exec_status (*HOOK_RegisterObject)(object_proto_type /* type */);
+typedef hook_exec_status (*HOOK_RegisterObject)(object_register_params_* /* params */);
 typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
 
 typedef struct plugin_init_frame_
@@ -121,7 +123,10 @@ typedef struct plugin_info_hdr_
 
 typedef struct object_register_params_
 {
-    /* Object versiom */
+    /* Object type */
+    object_proto_type obj_type;
+
+    /* Object version */
     uint32_t obj_version;
 
     /* Lifecycle hook functions */

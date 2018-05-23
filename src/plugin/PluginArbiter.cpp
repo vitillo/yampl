@@ -5,3 +5,11 @@
  */
 
 #include "yampl/plugin/PluginArbiter.hpp"
+
+namespace yampl
+{
+    namespace plugin
+    {
+        static std::shared_ptr<PluginArbiter> PluginArbiter::_singleton = nullptr;
+    }
+}

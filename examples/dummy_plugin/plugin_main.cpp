@@ -5,6 +5,7 @@
  */
 
 #include "yampl/plugin/PluginApi.h"
+#include "plugin_object.hpp"
 
 #include <cstdint>
 #include <iostream>
@@ -37,8 +38,13 @@ hook_exec_status PluginMain(pplugin_init_frame frame)
         std::cout << "[PLUGIN][+] PluginMain executed successfully" << std::endl;
 
         // Register dummy objects
-        frame->hk_register(OBJ_PROTO_UNKNOWN);
-        frame->hk_register(OBJ_PROTO_SK_FACTORY);
+        object_register_params params;
+        params.obj_type = OBJ_PROTO_UNKOWN;
+        params.obj_version = DummyObject::__OBJECT_VERSION;
+        params.hk_create = nullptr;
+        params.hk_destroy = nullptr;
+
+        frame->hk_register(params);
     }
 
     return status;

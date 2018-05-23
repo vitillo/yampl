@@ -2,7 +2,7 @@
 #define YAMPL_SOCKETFACTORY_H
 
 #include "yampl/ISocketFactory.h"
-#include "yampl/plugin/IPlugin.hpp"
+#include "plugin/IObject.hpp"
 
 #include <vector>
 #include <scy/sharedlibrary.h>
