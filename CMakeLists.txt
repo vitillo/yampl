@@ -234,6 +234,9 @@ add_library(yampl SHARED
         zeromq/tests/testutil.hpp
 )
 
+# Suppress -Wterminate
+target_compile_options(yampl PRIVATE "-Wno-terminate")
+
 if(WITH_EXAMPLES STREQUAL ON)
     # Dummy Plugin
     add_library(yampl-dummy SHARED examples/dummy_plugin/plugin_main.cpp)
