@@ -3,36 +3,44 @@
 
 #include "yampl/ISocketFactory.h"
 #include "plugin/IObject.hpp"
+#include "plugin/PluginArbiter.hpp"
 
 #include <vector>
-#include <scy/sharedlibrary.h>
 
-namespace yampl{
+namespace yampl
+{
+    using plugin::PluginArbiter;
 
-namespace ZMQ{
-  class SocketFactory;
-}
+    namespace ZMQ {
+      class SocketFactory;
+    }
 
-namespace pipe{
-  class SocketFactory;
-}
+    namespace pipe {
+      class SocketFactory;
+    }
 
-class SocketFactory : public ISocketFactory{
-  public:
-    SocketFactory();
-    virtual ~SocketFactory();
+    class SocketFactory : public ISocketFactory
+    {
+        private:
+            std::string module_base_path;
+            std::shared_ptr<PluginArbiter> arbiter;
+            std::vector<PluginArbiter::Handle> factory_handle_list;
 
-    virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator, const std::string& name = DEFAULT_ID);
-    virtual ISocket *createServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
+            SocketFactory & operator=(const SocketFactory &);
 
-  private:
-    std::vector<scy::SharedLibrary> factories;
-    ISocketFactory *m_zmqFactory;
-    ISocketFactory *m_pipeFactory;
-    ISocketFactory *m_shmFactory;
+        public:
+            static constexpr char const* SHM_MODULE_NAME  = "yampl-shm";
+            static constexpr char const* ZMQ_MODULE_NAME  = "yampl-zmq";
+            static constexpr char const* PIPE_MODULE_NAME = "yampl-pipe";
 
-    SocketFactory & operator=(const SocketFactory &);
-};
+            SocketFactory() noexcept;
+            explicit SocketFactory(std::string) noexcept;
+
+            ~SocketFactory() override;
+
+            virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator, const std::string& name = DEFAULT_ID);
+            virtual ISocket *createServerSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator);
+    };
 
 }
 

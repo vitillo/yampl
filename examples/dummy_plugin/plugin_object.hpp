@@ -13,7 +13,7 @@
 #include <cstdint>
 #include <iostream>
 
-class DummyObject : public IObject
+class DummyObject : public yampl::plugin::IObject
 {
     public:
         static const uint32_t __OBJECT_VERSION = 0UL;

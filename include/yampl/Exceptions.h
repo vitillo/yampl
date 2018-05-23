@@ -2,10 +2,13 @@
 #define YAMPL_EXCEPTIONS_H
 
 #include "plugin/DynamicModule.hpp"
+#include "plugin/PluginArbiter.hpp"
+#include "plugin/PluginApi.h"
 
 #include <exception>
 #include <cstdio>
 #include <cstring>
+#include <memory>
 
 #include <errno.h>
 
@@ -74,28 +77,75 @@ namespace yampl
 
     namespace plugin
     {
-        class DynamicModuleLoadException : public Exception
+        class DynamicModuleException : public Exception
+        {
+            protected:
+                hook_exec_status_ex _internal_status;
+            public:
+                explicit DynamicModuleException(char const* what) noexcept
+                        : Exception(what)
+                {
+                    _internal_status.status = HOOK_STATUS_UNKNOWN;
+                    _internal_status.status_code = static_cast<uint32_t>(-1);
+                }
+
+                DynamicModuleException(const char* what, hook_exec_status_ex internal_status)
+                        : Exception(what)
+                        , _internal_status(internal_status)
+                {
+
+                }
+
+                virtual hook_exec_status_ex internal_status() const {
+                    return _internal_status;
+                }
+        };
+
+        /**
+         * DynamicModule exceptions
+         */
+        class DynamicModuleLoadException : public DynamicModuleException
         {
             public:
                 explicit DynamicModuleLoadException(char const* what = "Module load failed unexpectedly") noexcept
-                        : Exception(what)
+                        : DynamicModuleException(what)
                 { }
         };
 
-        class DynamicModuleSymbolException : public Exception
+        class DynamicModuleSymbolException : public DynamicModuleException
         {
             private:
                 DynamicModule::SymbolError _error_type;
 
             public:
                 explicit DynamicModuleSymbolException(char const* what, DynamicModule::SymbolError error_type) noexcept
-                        : Exception(what)
+                        : DynamicModuleException(what)
                         , _error_type(error_type)
                 { }
 
                 virtual DynamicModule::SymbolError error_type() const noexcept {
                     return _error_type;
                 }
+        };
+
+        /**
+         * PluginArbiter exceptions
+         */
+        class PluginArbiterException : public Exception
+        {
+            protected:
+                PluginStatus _status;
+
+            public:
+                explicit PluginArbiterException(char const* what = "PluginArbiter failed loading the plugin") noexcept
+                        : Exception(what)
+                        , _status(PluginStatus::Unknown)
+                { }
+
+                PluginArbiterException(char const* what, PluginStatus status)
+                    : Exception(what)
+                    , _status(status)
+                { }
         };
     }
 }

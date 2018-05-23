@@ -29,7 +29,13 @@ hook_exec_status PluginMain(pplugin_init_frame frame)
     if (frame == nullptr)
     {
         status = HOOK_STATUS_FAILURE;
-        std::cout << "[PLUGIN][!] PluginMain failed" << std::endl;
+        std::cerr << "[PLUGIN][!] PluginMain failed" << std::endl;
+    }
+    // Check the API version
+    else if (frame->api_version != PLUGIN_API_VERSION)
+    {
+        std::cerr << "[PLUGIN][!] Plugin API mismatch" << std::endl;
+        status = HOOK_STATUS_FAILURE;
     }
     else
     {
@@ -39,12 +45,12 @@ hook_exec_status PluginMain(pplugin_init_frame frame)
 
         // Register dummy objects
         object_register_params params;
-        params.obj_type = OBJ_PROTO_UNKOWN;
+        params.obj_type = OBJ_PROTO_UNKNOWN;
         params.obj_version = DummyObject::__OBJECT_VERSION;
         params.hk_create = nullptr;
         params.hk_destroy = nullptr;
 
-        frame->hk_register(params);
+        frame->hk_register(&params);
     }
 
     return status;

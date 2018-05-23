@@ -8,6 +8,7 @@
 #define YAMPL_PLUGINARBITER_HPP
 
 #include "DynamicModule.hpp"
+#include "PluginApi.h"
 
 #include <cstdint>
 #include <memory>
@@ -19,6 +20,18 @@ namespace yampl
 {
     namespace plugin
     {
+        enum class PluginStatus : uint8_t
+        {
+            Unknown = 0UL,
+            Ok,
+            /* Module Errors */
+            ModuleNotFound,
+            /* API Errors */
+            ApiVersionMismatch,
+            /* Internal Errors */
+            InternalGeneralError,
+        };
+
         class PluginArbiter
         {
             protected:
@@ -26,17 +39,54 @@ namespace yampl
                 std::unordered_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
                 mutable std::mutex _module_map_mtx;
 
-                virtual ~PluginArbiter();
+                /**
+                 * Initializes the plugin
+                 *
+                 * @param module the shared pointer to the plugin module
+                 * @return the status of the plugin initialization
+                 */
+                virtual PluginStatus OnModuleLoad(std::shared_ptr<DynamicModule> module);
+
+                /**
+                 * Unloads a module given its moniker
+                 *
+                 * @param moniker the moniker of the plugin module
+                 * @return a boolean indicating whether the module was unloaded
+                 */
+                virtual bool unload_impl(std::string moniker);
+
+                /************************** Hooks **/
+//                virtual hook_exec_status hook_register_object;
             private:
-                PluginArbiter();
                 PluginArbiter(PluginArbiter const&);
             public:
-                enum class PluginDiscoveryMode
+                /**
+                 * @brief DynamicModule handle
+                 */
+                class Handle
                 {
-                    Standard,       // The base directory contains all the plugins
-                    RecurseShallow, // The base directory contains the plugins wrapped in their respective folders
-                    RecurseDeep     // The base directory contains the plugins, but the depth is unknown
+                    protected:
+                        std::shared_ptr<DynamicModule> _module;
+                    public:
+                        Handle() noexcept;
+                        Handle(std::shared_ptr<DynamicModule> module) noexcept;
+
+                        template<typename _Sym>
+                        _Sym* resolve_sym(std::string sym) {
+                            return _module->resolve_sym<plugin_info_hdr>(sym);
+                        }
+
+                        std::string moniker() const;
                 };
+
+                enum class DiscoveryMode
+                {
+                    Standard, // The base directory contains all the plugins
+                    Recurse,  // The base directory contains the plugins wrapped in their respective folders
+                };
+
+                PluginArbiter();
+                virtual ~PluginArbiter();
 
                 /**
                  * Builds a singleton instance of the class, if it hasn't been built already
@@ -52,7 +102,7 @@ namespace yampl
                  * @param mode specifies how the PluginArbiter should discover the plugins in the directory
                  * @throws PluginArbiterLoadException
                  */
-                void load_all(std::string base_path, PluginDiscoveryMode mode = PluginDiscoveryMode::Standard);
+                virtual void load_all(std::string base_path, DiscoveryMode mode);
 
                 /**
                  * Loads a plugin stored in the specified base path
@@ -62,18 +112,23 @@ namespace yampl
                  * @param mode specifies how the PluginArbiter should discover the plugin in the given directory
                  * @throws PluginArbiterLoadException
                  */
-                void load(std::string base_path, std::string plugin_module_name, PluginDiscoveryMode mode = PluginDiscoveryMode::Standard);
+                virtual Handle load(std::string base_path, std::string plugin_module_name, DiscoveryMode mode);
+
+                /**
+                 * @todo get_handle()
+                 */
 
                 /**
                 * @brief unloads all the plugins
                 */
-                void unload_all();
+                virtual void unload_all();
 
                 /**
-                * @brief unloads the specified plugin
+                * Unloads the plugin held by the specified handle
+                 *
                 * @return a boolean indicating whether the module was unloaded
                 */
-                bool unload(std::string plugin_module_name);
+                virtual bool unload(Handle const& handle);
         };
     }
 }
