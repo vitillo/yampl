@@ -61,6 +61,7 @@ namespace yampl
                 else if (mode == DiscoveryMode::Recurse)
                 {
                     std::string full_base_path = dir_path_normalize(base_path) + plugin_module_name;
+                    std::cout << dir_path_normalize(full_base_path) + to_full_module_name(plugin_module_name) << std::endl;
                     module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(full_base_path), to_full_module_name(plugin_module_name)));
                 }
 
@@ -76,7 +77,8 @@ namespace yampl
             catch (DynamicModuleLoadException& ex)
             {
                 // @todo: Decode the hook_exec_status to the corresponding PluginStatus
-                PluginArbiterException paex(("PluginArbiter could not load module " + plugin_module_name).c_str(), PluginStatus::Unknown);
+                std::string what = "PluginArbiter could not load module " + plugin_module_name;
+                PluginArbiterException paex(what.c_str(), PluginStatus::Unknown);
                 throw paex;
             }
 

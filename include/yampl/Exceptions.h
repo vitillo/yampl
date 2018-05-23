@@ -17,15 +17,15 @@ namespace yampl
     class Exception: public std::exception
     {
       public:
-        Exception(const char * msg) : m_msg(msg){}
-        virtual ~Exception() throw() {}
+        Exception(const char* msg) : m_msg(msg) { }
+        virtual ~Exception() throw() = default;
 
-        virtual const char * what() const throw(){
-          return m_msg;
+        const char * what() const throw() override {
+          return m_msg.c_str();
         }
 
       protected:
-        const char * m_msg;
+        const std::string m_msg;
     };
 
     class UnsupportedException: public Exception
