@@ -265,7 +265,9 @@ if(WITH_EXAMPLES STREQUAL ON)
     target_link_libraries(server ${YAMPL_COMMON_LIBS})
     add_dependencies(client yampl)
     add_dependencies(server yampl)
-	
+    target_compile_options(client PRIVATE "-Wno-terminate")
+    target_compile_options(server PRIVATE "-Wno-terminate")
+    
     # Benchmarks
     add_executable(benchmark examples/benchmarks/benchmark.cpp)
     set_target_properties(benchmark
@@ -274,7 +276,8 @@ if(WITH_EXAMPLES STREQUAL ON)
     )
     target_link_libraries(benchmark ${YAMPL_COMMON_LIBS})
     add_dependencies(benchmark yampl)
-endif()
+    target_compile_options(benchmark PRIVATE "-Wno-terminate")
+ endif()
 
 if(WITH_TESTS STREQUAL ON)
     # PluginArbiter Test
