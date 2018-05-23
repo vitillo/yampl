@@ -34,13 +34,17 @@ Each and all of these strategies are implemented as modular and independent plug
 ``` bash
 git clone https://github.com/ntauth/yampl
 cd yampl
+# Pull additional plugins
+mkdir plugins
 cd plugins
-git clone https://github.com/ntauth/yampl-{SHM|ZMQ|PIPE}
+git clone https://github.com/{user_name}/{plugin_name}
+# Configure project
 cd ..
 mkdir build
 cd build
-cmake .. -DWITH_EXAMPLES={ON|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF}
-sudo make
+cmake .. -DWITH_EXAMPLES={ON|OFF} -DWITH_TESTS={ON|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
+# Build and install
+make
 sudo make install
 ```
 
