@@ -84,6 +84,7 @@ add_library(yampl SHARED
         src/pipe/PipeSocketFactory.cpp
         src/plugin/PluginArbiter.cpp
         src/plugin/DynamicModule.cpp
+        src/utils/utils.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
         zeromq/builds/msvc/platform.hpp
@@ -273,6 +274,15 @@ if(WITH_EXAMPLES STREQUAL ON)
 endif()
 
 if(WITH_TESTS STREQUAL ON)
+    # PluginArbiter Test
+    add_executable(pluginarbiter tests/pluginarbiter.cpp)
+    set_target_properties(pluginarbiter
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            )
+    target_link_libraries(pluginarbiter ${YAMPL_COMMON_LIBS})
+    add_dependencies(pluginarbiter yampl)
+
     # Dynmodule Test
     add_executable(dynmodule tests/dynmodule.cpp)
     set_target_properties(dynmodule

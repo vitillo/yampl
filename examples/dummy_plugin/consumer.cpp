@@ -19,13 +19,13 @@ using yampl::plugin::DynamicModuleLoadException;
 using yampl::plugin::DynamicModuleSymbolException;
 
 hook_exec_status
-_HOOK_RegisterObject(object_proto_type type)
+_HOOK_RegisterObject(object_register_params* params)
 {
     hook_exec_status status = HOOK_STATUS_SUCCESS;
 
     std::cout << "[+] Registering object of type ";
 
-    switch (type)
+    switch (params->obj_type)
     {
         case OBJ_PROTO_UNKNOWN:
             std::cout << "OBJ_PROTO_UNKOWN" << std::endl;
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
     try
     {
         // Load the module
-        DynamicModule dyn = DynamicModule::open("../lib", "yampl-dummy");
+        DynamicModule dyn = DynamicModule::open("../lib/", "libyampl-dummy.so");
         std::cout << "[1] Module loaded successfully" << std::endl;
 
         // Parse the header
@@ -62,9 +62,12 @@ int main(int argc, char** argv)
 
         // Load the plugin
         plugin_init_frame frame;
+
+	    // API Version and IObject registration hook
         frame.api_version = PLUGIN_API_VERSION;
         frame.hk_register = _HOOK_RegisterObject;
 
+        // Call PluginMain with the constructed frame
         info->hk_plugin_main(&frame);
     }
     catch (DynamicModuleLoadException ex) {

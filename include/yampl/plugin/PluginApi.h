@@ -54,11 +54,6 @@ extern "C" {
 
 typedef void* opaque_ptr;
 
-typedef enum app_service_type_
-{
-    SVC_LOGGER_FACILITY,
-} app_service_type, *papp_service_type;
-
 /**
  * @brief Enumeration that indicates to the PluginArbiter the underlying interface implemented by a plugin object
  */
@@ -75,21 +70,38 @@ typedef struct object_init_params_
 
 typedef enum hook_exec_status_
 {
+    HOOK_STATUS_UNKNOWN = 0UL,
     HOOK_STATUS_SUCCESS,
     HOOK_STATUS_FAILURE,
 } hook_exec_status, *phook_exec_status;
 
+typedef struct hook_exec_status_ex_
+{
+    hook_exec_status status;
+    uint32_t status_code;
+} hook_exec_status_ex, *phook_exec_status_ex;
+
 struct plugin_init_frame_;
 struct object_register_params_;
+struct object_init_params_;
 
 /*********************** Hook functions (Plugin side) **/
-typedef opaque_ptr (*HOOK_CreateObject)(pobject_init_params /* params */);
+typedef opaque_ptr (*HOOK_CreateObject)(struct object_init_params_* /* params */);
 typedef hook_exec_status (*HOOK_DestroyObject)(opaque_ptr /* handle */);
-typedef hook_exec_status (*HOOK_PluginMain)(plugin_init_frame_* /* frame */);
+typedef hook_exec_status (*HOOK_PluginMain)(struct plugin_init_frame_* /* frame */);
 
 /*********************** Hook functions (Application side) **/
 typedef hook_exec_status (*HOOK_RegisterObject)(object_register_params_* /* params */);
-typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
+//typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
+
+/* Singly-linked list structure */
+#define CONTAINING_RECORD(_rcr_ty, _entry) ((_rcr_ty*)((char*) _entry - (char*)&((_rcr_ty*)(NULL)->flink)))
+
+typedef struct list_entry_
+{
+	struct list_entry_* flink;
+	struct list_entry_* blink;
+} list_entry, *plist_entry;
 
 typedef struct plugin_init_frame_
 {

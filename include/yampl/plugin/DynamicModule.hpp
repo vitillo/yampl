@@ -62,6 +62,12 @@ namespace yampl
                 };
 
                 /**
+                 * Default constructor
+                 *
+                 */
+                DynamicModule() noexcept;
+
+                /**
                  * Move constructor
                  *
                  * @param rhs The dynamic module whose handle and data are to be moved

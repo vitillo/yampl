@@ -11,6 +11,15 @@ namespace yampl
 {
     namespace plugin
     {
+        DynamicModule::DynamicModule() noexcept
+            : _module_prefix("")
+            , _module_name("")
+            , _module_handle(nullptr)
+            , _free(true)
+        {
+            // EMPTY BODY
+        }
+
         DynamicModule::DynamicModule(std::string dyn_mod_pfx, std::string dyn_mod_name, dl_handle handle) noexcept
             : _module_prefix(dyn_mod_pfx)
             , _module_name(dyn_mod_name)
@@ -37,8 +46,7 @@ namespace yampl
 
         DynamicModule DynamicModule::open(std::string dyn_mod_pfx, std::string dyn_mod_name, BindingPolicy policy)
         {
-            std::string module_full_path = dyn_mod_pfx;
-            module_full_path.append("/lib").append(dyn_mod_name).append(".so");
+            std::string module_full_path = dyn_mod_pfx + dyn_mod_name;
 
             // Try open the library
             dl_handle handle = dlopen(module_full_path.c_str(), static_cast<int>(policy));
