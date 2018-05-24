@@ -22,6 +22,7 @@ function(AddExtProjectGit target repo_url prefix)
         PATCH_COMMAND ""
         BUILD_COMMAND ""
         TEST_COMMAND ""
+        CONFIGURE_COMMAND ""
     )
 endfunction()
 
