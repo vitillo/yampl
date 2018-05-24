@@ -4,19 +4,28 @@
 ##
 
 include(ExternalProject)
-include(CMakeParseArguments)
 
 #
 # @brief: Function to pull git external projects
 #
+# @param target:   Target name
 # @param repo_url: Url to the repository
-# @param unpack_dst: Path of the directory where to unpack the binaries
 #
-# @usage: AddExtProjectGit("<url to git repository>", "<clone destination>")
+# @usage: AddExtProjectGit("<target name>", "<url to git repository>")
 #
-function(AddExtProjectGit repo_url clone_dst)
-        message(STATUS "Pulling external git project from: ${repo_url}")
-        execute_process(COMMAND sh "-c" "cd ${clone_dst} && git clone ${repo_url}")
+function(AddExtProjectGit prefix repo_url clone_dst)
+    string(TOLOWER ${target} TARGET_LC)
+    set(PROJ_ROOT ${CMAKE_BINARY_DIR}/${TARGET_LC})
+     
+    ExternalProject_Add(${target}
+        GIT_REPOSITORY ${repo_url}
+        PREFIX ${PROJ_ROOT}
+        UPDATE_COMMAND ""
+        PATCH_COMMAND ""
+        INSTALL_DIR ${ZEROMQ_ROOT}/bin
+        BUILD_COMMAND ""
+        TEST_COMMAND ""
+    )
 endfunction()
 
 #
