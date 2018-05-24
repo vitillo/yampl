@@ -196,7 +196,9 @@ install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
 # Include plugins
 execute_process(COMMAND sh "-c" "rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/plugins; mkdir ${CMAKE_CURRENT_SOURCE_DIR}/plugins")
 
-if (WITH_ZMQ_PLUGIN STREQUAL ON)
+execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
+if (WITH_ZMQ_PLUGIN)
+        execute_process(
         AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
 endif()
 
