@@ -41,13 +41,8 @@ include(cmake/YamplDepends.cmake)
 # Include directories
 include_directories(include/ /usr/local/include)
 
-# Library directiories
-# link_directories(/usr/local/lib)
-
 # Source files
 add_library(yampl SHARED
-        src/pipe/PipeSocketBase.cpp
-        src/pipe/PipeSocketFactory.cpp
         src/plugin/PluginArbiter.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
