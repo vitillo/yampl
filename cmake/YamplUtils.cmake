@@ -6,16 +6,12 @@
 include(ExternalProject)
 
 #
-# @brief: Function to pull git external projects
+# @brief: Function to pull git external projects 
+# @usage: AddExtProjectGit("<target name>", "<url to git repository>", "<base directory>")
 #
-# @param target:   Target name
-# @param repo_url: Url to the repository
-#
-# @usage: AddExtProjectGit("<target name>", "<url to git repository>")
-#
-function(AddExtProjectGit target repo_url)
+function(AddExtProjectGit target repo_url prefix)
     string(TOLOWER ${target} target)
-    set(proj_root ${CMAKE_BINARY_DIR}/${target})
+    set(proj_root ${CMAKE_BINARY_DIR}/${prefix}/${target})
      
     ExternalProject_Add(${target}
         GIT_REPOSITORY ${repo_url}
