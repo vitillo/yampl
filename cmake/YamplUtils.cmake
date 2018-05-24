@@ -13,7 +13,7 @@ include(ExternalProject)
 #
 # @usage: AddExtProjectGit("<target name>", "<url to git repository>")
 #
-function(AddExtProjectGit prefix repo_url clone_dst)
+function(AddExtProjectGit target repo_url)
     string(TOLOWER ${target} target)
     set(proj_root ${CMAKE_BINARY_DIR}/${target})
      
