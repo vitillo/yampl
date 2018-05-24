@@ -42,7 +42,7 @@ include(cmake/YamplDepends.cmake)
 include_directories(include/ /usr/local/include)
 
 # Library directiories
-link_directories(/usr/local/lib)
+# link_directories(/usr/local/lib)
 
 # Source files
 add_library(yampl SHARED
