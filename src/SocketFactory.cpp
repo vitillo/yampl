@@ -1,4 +1,3 @@
-#include "yampl/pipe/SocketFactory.h"
 #include "yampl/SocketFactory.h"
 #include "yampl/utils/utils.h"
 
