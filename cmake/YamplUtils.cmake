@@ -14,12 +14,12 @@ include(ExternalProject)
 # @usage: AddExtProjectGit("<target name>", "<url to git repository>")
 #
 function(AddExtProjectGit prefix repo_url clone_dst)
-    string(TOLOWER ${target} TARGET_LC)
-    set(PROJ_ROOT ${CMAKE_BINARY_DIR}/${TARGET_LC})
+    string(TOLOWER ${target} target)
+    set(proj_root ${CMAKE_BINARY_DIR}/${target})
      
     ExternalProject_Add(${target}
         GIT_REPOSITORY ${repo_url}
-        PREFIX ${PROJ_ROOT}
+        PREFIX ${proj_root}
         UPDATE_COMMAND ""
         PATCH_COMMAND ""
         INSTALL_DIR ${ZEROMQ_ROOT}/bin
