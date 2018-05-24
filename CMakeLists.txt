@@ -39,15 +39,10 @@ find_package(Threads)
 include(cmake/YamplDepends.cmake)
 
 # Include directories
-include_directories(include/
-        /usr/local/include
-        /usr/local/share/libsourcey/vendor/include
-)
+include_directories(include/ /usr/local/include)
 
 # Library directiories
-link_directories(/usr/local/lib
-        /usr/local/share/libsourcey/vendor/lib
-)
+# link_directories(/usr/local/lib)
 
 # Source files
 add_library(yampl SHARED
