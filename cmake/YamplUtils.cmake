@@ -13,7 +13,7 @@ function(AddExtProjectGit target repo_url prefix)
     string(TOLOWER ${target} target)
     set(proj_root ${CMAKE_BINARY_DIR}/${prefix}/${target})
     
-    echo(STATUS "Installing Project to ${proj_root}")
+    message(STATUS "Installing Project to ${proj_root}")
      
     ExternalProject_Add(${target}
         GIT_REPOSITORY ${repo_url}
