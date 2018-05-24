@@ -44,6 +44,7 @@ include_directories(include/ /usr/local/include)
 # Source files
 add_library(yampl SHARED
         src/plugin/PluginArbiter.cpp
+        src/plugin/DynamicModule.cpp
         src/utils/utils.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
