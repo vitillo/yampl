@@ -39,8 +39,13 @@ find_package(Threads)
 include(cmake/YamplDepends.cmake)
 
 # Include directories
+<<<<<<< HEAD
 include_directories(
         include/
+        zeromq/include
+=======
+include_directories(include/
+>>>>>>> master-plugin
         /usr/local/include
         /usr/local/share/libsourcey/vendor/include
 )
