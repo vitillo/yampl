@@ -30,7 +30,7 @@ USE_CXX14()
 set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
 
 # Common libraries (for examples and tests)
-set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so uuid pthread)
+set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so dl uuid pthread)
 
 # PThreads
 find_package(Threads)
@@ -39,13 +39,10 @@ find_package(Threads)
 include(cmake/YamplDepends.cmake)
 
 # Include directories
-include_directories(
-        include/
-        /usr/local/include
-)
+include_directories(include/ /usr/local/include)
 
 # Library directiories
-link_directories(/usr/local/lib)
+# link_directories(/usr/local/lib)
 
 # Source files
 add_library(yampl SHARED
