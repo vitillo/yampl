@@ -201,7 +201,7 @@ if (WITH_ZMQ_PLUGIN)
         AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
 endif()
 
-file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake)
+file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake ${CMAKE_BINARY_DIR}/plugins/**/*.cmake)
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
