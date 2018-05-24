@@ -338,7 +338,6 @@ execute_process(COMMAND sh "-c" "rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/plugins; mkd
 
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
 if (WITH_ZMQ_PLUGIN)
-        execute_process(
         AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
 endif()
 
