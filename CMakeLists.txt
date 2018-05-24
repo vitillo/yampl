@@ -32,17 +32,14 @@ set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
 # Common libraries (for examples and tests)
 set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so dl uuid pthread)
 
-# PThreads
+# Pthreads
 find_package(Threads)
 
 # Include YAMPL dependencies
 include(cmake/YamplDepends.cmake)
 
 # Include directories
-include_directories(
-        include/
-        /usr/local/include
-)
+include_directories(include/ /usr/local/include)
 
 # Library directiories
 link_directories(/usr/local/lib)
@@ -56,36 +53,68 @@ add_library(yampl SHARED
         src/ISocket.cpp
 )
 
-# Suppress -Wterminate
-target_compile_options(yampl PRIVATE "-Wno-terminate")
+if(WITH_EXAMPLES STREQUAL ON)
+    # Dummy Plugin
+    add_library(yampl-dummy SHARED examples/dummy_plugin/plugin_main.cpp)
+    add_executable(consumer examples/dummy_plugin/consumer.cpp)
+    set_target_properties(yampl-dummy
+            PROPERTIES
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/dummy_plugin/lib"
+    )
+    set_target_properties(consumer
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/dummy_plugin/bin"
+    )
+    target_link_libraries(yampl-dummy ${YAMPL_COMMON_LIBS})
+    target_link_libraries(consumer ${YAMPL_COMMON_LIBS})
+    add_dependencies(yampl-dummy yampl)
+    add_dependencies(consumer yampl)
 
-if(WITH_EXAMPLES)
     # Client-Server
     add_executable(client examples/client_server/client.cpp)
     add_executable(server examples/client_server/server.cpp)
     set_target_properties(client server
             PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/lib"
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/bin"
     )
     target_link_libraries(client ${YAMPL_COMMON_LIBS})
     target_link_libraries(server ${YAMPL_COMMON_LIBS})
     add_dependencies(client yampl)
     add_dependencies(server yampl)
-    target_compile_options(client PRIVATE "-Wno-terminate")
-    target_compile_options(server PRIVATE "-Wno-terminate")
-    
+	
     # Benchmarks
     add_executable(benchmark examples/benchmarks/benchmark.cpp)
     set_target_properties(benchmark
             PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/lib"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/lib"
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/bin"
     )
     target_link_libraries(benchmark ${YAMPL_COMMON_LIBS})
     add_dependencies(benchmark yampl)
-    target_compile_options(benchmark PRIVATE "-Wno-terminate")
- endif()
+endif()
 
- if(WITH_TESTS)
+if(WITH_TESTS STREQUAL ON)
+    # PluginArbiter Test
+    add_executable(pluginarbiter tests/pluginarbiter.cpp)
+    set_target_properties(pluginarbiter
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            )
+    target_link_libraries(pluginarbiter ${YAMPL_COMMON_LIBS})
+    add_dependencies(pluginarbiter yampl)
+
+    # Dynmodule Test
+    add_executable(dynmodule tests/dynmodule.cpp)
+    set_target_properties(dynmodule
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+    )
+    target_link_libraries(dynmodule ${YAMPL_COMMON_LIBS})
+    add_dependencies(dynmodule yampl)
+
     # Calls Test
     add_executable(calls tests/calls.cpp)
     set_target_properties(calls
@@ -115,57 +144,49 @@ if(WITH_EXAMPLES)
 endif()
 
 # Libraries
-target_link_libraries(yampl
-    ${CMAKE_THREAD_LIBS_INIT}
+target_link_libraries(yampl ${CMAKE_THREAD_LIBS_INIT}
     rt
     uuid
+    libuv
+    scy_base
+    scy_pluga
+    zlib
+    minizip
+    http_parser
 )
 
-# Install step
+# Properties
 file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/yampl/*.h" "include/yampl/*.hpp")
-
 set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
-set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
 
-# Configure yampl-env.sh.in
-set(YAMPL_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/lib/yampl")
-set(YAMPL_ENV_DIR "/etc/profile.d")
+# Add dependencies
+add_dependencies(yampl LibSourcey)
 
-configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @ONLY)
-configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
-
+# Install step
 # @todo: Generate project configuration file
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl        
-)
-
-# Unpack resources
-install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
-        PATTERN "scripts/*.sh"
-        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                    GROUP_EXECUTE GROUP_READ
-)
-
-# Copy yampl-env.sh to /etc/profile.d
-install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
-        DESTINATION ${YAMPL_ENV_DIR}
-        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                    GROUP_EXECUTE GROUP_READ
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl
 )
 
 # Include plugins
-#execute_process(COMMAND sh "-c" "rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/plugins; mkdir ${CMAKE_CURRENT_SOURCE_DIR}/plugins")
-
-execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
-if (WITH_ZMQ_PLUGIN)
-        AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
+execute_process(COMMAND sh "-c" "rm -R ../plugins; mkdir ../plugins")
+if (WITH_SHM_PLUGIN STREQUAL ON)
+    AddExtProjectGit("https://github.com/ntauth/yampl-shm" "../plugins")        
 endif()
 
-file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake ${CMAKE_BINARY_DIR}/plugins/**/*.cmake)
+if (WITH_ZMQ_PLUGIN STREQUAL ON)
+    AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "../plugins")        
+endif()
+
+file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake)
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
+
+
+# Copy the uninstall script over to the build directory
+execute_process(COMMAND cp ../cmake/uninstall.sh ./)
+execute_process(COMMAND chmod +x ./uninstall.sh)
