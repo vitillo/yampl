@@ -44,6 +44,7 @@ include_directories(include/ /usr/local/include)
 # Source files
 add_library(yampl SHARED
         src/plugin/PluginArbiter.cpp
+        src/utils/utils.cpp
         src/SocketFactory.cpp
         src/ISocket.cpp
 )
@@ -192,7 +193,7 @@ install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
 
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
 if (WITH_ZMQ_PLUGIN)
-        AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
+    AddExtProjectGit("yampl-zmq", "https://github.com/ntauth/yampl-zmq" "plugins")        
 endif()
 
 file(GLOB YAMPL_PLUGIN_CMAKE_FILES plugins/**/*.cmake ${CMAKE_BINARY_DIR}/plugins/**/*.cmake)
