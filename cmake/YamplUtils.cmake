@@ -18,7 +18,6 @@ function(AddExtProjectGit target repo_url prefix)
         PREFIX ${proj_root}
         UPDATE_COMMAND ""
         PATCH_COMMAND ""
-        INSTALL_DIR ${ZEROMQ_ROOT}/bin
         BUILD_COMMAND ""
         TEST_COMMAND ""
     )
