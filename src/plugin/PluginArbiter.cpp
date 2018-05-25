@@ -49,20 +49,32 @@ namespace yampl
         {
             std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
 
-            hook_exec_status status = HOOK_STATUS_SUCCESS;
-            plugin_info_hdr* info_hdr = _module_init_stack.top();
-            auto obj_type_map = _object_registration_map.at(info_hdr->moniker);
+            hook_exec_status status;
 
-            switch (params->obj_type)
+            if (params == nullptr)
             {
-                case OBJ_PROTO_UNKNOWN:
-                    // IObject proto is invalid
-                    status = HOOK_STATUS_FAILURE;
-                    break;
-                case OBJ_PROTO_SK_FACTORY:
-                    // Add the object to the registration map
-                    obj_type_map.insert({ params->obj_type, *params });
-                    break;
+                status = HOOK_STATUS_SUCCESS;
+            }
+            else
+            {
+                plugin_info_hdr* info_hdr = _module_init_stack.top();
+                auto obj_type_map = _object_registration_map.at(info_hdr->moniker);
+
+                switch (params->obj_type)
+                {
+                    case OBJ_PROTO_UNKNOWN:
+                        // IObject proto is invalid
+                        status = HOOK_STATUS_FAILURE;
+                        break;
+                    case OBJ_PROTO_SK_FACTORY:
+                        // Add the object to the registration map
+                        obj_type_map.insert({params->obj_type, *params});
+                        status = HOOK_STATUS_SUCCESS;
+                        break;
+                    default:
+                        status = HOOK_STATUS_FAILURE;
+                        break;
+                }
             }
 
             return status;
