@@ -43,10 +43,15 @@ namespace yampl
         // If the environment variable isn't present, fall back to .yamplrc
         if (env == nullptr)
         {
-            std::ifstream yamplrc_in("~/.yamplrc", std::ios_base::in);
+            char const* home_dir = std::getenv("HOME");
 
-            if (yamplrc_in.is_open())
-                yamplrc_in >> env_s;
+            if (home_dir != nullptr)
+            {
+                std::ifstream yamplrc_in(dir_path_normalize(std::string(home_dir)) + ".yamplrc", std::ios_base::in);
+
+                if (yamplrc_in.is_open())
+                    yamplrc_in >> env_s;
+            }
         }
         else
             env_s = std::string(env);
