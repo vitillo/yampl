@@ -46,6 +46,7 @@ namespace yampl
 
             hook_exec_status status = HOOK_STATUS_SUCCESS;
             plugin_info_hdr* info_hdr = _module_init_stack.top();
+            auto obj_type_map = _object_registration_map.at(info_hdr->moniker);
 
             switch (params->obj_type)
             {
@@ -55,7 +56,7 @@ namespace yampl
                     break;
                 case OBJ_PROTO_SK_FACTORY:
                     // Add the object to the registration map
-                    _object_registration_map.at(info_hdr->moniker).insert({ info_hdr->moniker, *params });
+                    obj_type_map.insert({ params->obj_type, *params });
                     break;
             }
 
@@ -93,9 +94,11 @@ namespace yampl
                 auto *hdr = module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM);
                 _module_init_stack.push(hdr);
 
+                // Initialize the object registration map
+                _object_registration_map.insert({ hdr->moniker, hash_map<object_proto_type, object_register_params>() });
+
                 // Insert the module in the map
-                object_register_params params = _object_registration_map.at(hdr->moniker);
-                handle = Handle(hdr->moniker, _handle_counter, params);
+                handle = Handle(hdr->moniker, _handle_counter, _singleton);
                 _module_map.insert({ handle.moniker(), module });
 
                 // Pop the info header off the stack
@@ -149,6 +152,10 @@ namespace yampl
                 ok = false;
             else
             {
+                // Clear the associated entry in the object registration map
+                if (_object_registration_map.find(moniker) != _object_registration_map.end())
+                    _object_registration_map.erase(moniker);
+
                 entry->second->release();
                 _module_map.erase(entry);
                 _handle_counter--;
@@ -203,15 +210,15 @@ namespace yampl
          * PluginArbiter::Handle
          */
         PluginArbiter::Handle::Handle() noexcept
-            : Handle("", _handle_id_invalid, OBJECT_REGISTER_PARAMS_INIT)
+            : Handle("", _handle_id_invalid, nullptr)
         {
 
         }
 
-        PluginArbiter::Handle::Handle(std::string moniker, uint32_t handle_id, object_register_params const& params) noexcept
+        PluginArbiter::Handle::Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept
             : _moniker(std::move(moniker))
             , _handle_id(handle_id)
-            , _params(params)
+            , _arbiter(std::move(arbiter))
         {
 
         }
