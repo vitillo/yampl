@@ -6,10 +6,7 @@
 namespace yampl
 {
     std::string DEFAULT_ID = "";
-
-    /**
-     * @todo: throw an exception if the base directory isn't resolved
-     */
+    
     SocketFactory::SocketFactory() noexcept
         : arbiter(PluginArbiter::get_instance())
         , module_base_path(get_plugin_base_dir())
@@ -26,37 +23,27 @@ namespace yampl
 
     SocketFactory::~SocketFactory() = default;
 
-    ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name)
+    ISocket* SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name)
     {
-        ISocket* socket;
+        ISocket* socket = nullptr;
         PluginArbiter::Handle handle;
 
-        if (channel.context == LOCAL_PIPE)
-        {
+        if (channel.context == LOCAL_PIPE) {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL /*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createClientSocket(channel, semantics, deallocator);
         }
-        else if (channel.context == LOCAL_SHM)
-        {
+        else if (channel.context == LOCAL_SHM) {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL /*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createClientSocket(channel, semantics, deallocator);
         }
-        else
-        {
+        else {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL /*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createClientSocket(channel, semantics, deallocator);
         }
 
-        factory_handle_list.push_back(handle);
+        ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+
+        if (socket_factory != nullptr) {
+            socket = socket_factory->createClientSocket(channel, semantics, deallocator);
+            factory_handle_list.push_back(handle);
+        }
 
         return socket;
     }
@@ -66,32 +53,22 @@ namespace yampl
         ISocket *socket;
         PluginArbiter::Handle handle;
 
-        if (channel.context == LOCAL_PIPE)
-        {
+        if (channel.context == LOCAL_PIPE) {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL /*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createServerSocket(channel, semantics, deallocator);
         }
-        else if (channel.context == LOCAL_SHM)
-        {
+        else if (channel.context == LOCAL_SHM) {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL /*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createServerSocket(channel, semantics, deallocator);
         }
-        else
-        {
+        else {
             PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
-
-            // Parse header
-            ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(NULL/*handle->CreateObject("SocketFactory")*/);
-            socket = socket_factory->createServerSocket(channel, semantics, deallocator);
         }
 
-        factory_handle_list.push_back(handle);
+        ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+
+        if (socket_factory != nullptr) {
+            socket = socket_factory->createServerSocket(channel, semantics, deallocator);
+            factory_handle_list.push_back(handle);
+        }
 
         return socket;
     }
