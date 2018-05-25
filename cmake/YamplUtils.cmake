@@ -7,24 +7,21 @@ include(ExternalProject)
 
 #
 # @brief: Function to pull git external projects 
-# @usage: AddExtProjectGit("<target name>", "<url to git repository>", "<base directory>")
+# @usage: AddExtProjectGit("<url to git repository>", "<base directory>")
 #
-function(AddExtProjectGit target repo_url prefix)
-    string(TOLOWER ${target} target)
-    set(proj_root ${CMAKE_BINARY_DIR}/${prefix}/${target})
-    
-    message(STATUS "Installing Project to ${proj_root}")
-     
-    ExternalProject_Add(${target}
-        GIT_REPOSITORY ${repo_url}
-        PREFIX ${proj_root}
-        UPDATE_COMMAND ""
-        PATCH_COMMAND ""
-        BUILD_COMMAND ""
-        TEST_COMMAND ""
-        CONFIGURE_COMMAND ""
-        INSTALL_COMMAND ""
-     )
+function(AddExtProjectGit repo_url prefix)
+    execute_process(COMMAND sh "-c" "cd ${prefix} && git clone ${repo_url}")
+    #ExternalProject_Add(${target}
+    #    GIT_REPOSITORY ${repo_url}
+    #    PREFIX ${proj_root}
+    #    UPDATE_COMMAND ""
+    #    PATCH_COMMAND ""
+    #    BUILD_COMMAND "make"
+    #    TEST_COMMAND ""
+    #    CMAKE_ARGS ${cmake_args}
+    #    CONFIGURE_COMMAND ""
+    #    INSTALL_COMMAND "make install"
+    # )
 endfunction()
 
 #
