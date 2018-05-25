@@ -18,7 +18,6 @@ message("
 ")
 message(STATUS "Configuring...")
 
-# Preamble
 cmake_minimum_required(VERSION 2.8.10)
 project(yampl)
 
@@ -167,6 +166,8 @@ configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @
 configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
 configure_file(config/.yamplrc.in ${CMAKE_BINARY_DIR}/scripts/.yamplrc @ONLY)
 
+set(CMAKE_INSTALL_PREFIX ~/yampl)
+
 # @todo: Generate project configuration file
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
@@ -177,22 +178,23 @@ install(TARGETS yampl
 
 # Install resources
 install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
+       DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
         PATTERN "scripts/*.sh"
         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
                     GROUP_EXECUTE GROUP_READ
 )
 
 # Copy yampl-env.sh to /etc/profile.d
-install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
-        DESTINATION ${YAMPL_ENV_DIR}
-        PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
-)
+# install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
+#        DESTINATION ${YAMPL_ENV_DIR}
+#        PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
+#)
 
 # Copy .yamplrc to ~
 install(FILES ${CMAKE_BINARY_DIR}/scripts/.yamplrc
         DESTINATION ~/
-        PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
+        PERMISSIONS OWNER_WRITE OWNER_READ
+                    GROUP_READ
 )
 
 # Include plugins
