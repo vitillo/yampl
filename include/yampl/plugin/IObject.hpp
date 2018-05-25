@@ -15,14 +15,15 @@ namespace yampl
     namespace plugin
     {
         /**
-         * @brief Yampl plugin base interface
+         * @brief Plugin object base interface
+         *
          */
         class IObject
         {
             public:
                 static const uint32_t __OBJECT_VERSION;
 
-                IObject() {}
+                IObject() = 0;
                 virtual ~IObject() {}
         };
     }
