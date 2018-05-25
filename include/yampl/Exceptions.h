@@ -138,19 +138,35 @@ namespace yampl
 
             public:
                 explicit PluginArbiterException(char const* what = "PluginArbiter failed loading the plugin") noexcept
-                        : Exception(what)
-                        , _status(PluginStatus::Unknown)
+                        : PluginArbiterException(std::string(what))
                 { }
 
-                PluginArbiterException(PluginArbiterException const& rhs) noexcept {
-                    _status = rhs._status;
-                    m_msg = rhs.m_msg;
+                PluginArbiterException(PluginArbiterException const& rhs) noexcept
+                    : PluginArbiterException(std::string(rhs.what()), rhs.status()) {
+
                 };
 
                 PluginArbiterException(char const* what, PluginStatus status)
                     : Exception(what)
                     , _status(status)
                 { }
+
+                PluginArbiterException(std::string what) noexcept
+                    : PluginArbiterException(std::move(what), PluginStatus::Unknown)
+                {
+
+                }
+
+                PluginArbiterException(std::string what, PluginStatus status) noexcept
+                    : Exception(std::move(what))
+                    , _status(status)
+                {
+
+                }
+
+                PluginStatus status() const {
+                    return _status;
+                }
         };
     }
 }
