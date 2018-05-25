@@ -185,7 +185,7 @@ namespace yampl
 
             // Build the plugin init frame
             init_frame.api_version = PLUGIN_API_VERSION;
-            init_frame.hk_register = reinterpret_cast<HOOK_RegisterObject>(PluginArbiter::HOOK_register_object);
+            init_frame.hk_register = reinterpret_cast<HOOK_RegisterObject>(&PluginArbiter::HOOK_register_object);
 
             // Call PluginMain
             hook_exec_status init_status = main_callback_fn(&init_frame);
