@@ -147,9 +147,14 @@ namespace yampl
                         Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept;
 
                         template <typename Ty>
-                        Ty* create_object(object_proto_type type)
-                        {
+                        Ty* create_object(object_proto_type type) {
                             Ty* obj = create_object<Ty>(type, OBJECT_VERSION_ANY);
+                        }
+
+                        template <typename Ty>
+                        Ty* create_object(object_proto_type type, uint32_t obj_version) const
+                        {
+                            opaque_ptr obj = _arbiter->HOOK_create_object<Ty>(_moniker, type, obj_version);
 
                             // If the object has been created, register it
                             if (obj != nullptr)
@@ -157,11 +162,6 @@ namespace yampl
                                 _obj_alloc_list.push_back(obj);
                                 _obj_type_map.insert({ obj, type });
                             }
-                        }
-
-                        template <typename Ty>
-                        Ty* create_object(object_proto_type type, uint32_t obj_version) const {
-                            opaque_ptr obj = _arbiter->HOOK_create_object<Ty>(_moniker, type, obj_version);
 
                             return reinterpret_cast<Ty*>(obj);
                         }
