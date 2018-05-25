@@ -193,7 +193,7 @@ install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
 
 if (WITH_ZMQ_PLUGIN)
-    AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "plugins")        
+        AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
 endif()
 
 file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
