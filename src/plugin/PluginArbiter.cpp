@@ -20,15 +20,13 @@ namespace yampl
         }
 
         /******************************* PluginArbiter **/
-        std::shared_ptr<PluginArbiter> PluginArbiter::_singleton = nullptr;
-
         std::shared_ptr<PluginArbiter> PluginArbiter::get_instance()
         {
+            std::shared_ptr<PluginArbiter> _singleton;
+
             // First time invoking get_instance?
             if (_singleton == nullptr)
-            {
                 _singleton = std::make_shared<PluginArbiter>();
-            }
 
             return _singleton;
         }
