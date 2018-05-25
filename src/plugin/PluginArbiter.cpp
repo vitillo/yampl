@@ -102,18 +102,18 @@ namespace yampl
                                                                                  to_full_module_name(
                                                                                          plugin_module_name)));
                 }
-                
+
                 // Parse the module's header and push it to the stack
                 auto *hdr = module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM);
                 _module_init_stack.push(hdr);
+                
+                // Initialize the object registration map
+                _object_registration_map.insert({ hdr->moniker, hash_map<object_proto_type, object_register_params>() });
 
                 PluginStatus status = on_module_load(module);
 
                 if (status != PluginStatus::Ok)
                     throw DynamicModuleLoadException();
-
-                // Initialize the object registration map
-                _object_registration_map.insert({ hdr->moniker, hash_map<object_proto_type, object_register_params>() });
 
                 // Insert the module in the map
                 handle = Handle(hdr->moniker, _handle_counter, get_instance());
