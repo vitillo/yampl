@@ -178,10 +178,8 @@ install(TARGETS yampl
 
 # Install resources
 install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
-       DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
         PATTERN "scripts/*.sh"
-        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                    GROUP_EXECUTE GROUP_READ
 )
 
 # Copy yampl-env.sh to /etc/profile.d
@@ -193,8 +191,6 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
 # Copy .yamplrc to ~
 install(FILES ${CMAKE_BINARY_DIR}/scripts/.yamplrc
         DESTINATION ~/
-        PERMISSIONS OWNER_WRITE OWNER_READ
-                    GROUP_READ
 )
 
 # Include plugins
