@@ -3,6 +3,7 @@
 
 #include "yampl/Channel.h"
 #include "yampl/ISocket.h"
+#include "yampl/plugin/IObject.hpp"
 
 #include <stdlib.h>
 #include <scy/pluga/pluga.h>
@@ -18,11 +19,11 @@ enum Semantics{
   MOVE_DATA
 };
 
-class ISocketFactory // : public scy::pluga::IPlugin
+class ISocketFactory : public plugin::IObject
 {
-  public:
-    ISocketFactory() {}
-    virtual ~ISocketFactory(){}
+    public:
+        ISocketFactory() {}
+        ~ISocketFactory() override { }
 
     /**
      * Creates a ClientSocket. A ClientSocket can be connected to at most a 
