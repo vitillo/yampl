@@ -165,6 +165,7 @@ set(YAMPL_ENV_DIR "/etc/profile.d")
 
 configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @ONLY)
 configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
+configure_file(config/.yamplrc.in ${CMAKE_BINARY_DIR}/scripts/.yamplrc @ONLY)
 
 # @todo: Generate project configuration file
 install(TARGETS yampl
@@ -188,6 +189,12 @@ install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
         PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
 )
 
+# Copy .yamplrc to ~
+install(FILES ${CMAKE_BINARY_DIR}/scripts/.yamplrc
+        DESTINATION ~/
+        PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
+)
+
 # Include plugins
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
 
@@ -196,7 +203,6 @@ if (WITH_ZMQ_PLUGIN)
 endif()
 
 file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
-message(STATUS ${YAMPL_PLUGIN_CMAKE_FILES})
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
     message(STATUS "${YAMPL_PLUGIN_NAME} was found and added to the build")
