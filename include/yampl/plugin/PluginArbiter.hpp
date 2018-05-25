@@ -35,7 +35,8 @@ namespace yampl
             PluginMainFailure,
         };
 
-        using hash_map = std::unordered_map;
+        template <typename _Key, typename _Val>
+        using hash_map = std::unordered_map<_Key, _Val>;
 
         class PluginArbiter
         {
