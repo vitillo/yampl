@@ -50,7 +50,6 @@ namespace yampl
         class PluginArbiter
         {
             protected:
-                static std::shared_ptr<PluginArbiter> _singleton; //!< Singleton instance of the PluginArbiter
                 hash_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
                 hash_map<std::string, hash_map<object_proto_type, object_register_params>> _object_registration_map; //!< Object registration map
                 std::stack<plugin_info_hdr*> _module_init_stack; //!< Stack used by callback functions to retrieve the plugin header
