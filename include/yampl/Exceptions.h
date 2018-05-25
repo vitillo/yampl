@@ -146,9 +146,8 @@ namespace yampl
 
                 };
 
-                PluginArbiterException(char const* what, PluginStatus status)
-                    : Exception(what)
-                    , _status(status)
+                PluginArbiterException(char const* what, PluginStatus status) noexcept
+                    : PluginArbiterException(std::string(what), status)
                 { }
 
                 PluginArbiterException(std::string what) noexcept
