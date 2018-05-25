@@ -15,6 +15,11 @@ namespace yampl
 {
     namespace plugin
     {
+        hook_exec_status HOOK_register_object_thunk(object_register_params* params) {
+            return PluginArbiter::get_instance()->HOOK_register_object(params);
+        }
+
+        /******************************* PluginArbiter **/
         std::shared_ptr<PluginArbiter> PluginArbiter::_singleton = nullptr;
 
         std::shared_ptr<PluginArbiter> PluginArbiter::get_instance()
@@ -61,6 +66,11 @@ namespace yampl
             }
 
             return status;
+        }
+
+        hook_exec_status PluginArbiter::HOOK_destroy_object(std::string moniker, object_proto_type type, IObject *obj) const {
+            auto obj_type_map = _object_registration_map.at(moniker);
+            return obj_type_map.at(type).hk_destroy(obj);
         }
 
         PluginArbiter::Handle PluginArbiter::load(std::string base_path, std::string plugin_module_name, DiscoveryMode mode)
@@ -185,7 +195,7 @@ namespace yampl
 
             // Build the plugin init frame
             init_frame.api_version = PLUGIN_API_VERSION;
-            init_frame.hk_register = reinterpret_cast<HOOK_RegisterObject>(&PluginArbiter::HOOK_register_object);
+            init_frame.hk_register = HOOK_register_object_thunk;
 
             // Call PluginMain
             hook_exec_status init_status = main_callback_fn(&init_frame);
@@ -223,8 +233,18 @@ namespace yampl
 
         }
 
-        void PluginArbiter::Handle::destroy_object(IObject* obj) const {
-            _params.hk_destroy(obj);
+        void PluginArbiter::Handle::destroy_object(IObject* obj) const
+        {
+            try
+            {
+                hook_exec_status status = _arbiter->HOOK_destroy_object(_moniker, _obj_type_map.at(obj), obj);
+            }
+            catch (std::out_of_range& ex) {
+                throw PluginArbiterException("Error destroying object");
+            }
+            catch (PluginArbiterException& ex) {
+                throw ex;
+            }
         }
 
         std::string PluginArbiter::Handle::moniker() const {
