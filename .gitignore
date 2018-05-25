@@ -21,9 +21,5 @@
 *.un~
 
 # Build directories
-build/
-cmake-build-debug/
-cmake-build-release/
-
-# Plugins
-plugins/
+build
+cmake-build-*
