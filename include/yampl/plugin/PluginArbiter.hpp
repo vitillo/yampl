@@ -9,12 +9,14 @@
 
 #include "DynamicModule.hpp"
 #include "PluginApi.h"
+#include "IObject.hpp"
 
 #include <cstdint>
 #include <memory>
 #include <unordered_map>
 #include <mutex>
-#include <list>
+#include <vector>
+#include <stack>
 
 namespace yampl
 {
@@ -28,16 +30,22 @@ namespace yampl
             ModuleNotFound,
             /* API Errors */
             ApiVersionMismatch,
-            /* Internal Errors */
-            InternalGeneralError,
+            /* Plugin Errors */
+            PluginGeneralError,
+            PluginMainFailure,
         };
+
+        using hash_map = std::unordered_map;
 
         class PluginArbiter
         {
             protected:
                 static std::shared_ptr<PluginArbiter> _singleton; //!< Singleton instance of the PluginArbiter
-                std::unordered_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
-                mutable std::mutex _module_map_mtx;
+                hash_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
+                hash_map<std::string, hash_map<object_proto_type, object_register_params>> _object_registration_map; //!< Object registration map
+                std::stack<plugin_info_hdr*> _module_init_stack; //!< Stack used by callback functions to retrieve the plugin header
+                uint32_t _handle_counter { 0 };
+                mutable std::recursive_mutex _map_shared_mtx;
 
                 /**
                  * Initializes the plugin
@@ -45,7 +53,7 @@ namespace yampl
                  * @param module the shared pointer to the plugin module
                  * @return the status of the plugin initialization
                  */
-                virtual PluginStatus OnModuleLoad(std::shared_ptr<DynamicModule> module);
+                virtual PluginStatus on_module_load(std::shared_ptr<DynamicModule> module);
 
                 /**
                  * Unloads a module given its moniker
@@ -56,7 +64,13 @@ namespace yampl
                 virtual bool unload_impl(std::string moniker);
 
                 /************************** Hooks **/
-//                virtual hook_exec_status hook_register_object;
+                /**
+                 * Callback used by plugins to register their objects
+                 *
+                 * @param params registration parameters
+                 * @return hook_exec_status returned by PluginArbiter
+                 */
+                virtual hook_exec_status HOOK_register_object(object_register_params* params);
             private:
                 PluginArbiter(PluginArbiter const&);
             public:
@@ -66,15 +80,36 @@ namespace yampl
                 class Handle
                 {
                     protected:
-                        std::shared_ptr<DynamicModule> _module;
+                        std::string _moniker;
+                        uint32_t    _handle_id;
+                        object_register_params _params;
                     public:
-                        Handle() noexcept;
-                        Handle(std::shared_ptr<DynamicModule> module) noexcept;
+                        static constexpr uint32_t _handle_id_invalid = -1;
 
-                        template<typename _Sym>
-                        _Sym* resolve_sym(std::string sym) {
-                            return _module->resolve_sym<plugin_info_hdr>(sym);
+                        Handle() noexcept;
+                        Handle(std::string moniker, uint32_t handle_id, object_register_params const& params) noexcept;
+
+                        template <typename Ty>
+                        Ty* create_object() const {
+                            return create_object<Ty>(OBJECT_VERSION_ANY);
                         }
+
+                        template <typename Ty>
+                        Ty* create_object(uint32_t obj_version) const
+                        {
+                            object_init_params init;
+
+                            // Object initialization params
+                            init.obj_version = obj_version;
+                            init.type = _params.obj_type;
+
+                            // Create the object
+                            opaque_ptr obj = _params.hk_create(init);
+
+                            return reinterpret_cast<Ty*>(obj);
+                        }
+
+                        void destroy_object(IObject* obj) const;
 
                         std::string moniker() const;
                 };
