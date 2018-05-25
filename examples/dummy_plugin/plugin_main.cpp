@@ -45,8 +45,7 @@ hook_exec_status PluginMain(pplugin_init_frame frame)
 
         // Register dummy objects
         object_register_params params;
-        params.obj_type = OBJ_PROTO_UNKNOWN;
-        params.obj_version = DummyObject::__OBJECT_VERSION;
+        params.obj_type = OBJ_PROTO_SK_FACTORY;
         params.hk_create = nullptr;
         params.hk_destroy = nullptr;
 
