@@ -116,7 +116,7 @@ namespace yampl
                 _object_registration_map.insert({ hdr->moniker, hash_map<object_proto_type, object_register_params>() });
 
                 // Insert the module in the map
-                handle = Handle(hdr->moniker, _handle_counter, _singleton);
+                handle = Handle(hdr->moniker, _handle_counter, get_instance());
                 _module_map.insert({ handle.moniker(), module });
 
                 // Pop the info header off the stack
