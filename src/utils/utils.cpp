@@ -49,12 +49,14 @@ namespace yampl
             {
                 std::ifstream yamplrc_in(dir_path_normalize(std::string(home_dir)) + ".yamplrc", std::ios_base::in);
 
-                if (yamplrc_in.is_open())
+                if (yamplrc_in.is_open()) {
                     yamplrc_in >> env_s;
+                    env_s = dir_path_normalize(env_s) + "plugins";
+                }
             }
         }
         else
-            env_s = std::string(env);
+            env_s = dir_path_normalize(std::string(env)) + "plugins";
 
         return env_s;
     }
