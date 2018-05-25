@@ -6,6 +6,8 @@
 
 #include "yampl/utils/utils.h"
 
+#include <fstream>
+
 namespace yampl
 {
     std::string dir_path_trim(std::string path)
@@ -33,8 +35,22 @@ namespace yampl
         return "lib" + name + ".so";
     }
 
-    std::string get_plugin_base_dir() {
+    std::string get_plugin_base_dir()
+    {
         char const* env = std::getenv("YAMPL_INSTALL_PREFIX");
-        return env != nullptr ? dir_path_normalize(env) + "plugins" : "";
+        std::string env_s = "";
+
+        // If the environment variable isn't present, fall back to .yamplrc
+        if (env == nullptr)
+        {
+            std::ifstream yamplrc_in("~/.yamplrc", std::ios_base::in);
+
+            if (yamplrc_in.is_open())
+                yamplrc_in >> env_s;
+        }
+        else
+            env_s = std::string(env);
+
+        return env_s;
     }
 }
