@@ -88,8 +88,6 @@ namespace yampl
                                                                                          plugin_module_name)));
                 } else if (mode == DiscoveryMode::Recurse) {
                     std::string full_base_path = dir_path_normalize(base_path) + plugin_module_name;
-                    std::cout << dir_path_normalize(full_base_path) + to_full_module_name(plugin_module_name)
-                              << std::endl;
                     module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(full_base_path),
                                                                                  to_full_module_name(
                                                                                          plugin_module_name)));
