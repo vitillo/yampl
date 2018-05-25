@@ -179,6 +179,8 @@ install(TARGETS yampl
 # Install resources
 install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
         DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
+        DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+        FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
         PATTERN "scripts/*.sh"
 )
 
@@ -189,8 +191,9 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
 #)
 
 # Copy .yamplrc to ~
-install(FILES ${CMAKE_BINARY_DIR}/scripts/.yamplrc
+install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
         DESTINATION ~/
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
 )
 
 # Include plugins
