@@ -152,15 +152,15 @@ namespace yampl
                         }
 
                         template <typename Ty>
-                        Ty* create_object(object_proto_type type, uint32_t obj_version) const
+                        Ty* create_object(object_proto_type type, uint32_t obj_version)
                         {
                             opaque_ptr obj = _arbiter->HOOK_create_object<Ty>(_moniker, type, obj_version);
 
                             // If the object has been created, register it
                             if (obj != nullptr)
                             {
-                                _obj_alloc_list.push_back(reinterpret_cast<Ty*>(obj));
-                                _obj_type_map.insert({ reinterpret_cast<Ty*>(obj), type });
+                                _obj_alloc_list.push_back(reinterpret_cast<IObject*>(obj));
+                                _obj_type_map.insert({ reinterpret_cast<IObject*>(obj), type });
                             }
 
                             return reinterpret_cast<Ty*>(obj);
