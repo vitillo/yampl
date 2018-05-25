@@ -24,8 +24,10 @@ namespace yampl
                 static const uint32_t __OBJECT_VERSION;
 
                 IObject();
-                virtual ~IObject() = 0 {}
+                virtual ~IObject() = 0;
         };
+
+        inline IObject::~IObject() {}
     }
 }
 
