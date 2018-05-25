@@ -145,8 +145,6 @@ typedef struct object_register_params_
     HOOK_DestroyObject  hk_destroy;
 } object_register_params, *pobject_register_params;
 
-object_register_params OBJECT_REGISTER_PARAMS_INIT = { OBJ_PROTO_UNKNOWN, NULL, NULL };
-
 #ifdef __cplusplus
 }
 #endif
