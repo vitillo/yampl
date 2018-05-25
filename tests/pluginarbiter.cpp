@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     try
     {
         /*************** PluginArbiter::load **/
-        PluginArbiter::Handle handle = arbiter->load(yampl::get_plugin_base_dir(), "yampl-shm", PluginArbiter::DiscoveryMode::Recurse);
+        PluginArbiter::Handle handle = arbiter->load(yampl::get_plugin_base_dir(), "yampl-zmq", PluginArbiter::DiscoveryMode::Recurse);
         TRACE("PluginArbiter loaded module " + handle.moniker() + "successfully");
     }
     catch (PluginArbiterException const& ex) {
