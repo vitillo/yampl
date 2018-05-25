@@ -28,14 +28,11 @@ namespace yampl
             return _singleton;
         }
 
-        PluginArbiter::PluginArbiter()
-        {
-            // @todo: Implement
-        }
+        PluginArbiter::PluginArbiter() = default;
 
         PluginArbiter::PluginArbiter(PluginArbiter const& rhs)
         {
-            // @todo: Implement
+
         }
 
         PluginArbiter::~PluginArbiter()
@@ -43,39 +40,76 @@ namespace yampl
             unload_all();
         }
 
+        hook_exec_status PluginArbiter::HOOK_register_object(object_register_params* params)
+        {
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
+
+            hook_exec_status status = HOOK_STATUS_SUCCESS;
+            plugin_info_hdr* info_hdr = _module_init_stack.top();
+
+            switch (params->obj_type)
+            {
+                case OBJ_PROTO_UNKNOWN:
+                    // IObject proto is invalid
+                    status = HOOK_STATUS_FAILURE;
+                    break;
+                case OBJ_PROTO_SK_FACTORY:
+                    // Add the object to the registration map
+                    _object_registration_map.insert({ info_hdr->moniker, *params });
+                    break;
+            }
+
+            return status;
+        }
+
         PluginArbiter::Handle PluginArbiter::load(std::string base_path, std::string plugin_module_name, DiscoveryMode mode)
         {
-            std::lock_guard<std::mutex> _guard0(_module_map_mtx);
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
 
             // Open the dynamic module
             std::shared_ptr<DynamicModule> module = nullptr;
-
             Handle handle;
 
-            try
-            {
-                if (mode == DiscoveryMode::Standard)
-                {
-                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(base_path), to_full_module_name(plugin_module_name)));
-                }
-                else if (mode == DiscoveryMode::Recurse)
-                {
+            try {
+                if (mode == DiscoveryMode::Standard) {
+                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(base_path),
+                                                                                 to_full_module_name(
+                                                                                         plugin_module_name)));
+                } else if (mode == DiscoveryMode::Recurse) {
                     std::string full_base_path = dir_path_normalize(base_path) + plugin_module_name;
-                    std::cout << dir_path_normalize(full_base_path) + to_full_module_name(plugin_module_name) << std::endl;
-                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(full_base_path), to_full_module_name(plugin_module_name)));
+                    std::cout << dir_path_normalize(full_base_path) + to_full_module_name(plugin_module_name)
+                              << std::endl;
+                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(full_base_path),
+                                                                                 to_full_module_name(
+                                                                                         plugin_module_name)));
                 }
 
-                PluginStatus status = OnModuleLoad(module);
+                PluginStatus status = on_module_load(module);
 
                 if (status != PluginStatus::Ok)
                     throw DynamicModuleLoadException();
 
+                // Parse the module's header and push it to the stack
+                auto *hdr = module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM);
+                _module_init_stack.push(hdr);
+
                 // Insert the module in the map
-                handle = Handle(module);
+                object_register_params params = _object_registration_map.at(hdr->moniker);
+                handle = Handle(hdr->moniker, _handle_counter, params);
                 _module_map.insert({ handle.moniker(), module });
+
+                // Pop the info header off the stack
+                _module_init_stack.pop();
+            }
+            catch (std::out_of_range& ex)
+            {
+                throw DynamicModuleLoadException("Synchronization error");
             }
             catch (DynamicModuleLoadException& ex)
             {
+                if (!_module_init_stack.empty())
+                    _module_init_stack.pop();
+
                 // @todo: Decode the hook_exec_status to the corresponding PluginStatus
                 std::string what = "PluginArbiter could not load module " + plugin_module_name;
                 PluginArbiterException paex(what.c_str(), PluginStatus::Unknown);
@@ -92,16 +126,22 @@ namespace yampl
 
         void PluginArbiter::unload_all()
         {
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
+
             std::vector<std::string> moniker_list;
 
             for (auto entry : _module_map)
                 moniker_list.push_back(entry.first);
             for (auto const& moniker : moniker_list)
                 unload_impl(moniker);
+
+            _handle_counter = 0;
         }
 
         bool PluginArbiter::unload_impl(std::string moniker)
         {
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
+
             auto entry = _module_map.find(moniker);
             bool ok = true;
 
@@ -111,6 +151,7 @@ namespace yampl
             {
                 entry->second->release();
                 _module_map.erase(entry);
+                _handle_counter--;
             }
 
             return ok;
@@ -118,17 +159,42 @@ namespace yampl
 
         bool PluginArbiter::unload(Handle const& handle)
         {
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
+
             return unload_impl(handle.moniker());
         }
 
-        PluginStatus PluginArbiter::OnModuleLoad(std::shared_ptr<DynamicModule> module)
+        PluginStatus PluginArbiter::on_module_load(std::shared_ptr<DynamicModule> module)
         {
-//            plugin_init_frame init_frame;
-            plugin_info_hdr*  info_hdr;
+            std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
 
-            // Read the plugin header
-            info_hdr = module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM);
-            std::cout << "[+] Loading " << info_hdr->moniker << std::endl;
+            plugin_init_frame init_frame;
+            plugin_info_hdr*  info_hdr;
+            PluginStatus status = PluginStatus::Ok;
+
+            // Retrieve the plugin header
+            info_hdr =_module_init_stack.top();
+            HOOK_PluginMain main_callback_fn = info_hdr->hk_plugin_main;
+
+            // Build the plugin init frame
+            init_frame.api_version = PLUGIN_API_VERSION;
+            init_frame.hk_register = PluginArbiter::HOOK_register_object;
+
+            // Call PluginMain
+            hook_exec_status init_status = main_callback_fn(&init_frame);
+
+            switch (init_status)
+            {
+                case HOOK_STATUS_SUCCESS:
+                    status = PluginStatus::Ok;
+                    break;
+                case HOOK_STATUS_FAILURE:
+                    status = PluginStatus::PluginMainFailure;
+                    break;
+                case HOOK_STATUS_UNKNOWN:
+                    status = PluginStatus::Unknown;
+                    break;
+            }
 
             return PluginStatus::Ok;
         }
@@ -137,19 +203,25 @@ namespace yampl
          * PluginArbiter::Handle
          */
         PluginArbiter::Handle::Handle() noexcept
-            : _module(nullptr)
+            : Handle("", _handle_id_invalid, OBJECT_REGISTER_PARAMS_INIT)
         {
 
         }
 
-        PluginArbiter::Handle::Handle(std::shared_ptr<DynamicModule> module) noexcept
-            : _module(std::move(module))
+        PluginArbiter::Handle::Handle(std::string moniker, uint32_t handle_id, object_register_params const& params) noexcept
+            : _moniker(std::move(moniker))
+            , _handle_id(handle_id)
+            , _params(params)
         {
 
+        }
+
+        void PluginArbiter::Handle::destroy_object(IObject* obj) const {
+            _params.hk_destroy(obj);
         }
 
         std::string PluginArbiter::Handle::moniker() const {
-            return _module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM)->moniker;
+            return _moniker;
         }
     }
 }

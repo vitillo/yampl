@@ -59,13 +59,16 @@ typedef void* opaque_ptr;
  */
 typedef enum object_proto_type_
 {
-    OBJ_PROTO_UNKNOWN = 0UL,
-    OBJ_PROTO_SK_FACTORY, // ISocketFactory
+    OBJ_PROTO_UNKNOWN = 0UL, // IObject
+    OBJ_PROTO_SK_FACTORY,    // ISocketFactory
 } object_proto_type, *pobject_proto_type;
+
+#define OBJECT_VERSION_ANY (uint32_t) -1
 
 typedef struct object_init_params_
 {
     object_proto_type type; // Requested object
+    uint32_t obj_version;   // Requested object version
 } object_init_params, *pobject_init_params;
 
 typedef enum hook_exec_status_
@@ -92,7 +95,6 @@ typedef hook_exec_status (*HOOK_PluginMain)(struct plugin_init_frame_* /* frame 
 
 /*********************** Hook functions (Application side) **/
 typedef hook_exec_status (*HOOK_RegisterObject)(object_register_params_* /* params */);
-//typedef hook_exec_status (*HOOK_InvokeService)(app_service_type_ /* type */, opaque_ptr /* packed_params */);
 
 /* Singly-linked list structure */
 #define CONTAINING_RECORD(_rcr_ty, _entry) ((_rcr_ty*)((char*) _entry - (char*)&((_rcr_ty*)(NULL)->flink)))
@@ -138,13 +140,12 @@ typedef struct object_register_params_
     /* Object type */
     object_proto_type obj_type;
 
-    /* Object version */
-    uint32_t obj_version;
-
     /* Lifecycle hook functions */
     HOOK_CreateObject   hk_create;
     HOOK_DestroyObject  hk_destroy;
 } object_register_params, *pobject_register_params;
+
+object_register_params OBJECT_REGISTER_PARAMS_INIT = { OBJ_PROTO_UNKNOWN, NULL, NULL };
 
 #ifdef __cplusplus
 }

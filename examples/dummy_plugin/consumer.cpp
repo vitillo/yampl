@@ -28,7 +28,7 @@ _HOOK_RegisterObject(object_register_params* params)
     switch (params->obj_type)
     {
         case OBJ_PROTO_UNKNOWN:
-            std::cout << "OBJ_PROTO_UNKOWN" << std::endl;
+            std::cout << "OBJ_PROTO_UNKNOWN" << std::endl;
             break;
         case OBJ_PROTO_SK_FACTORY:
             std::cout << "OBJ_PROTO_SK_FACTORY" << std::endl;
