@@ -147,7 +147,7 @@ namespace yampl
                         Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept;
 
                         template <typename Ty>
-                        Ty* create_object(object_proto_type type) const
+                        Ty* create_object(object_proto_type type)
                         {
                             Ty* obj = create_object<Ty>(type, OBJECT_VERSION_ANY);
 
