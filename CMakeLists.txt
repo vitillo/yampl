@@ -185,8 +185,7 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
 # Copy yampl-env.sh to /etc/profile.d
 install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
         DESTINATION ${YAMPL_ENV_DIR}
-        PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                    GROUP_EXECUTE GROUP_READ
+        PERMISSIONS WORLD_EXECUTE WORLD_WRITE WORLD_READ
 )
 
 # Include plugins
@@ -199,7 +198,7 @@ endif()
 file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
 message(STATUS ${YAMPL_PLUGIN_CMAKE_FILES})
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
-    string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME YAMPL_CMAKE_FILE)
+    string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
     message(STATUS "${YAMPL_PLUGIN_NAME} was found and added to the build")
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
