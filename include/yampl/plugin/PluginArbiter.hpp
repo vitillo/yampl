@@ -22,6 +22,15 @@ namespace yampl
 {
     namespace plugin
     {
+        /**
+         * PluginArbiter::HOOK_register_object function thunk
+         *
+         * @param params object registration parameters
+         * @return hook_exec_status returned by PluginArbiter
+         */
+        hook_exec_status HOOK_register_object_thunk(object_register_params* params);
+
+        /******************************* PluginArbiter **/
         enum class PluginStatus : uint8_t
         {
             Unknown = 0UL,
@@ -65,8 +74,10 @@ namespace yampl
                 virtual bool unload_impl(std::string moniker);
 
                 /************************** Hooks **/
+                friend hook_exec_status HOOK_register_object_thunk(object_register_params*);
+
                 /**
-                 * Callback used by plugins to register their objects
+                 * Callback invoked by plugins to register objects
                  *
                  * @param params object registration parameters
                  * @return hook_exec_status returned by PluginArbiter
@@ -76,11 +87,12 @@ namespace yampl
                 /**
                  * Function used by handle owners to create objects
                  *
+                 * @todo: use a cross-thread lock to prevent race conditions
                  * @param params object initialization parameters
                  * @return pointer to the created object
                  */
                 template <typename Ty>
-                Ty* HOOK_create_object(std::string moniker, object_proto_type type, uint32_t obj_version)
+                Ty* HOOK_create_object(std::string moniker, object_proto_type type, uint32_t obj_version) const
                 {
                     object_init_params init_params;
                     object_register_params reg_params;
@@ -104,6 +116,17 @@ namespace yampl
 
                     return obj;
                 }
+
+                /**
+                 * Function used by handle owners to destroy an object
+                 *
+                 * @todo: use a cross-thread lock to prevent race conditions
+                 * @param moniker plugin moniker
+                 * @param type the object type
+                 * @param obj pointer to the object to destroy
+                 * @return the hook_exec_status returned by DestroyObject
+                 */
+                hook_exec_status HOOK_destroy_object(std::string moniker, object_proto_type type, IObject* obj) const;
             private:
                 PluginArbiter(PluginArbiter const&);
             public:
@@ -116,6 +139,8 @@ namespace yampl
                         std::string _moniker;
                         uint32_t    _handle_id;
                         std::shared_ptr<PluginArbiter> _arbiter;
+                        std::vector<IObject*> _obj_alloc_list; //!< List of created objects
+                        hash_map<IObject*, object_proto_type> _obj_type_map; //!< Map of objects to their prototype
                     public:
                         static constexpr uint32_t _handle_id_invalid = -1;
 
@@ -123,8 +148,16 @@ namespace yampl
                         Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept;
 
                         template <typename Ty>
-                        Ty* create_object(object_proto_type type) const {
-                            return create_object<Ty>(type, OBJECT_VERSION_ANY);
+                        Ty* create_object(object_proto_type type) const
+                        {
+                            Ty* obj = create_object<Ty>(type, OBJECT_VERSION_ANY);
+
+                            // If the object has been created, register it
+                            if (obj != nullptr)
+                            {
+                                _obj_alloc_list.push_back(obj);
+                                _obj_type_map.insert({ obj, type });
+                            }
                         }
 
                         template <typename Ty>

@@ -142,6 +142,8 @@ namespace yampl
                         , _status(PluginStatus::Unknown)
                 { }
 
+                PluginArbiterException(PluginArbiterException const& rhs) noexcept = default;
+
                 PluginArbiterException(char const* what, PluginStatus status)
                     : Exception(what)
                     , _status(status)
