@@ -174,7 +174,7 @@ install(TARGETS yampl
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl        
 )
 
-# Unpack resources
+# Install resources
 install(DIRECTORY ${CMAKE_BINARY_DIR}/scripts/
         DESTINATION ${CMAKE_INSTALL_PREFIX}/yampl/rsrc
         PATTERN "scripts/*.sh"
@@ -190,14 +190,14 @@ install(FILES ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh
 )
 
 # Include plugins
-# execute_process(COMMAND sh "-c" "rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/plugins; mkdir ${CMAKE_CURRENT_SOURCE_DIR}/plugins")
-
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
+
 if (WITH_ZMQ_PLUGIN)
-    AddExtProjectGit("yampl-zmq" "https://github.com/ntauth/yampl-zmq" "plugins")        
+    AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "plugins")        
 endif()
 
-file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES plugins/*.conf.cmake ${CMAKE_BINARY_DIR}/plugins/*.conf.cmake)
+file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
+message(STATUS ${YAMPL_PLUGIN_CMAKE_FILES})
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "[\.conf\.cmake]$" "" YAMPL_PLUGIN_NAME YAMPL_CMAKE_FILE)
     message(STATUS "${YAMPL_PLUGIN_NAME} was found and added to the build")
