@@ -106,7 +106,7 @@ namespace yampl
                         init_params.obj_version = obj_version;
                         init_params.type = type;
 
-                        obj = reg_params.hk_create(init_params);
+                        obj = reg_params.hk_create(&init_params);
                     }
                     catch (std::out_of_range& ex)
                     {
