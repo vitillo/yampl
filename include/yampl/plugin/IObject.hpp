@@ -23,8 +23,8 @@ namespace yampl
             public:
                 static const uint32_t __OBJECT_VERSION;
 
-                IObject() = 0;
-                virtual ~IObject() {}
+                IObject();
+                virtual ~IObject() = 0 {}
         };
     }
 }
