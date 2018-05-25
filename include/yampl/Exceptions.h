@@ -25,7 +25,7 @@ namespace yampl
         }
 
       protected:
-        const std::string m_msg;
+        std::string m_msg;
     };
 
     class UnsupportedException: public Exception
