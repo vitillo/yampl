@@ -25,6 +25,9 @@ project(yampl)
 include(cmake/YamplUtils.cmake)
 USE_CXX14()
 
+# Default install prefix
+set(CMAKE_INSTALL_PREFIX ~/yampl)
+
 # Common source files for plugins
 set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
 
@@ -166,14 +169,12 @@ configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @
 configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
 configure_file(config/.yamplrc.in ${CMAKE_BINARY_DIR}/scripts/.yamplrc @ONLY)
 
-set(CMAKE_INSTALL_PREFIX ~/yampl)
-
 # @todo: Generate project configuration file
 install(TARGETS yampl
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl        
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include        
 )
 
 # Install scripts
