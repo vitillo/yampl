@@ -159,8 +159,8 @@ namespace yampl
                             // If the object has been created, register it
                             if (obj != nullptr)
                             {
-                                _obj_alloc_list.push_back(obj);
-                                _obj_type_map.insert({ obj, type });
+                                _obj_alloc_list.push_back(reinterpret_cast<Ty*>(obj));
+                                _obj_type_map.insert({ reinterpret_cast<Ty*>(obj), type });
                             }
 
                             return reinterpret_cast<Ty*>(obj);
