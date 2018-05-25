@@ -68,10 +68,42 @@ namespace yampl
                 /**
                  * Callback used by plugins to register their objects
                  *
-                 * @param params registration parameters
+                 * @param params object registration parameters
                  * @return hook_exec_status returned by PluginArbiter
                  */
-                virtual hook_exec_status HOOK_register_object(object_register_params* params);
+                hook_exec_status HOOK_register_object(object_register_params* params);
+
+                /**
+                 * Function used by handle owners to create objects
+                 *
+                 * @param params object initialization parameters
+                 * @return pointer to the created object
+                 */
+                template <typename Ty>
+                Ty* HOOK_create_object(std::string moniker, object_proto_type type, uint32_t obj_version)
+                {
+                    object_init_params init_params;
+                    object_register_params reg_params;
+                    Ty* obj;
+
+                    try
+                    {
+                        // Retrieve the object_init_params
+                        reg_params = _object_registration_map.at(moniker).at(type);
+
+                        // Object initialization params
+                        init.obj_version = obj_version;
+                        init.type = type;
+
+                        obj = reg_params.hk_create(init_params);
+                    }
+                    catch (std::out_of_range& ex)
+                    {
+                        obj = nullptr;
+                    }
+
+                    return obj;
+                }
             private:
                 PluginArbiter(PluginArbiter const&);
             public:
@@ -83,29 +115,21 @@ namespace yampl
                     protected:
                         std::string _moniker;
                         uint32_t    _handle_id;
-                        object_register_params _params;
+                        std::shared_ptr<PluginArbiter> _arbiter;
                     public:
                         static constexpr uint32_t _handle_id_invalid = -1;
 
                         Handle() noexcept;
-                        Handle(std::string moniker, uint32_t handle_id, object_register_params const& params) noexcept;
+                        Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept;
 
                         template <typename Ty>
-                        Ty* create_object() const {
-                            return create_object<Ty>(OBJECT_VERSION_ANY);
+                        Ty* create_object(object_proto_type type) const {
+                            return create_object<Ty>(type, OBJECT_VERSION_ANY);
                         }
 
                         template <typename Ty>
-                        Ty* create_object(uint32_t obj_version) const
-                        {
-                            object_init_params init;
-
-                            // Object initialization params
-                            init.obj_version = obj_version;
-                            init.type = _params.obj_type;
-
-                            // Create the object
-                            opaque_ptr obj = _params.hk_create(init);
+                        Ty* create_object(object_proto_type type, uint32_t obj_version) const {
+                            opaque_ptr obj = _arbiter->HOOK_create_object(type, obj_version);
 
                             return reinterpret_cast<Ty*>(obj);
                         }
