@@ -55,7 +55,7 @@ namespace yampl
                     break;
                 case OBJ_PROTO_SK_FACTORY:
                     // Add the object to the registration map
-                    _object_registration_map.insert({ info_hdr->moniker, *params });
+                    _object_registration_map.at(info_hdr->moniker).insert({ info_hdr->moniker, *params });
                     break;
             }
 
