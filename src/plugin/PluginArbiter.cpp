@@ -22,7 +22,7 @@ namespace yampl
         /******************************* PluginArbiter **/
         std::shared_ptr<PluginArbiter> PluginArbiter::get_instance()
         {
-            std::shared_ptr<PluginArbiter> _singleton;
+            static std::shared_ptr<PluginArbiter> _singleton = nullptr;
 
             // First time invoking get_instance?
             if (_singleton == nullptr)
