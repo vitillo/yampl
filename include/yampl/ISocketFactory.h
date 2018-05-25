@@ -6,7 +6,6 @@
 #include "yampl/plugin/IObject.hpp"
 
 #include <stdlib.h>
-#include <scy/pluga/pluga.h>
 
 namespace yampl{
 
