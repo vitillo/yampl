@@ -56,7 +56,7 @@ namespace yampl
             else
             {
                 plugin_info_hdr* info_hdr = _module_init_stack.top();
-                auto obj_type_map = _object_registration_map.at(info_hdr->moniker);
+                auto& obj_type_map = _object_registration_map.at(info_hdr->moniker);
 
                 switch (params->obj_type)
                 {
@@ -66,7 +66,7 @@ namespace yampl
                         break;
                     case OBJ_PROTO_SK_FACTORY:
                         // Add the object to the registration map
-                        obj_type_map.insert({params->obj_type, *params});
+                        obj_type_map.insert({ params->obj_type, *params });
                         status = HOOK_STATUS_SUCCESS;
                         break;
                     default:
