@@ -13,7 +13,7 @@ namespace yampl
     std::string dir_path_trim(std::string path)
     {
         if (path.length() > 0)
-            if (*path.end() == '/')
+            if (path[path.length() - 1] == '/')
                 path.substr(0, path.length() - 1);
 
         return path;
@@ -22,7 +22,7 @@ namespace yampl
     std::string dir_path_normalize(std::string path)
     {
         if (path.length() > 0)
-            if (*path.end() != '/')
+            if (path[path.length() - 1] != '/')
                 path.append("/");
             else
                 path = "/";
