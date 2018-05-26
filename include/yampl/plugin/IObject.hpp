@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef PLUGA_TEST_IPLUGIN_HPP
-#define PLUGA_TEST_IPLUGIN_HPP
+#ifndef YAMPL_IOBJECT_HPP
+#define YAMPL_IOBJECT_HPP
 
 #include <cstdint>
 
@@ -31,4 +31,4 @@ namespace yampl
     }
 }
 
-#endif // PLUGA_TEST_IPLUGIN_HPP
+#endif // YAMPL_IOBJECT_HPP
