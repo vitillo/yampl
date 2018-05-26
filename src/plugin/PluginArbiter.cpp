@@ -240,6 +240,21 @@ namespace yampl
 
         }
 
+        PluginArbiter::Handle::Handle(Handle const& rhs) noexcept {
+
+        }
+
+        PluginArbiter::Handle::Handle(Handle&& rhs) noexcept
+            : _moniker(std::move(rhs._moniker))
+            , _handle_id(rhs._handle_id)
+            , _arbiter(std::move(rhs._arbiter))
+            , _obj_alloc_list(std::move(rhs._obj_alloc_list))
+            , _obj_type_map(std::move(rhs._obj_type_map))
+        {
+            // Invalidate the handle id of the moved handle
+            rhs._handle_id = _handle_id_invalid;
+        }
+
         void PluginArbiter::Handle::destroy_object(IObject* obj) const
         {
             try
