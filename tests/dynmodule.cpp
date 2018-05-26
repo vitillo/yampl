@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     /*************** Move semantics **/
     try
     {
-        DynamicModule dyn = DynamicModule::open("..", "yampl");
+        DynamicModule dyn = DynamicModule::open("../", "libyampl.so");
         DynamicModule dyn_ = std::move(dyn);
         std::cout << "[2] Module loaded successfully" << std::endl;
 
