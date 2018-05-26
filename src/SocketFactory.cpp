@@ -29,16 +29,16 @@ namespace yampl
         PluginArbiter::Handle handle;
 
         if (channel.context == LOCAL_PIPE) {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
         else if (channel.context == LOCAL_SHM) {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
         else {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
 
-        ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+        auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
 
         if (socket_factory != nullptr) {
             socket = socket_factory->createClientSocket(channel, semantics, deallocator);
@@ -54,16 +54,16 @@ namespace yampl
         PluginArbiter::Handle handle;
 
         if (channel.context == LOCAL_PIPE) {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
         else if (channel.context == LOCAL_SHM) {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
         else {
-            PluginArbiter::Handle handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
         }
 
-        ISocketFactory* socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+        auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
 
         if (socket_factory != nullptr) {
             socket = socket_factory->createServerSocket(channel, semantics, deallocator);
