@@ -5,7 +5,7 @@
 
 namespace yampl
 {
-    const std::string SocketFactory::DEFAULT_ID = "";
+    std::string DEFAULT_ID = "";
 
     SocketFactory::SocketFactory() noexcept
         : arbiter(PluginArbiter::get_instance())
