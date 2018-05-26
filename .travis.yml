@@ -33,6 +33,6 @@ script:
     - docker ps
     - docker exec "$(cat ${container_id})" bash -c "echo Building YAMPL on Linux Kernel $(uname -r)..."
       # Build
-    - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir build; cd build; cmake .. -DWITH_EXAMPLES=ON -DWITH_TESTS=ON -DWITH_SHM_PLUGIN=ON -DWITH_ZMQ_PLUGIN=ON && make && make install"
+    - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir build; cd build; cmake .. -DWITH_ZMQ_PLUGIN=ON && make && make install"
       # Run tests
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl/build/tests/; ./calls && ./dynmodule && ./pluginarbiter"
