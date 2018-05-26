@@ -28,6 +28,7 @@ Different communication strategies are offered to provide the best performances 
 
 Each and all of these strategies are implemented as modular and independent plugins that can easily be pulled from Github, built and installed in the system. The plugin subsystem (***PluginArbiter***) allows for an easy integration of new custom plugins. When YAMPL is executed, the ***PluginArbiter*** loads all the plugins at runtime, handles memory management and all the bookkeeping. These are the currently available plugins:
 * **yampl-shm:** SHM backend for YAMPL - [repository](https://github.com/ntauth/yampl-shm)
+* **yampl-pipe:** Pipe backend for YAMPL - [repository](https://github.com/ntauth/yampl-pipe)
 * **yampl-zmq:** ZeroMQ backend for YAMPL - [repository](https://github.com/ntauth/yampl-zmq)
 
 ## Build, Test & Install
@@ -42,10 +43,10 @@ git clone https://github.com/{user_name}/{plugin_name}
 cd ..
 mkdir build
 cd build
-cmake .. -DWITH_EXAMPLES={ON|OFF} -DWITH_TESTS={ON|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
+cmake .. -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFAUL)]|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
 # Build and install
 make
-sudo make install
+make install
 ```
 
 To compile and link against the YAMPL library:
