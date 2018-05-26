@@ -141,13 +141,15 @@ namespace yampl
                         std::vector<IObject*> _obj_alloc_list; //!< List of created objects
                         hash_map<IObject*, object_proto_type> _obj_type_map; //!< Map of objects to their prototype
 
-                        Handle(Handle const& rhs);
+                        Handle(Handle const& rhs) noexcept;
                     public:
                         static constexpr uint32_t _handle_id_invalid = -1;
 
                         Handle() noexcept;
                         Handle(std::string moniker, uint32_t handle_id, std::shared_ptr<PluginArbiter> arbiter) noexcept;
                         Handle(Handle&& rhs) noexcept;
+
+                        Handle& operator =(Handle&& rhs) noexcept;
 
                         template <typename Ty>
                         Ty* create_object(object_proto_type type) {
