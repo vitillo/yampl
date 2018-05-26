@@ -8,8 +8,8 @@
 using namespace yampl;
 using namespace std;
 
-
-void client(ISocketFactory *factory, const Channel &channel){
+void client(ISocketFactory *factory, const Channel &channel)
+{
   ISocket *socket = factory->createClientSocket(channel, "client");
   char buffer[100];
 
@@ -20,17 +20,22 @@ void client(ISocketFactory *factory, const Channel &channel){
   delete socket;
 }
 
-void server(ISocketFactory *factory, const Channel &channel){
+void server(ISocketFactory* factory, const Channel &channel)
+{
   ISocket *socket = factory->createServerSocket(channel);
   char buffer[100];
   std::string dest;
   socket->recv(buffer, dest);
 
+  std::cout << "dest = " << dest << std::endl;
   assert(dest == "client");
 
-  try{
+  try {
     socket->sendTo("foobar", "pong");
-  }catch(UnroutableException){}
+  }
+  catch(UnroutableException&) {
+    // OK, it's expected to reach this
+  }
 
   socket->sendTo("client", "pong");
 
@@ -40,25 +45,29 @@ void server(ISocketFactory *factory, const Channel &channel){
 int main(int argc, char *argv[])
 {
   int status = -1;
+  ISocketFactory* factory;
 
-  if(fork() == 0){
-    ISocketFactory *zmqFactory = new SocketFactory();
-    client(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new SocketFactory();
-    client(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new SocketFactory();
-    client(shmFactory, Channel("shm", LOCAL_SHM));
-  }else{
-    ISocketFactory *zmqFactory = new SocketFactory();
-    server(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new SocketFactory();
-    server(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new SocketFactory();
-    server(shmFactory, Channel("shm", LOCAL_SHM));
+  if(fork() == 0)
+  {
+    factory = new SocketFactory();
+
+    client(factory, Channel("zmq", LOCAL));
+    client(factory, Channel("pipe", LOCAL_PIPE));
+    client(factory, Channel("shm", LOCAL_SHM));
+
+    delete factory;
+  }
+  else {
+    factory = new SocketFactory();
+    server(factory, Channel("zmq", LOCAL));
+    server(factory, Channel("pipe", LOCAL_PIPE));
+    server(factory, Channel("shm", LOCAL_SHM));
 
     wait(&status);
     cout << "Success" << endl;
 	status = 0;
+
+    delete factory;
   }
 
   return status;
