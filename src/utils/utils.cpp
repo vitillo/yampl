@@ -51,12 +51,12 @@ namespace yampl
 
                 if (yamplrc_in.is_open()) {
                     yamplrc_in >> env_s;
-                    env_s = dir_path_normalize(env_s) + "lib/plugins";
+                    env_s = dir_path_normalize(env_s) + "plugins";
                 }
             }
         }
         else
-            env_s = dir_path_normalize(std::string(env)) + "lib/plugins";
+            env_s = dir_path_normalize(std::string(env)) + "plugins";
 
         return env_s;
     }
