@@ -51,6 +51,7 @@ namespace yampl
     class UnroutableException : public Exception{
       public:
         UnroutableException(): Exception("Destination peer not found"){}
+        UnroutableException(char const* what) : Exception(what) {}
     };
 
     class ErrnoException : public Exception{

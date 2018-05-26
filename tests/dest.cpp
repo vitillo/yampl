@@ -24,14 +24,14 @@ void client(ISocketFactory *factory, const Channel &channel)
 
 void server(ISocketFactory* factory, const Channel &channel)
 {
-    std::cout << "[" << channel.name << "]" << " server started." << std::endl;
+    std::cout << "[" << channel.name << "] " << " server started." << std::endl;
 
     ISocket *socket = factory->createServerSocket(channel);
     char buffer[100];
     std::string dest;
     socket->recv(buffer, dest);
 
-    std::cout << "[" << channel.name << "]" << "dest = " << dest << " => " <<  buffer << std::endl;
+    std::cout << "[" << channel.name << "] " << "dest = " << dest << " => " <<  buffer << std::endl;
     assert(dest == "client");
 
     try {
@@ -42,7 +42,7 @@ void server(ISocketFactory* factory, const Channel &channel)
     }
     catch (...) {
         std::exception_ptr exp = std::current_exception();
-        std::cout << "[" << channel.name << "]" << "Exception of type " + std::string(exp.__cxa_exception_type()->name()) + " was thrown and caught." << std::endl;
+        std::cout << "[" << channel.name << "] " << "Exception of type " + std::string(exp.__cxa_exception_type()->name()) + " was thrown and caught." << std::endl;
     }
 
     socket->sendTo("client", "pong");
