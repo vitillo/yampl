@@ -31,7 +31,7 @@ void server(ISocketFactory* factory, const Channel &channel)
     std::string dest;
     socket->recv(buffer, dest);
 
-    std::cout << "dest = " << dest << std::endl;
+    std::cout << "dest = " << dest << " => " <<  buffer << std::endl;
     assert(dest == "client");
 
     try {
