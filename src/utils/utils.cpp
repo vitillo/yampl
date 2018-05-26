@@ -61,8 +61,8 @@ namespace yampl
                     {
                         // Expand ~ to $HOME if present
                         if (pfx_s[0] == '~') {
-                            pfx_s.substr(1);
-                            pfx_s = home_dir_s + pfx_s;
+                            std::string pfx_s_ = pfx_s.substr(1);
+                            pfx_s = home_dir_s + pfx_s_;
 
                         }
 
@@ -75,8 +75,8 @@ namespace yampl
         {
             // Expand ~ to $HOME if present
             if (pfx_s[0] == '~') {
-                pfx_s.substr(1);
-                pfx_s = home_dir_s + pfx_s;
+                std::string pfx_s_ = pfx_s.substr(1);
+                pfx_s = home_dir_s + pfx_s_;
             }
 
             pfx_s = dir_path_normalize(std::string(pfx)) + "plugins";
