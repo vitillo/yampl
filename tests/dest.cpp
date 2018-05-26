@@ -31,7 +31,7 @@ void server(ISocketFactory* factory, const Channel &channel)
     std::string dest;
     socket->recv(buffer, dest);
 
-    std::cout << "dest = " << dest << " => " <<  buffer << std::endl;
+    std::cout << "[" << channel.name << "]" << "dest = " << dest << " => " <<  buffer << std::endl;
     assert(dest == "client");
 
     try {
@@ -39,6 +39,10 @@ void server(ISocketFactory* factory, const Channel &channel)
     }
     catch(UnroutableException&) {
         // OK, it's expected to reach this
+    }
+    catch (...) {
+        std::exception_ptr exp = std::current_exception();
+        std::cout << "[" << channel.name << "]" << "Exception of type " + std::string(exp.__cxa_exception_type()->name()) + " was thrown and caught." << std::endl;
     }
 
     socket->sendTo("client", "pong");
