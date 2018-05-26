@@ -32,7 +32,6 @@ namespace yampl
             static constexpr char const* SHM_MODULE_NAME  = "yampl-shm";
             static constexpr char const* ZMQ_MODULE_NAME  = "yampl-zmq";
             static constexpr char const* PIPE_MODULE_NAME = "yampl-pipe";
-            static const std::string DEFAULT_ID;
 
             SocketFactory() noexcept;
             explicit SocketFactory(std::string) noexcept;
