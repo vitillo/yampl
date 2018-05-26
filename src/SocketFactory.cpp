@@ -42,7 +42,7 @@ namespace yampl
 
         if (socket_factory != nullptr) {
             socket = socket_factory->createClientSocket(channel, semantics, deallocator);
-            factory_handle_list.push_back(handle);
+            factory_handle_list.push_back(std::move(handle));
         }
 
         return socket;
@@ -67,7 +67,7 @@ namespace yampl
 
         if (socket_factory != nullptr) {
             socket = socket_factory->createServerSocket(channel, semantics, deallocator);
-            factory_handle_list.push_back(handle);
+            factory_handle_list.push_back(std::move(handle));
         }
 
         return socket;
