@@ -20,10 +20,10 @@ int main(int argc, char** argv)
     /*************** DynamicModule::open **/
     try
     {
-        DynamicModule dyn = DynamicModule::open("..", "yampl");
+        DynamicModule dyn = DynamicModule::open("../", "libyampl.so");
         std::cout << "[1] Module loaded successfully" << std::endl;
     }
-    catch (DynamicModuleLoadException ex) {
+    catch (DynamicModuleLoadException& ex) {
         status = -1;
     }
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
         else
             std::cout << "[3] Move semantics are correct" << std::endl;
     }
-    catch (DynamicModuleLoadException ex) {
+    catch (DynamicModuleLoadException& ex) {
         status = -1;
     }
 
