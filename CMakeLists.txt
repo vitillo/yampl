@@ -162,7 +162,7 @@ set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
 set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
 
 # Configure yampl-env.sh.in
-set(YAMPL_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/lib/yampl")
+set(YAMPL_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/lib")
 set(YAMPL_ENV_DIR "/etc/profile.d")
 
 configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @ONLY)
