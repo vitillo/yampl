@@ -5,8 +5,6 @@
 
 namespace yampl
 {
-    std::string DEFAULT_ID = "";
-    
     SocketFactory::SocketFactory() noexcept
         : arbiter(PluginArbiter::get_instance())
         , module_base_path(get_plugin_base_dir())
@@ -27,6 +25,10 @@ namespace yampl
     {
         ISocket* socket = nullptr;
         PluginArbiter::Handle handle;
+        std::string peer_name = name;
+
+        if (peer_name.length() == 0)
+            peer_name = DEFAULT_ID;
 
         if (channel.context == LOCAL_PIPE) {
             handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
@@ -41,7 +43,7 @@ namespace yampl
         auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
 
         if (socket_factory != nullptr) {
-            socket = socket_factory->createClientSocket(channel, semantics, deallocator);
+            socket = socket_factory->createClientSocket(channel, semantics, deallocator, peer_name);
             factory_handle_list.push_back(std::move(handle));
         }
 
@@ -50,7 +52,7 @@ namespace yampl
 
     ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *))
     {
-        ISocket *socket;
+        ISocket *socket = nullptr;
         PluginArbiter::Handle handle;
 
         if (channel.context == LOCAL_PIPE) {
