@@ -39,25 +39,40 @@ namespace yampl
     std::string get_plugin_base_dir()
     {
         char const* env = std::getenv("YAMPL_INSTALL_PREFIX");
+        char const* home_dir = std::getenv("HOME");
         std::string env_s = "";
+        std::string home_dir_s = "";
+
+        if (home_dir != nullptr)
+            home_dir_s = std::string(home_dir);
 
         // If the environment variable isn't present, fall back to .yamplrc
         if (env == nullptr)
         {
-            char const* home_dir = std::getenv("HOME");
-
             if (home_dir != nullptr)
             {
-                std::ifstream yamplrc_in(dir_path_normalize(std::string(home_dir)) + ".yamplrc", std::ios_base::in);
+                std::ifstream yamplrc_in(dir_path_normalize(home_dir_s) + ".yamplrc", std::ios_base::in);
 
                 if (yamplrc_in.is_open()) {
                     yamplrc_in >> env_s;
-                    env_s = dir_path_normalize(env_s) + "plugins";
+
+                    if (env_s.length() > 0)
+                    {
+                        // Expand ~ to $HOME if present
+                        if (env_s[0] == '~')
+                            env_s.replace(0, home_dir_s.length(), home_dir_s);
+                        env_s = dir_path_normalize(env_s) + "plugins";
+                    }
                 }
             }
         }
         else
+        {
+            // Expand ~ to $HOME if present
+            if (env_s[0] == '~')
+                env_s.replace(0, home_dir_s.length(), home_dir_s);
             env_s = dir_path_normalize(std::string(env)) + "plugins";
+        }
 
         return env_s;
     }
