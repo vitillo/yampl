@@ -38,30 +38,35 @@ namespace yampl
 
     std::string get_plugin_base_dir()
     {
-        char const* env = std::getenv("YAMPL_INSTALL_PREFIX");
+        char const* pfx = std::getenv("YAMPL_INSTALL_PREFIX");
         char const* home_dir = std::getenv("HOME");
-        std::string env_s = "";
+        std::string pfx_s = "";
         std::string home_dir_s = "";
 
-        if (home_dir != nullptr)
-            home_dir_s = std::string(home_dir);
+        if (home_dir != nullptr) {
+            home_dir_s = dir_path_trim(std::string(home_dir));
+        }
 
         // If the environment variable isn't present, fall back to .yamplrc
-        if (env == nullptr)
+        if (pfx == nullptr)
         {
             if (home_dir != nullptr)
             {
                 std::ifstream yamplrc_in(dir_path_normalize(home_dir_s) + ".yamplrc", std::ios_base::in);
 
                 if (yamplrc_in.is_open()) {
-                    yamplrc_in >> env_s;
+                    yamplrc_in >> pfx_s;
 
-                    if (env_s.length() > 0)
+                    if (pfx_s.length() > 0)
                     {
                         // Expand ~ to $HOME if present
-                        if (env_s[0] == '~')
-                            env_s.replace(0, home_dir_s.length(), home_dir_s);
-                        env_s = dir_path_normalize(env_s) + "plugins";
+                        if (pfx_s[0] == '~') {
+                            pfx_s.substr(1);
+                            pfx_s = home_dir_s + pfx_s;
+
+                        }
+
+                        pfx_s = dir_path_normalize(pfx_s) + "plugins";
                     }
                 }
             }
@@ -69,11 +74,14 @@ namespace yampl
         else
         {
             // Expand ~ to $HOME if present
-            if (env_s[0] == '~')
-                env_s.replace(0, home_dir_s.length(), home_dir_s);
-            env_s = dir_path_normalize(std::string(env)) + "plugins";
+            if (pfx_s[0] == '~') {
+                pfx_s.substr(1);
+                pfx_s = home_dir_s + pfx_s;
+            }
+
+            pfx_s = dir_path_normalize(std::string(pfx)) + "plugins";
         }
 
-        return env_s;
+        return pfx_s;
     }
 }
