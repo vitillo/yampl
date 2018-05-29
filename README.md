@@ -36,14 +36,12 @@ Each and all of these strategies are implemented as modular and independent plug
 git clone https://github.com/ntauth/yampl
 cd yampl
 # Pull additional plugins
-mkdir plugins
 cd plugins
 git clone https://github.com/{user_name}/{plugin_name}
 # Configure project
-cd ..
-mkdir build
-cd build
-cmake .. -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFAULT)]|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
+mkdir /path/to/build/directory
+cd /path/to/build/directory
+cmake /path/to/repo/root -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFAULT)]|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
 # Build and install
 make
 make install
