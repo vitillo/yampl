@@ -180,7 +180,7 @@ install(TARGETS yampl
 
 # Install public header files
 install(DIRECTORY include
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
         FILES_MATCHING
         PATTERN "*.h"
         PATTERN "*.hpp"
@@ -196,8 +196,8 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
 # Install yampl.pc configuration file
 install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig
-        PERMISSIONS WORLD_READ OWNER_WRITE
-)
+        PERMISSIONS OWNER_READ OWNER_WRITE
+)i
 
 # Make a directory for custom plugins
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
