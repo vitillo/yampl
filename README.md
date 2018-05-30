@@ -41,7 +41,7 @@ git clone https://github.com/{user_name}/{plugin_name}
 # Configure project
 mkdir /path/to/build/directory
 cd /path/to/build/directory
-cmake /path/to/repo/root -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFAULT)]|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON(Default)|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
+cmake /path/to/repo/root -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFAULT)|OFF} -DWITH_PLUGIN_{SHM|ZMQ|PIPE}={ON(Default)|OFF} -DCMAKE_INSTALL_PREFIX=/path/to/install/directory
 # Build and install
 make
 make install
