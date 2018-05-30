@@ -170,13 +170,14 @@ set(YAMPL_ENV_DIR "/etc/profile.d")
 configure_file(config/yampl-env.sh.in ${CMAKE_BINARY_DIR}/scripts/yampl-env.sh @ONLY)
 configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @ONLY)
 configure_file(config/.yamplrc.in ${CMAKE_BINARY_DIR}/scripts/.yamplrc @ONLY)
+configure_file(config/yampl.pc.in ${CMAKE_BINARY_DIR}/scripts/yampl.pc @ONLY)
 
-# @todo: Generate project configuration file
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
         ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl     
+        PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
 # Install scripts
@@ -185,10 +186,16 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/uninstall.sh"
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
 )
 
-# Copy .yamplrc to ~
+# Install .yamplrc to ~
 install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
         DESTINATION ~/
-        PERMISSIONS OWNER_READ OWNER_WRITE
+        PERMISSIONS WORLD_READ OWNER_WRITE
+)
+
+# Install yampl.pc configuration file
+install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
+        DESTINATION /usr/lib/pkgconfig
+        PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
 # Make a directory for custom plugins
@@ -206,6 +213,5 @@ endif()
 file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
-    message(STATUS "${YAMPL_PLUGIN_NAME} was found and added to the build")
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
