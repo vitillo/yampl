@@ -175,15 +175,14 @@ configure_file(config/yampl.pc.in ${CMAKE_BINARY_DIR}/scripts/yampl.pc @ONLY)
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/static/yampl
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl     
         PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
 # Install scripts
 install(FILES "${CMAKE_BINARY_DIR}/scripts/uninstall.sh"
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts
-        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts/yampl-uninstall
+        PERMISSIONS WORLD_READ OWNER_WRITE OWNER_EXECUTE
 )
 
 # Install .yamplrc to ~
@@ -215,3 +214,9 @@ foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
+
+# Copy the install_manifest to scripts/yampl-uninstall
+install(FILES "${CMAKE_BINARY_DIR}/install_manifest.txt"
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts/yampl-uninstall
+        PERMISSIONS WORLD_READ OWNER_WRITE
+)
