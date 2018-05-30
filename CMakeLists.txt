@@ -27,7 +27,7 @@ USE_CXX14()
 
 # Default install prefix
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX ~/yampl)
+    set(CMAKE_INSTALL_PREFIX $ENV{HOME}/yampl)
 endif()
 
 # Common source files for plugins
@@ -180,7 +180,7 @@ install(TARGETS yampl
 
 # Install public header files
 install(DIRECTORY include
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
         FILES_MATCHING
         PATTERN "*.h"
         PATTERN "*.hpp"
@@ -189,7 +189,7 @@ install(DIRECTORY include
 
 # Install .yamplrc to ~
 install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
-        DESTINATION ~/
+        DESTINATION $ENV{HOME}
         PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
