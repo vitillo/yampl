@@ -197,7 +197,7 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
 install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig
         PERMISSIONS OWNER_READ OWNER_WRITE
-)i
+)
 
 # Make a directory for custom plugins
 execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
