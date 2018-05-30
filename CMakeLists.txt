@@ -158,7 +158,7 @@ target_link_libraries(yampl
 )
 
 # Install step
-file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/yampl/*.h" "include/yampl/*.hpp")
+file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/*.h" "include/*.hpp" "include/yampl/*.h" "include/yampl/*.hpp")
 
 set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
 set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
