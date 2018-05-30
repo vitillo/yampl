@@ -175,22 +175,22 @@ configure_file(config/yampl.pc.in ${CMAKE_BINARY_DIR}/scripts/yampl.pc @ONLY)
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
-        PERMISSIONS WORLD_READ OWNER_WRITE
+        PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
 # Install public header files
-install(DIRECTORY "${CMAKE_BINARY_DIR}/include"
+install(DIRECTORY include
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include
         FILES_MATCHING
         PATTERN "*.h"
         PATTERN "*.hpp"
-        PERMISSIONS WORLD_READ OWNER_WRITE
+        PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
 # Install .yamplrc to ~
 install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
         DESTINATION ~/
-        PERMISSIONS WORLD_READ OWNER_WRITE
+        PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
 # Install yampl.pc configuration file
