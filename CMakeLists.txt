@@ -157,10 +157,9 @@ target_link_libraries(yampl
     uuid
 )
 
+#
 # Install step
-file(GLOB_RECURSE YAMPL_PUBLIC_HEADER "include/*.h" "include/*.hpp" "include/yampl/*.h" "include/yampl/*.hpp")
-
-set_target_properties(yampl PROPERTIES PUBLIC_HEADER "${YAMPL_PUBLIC_HEADER}")
+#
 set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
 
 # Configure yampl-env.sh.in
@@ -172,17 +171,20 @@ configure_file(config/uninstall.sh.in ${CMAKE_BINARY_DIR}/scripts/uninstall.sh @
 configure_file(config/.yamplrc.in ${CMAKE_BINARY_DIR}/scripts/.yamplrc @ONLY)
 configure_file(config/yampl.pc.in ${CMAKE_BINARY_DIR}/scripts/yampl.pc @ONLY)
 
+# Install libraries
 install(TARGETS yampl
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/yampl     
         PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
-# Install scripts
-install(FILES "${CMAKE_BINARY_DIR}/scripts/uninstall.sh"
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts/yampl-uninstall
-        PERMISSIONS WORLD_READ OWNER_WRITE OWNER_EXECUTE
+# Install public header files
+install(DIRECTORY "${CMAKE_BINARY_DIR}/include"
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+        FILES_MATCHING
+        PATTERN "*.h"
+        PATTERN "*.hpp"
+        PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
 # Install .yamplrc to ~
@@ -193,7 +195,7 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/.yamplrc"
 
 # Install yampl.pc configuration file
 install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
-        DESTINATION /usr/lib/pkgconfig
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig
         PERMISSIONS WORLD_READ OWNER_WRITE
 )
 
@@ -214,9 +216,3 @@ foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
     include(${YAMPL_CMAKE_FILE})
 endforeach(YAMPL_CMAKE_FILE)
-
-# Copy the install_manifest to scripts/yampl-uninstall
-install(FILES "${CMAKE_BINARY_DIR}/install_manifest.txt"
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts/yampl-uninstall
-        PERMISSIONS WORLD_READ OWNER_WRITE
-)
