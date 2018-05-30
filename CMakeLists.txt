@@ -180,7 +180,7 @@ install(TARGETS yampl
 
 # Install public header files
 install(DIRECTORY include
-        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/
         FILES_MATCHING
         PATTERN "*.h"
         PATTERN "*.hpp"
