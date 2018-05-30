@@ -1,0 +1,6 @@
+[submodule "yampl-shm"]
+	path = yampl-shm
+	url = https://github.com/ntauth/yampl-shm
+[submodule "yampl-pipe"]
+	path = yampl-pipe
+	url = https://github.com/ntauth/yampl-pipe
