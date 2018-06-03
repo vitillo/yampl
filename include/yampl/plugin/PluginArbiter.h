@@ -1,15 +1,15 @@
 /**
  * @author Ayoub Chouak (a.chouak@protonmail.com)
- * @file   PluginArbiter.hpp
+ * @file   PluginArbiter.h
  * @brief  The file contains structures and procedures required to load and manage Yampl plugins
  */
 
 #ifndef YAMPL_PLUGINARBITER_HPP
 #define YAMPL_PLUGINARBITER_HPP
 
-#include "DynamicModule.hpp"
+#include "DynamicModule.h"
 #include "PluginApi.h"
-#include "IObject.hpp"
+#include "IObject.h"
 
 #include <cstdint>
 #include <memory>

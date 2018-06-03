@@ -2,8 +2,8 @@
 #define YAMPL_SOCKETFACTORY_H
 
 #include "yampl/ISocketFactory.h"
-#include "plugin/IObject.hpp"
-#include "plugin/PluginArbiter.hpp"
+#include "plugin/IObject.h"
+#include "plugin/PluginArbiter.h"
 
 #include <vector>
 

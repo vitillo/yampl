@@ -1,8 +1,8 @@
 #ifndef YAMPL_EXCEPTIONS_H
 #define YAMPL_EXCEPTIONS_H
 
-#include "plugin/DynamicModule.hpp"
-#include "plugin/PluginArbiter.hpp"
+#include "plugin/DynamicModule.h"
+#include "plugin/PluginArbiter.h"
 #include "plugin/PluginApi.h"
 
 #include <exception>

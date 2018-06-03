@@ -3,7 +3,7 @@
 
 #include "yampl/Channel.h"
 #include "yampl/ISocket.h"
-#include "yampl/plugin/IObject.hpp"
+#include "yampl/plugin/IObject.h"
 
 #include <stdlib.h>
 

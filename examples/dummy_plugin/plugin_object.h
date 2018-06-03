@@ -1,6 +1,6 @@
 /**
  * @author Ayoub Chouak (a.chouak@protonmail.com)
- * @file   plugin_object.hpp
+ * @file   plugin_object.h
  * @brief  Dummy plugin example
  */
 
@@ -8,7 +8,7 @@
 #ifndef YAMPL_PLUGIN_OBJECT_HPP
 #define YAMPL_PLUGIN_OBJECT_HPP
 
-#include "yampl/plugin/IObject.hpp"
+#include "yampl/plugin/IObject.h"
 
 #include <cstdint>
 #include <iostream>

@@ -4,7 +4,7 @@
  * @brief  The file contains structures and procedures required to load and manage Yampl plugins
  */
 
-#include "yampl/plugin/PluginArbiter.hpp"
+#include "yampl/plugin/PluginArbiter.h"
 #include "yampl/utils/utils.h"
 #include "yampl/Exceptions.h"
 
