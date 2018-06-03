@@ -30,9 +30,9 @@ before_install:
 script:
     - container_id=$(mktemp)
     - docker run -d --privileged --volume="${PWD}":/yampl ${distribution_name}-${version}:yampl-build tail -f /dev/null > "${container_id}"
-    - docker ps
-    - docker exec "$(cat ${container_id})" bash -c "echo Building YAMPL on Linux Kernel $(uname -r)..."
-      # Build
+    # Pull additional plugins
+    - docker exec "$(cat ${container_id})" bash -c "cd /yampl/plugins; git clone https://github.com/ntauth/yampl-zmq"  
+    # Build
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir build; cd build; cmake .. -DWITH_PLUGIN_ZMQ=ON && make && make install"
       # Run tests
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl/build/tests/; ./calls && ./size && ./dest && ./dynmodule && ./pluginarbiter"
