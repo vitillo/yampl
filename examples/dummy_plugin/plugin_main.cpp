@@ -5,7 +5,7 @@
  */
 
 #include "yampl/plugin/PluginApi.h"
-#include "plugin_object.hpp"
+#include "plugin_object.h"
 
 #include <cstdint>
 #include <iostream>

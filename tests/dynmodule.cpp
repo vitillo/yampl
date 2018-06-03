@@ -4,7 +4,7 @@
  * @brief  Test case for the DynamicModule class
 */
 
-#include "yampl/plugin/DynamicModule.hpp"
+#include "yampl/plugin/DynamicModule.h"
 #include "yampl/Exceptions.h"
 
 #include <iostream>

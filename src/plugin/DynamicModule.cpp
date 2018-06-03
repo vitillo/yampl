@@ -4,7 +4,7 @@
  * @brief  The file contains the definition of the DynamicModule structures
  */
 
-#include "yampl/plugin/DynamicModule.hpp"
+#include "yampl/plugin/DynamicModule.h"
 #include "yampl/Exceptions.h"
 
 namespace yampl

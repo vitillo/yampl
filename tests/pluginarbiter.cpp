@@ -4,7 +4,7 @@
  * @brief  Test case for the PluginArbiter class
 */
 
-#include "yampl/plugin/PluginArbiter.hpp"
+#include "yampl/plugin/PluginArbiter.h"
 #include "yampl/Exceptions.h"
 #include "yampl/utils/utils.h"
 

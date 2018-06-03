@@ -1,6 +1,6 @@
 /**
  * @author Ayoub Chouak (a.chouak@protonmail.com)
- * @file   IObject.hpp
+ * @file   IObject.h
  * @brief  Base interface for plugin objects
  *
  */

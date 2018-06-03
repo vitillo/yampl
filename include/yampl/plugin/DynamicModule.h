@@ -1,6 +1,6 @@
 /**
  * @author Ayoub Chouak (a.chouak@protonmail.com)
- * @file   DynamicModule.hpp
+ * @file   DynamicModule.h
  * @brief  The file contains the declaration of the DynamicModule type used by the PluginArbiter to load dynamic modules
  */
 
