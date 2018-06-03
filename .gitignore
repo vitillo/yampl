@@ -24,3 +24,6 @@
 # Build directories
 build
 cmake-build-*
+
+# Ignore cloned plugin repositories
+plugins
