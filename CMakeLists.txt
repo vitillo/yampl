@@ -199,19 +199,8 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
         PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
-# Make a directory for custom plugins
-execute_process(COMMAND mkdir ${CMAKE_BINARY_DIR}/plugins)
-
-# WITH_PLUGIN_{SHM,PIPE}=ON default
-option(WITH_PLUGIN_SHM "Include yampl-shm" ON)
-option(WITH_PLUGIN_PIPE "Include yampl-pipe" ON)
-
-if (WITH_PLUGIN_ZMQ)
-    AddExtProjectGit("https://github.com/ntauth/yampl-zmq" "${CMAKE_BINARY_DIR}/plugins")        
-endif()
-
 # Include plugins
-file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake" "${CMAKE_BINARY_DIR}/plugins/*.conf.cmake")
+file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake")
 foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
     string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
     include(${YAMPL_CMAKE_FILE})
