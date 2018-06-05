@@ -35,7 +35,7 @@ Each and all of these strategies are implemented as modular and independent plug
 ``` bash
 git clone --recurse-submodules https://github.com/ntauth/yampl
 cd yampl
-# Pull additional plugins
+# (Optional) Pull additional plugins
 cd plugins
 git clone https://github.com/ntauth/yampl-zmq
 # Configure project
