@@ -162,6 +162,12 @@ install(TARGETS yampl
         PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
+# Install examples
+install(DIRECTORY ${CMAKE_BINARY_DIR}/examples
+        DESTINATION ${CMAKE_INSTALL_PREFIX}
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+)
+
 # Install public header files
 install(DIRECTORY include
         DESTINATION ${CMAKE_INSTALL_PREFIX}
