@@ -37,7 +37,7 @@ git clone --recurse-submodules https://github.com/ntauth/yampl
 cd yampl
 # Pull additional plugins
 cd plugins
-git clone https://github.com/{user_name}/{plugin_name}
+git clone https://github.com/ntauth/yampl-zmq
 # Configure project
 mkdir /path/to/build/directory
 cd /path/to/build/directory
