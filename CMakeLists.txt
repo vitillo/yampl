@@ -165,6 +165,7 @@ install(TARGETS yampl
 # Install examples
 install(DIRECTORY ${CMAKE_BINARY_DIR}/examples
         DESTINATION ${CMAKE_INSTALL_PREFIX}
+        PATTERN "*"
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
 )
 
