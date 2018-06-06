@@ -33,11 +33,11 @@ endif()
 # Common source files for plugins
 set(YAMPL_PLUGIN_COMMON_SRCS src/ISocket.cpp src/plugin/PluginArbiter.cpp)
 
-# Common libraries (for examples and tests)
-set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so dl uuid pthread)
-
 # PThreads
 find_package(Threads)
+
+# Common libraries (for examples and tests)
+set(YAMPL_COMMON_LIBS ${CMAKE_BINARY_DIR}/libyampl.so dl uuid ${CMAKE_THREAD_LIBS_INIT})
 
 # Include YAMPL dependencies
 include(cmake/YamplDepends.cmake)
@@ -65,7 +65,7 @@ if(WITH_EXAMPLES)
     add_executable(server examples/client_server/server.cpp)
     set_target_properties(client server
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server/bin"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/client_server"
     )
     target_link_libraries(client ${YAMPL_COMMON_LIBS})
     target_link_libraries(server ${YAMPL_COMMON_LIBS})
@@ -78,7 +78,7 @@ if(WITH_EXAMPLES)
     add_executable(benchmark examples/benchmarks/benchmark.cpp)
     set_target_properties(benchmark
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark/bin"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/examples/benchmark"
     )
     target_link_libraries(benchmark ${YAMPL_COMMON_LIBS})
     add_dependencies(benchmark yampl)
@@ -92,8 +92,8 @@ if(WITH_TESTS)
     add_executable(pluginarbiter tests/pluginarbiter.cpp)
     set_target_properties(pluginarbiter
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
-            )
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+    )
     target_link_libraries(pluginarbiter ${YAMPL_COMMON_LIBS})
     add_dependencies(pluginarbiter yampl)
 
@@ -101,7 +101,7 @@ if(WITH_TESTS)
     add_executable(dynmodule tests/dynmodule.cpp)
     set_target_properties(dynmodule
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
     )
     target_link_libraries(dynmodule ${YAMPL_COMMON_LIBS})
     add_dependencies(dynmodule yampl)
@@ -110,7 +110,7 @@ if(WITH_TESTS)
     add_executable(calls tests/calls.cpp)
     set_target_properties(calls
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
     )
     target_link_libraries(calls ${YAMPL_COMMON_LIBS})
     add_dependencies(calls yampl)
@@ -119,7 +119,7 @@ if(WITH_TESTS)
     add_executable(dest tests/dest.cpp)
     set_target_properties(dest
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
     )
     target_link_libraries(dest ${YAMPL_COMMON_LIBS})
     add_dependencies(dest yampl)
@@ -128,7 +128,7 @@ if(WITH_TESTS)
     add_executable(size tests/size.cpp)
     set_target_properties(size
             PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
     )
     target_link_libraries(size ${YAMPL_COMMON_LIBS})
     add_dependencies(size yampl)
