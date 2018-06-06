@@ -55,4 +55,5 @@ g++ `pkg-config yampl --libs --cflags` foo.cpp
 ## Examples
 The *examples* subdirectory provides binaries that demonstrate some use-cases.
 
-## How to build a plugin?
+## How to create a plugin
+YAMPL is now a modular library, which means anyone can make a plugin suiting their needs. YAMPL uses a strict API defining how both plugin and application must behave in order to guarantee a correct operation. [This](https://github.com/ntauth/yampl-example) is a repository containing documentation and a minimal example of how to implement a plugin for YAMPL.
