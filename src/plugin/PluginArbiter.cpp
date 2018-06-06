@@ -9,7 +9,6 @@
 #include "yampl/Exceptions.h"
 
 #include <vector>
-#include <iostream>
 
 namespace yampl
 {
@@ -82,7 +81,7 @@ namespace yampl
             return obj_type_map.at(type).hk_destroy(obj);
         }
 
-        PluginArbiter::Handle PluginArbiter::load(std::string base_path, std::string plugin_module_name, DiscoveryMode mode)
+        PluginArbiter::Handle PluginArbiter::load(std::string base_path, std::string plugin_module_name)
         {
             std::lock_guard<std::recursive_mutex> _guard0(_map_shared_mtx);
 
@@ -90,17 +89,10 @@ namespace yampl
             std::shared_ptr<DynamicModule> module = nullptr;
             Handle handle;
 
-            try {
-                if (mode == DiscoveryMode::Standard) {
-                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(base_path),
-                                                                                 to_full_module_name(
-                                                                                         plugin_module_name)));
-                } else if (mode == DiscoveryMode::Recurse) {
-                    std::string full_base_path = dir_path_normalize(base_path) + plugin_module_name;
-                    module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(full_base_path),
-                                                                                 to_full_module_name(
-                                                                                         plugin_module_name)));
-                }
+            try
+            {
+                module = std::make_shared<DynamicModule>(DynamicModule::open(dir_path_normalize(base_path),
+                                                                             to_full_module_name(plugin_module_name)));
 
                 // Parse the module's header and push it to the stack
                 auto *hdr = module->resolve_sym<plugin_info_hdr>(PLUGIN_HDR_EXPORT_SYM);
@@ -139,9 +131,12 @@ namespace yampl
             return handle;
         }
 
-        void PluginArbiter::load_all(std::string base_path, DiscoveryMode mode)
+        void PluginArbiter::load_all(std::string base_path)
         {
+            auto plugin_list = get_files(base_path, "so");
 
+            for (auto& plugin : plugin_list)
+                load(base_path, to_short_module_name(plugin));
         }
 
         void PluginArbiter::unload_all()

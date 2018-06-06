@@ -176,12 +176,6 @@ namespace yampl
                         std::string moniker() const;
                 };
 
-                enum class DiscoveryMode
-                {
-                    Standard, // The base directory contains all the plugins
-                    Recurse,  // The base directory contains the plugins wrapped in their respective folders
-                };
-
                 PluginArbiter();
                 virtual ~PluginArbiter();
 
@@ -196,24 +190,18 @@ namespace yampl
                  * Loads all the plugins stored in the specified base path
                  *
                  * @param base_path the path to the plugin base directory
-                 * @param mode specifies how the PluginArbiter should discover the plugins in the directory
                  * @throws PluginArbiterLoadException
                  */
-                virtual void load_all(std::string base_path, DiscoveryMode mode);
+                virtual void load_all(std::string base_path);
 
                 /**
                  * Loads a plugin stored in the specified base path
                  *
                  * @param base_path the path to the plugin base directory
                  * @param plugin_module_name the name of the module to load
-                 * @param mode specifies how the PluginArbiter should discover the plugin in the given directory
                  * @throws PluginArbiterLoadException
                  */
-                virtual Handle load(std::string base_path, std::string plugin_module_name, DiscoveryMode mode);
-
-                /**
-                 * @todo get_handle()
-                 */
+                virtual Handle load(std::string base_path, std::string plugin_module_name);
 
                 /**
                 * @brief unloads all the plugins

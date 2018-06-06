@@ -29,13 +29,13 @@ namespace yampl
         PluginArbiter::Handle handle;
 
         if (channel.context == LOCAL_PIPE) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
         }
         else if (channel.context == LOCAL_SHM) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
         }
         else {
-            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
         }
 
         auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
@@ -54,13 +54,13 @@ namespace yampl
         PluginArbiter::Handle handle;
 
         if (channel.context == LOCAL_PIPE) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
         }
         else if (channel.context == LOCAL_SHM) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
         }
         else {
-            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME, PluginArbiter::DiscoveryMode::Recurse);
+            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
         }
 
         auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));

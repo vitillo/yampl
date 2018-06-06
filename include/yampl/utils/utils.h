@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 namespace yampl
 {
@@ -32,8 +33,17 @@ namespace yampl
     std::string dir_path_normalize(std::string path);
 
     /**
-     * Converts an elided module name (ex. yampl-shm) to the corresponding full name (ex. libyampl-shm.so)
-     * @param name the elided module name
+     * Converts a full module name (ex. libyampl-shm.so) to the corresponding short name (ex. yampl-shm)
+     *
+     * @param name the full module name
+     * @return the short module name
+     */
+    std::string to_short_module_name(std::string name);
+
+    /**
+     * Converts a short module name (ex. yampl-shm) to the corresponding full name (ex. libyampl-shm.so)
+     *
+     * @param name the short module name
      * @return the full module name
      */
     std::string to_full_module_name(std::string name);
@@ -44,6 +54,15 @@ namespace yampl
      * @return the plugin base directory
      */
     std::string get_plugin_base_dir();
+
+    /**
+     * Returns a list of files contained in a given directory
+     *
+     * @param directory the directory where to look for files
+     * @param  ext_filter the file extension filter
+     * @return a list of filenames
+     */
+    std::vector<std::string> get_files(std::string directory, std::string ext_filter = "");
 }
 
 #endif

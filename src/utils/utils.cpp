@@ -7,6 +7,8 @@
 #include "yampl/utils/utils.h"
 
 #include <fstream>
+#include <iostream>
+#include <dirent.h>
 
 namespace yampl
 {
@@ -29,6 +31,18 @@ namespace yampl
             path = "/";
 
         return path;
+    }
+
+    std::string to_short_module_name(std::string name)
+    {
+        std::size_t idx0 = name.find("lib");
+        std::size_t idx1 = name.find(".so");
+
+        if (idx0 == 0 && idx1 == name.length() - 3) {
+            name = name.substr(3, name.length() - 6);
+        }
+
+        return name;
     }
 
     std::string to_full_module_name(std::string name)
@@ -83,5 +97,31 @@ namespace yampl
         }
 
         return pfx_s;
+    }
+
+    std::vector<std::string> get_files(std::string directory, std::string ext_filter)
+    {
+        std::vector<std::string> file_list;
+        DIR* dir = opendir(directory.c_str());
+        dirent* dir_entry = readdir(dir);
+
+        while (dir_entry != nullptr)
+        {
+            if (dir_entry->d_type == DT_REG)
+            {
+                std::string file_name = dir_entry->d_name;
+
+                if (ext_filter.length() > 0) {
+                    if (file_name.find(ext_filter, (file_name.length() - ext_filter.length())) != std::string::npos)
+                        file_list.push_back(file_name);
+                }
+                else
+                    file_list.push_back(file_name);
+            }
+
+            dir_entry = readdir(dir);
+        }
+
+        return file_list;
     }
 }
