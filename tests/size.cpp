@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     server(shmFactory, Channel("shm", LOCAL_SHM));
 
     wait(&status);
-    cout << "Success" << endl;
+    cout << "[size] Success" << endl;
     status = 0;
   }
 

@@ -36,7 +36,7 @@ namespace yampl
             Unknown = 0UL,
             Ok,
             /* Module Errors */
-            ModuleNotFound,
+            ModuleLoadError,
             /* API Errors */
             ApiVersionMismatch,
             /* Plugin Errors */
@@ -51,10 +51,11 @@ namespace yampl
         {
             protected:
                 hash_map<std::string, std::shared_ptr<DynamicModule>> _module_map; //!< Module map
+                hash_map<std::string, std::string> _module_moniker_map; //!< Module name to moniker map
                 hash_map<std::string, hash_map<object_proto_type, object_register_params>> _object_registration_map; //!< Object registration map
                 std::stack<plugin_info_hdr*> _module_init_stack; //!< Stack used by callback functions to retrieve the plugin header
                 uint32_t _handle_counter { 0 };
-                mutable std::recursive_mutex _map_shared_mtx;
+                mutable std::recursive_mutex _map_shared_mtx; //!< Shared mutex for interlocked access to the class members
 
                 /**
                  * Initializes the plugin
@@ -86,7 +87,6 @@ namespace yampl
                 /**
                  * Function used by handle owners to create objects
                  *
-                 * @todo: use a cross-thread lock to prevent race conditions
                  * @param params object initialization parameters
                  * @return pointer to the created object
                  */
@@ -119,7 +119,6 @@ namespace yampl
                 /**
                  * Function used by handle owners to destroy an object
                  *
-                 * @todo: use a cross-thread lock to prevent race conditions
                  * @param moniker plugin moniker
                  * @param type the object type
                  * @param obj pointer to the object to destroy
@@ -141,7 +140,7 @@ namespace yampl
                         std::vector<IObject*> _obj_alloc_list; //!< List of created objects
                         hash_map<IObject*, object_proto_type> _obj_type_map; //!< Map of objects to their prototype
 
-                        Handle(Handle const& rhs) noexcept;
+                        Handle(Handle const& rhs);
                     public:
                         static constexpr uint32_t _handle_id_invalid = -1;
 
@@ -187,6 +186,15 @@ namespace yampl
                 static std::shared_ptr<PluginArbiter> get_instance();
 
                 /**
+                 * Loads a plugin stored in the specified base path
+                 *
+                 * @param base_path the path to the plugin base directory
+                 * @param plugin_module_name the name of the module to load
+                 * @throws PluginArbiterLoadException
+                 */
+                virtual Handle load(std::string base_path, std::string plugin_module_name);
+
+                /**
                  * Loads all the plugins stored in the specified base path
                  *
                  * @param base_path the path to the plugin base directory
@@ -195,13 +203,12 @@ namespace yampl
                 virtual void load_all(std::string base_path);
 
                 /**
-                 * Loads a plugin stored in the specified base path
+                 * Returns a handle to the specified plugin
                  *
-                 * @param base_path the path to the plugin base directory
-                 * @param plugin_module_name the name of the module to load
-                 * @throws PluginArbiterLoadException
+                 * @param moniker the plugin moniker
+                 * @return a unique handle to the plugin
                  */
-                virtual Handle load(std::string base_path, std::string plugin_module_name);
+                virtual Handle get_handle(std::string moniker);
 
                 /**
                 * @brief unloads all the plugins

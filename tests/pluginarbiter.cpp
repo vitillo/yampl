@@ -11,8 +11,8 @@
 #include <memory>
 #include <iostream>
 
-#define ARBITER_LOAD_ERROR -1
-#define RESOLVE_SYM_ERROR  -2
+#define ARBITER_LOAD_ERROR (-1)
+#define RESOLVE_SYM_ERROR  (-2)
 
 #define TRACE(x) (std::cout << "[+] " + std::string((x)) << std::endl)
 #define ERROR(x) (std::cerr << "[!] " + std::string((x)) << std::endl)
@@ -23,6 +23,8 @@ int main(int argc, char** argv)
 {
     int status = 0;
     std::shared_ptr<PluginArbiter> arbiter = PluginArbiter::get_instance();
+
+    TRACE("[pluginarbiter]");
 
     try
     {
@@ -36,7 +38,11 @@ int main(int argc, char** argv)
 
         /*************** PluginArbiter::load_all **/
         arbiter->load_all(yampl::get_plugin_base_dir());
-        TRACE("PluginArbiter all modules in " + yampl::get_plugin_base_dir());
+        TRACE("PluginArbiter unloaded all modules in " + yampl::get_plugin_base_dir());
+
+        /*************** PluginArbiter::get_handle **/
+        handle = arbiter->get_handle("yampl-pipe"); // Get a handle to yampl-pipe
+        TRACE("Successfully obtained a handle to " + handle.moniker());
 
         /*************** PluginArbiter::unload_all **/
         arbiter->unload_all();

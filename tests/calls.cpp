@@ -60,7 +60,7 @@ int main()
   }else{
     server();
     wait(&status);
-    cout << "Success" << endl;
+    cout << "[calls] Success" << endl;
  	status = 0; 
   }
 

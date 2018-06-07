@@ -10,8 +10,6 @@ using namespace std;
 
 void client(ISocketFactory *factory, const Channel &channel)
 {
-    std::cout << "[" << channel.name << "]" << " client started." << std::endl;
-
     ISocket *socket = factory->createClientSocket(channel, "client");
     char buffer[100];
 
@@ -24,14 +22,11 @@ void client(ISocketFactory *factory, const Channel &channel)
 
 void server(ISocketFactory* factory, const Channel &channel)
 {
-    std::cout << "[" << channel.name << "] " << " server started." << std::endl;
-
     ISocket *socket = factory->createServerSocket(channel);
     char buffer[100];
     std::string dest;
     socket->recv(buffer, dest);
 
-    std::cout << "[" << channel.name << "] " << "dest = " << dest << " => " <<  buffer << std::endl;
     assert(dest == "client");
 
     try {
@@ -41,8 +36,7 @@ void server(ISocketFactory* factory, const Channel &channel)
         // OK, it's expected to reach this
     }
     catch (...) {
-        std::exception_ptr exp = std::current_exception();
-        std::cout << "[" << channel.name << "] " << "Exception of type " + std::string(exp.__cxa_exception_type()->name()) + " was thrown and caught." << std::endl;
+        // @todo: Remove
     }
 
     socket->sendTo("client", "pong");
@@ -72,7 +66,7 @@ int main(int argc, char *argv[])
         server(factory, Channel("shm", LOCAL_SHM));
 
         wait(&status);
-        cout << "Success" << endl;
+        cout << "[dest] Success" << endl;
         status = 0;
 
         delete factory;

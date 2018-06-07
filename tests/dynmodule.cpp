@@ -9,6 +9,9 @@
 
 #include <iostream>
 
+#define TRACE(x) (std::cout << "[+] " + std::string((x)) << std::endl)
+#define ERROR(x) (std::cerr << "[!] " + std::string((x)) << std::endl)
+
 using yampl::plugin::DynamicModule;
 using yampl::plugin::DynamicModuleLoadException;
 using yampl::plugin::DynamicModuleSymbolException;
@@ -17,11 +20,13 @@ int main(int argc, char** argv)
 {
     int status = 0;
 
+    TRACE("[dynmodule]");
+
     /*************** DynamicModule::open **/
     try
     {
         DynamicModule dyn = DynamicModule::open("../", "libyampl.so");
-        std::cout << "[1] Module loaded successfully" << std::endl;
+        TRACE("Module loaded successfully");
     }
     catch (DynamicModuleLoadException& ex) {
         status = -1;
@@ -32,12 +37,13 @@ int main(int argc, char** argv)
     {
         DynamicModule dyn = DynamicModule::open("../", "libyampl.so");
         DynamicModule dyn_ = std::move(dyn);
-        std::cout << "[2] Module loaded successfully" << std::endl;
+
+        TRACE("Module loaded successfully");
 
         if (!dyn.free())
             status = -1;
         else
-            std::cout << "[3] Move semantics are correct" << std::endl;
+            TRACE("Move semantics are correct");
     }
     catch (DynamicModuleLoadException& ex) {
         status = -1;
