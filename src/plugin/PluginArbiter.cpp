@@ -189,9 +189,6 @@ namespace yampl
                 // Clear the associated entries
                 _module_map.erase(entry);
                 _module_moniker_map.erase(to_short_module_name(entry->second->name()));
-
-                // Free the module
-                entry->second->release();
             }
 
             return ok;
