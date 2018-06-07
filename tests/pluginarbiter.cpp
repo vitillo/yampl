@@ -32,7 +32,7 @@ int main(int argc, char** argv)
         PluginArbiter::Handle handle = arbiter->load(yampl::get_plugin_base_dir(), "yampl-shm");
         TRACE("PluginArbiter loaded module " + handle.moniker() + " successfully");
 
-        /*************** PluginArbiter::unload**/
+        /*************** PluginArbiter::unload **/
         arbiter->unload(handle);
         TRACE("PluginArbiter unloaded " + handle.moniker() + " successfully");
 
