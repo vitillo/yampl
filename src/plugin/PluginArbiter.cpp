@@ -187,8 +187,8 @@ namespace yampl
                     _object_registration_map.erase(moniker);
 
                 // Clear the associated entries
-                _module_map.erase(entry);
                 _module_moniker_map.erase(to_short_module_name(entry->second->name()));
+                _module_map.erase(entry);
             }
 
             return ok;
