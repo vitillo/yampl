@@ -20,6 +20,9 @@ before_install:
     - docker pull ${distribution}:${version}
     - docker build --file=travis/Dockerfile.${distribution_name}-${version} --tag=${distribution_name}-${version}:yampl-build travis
 
+before_script:
+    - ulimit -c unlimited -S
+
 script:
     - container_id=$(mktemp)
     - docker run -d --privileged --volume="${PWD}":/yampl ${distribution_name}-${version}:yampl-build tail -f /dev/null > "${container_id}"
@@ -29,3 +32,8 @@ script:
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl; mkdir build; cd build; cmake .. -DWITH_PLUGIN_ZMQ=ON && make && make install"
       # Run tests
     - docker exec "$(cat ${container_id})" bash -c "cd /yampl/build/tests/; ./pluginarbiter"
+
+after_failure:
+    - COREFILE=$(find . -maxdepth 1 -name "core*" | head -n 1) # find core file
+    - if [[ -f "$COREFILE" ]]; then gdb -c "$COREFILE" example -ex "thread apply all bt" -ex "set pagination 0" -batch; fi
+
