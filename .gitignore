@@ -26,5 +26,3 @@ build
 cmake-build-*
 
 # Ignore cloned plugin repositories
-!plugins/yampl-shm/*
-!plugins/yampl-pipe/*
