@@ -1,10 +1,14 @@
 #include "yampl/SocketFactory.h"
 #include "yampl/utils/utils.h"
+#include "yampl/Exceptions.h"
 
 #include <cstdlib>
+#include <iostream>
 
 namespace yampl
 {
+    using plugin::PluginArbiterException;
+
     std::string DEFAULT_ID = "";
 
     SocketFactory::SocketFactory() noexcept
@@ -28,21 +32,28 @@ namespace yampl
         ISocket* socket = nullptr;
         PluginArbiter::Handle handle;
 
-        if (channel.context == LOCAL_PIPE) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
-        }
-        else if (channel.context == LOCAL_SHM) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
-        }
-        else {
-            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
-        }
+        try
+        {
+            if (channel.context == LOCAL_PIPE) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
+            }
+            else if (channel.context == LOCAL_SHM) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
+            }
+            else {
+                handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
+            }
 
-        auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+            auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
 
-        if (socket_factory != nullptr) {
-            socket = socket_factory->createClientSocket(channel, semantics, deallocator, name);
-            factory_handle_list.push_back(std::move(handle));
+            if (socket_factory != nullptr) {
+                socket = socket_factory->createClientSocket(channel, semantics, deallocator, name);
+                factory_handle_list.push_back(std::move(handle));
+            }
+        }
+        catch (PluginArbiterException& ex)
+        {
+            std::cout << "The client socket could not be created. " << ex.what() << std::endl;
         }
 
         return socket;
@@ -53,21 +64,28 @@ namespace yampl
         ISocket *socket = nullptr;
         PluginArbiter::Handle handle;
 
-        if (channel.context == LOCAL_PIPE) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
-        }
-        else if (channel.context == LOCAL_SHM) {
-            handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
-        }
-        else {
-            handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
-        }
+        try
+        {
+            if (channel.context == LOCAL_PIPE) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
+            }
+            else if (channel.context == LOCAL_SHM) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
+            }
+            else {
+                handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
+            }
 
-        auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+            auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
 
-        if (socket_factory != nullptr) {
-            socket = socket_factory->createServerSocket(channel, semantics, deallocator);
-            factory_handle_list.push_back(std::move(handle));
+            if (socket_factory != nullptr) {
+                socket = socket_factory->createServerSocket(channel, semantics, deallocator);
+                factory_handle_list.push_back(std::move(handle));
+            }
+        }
+        catch (PluginArbiterException& ex)
+        {
+            std::cout << "The server socket could not be created. " << ex.what() << std::endl;
         }
 
         return socket;

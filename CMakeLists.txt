@@ -87,6 +87,10 @@ endif()
 
 option(WITH_TESTS "Include tests" ON)
 
+if (WITH_TESTS)
+    enable_testing()
+endif()
+
 if(WITH_TESTS)
     # PluginArbiter Test
     add_executable(pluginarbiter tests/pluginarbiter.cpp)
@@ -96,6 +100,7 @@ if(WITH_TESTS)
     )
     target_link_libraries(pluginarbiter ${YAMPL_COMMON_LIBS})
     add_dependencies(pluginarbiter yampl)
+    add_test(NAME pluginarbiter COMMAND pluginarbiter)
 
     # Dynmodule Test
     add_executable(dynmodule tests/dynmodule.cpp)
@@ -105,6 +110,7 @@ if(WITH_TESTS)
     )
     target_link_libraries(dynmodule ${YAMPL_COMMON_LIBS})
     add_dependencies(dynmodule yampl)
+    add_test(NAME dynmodule COMMAND dynmodule WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
 
     # Calls Test
     add_executable(calls tests/calls.cpp)
@@ -114,6 +120,7 @@ if(WITH_TESTS)
     )
     target_link_libraries(calls ${YAMPL_COMMON_LIBS})
     add_dependencies(calls yampl)
+    add_test(NAME calls COMMAND calls)
 
     # Dest Test
     add_executable(dest tests/dest.cpp)
@@ -123,6 +130,7 @@ if(WITH_TESTS)
     )
     target_link_libraries(dest ${YAMPL_COMMON_LIBS})
     add_dependencies(dest yampl)
+    add_test(NAME dest COMMAND dest)
 
     # Size Test
     add_executable(size tests/size.cpp)
@@ -132,6 +140,7 @@ if(WITH_TESTS)
     )
     target_link_libraries(size ${YAMPL_COMMON_LIBS})
     add_dependencies(size yampl)
+    add_test(NAME size COMMAND size)
 endif()
 
 # Libraries
