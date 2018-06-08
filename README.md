@@ -45,12 +45,16 @@ cmake /path/to/repo/root -DWITH_EXAMPLES={ON(DEFAULT)|OFF} -DWITH_TESTS={ON(DEFA
 # Build and install
 make
 make install
+# Run tests
+make test
 ```
 
 To compile and link against the YAMPL library:
 ```
 g++ `pkg-config yampl --libs --cflags` foo.cpp
 ```
+
+YAMPL is by default installed in `$HOME/yampl` unless you provide a `CMAKE_INSTALL_PREFIX` when configuring the project with CMake. Another file, `.yamplrc` is installed in `$HOME` and is used by the plugin manager to locate the plugins installed in the system.
 
 ## Examples
 The *examples* subdirectory provides binaries that demonstrate some use-cases.
