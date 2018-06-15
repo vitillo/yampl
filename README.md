@@ -33,7 +33,7 @@ Each and all of these strategies are implemented as modular and independent plug
 
 ## Build, Test & Install
 ``` bash
-git clone --recurse-submodules https://github.com/ntauth/yampl
+git clone https://github.com/ntauth/yampl
 cd yampl
 # (Optional) Pull additional plugins
 cd plugins
