@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <cassert>
 #include <iostream>
+#include <sys/wait.h>
 
 #include "yampl.h"
 
@@ -50,12 +51,18 @@ void server(){
   delete factory;
 }
 
-int main(){
+int main()
+{
+  int status = -1;
+
   if(fork() == 0){
     client();
   }else{
     server();
-    wait();
-    cout << "Success" << endl;
+    wait(&status);
+    cout << "[calls] Success" << endl;
+ 	status = 0; 
   }
+
+  return status;
 }

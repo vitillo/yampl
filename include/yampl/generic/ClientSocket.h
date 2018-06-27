@@ -11,7 +11,8 @@
 namespace yampl{
 
 template <typename T>
-class ClientSocket: public ISocket{
+class ClientSocket: public ISocket
+{
   public:
     ClientSocket(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name);
     virtual ~ClientSocket();

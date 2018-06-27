@@ -1,10 +1,11 @@
 #ifndef YAMPL_ISOCKETFACTORY_H
 #define YAMPL_ISOCKETFACTORY_H
 
-#include <stdlib.h>
-
 #include "yampl/Channel.h"
 #include "yampl/ISocket.h"
+#include "yampl/plugin/IObject.h"
+
+#include <stdlib.h>
 
 namespace yampl{
 
@@ -17,9 +18,11 @@ enum Semantics{
   MOVE_DATA
 };
 
-class ISocketFactory{
-  public:
-    virtual ~ISocketFactory(){}
+class ISocketFactory : public plugin::IObject
+{
+    public:
+        ISocketFactory() {}
+        ~ISocketFactory() override { }
 
     /**
      * Creates a ClientSocket. A ClientSocket can be connected to at most a 

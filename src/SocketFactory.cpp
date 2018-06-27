@@ -1,45 +1,93 @@
-#include <cstdlib>
-
-#include "yampl/zeromq/SocketFactory.h"
-#include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
 #include "yampl/SocketFactory.h"
+#include "yampl/utils/utils.h"
+#include "yampl/Exceptions.h"
 
-namespace yampl{
+#include <cstdlib>
+#include <iostream>
 
-std::string DEFAULT_ID = "";
+namespace yampl
+{
+    using plugin::PluginArbiterException;
 
-SocketFactory::SocketFactory(){
-  m_zmqFactory = new zeromq::SocketFactory();
-  m_pipeFactory = new pipe::SocketFactory();
-  m_shmFactory = new shm::SocketFactory();
-}
+    std::string DEFAULT_ID = "";
 
-SocketFactory::~SocketFactory(){
-  delete m_zmqFactory;
-  delete m_pipeFactory;
-  delete m_shmFactory;
-}
+    SocketFactory::SocketFactory() noexcept
+        : arbiter(PluginArbiter::get_instance())
+        , module_base_path(get_plugin_base_dir())
+    {
 
-ISocket *SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name){
-  if(channel.context == LOCAL_PIPE){
-    return m_pipeFactory->createClientSocket(channel, semantics, deallocator);
-  }else if(channel.context == LOCAL_SHM){
-    return m_shmFactory->createClientSocket(channel, semantics, deallocator);
-  }else{
-    return m_zmqFactory->createClientSocket(channel, semantics, deallocator,name);
-  }
-}
+    }
 
-ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *)){
-  if(channel.context == LOCAL_PIPE){
-    return m_pipeFactory->createServerSocket(channel, semantics, deallocator);
-  }else if(channel.context == LOCAL_SHM){
-    return m_shmFactory->createServerSocket(channel, semantics, deallocator);
-  }else{
-    return m_zmqFactory->createServerSocket(channel, semantics, deallocator);
-  }
-}
+    SocketFactory::SocketFactory(std::string base_path) noexcept
+        : arbiter(PluginArbiter::get_instance())
+        , module_base_path(std::move(base_path))
+    {
 
+    }
 
+    SocketFactory::~SocketFactory() = default;
+
+    ISocket* SocketFactory::createClientSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *), std::string const& name)
+    {
+        ISocket* socket = nullptr;
+        PluginArbiter::Handle handle;
+
+        try
+        {
+            if (channel.context == LOCAL_PIPE) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
+            }
+            else if (channel.context == LOCAL_SHM) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
+            }
+            else {
+                handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
+            }
+
+            auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+
+            if (socket_factory != nullptr) {
+                socket = socket_factory->createClientSocket(channel, semantics, deallocator, name);
+                factory_handle_list.push_back(std::move(handle));
+            }
+        }
+        catch (PluginArbiterException& ex)
+        {
+            std::cout << "The client socket could not be created. " << ex.what() << std::endl;
+        }
+
+        return socket;
+    }
+
+    ISocket *SocketFactory::createServerSocket(Channel channel, Semantics semantics, void (*deallocator)(void *, void *))
+    {
+        ISocket *socket = nullptr;
+        PluginArbiter::Handle handle;
+
+        try
+        {
+            if (channel.context == LOCAL_PIPE) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), PIPE_MODULE_NAME);
+            }
+            else if (channel.context == LOCAL_SHM) {
+                handle = arbiter->load(dir_path_normalize(module_base_path), SHM_MODULE_NAME);
+            }
+            else {
+                handle = arbiter->load(dir_path_normalize(module_base_path), ZMQ_MODULE_NAME);
+            }
+
+            auto socket_factory = reinterpret_cast<ISocketFactory*>(handle.create_object<ISocketFactory>(OBJ_PROTO_SK_FACTORY));
+
+            if (socket_factory != nullptr) {
+                socket = socket_factory->createServerSocket(channel, semantics, deallocator);
+                factory_handle_list.push_back(std::move(handle));
+            }
+        }
+        catch (PluginArbiterException& ex)
+        {
+            std::cout << "The server socket could not be created. " << ex.what() << std::endl;
+        }
+
+        return socket;
+    }
 }

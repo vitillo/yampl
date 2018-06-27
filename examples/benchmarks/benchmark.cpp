@@ -11,9 +11,7 @@
 #include <cstdio>
 #include <vector>
 
-#include "yampl/zeromq/SocketFactory.h"
-#include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
+#include "yampl.h"
 #include "yampl/utils/Thread.h"
 
 using namespace yampl;
@@ -37,11 +35,11 @@ long stop_clock(){
 
 ISocketFactory *parseFactory(const char *impl){
   if(strcasecmp(impl, "pipe") == 0){
-    return new pipe::SocketFactory();
+    return new SocketFactory();
   }else if(strcasecmp(impl, "shm") == 0){
-    return new shm::SocketFactory();
+    return new SocketFactory();
   }else{
-    return new zeromq::SocketFactory();
+    return new SocketFactory();
   }
 }
 
