@@ -1,61 +1,75 @@
 #include <unistd.h>
 #include <cassert>
 #include <iostream>
+#include <sys/wait.h>
 
 #include "yampl.h"
-#include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
-#include "yampl/zeromq/SocketFactory.h"
 
 using namespace yampl;
 using namespace std;
 
+void client(ISocketFactory *factory, const Channel &channel)
+{
+    ISocket *socket = factory->createClientSocket(channel, "client");
+    char buffer[100];
 
-void client(ISocketFactory *factory, const Channel &channel){
-  ISocket *socket = factory->createClientSocket(channel, "client");
-  char buffer[100];
+    socket->send("Hello World!");
+    socket->recv(buffer);
 
-  socket->send("Hello World!");
-  socket->recv(buffer);
-  assert(strcmp(buffer, "pong") == 0);
+    assert(strcmp(buffer, "pong") == 0);
 
-  delete socket;
+    delete socket;
 }
 
-void server(ISocketFactory *factory, const Channel &channel){
-  ISocket *socket = factory->createServerSocket(channel);
-  char buffer[100];
-  std::string dest;
-  socket->recv(buffer, dest);
+void server(ISocketFactory* factory, const Channel &channel)
+{
+    ISocket *socket = factory->createServerSocket(channel);
+    char buffer[100];
+    std::string dest;
+    socket->recv(buffer, dest);
 
-  assert(dest == "client");
+    assert(dest == "client");
 
-  try{
-    socket->sendTo("foobar", "pong");
-  }catch(UnroutableException){}
+    try {
+        socket->sendTo("foobar", "pong");
+    }
+    catch(UnroutableException&) {
+        // OK, it's expected to reach this
+    }
 
-  socket->sendTo("client", "pong");
+    socket->sendTo("client", "pong");
 
-  delete socket;
+    delete socket;
 }
 
-int main(int argc, char *argv[]){
-  if(fork() == 0){
-    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
-    client(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    client(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new shm::SocketFactory();
-    client(shmFactory, Channel("shm", LOCAL_SHM));
-  }else{
-    ISocketFactory *zmqFactory = new zeromq::SocketFactory();
-    server(zmqFactory, Channel("zmq", LOCAL));
-    ISocketFactory *pipeFactory = new pipe::SocketFactory();
-    server(pipeFactory, Channel("pipe", LOCAL_PIPE));
-    ISocketFactory *shmFactory = new shm::SocketFactory();
-    server(shmFactory, Channel("shm", LOCAL_SHM));
+int main(int argc, char *argv[])
+{
+    int status = -1;
+    ISocketFactory* factory;
 
-    wait();
-    cout << "Success" << endl;
-  }
+    if(fork() == 0)
+    {
+        factory = new SocketFactory();
+
+        client(factory, Channel("zmq", LOCAL));
+        client(factory, Channel("pipe", LOCAL_PIPE));
+        client(factory, Channel("shm", LOCAL_SHM));
+
+        delete factory;
+    }
+    else
+    {
+        factory = new SocketFactory();
+        server(factory, Channel("zmq", LOCAL));
+        server(factory, Channel("pipe", LOCAL_PIPE));
+        server(factory, Channel("shm", LOCAL_SHM));
+
+        wait(&status);
+        cout << "[dest] Success" << endl;
+        status = 0;
+
+        delete factory;
+    }
+
+    return status;
 }

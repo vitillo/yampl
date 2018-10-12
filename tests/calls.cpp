@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <cassert>
 #include <iostream>
+#include <sys/wait.h>
 
 #include "yampl.h"
 
@@ -13,7 +14,7 @@ void client(){
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createClientSocket(channel);
   char buffer[] = "Second";
-  
+
   socket->send("First", 6);
 
   socket->send(buffer);
@@ -29,7 +30,7 @@ void client(){
 void server(){
   ISocketFactory *factory = new SocketFactory();
   ISocket *socket = factory->createServerSocket(channel);
-  
+
   char buffer[100];
   char *buffer2 = new char[100];
   float ret;
@@ -50,12 +51,18 @@ void server(){
   delete factory;
 }
 
-int main(){
+int main()
+{
+  int status = -1;
+
   if(fork() == 0){
     client();
   }else{
     server();
-    wait();
-    cout << "Success" << endl;
+    wait(&status);
+    cout << "[calls] Success" << endl;
+        status = 0;
   }
+
+  return status;
 }
