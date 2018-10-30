@@ -6,7 +6,8 @@
 namespace yampl{
 
 template <typename P, typename C>
-class ServiceSocketBase : public ISocket{
+class ServiceSocketBase : public ISocket
+{
   public:
     virtual ~ServiceSocketBase();
 

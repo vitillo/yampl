@@ -3,6 +3,7 @@
 # @Options:
 # - WITH_EXAMPLES: Includes examples in the build process
 # - WITH_TESTS: Includes tests in the build process
+# - WITH_PLUGIN_<PluginId>: Include plugin yampl-<PluginId> in the build process
 #
 message("
      ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄
@@ -51,22 +52,19 @@ if (NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY)
     set(LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 endif()
 
-# Common source files
-set(YAMPL_COMMON_SRCS
-	src/SocketFactory.cpp
-	src/pipe/PipeSocketBase.cpp
-	src/pipe/PipeSocketFactory.cpp
-	src/shm/SHMSocketBase.cpp
-	src/shm/SHMSocketFactory.cpp
-	src/shm/ServerSocket.cpp
-	src/zeromq/ClientSocket.cpp
-	src/zeromq/ServerSocket.cpp
-	src/zeromq/SocketBase.cpp
-	src/zeromq/SocketFactory.cpp
+# Common source files for plugins
+set(YAMPL_PLUGIN_COMMON_SRCS
+        src/plugin/PluginArbiter.cpp
+        src/utils/Globals.cpp
+        src/utils/utils.cpp
+        src/ISocket.cpp
 )
 
 # PThreads
 find_package(Threads)
+
+# Common libraries (for examples and tests)
+set(YAMPL_COMMON_LIBS ${LIBRARY_OUTPUT_DIRECTORY}/libyampl.so dl uuid ${CMAKE_THREAD_LIBS_INIT})
 
 # Include YAMPL dependencies
 include(cmake/YamplDepends.cmake)
@@ -74,15 +72,15 @@ include(cmake/YamplDepends.cmake)
 # Include directories
 include_directories(include/ ${CMAKE_BINARY_DIR}/config)
 
-## @Section libyampl
-add_library(yampl SHARED ${YAMPL_COMMON_SRCS})
-add_dependencies(yampl CppZMQ)
 
-target_include_directories(yampl PRIVATE ${ZEROMQ_INCLUDE_DIR} ${CPPZMQ_INCLUDE_DIR})
-target_link_libraries(yampl ${ZEROMQ_SLIB_DIR}/libzmq.a rt)
-
-# Common libraries (for examples and tests)
-set(YAMPL_COMMON_LIBS ${LIBRARY_OUTPUT_DIRECTORY}/libyampl.so dl uuid ${CMAKE_THREAD_LIBS_INIT})
+add_library(yampl SHARED
+        src/utils/utils.cpp
+        src/utils/Globals.cpp
+        src/plugin/PluginArbiter.cpp
+        src/plugin/DynamicModule.cpp
+        src/SocketFactory.cpp
+        src/ISocket.cpp
+)
 
 option(WITH_EXAMPLES "Include examples" ON)
 
@@ -98,7 +96,7 @@ if(WITH_EXAMPLES)
     target_link_libraries(server ${YAMPL_COMMON_LIBS})
     add_dependencies(client yampl)
     add_dependencies(server yampl)
-
+        
     # Benchmarks
     add_executable(benchmark examples/benchmarks/benchmark.cpp)
     set_target_properties(benchmark
@@ -146,6 +144,28 @@ if (WITH_TESTS)
 endif()
 
 if(WITH_TESTS)
+    # PluginArbiter Test
+    add_executable(pluginarbiter tests/pluginarbiter.cpp)
+    set_target_properties(pluginarbiter
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+    )
+    target_link_libraries(pluginarbiter ${YAMPL_COMMON_LIBS})
+
+    add_dependencies(pluginarbiter yampl)
+    add_test(NAME pluginarbiter COMMAND pluginarbiter)
+
+    # Dynmodule Test
+    add_executable(dynmodule tests/dynmodule.cpp)
+    set_target_properties(dynmodule
+            PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
+    )
+    target_link_libraries(dynmodule ${YAMPL_COMMON_LIBS})
+
+    add_dependencies(dynmodule yampl)
+    add_test(NAME dynmodule COMMAND dynmodule WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+
     # Calls Test
     add_executable(calls tests/calls.cpp)
     set_target_properties(calls
@@ -164,7 +184,7 @@ if(WITH_TESTS)
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests"
     )
     target_link_libraries(dest ${YAMPL_COMMON_LIBS})
-
+        
     add_dependencies(dest yampl)
     add_test(NAME dest COMMAND dest)
 
@@ -180,10 +200,16 @@ if(WITH_TESTS)
     add_test(NAME size COMMAND size)
 endif()
 
+# Libraries
+target_link_libraries(yampl
+    ${CMAKE_THREAD_LIBS_INIT}
+    uuid
+)
+
 ## @Section Install step
 set_target_properties(yampl PROPERTIES RESOURCE "${YAMPL_RESOURCES}")
-    
-# Config files
+
+# Configure yampl-env.sh.in
 set(YAMPL_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/")
 set(YAMPL_ENV_DIR "/etc/profile.d")
 
@@ -194,9 +220,9 @@ configure_file(config/yampl.pc.in ${CMAKE_BINARY_DIR}/scripts/yampl.pc @ONLY)
 
 # Install libraries
 install(TARGETS yampl
-	RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
-	LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
-	PERMISSIONS OWNER_READ OWNER_WRITE
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/yampl
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/yampl
+        PERMISSIONS OWNER_READ OWNER_WRITE
 )
 
 # Install examples
@@ -226,3 +252,13 @@ install(FILES "${CMAKE_BINARY_DIR}/scripts/yampl.pc"
         DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig
         PERMISSIONS OWNER_READ OWNER_WRITE
 )
+
+# Include plugins
+file(GLOB_RECURSE YAMPL_PLUGIN_CMAKE_FILES "plugins/*.conf.cmake")
+foreach(YAMPL_CMAKE_FILE ${YAMPL_PLUGIN_CMAKE_FILES})
+    string(REGEX REPLACE "(\\.conf\\.cmake)$" "" YAMPL_PLUGIN_NAME ${YAMPL_CMAKE_FILE})
+    include(${YAMPL_CMAKE_FILE})
+endforeach(YAMPL_CMAKE_FILE)
+
+## @Section Global config file
+configure_file(config/config.h.in ${CMAKE_BINARY_DIR}/config/config.h)
