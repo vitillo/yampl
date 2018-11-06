@@ -6,3 +6,4 @@
  */
 
 #cmakedefine YAMPL_VERSION "@YAMPL_VERSION@"
+#cmakedefine YAMPL_PY_VERSION "@YAMPL_PY_VERSION@"
