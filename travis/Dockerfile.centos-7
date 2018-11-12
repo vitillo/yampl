@@ -1,0 +1,22 @@
+FROM centos:7
+
+SHELL ["/bin/bash", "-lc"]
+
+# Install utilities
+RUN yum -y install git wget
+
+# Install build tools
+RUN yum -y install cmake make automake
+RUN yum -y install centos-release-scl-rh
+RUN yum -y install python-devel devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel libuuid libuuid-devel
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py
+RUN python -m pip install --upgrade pip setuptools wheel
+
+RUN echo 'PATH=/opt/rh/devtoolset-6/root/usr/bin/:$PATH' >> ~/.bash_profile
+RUN echo 'export PATH' >> ~/.bash_profile
+RUN source ~/.bash_profile
+RUN gcc --version
+
+# Make symbolic links for cc and c++
+RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/cc /usr/bin/cc
+RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++

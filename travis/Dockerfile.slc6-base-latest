@@ -1,0 +1,26 @@
+FROM cern/slc6-base:latest
+
+SHELL ["/bin/bash", "-lc"]
+
+# Install utilities
+RUN yum -y install git wget
+
+RUN yum -y install sl-release-scl-rh
+RUN yum -y --skip-broken install cmake devtoolset-6-gcc devtoolset-6-gcc-c++ openssl-devel libuuid libuuid-devel tar
+
+RUN echo 'PATH=/opt/rh/devtoolset-6/root/usr/bin/:$PATH' >> ~/.bash_profile
+RUN echo 'export PATH' >> ~/.bash_profile
+RUN source ~/.bash_profile
+
+# Make symbolic links for cc and c++
+RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/cc /usr/bin/cc
+RUN ln -s /opt/rh/devtoolset-6/root/usr/bin/c++ /usr/bin/c++
+
+# Install Python 2.7.0
+RUN wget https://www.python.org/ftp/python/2.7/Python-2.7.tgz
+RUN tar xzf Python-2.7.tgz
+RUN cd Python-2.7 && ./configure && make -j3 && make install
+
+# Install pip + setuptools
+RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py
+RUN python -m pip install --upgrade pip setuptools wheel
