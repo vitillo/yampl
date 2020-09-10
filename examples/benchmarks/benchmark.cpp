@@ -3,17 +3,17 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 
+#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <cstring>
 #include <cassert>
+#include <cctype>
 #include <cstdlib>
 #include <cstdio>
 #include <vector>
 
-#include "yampl/zeromq/SocketFactory.h"
-#include "yampl/pipe/SocketFactory.h"
-#include "yampl/shm/SocketFactory.h"
+#include "yampl.h"
 #include "yampl/utils/Thread.h"
 
 using namespace yampl;
@@ -35,16 +35,6 @@ long stop_clock(){
   return ((seconds) * 1000000 + useconds) + 0.5;
 }
 
-ISocketFactory *parseFactory(const char *impl){
-  if(strcasecmp(impl, "pipe") == 0){
-    return new pipe::SocketFactory();
-  }else if(strcasecmp(impl, "shm") == 0){
-    return new shm::SocketFactory();
-  }else{
-    return new zeromq::SocketFactory();
-  }
-}
-
 Context parseContext(const char *c, string &channelName){
   if(strcasecmp(c, "LOCAL") == 0){
     cout << "context: LOCAL" << endl;
@@ -59,6 +49,44 @@ Context parseContext(const char *c, string &channelName){
   }
 
   exit(-1);
+}
+
+Channel parseChannel(string const& channelName, string const& socketImpl, Context ctx)
+{
+    Channel channel;
+
+    channel.name = channelName;
+
+    string impl = socketImpl;
+    transform(begin(impl), end(impl), begin(impl), ::tolower);
+
+    switch (ctx)
+    {
+        case LOCAL:
+            if (impl == "pipe")
+                goto LOCAL_PIPE_;
+            else if (impl == "shm")
+                goto LOCAL_SHM_;
+            else
+                channel.context = ctx;
+            break;
+        case LOCAL_SHM:
+        LOCAL_SHM_:
+            channel.context = LOCAL_SHM;
+            break;
+        case LOCAL_PIPE:
+        LOCAL_PIPE_:
+            channel.context = LOCAL_PIPE;
+            break;
+        case THREAD:
+        case DISTRIBUTED:
+            channel.context = ctx;
+            break;
+        default:
+            exit(-1);
+    }
+
+    return channel;
 }
 
 void dumpImpl(const char *impl){
@@ -117,7 +145,8 @@ void server(ISocketFactory *factory, Channel channel, Semantics semantics, void 
   delete socket;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
   int opt;
   const char *impl = "zmq";
   const char *cont = "LOCAL";
@@ -163,25 +192,33 @@ int main(int argc, char *argv[]){
   dumpImpl(impl);
   context = parseContext(cont, channelName);
   dumpSemantics(semantics);
-  Channel channel(channelName, context);
+  Channel channel = parseChannel(channelName, string(impl), context);
   s_buffer = new char[size];
   r_buffer = new char[size];
 
-  if(channel.context == LOCAL|| channel.context == DISTRIBUTED){
+  if(channel.context == LOCAL || channel.context == LOCAL_SHM ||
+     channel.context == LOCAL_PIPE || channel.context == DISTRIBUTED)
+  {
     for(unsigned i = 0; i < multiplicity; i++){
       if(fork() == 0){
-	ISocketFactory *factory = parseFactory(impl);
-	client(factory, channel, semantics, s_buffer, r_buffer, size, iterations);
-	return 0;
-      }else{
-	continue;
+	    ISocketFactory *factory = new SocketFactory();
+	    client(factory, channel, semantics, s_buffer, r_buffer, size, iterations);
+
+	    delete factory;
+	    return 0;
+      } else {
+	    continue;
       }
     }
 
-    ISocketFactory *factory = parseFactory(impl);
+    ISocketFactory *factory = new SocketFactory();
     server(factory, channel, semantics, s_buffer, r_buffer, size, iterations, multiplicity);
-  }else if(channel.context == THREAD){
-    ISocketFactory *factory = parseFactory(impl);
+
+    delete factory;
+  }
+  else if(channel.context == THREAD)
+  {
+    ISocketFactory *factory = new SocketFactory();
     vector<Thread*> threads;
 
     Thread s(tr1::bind(server, factory, channel, semantics, s_buffer, r_buffer, size, iterations, multiplicity));
@@ -195,6 +232,8 @@ int main(int argc, char *argv[]){
     }
 
     s.join();
+
+    delete factory;
   }
 
   return 0;

@@ -3,24 +3,26 @@
 
 #include <string>
 
-namespace yampl{
+namespace yampl
+{
+    enum Context
+    {
+      THREAD = 0,
+      LOCAL_SHM,
+      LOCAL_PIPE,
+      LOCAL,
+      DISTRIBUTED
+    };
 
-enum Context{
-  THREAD = 0,
-  LOCAL_SHM,
-  LOCAL_PIPE,
-  LOCAL,
-  DISTRIBUTED
-};
+    struct Channel
+    {
+      public:
+        Channel() {}
+        Channel(const std::string &name, Context context) : name(name), context(context) {}
 
-struct Channel{
-  public:
-    Channel(const std::string &name, Context context) : name(name), context(context){}
-
-    std::string name;
-    Context context;
-};
-
+        std::string name;
+        Context context;
+    };
 }
 
 #endif
