@@ -8,7 +8,7 @@ namespace yampl{
 namespace zeromq{
 
 ClientSocket::ClientSocket(Channel channel, zmq::context_t *context, Semantics semantics, void (*deallocator)(void *, void *), const std::string& name) : SocketBase(channel, context, semantics, deallocator, ZMQ_DEALER), m_isConnected(false){
-  if(&name == &DEFAULT_ID){
+  if(&name == &CONST_DEFAULT_ID){
     size_t ids = 255;
     char id[ids];
     m_socket->getsockopt(ZMQ_IDENTITY, id, &ids);

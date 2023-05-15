@@ -8,6 +8,7 @@
 namespace yampl{
 
 std::string DEFAULT_ID = "";
+const std::string CONST_DEFAULT_ID = "";
 
 SocketFactory::SocketFactory(){
   m_zmqFactory = new zeromq::SocketFactory();

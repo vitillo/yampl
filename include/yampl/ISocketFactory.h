@@ -8,6 +8,8 @@
 
 namespace yampl{
 
+extern const std::string CONST_DEFAULT_ID;
+
 inline void defaultDeallocator(void *buffer, void *){
   free(buffer);
 }
@@ -34,7 +36,7 @@ class ISocketFactory{
      * @param name the identifier name of the Socket
      * @return a ClientSocket
      */
-    virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator, const std::string& name = DEFAULT_ID) = 0;
+    virtual ISocket *createClientSocket(Channel channel, Semantics semantics = COPY_DATA, void (*deallocator)(void *, void *) = defaultDeallocator, const std::string& name = CONST_DEFAULT_ID) = 0;
 
     ISocket *createClientSocket(Channel channel, const std::string& name){
       return createClientSocket(channel, COPY_DATA, defaultDeallocator, name);
