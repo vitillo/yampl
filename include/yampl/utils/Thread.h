@@ -11,7 +11,7 @@ namespace yampl{
 class Thread{
   public:
     Thread(const std::tr1::function<void()> &fun);
-    ~Thread();
+    ~Thread() noexcept(false);
 
     void join();
     void detach();
@@ -47,7 +47,7 @@ inline Thread::Thread(const std::tr1::function<void()> &fun) : m_isDestroyable(f
   }
 }
 
-inline Thread::~Thread(){
+inline Thread::~Thread() noexcept(false) {
   if(!m_isDestroyable)
     throw InvalidOperationException("Thread has to be detached or joined");
 

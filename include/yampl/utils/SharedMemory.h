@@ -11,7 +11,7 @@ namespace yampl{
 class SharedMemory{
   public:
     SharedMemory(const std::string& name, size_t size);
-    ~SharedMemory();
+    ~SharedMemory() noexcept(false);
   
     void *getMemory();
 
@@ -53,7 +53,7 @@ inline SharedMemory::SharedMemory(const std::string& name, size_t size) : m_name
     ErrnoException("Failed to mlock shared memory");
 }
 
-inline SharedMemory::~SharedMemory(){
+inline SharedMemory::~SharedMemory() noexcept(false) {
   if(flock(m_fd, LOCK_EX | LOCK_NB) == 0){
     // The last peer unlinks the shared memory object
     shm_unlink(m_name.c_str());
