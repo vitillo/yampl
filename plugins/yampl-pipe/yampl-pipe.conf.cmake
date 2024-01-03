@@ -14,7 +14,9 @@ if (NOT DEFINED WITH_PLUGIN_PIPE OR WITH_PLUGIN_PIPE)
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/plugins/yampl-pipe"
     )
     target_link_libraries(yampl-pipe uuid)
-    target_compile_options(yampl-pipe PRIVATE "-Wno-terminate")
+    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+      target_compile_options(yampl-pipe PRIVATE "-Wno-terminate")
+    endif()
 
     install(TARGETS yampl-pipe
             LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/plugins
