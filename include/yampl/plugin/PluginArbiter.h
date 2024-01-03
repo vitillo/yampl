@@ -17,6 +17,7 @@
 #include <mutex>
 #include <vector>
 #include <stack>
+#include <stdexcept>
 
 namespace yampl
 {
