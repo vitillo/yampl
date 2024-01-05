@@ -17,7 +17,7 @@ TESTS = tests
 PREFIX = @prefix@
 TAGS = tags
 
-all: $(LIBZMQ) $(LIBYAMPL) $(EXAMPLES) $(TESTS) $(TAGS)
+all: $(LIBZMQ) $(LIBYAMPL)
 
 $(TAGS):
 	ctags -R ./
