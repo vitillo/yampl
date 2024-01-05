@@ -12,7 +12,7 @@ extern std::string DEFAULT_ID;
 
 class ISocket{
   public:
-    virtual ~ISocket(){}
+    virtual ~ISocket() noexcept(false) {}
 
     virtual void send();
     virtual void send(void *buffer, size_t size, void *hint = 0);

@@ -21,7 +21,7 @@ template <typename T>
 class ServerSocketBase: public ISocket{
   public:
     ServerSocketBase(const Channel& channel, Semantics semantics, void (*deallocator)(void *, void *), const std::tr1::function<void(T*)> &accept);
-    virtual ~ServerSocketBase();
+    virtual ~ServerSocketBase() noexcept(false);
 
     virtual void send(SendArgs &args);
     virtual ssize_t recv(RecvArgs &args) = 0;
@@ -59,7 +59,7 @@ inline ServerSocketBase<T>::ServerSocketBase(const Channel& channel, Semantics s
 }
 
 template <typename T>
-inline ServerSocketBase<T>::~ServerSocketBase(){
+inline ServerSocketBase<T>::~ServerSocketBase() noexcept(false) {
   m_listener->cancel();
   m_listener->join();
 }

@@ -10,7 +10,7 @@ namespace yampl{
 class Poller{
   public:
     Poller();
-    ~Poller();
+    ~Poller() noexcept(false);
 
     int poll(int timeout = -1);
     int poll(void **data, int timeout = -1);
@@ -29,7 +29,7 @@ inline Poller::Poller(){
   }
 }
 
-inline Poller::~Poller(){
+inline Poller::~Poller() noexcept(false) {
   if(close(m_poll) == -1){
     throw ErrnoException("Failed to close epoll handle");
   }
