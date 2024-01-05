@@ -30,7 +30,7 @@ inline void ServerSocket::accept(SimpleServerSocket *socket){
 }
 
 inline ssize_t ServerSocket::recv(RecvArgs &args){
- SimpleServerSocket *peer;
+ SimpleServerSocket *peer{nullptr};
 
  if(!m_peerPoll.poll((void **)&peer, args.timeout)){
     return -1;

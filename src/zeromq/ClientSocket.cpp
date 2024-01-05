@@ -42,7 +42,7 @@ void ClientSocket::connect(){
     while(true){
       try{
 	m_socket->connect((m_channel.name).c_str());
-      }catch(zmq::error_t err){
+      }catch(zmq::error_t& err){
 	if(err.num() != ECONNREFUSED){
 	  throw ErrnoException();
 	}
