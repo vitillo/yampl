@@ -31,14 +31,16 @@ void ServerSocket::send(SendArgs& args){
 }
 
 void ServerSocket::sendMessage(zmq::message_t &message, const std::string *peerId){
-  if(peerId){
+  if(peerId) {
     zmq::message_t address(peerId->size() + 1);
     memcpy((void*)address.data(), peerId->c_str(), peerId->size() + 1);
-    if(m_socket->send(address, ZMQ_SNDMORE | ZMQ_DONTWAIT) == -1)
+    if(static_cast<int>(m_socket->send(address, ZMQ_SNDMORE | ZMQ_DONTWAIT)) == -1) {
       throw UnroutableException();
-  }else{
-    if(m_socket->send(*m_lastAddress, ZMQ_SNDMORE | ZMQ_DONTWAIT) == -1)
+    }
+  } else {
+    if(static_cast<int>(m_socket->send(*m_lastAddress, ZMQ_SNDMORE | ZMQ_DONTWAIT)) == -1) {
       throw UnroutableException();
+    }
   }
 
   m_socket->send(message);
