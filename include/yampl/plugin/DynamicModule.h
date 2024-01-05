@@ -104,13 +104,13 @@ namespace yampl
 
                     // Assume the module doesn't have symbols pointing to NULL, so treat it as a "symbol not found" condition
                     if (opaque == nullptr)
-                        throw DynamicModuleSymbolException("Symbol was not found", SymbolError::NotFound);
+                        throwDynamicModuleSymbolException("Symbol was not found", SymbolError::NotFound);
 
                     // Did dlsym fail?
                     char* dl_error = dlerror();
 
                     if (dl_error != nullptr)
-                        throw DynamicModuleSymbolException(dl_error, SymbolError::Internal);
+                        throwDynamicModuleSymbolException(dl_error, SymbolError::Internal);
 
                     return opaque;
                 }
@@ -125,6 +125,15 @@ namespace yampl
                 std::string name() const;
                 std::string prefix() const;
                 bool free() const;
+
+
+            private:
+                /**
+                 * Throw DynamicModuleSymbolException.
+                 * (Out-of-line because it requires a complete decaration
+                 * of the exception class).
+                 */
+                static void throwDynamicModuleSymbolException(char const* what, DynamicModule::SymbolError error_type);
         };
     }
 }

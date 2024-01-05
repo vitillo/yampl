@@ -84,5 +84,9 @@ namespace yampl
         bool DynamicModule::free() const {
             return _free;
         }
+
+        void DynamicModule::throwDynamicModuleSymbolException(char const* what, DynamicModule::SymbolError error_type) {
+            throw DynamicModuleSymbolException(what, error_type);
+        }
     }
 }
