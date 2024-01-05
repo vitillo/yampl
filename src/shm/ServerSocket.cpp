@@ -53,7 +53,7 @@ ssize_t ServerSocket::recv(RecvArgs &args){
     m_lock.unlock();
 
     return ret;
-  }catch(InvalidSizeException){
+  }catch(InvalidSizeException&){
     //TODO: Perform next receive from same peer
     m_lock.unlock();
 
