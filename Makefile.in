@@ -1,7 +1,7 @@
 CXX = @CXX@
 CC=@CC@
-CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include
-LDFLAGS = -shared -lpthread -lrt -luuid
+CXXFLAGS = -O2 -g -Wall -Iinclude -fPIC -Izeromq/include @CXXFLAGS@
+LDFLAGS = -shared -lpthread -lrt -luuid @LDFLAGS@
 
 SOURCES = $(wildcard src/pipe/*.cpp) \
 	  $(wildcard src/shm/*.cpp)  \
@@ -17,13 +17,13 @@ TESTS = tests
 PREFIX = @prefix@
 TAGS = tags
 
-all: $(LIBZMQ) $(LIBYAMPL) $(EXAMPLES) $(TESTS) $(TAGS)
+all: $(LIBZMQ) $(LIBYAMPL)
 
 $(TAGS):
 	ctags -R ./
 
 $(LIBZMQ):
-	+cd zeromq && CXX=${CXX} CC=${CC} ./configure --with-pic && make
+	+cd zeromq && CXX="${CXX}" CC="${CC}" ./configure --with-pic && make
 
 -include $(DEPS)
 
